@@ -1,4 +1,4 @@
-# First Baptist Awana API [![Build Status](https://github.com/sambutler1017/fb-awana-microservice/actions/workflows/build-production.yml/badge.svg)](https://github.com/sambutler1017/fb-awana-microservice/actions)
+# First Baptist Awana API [![Build Status](https://github.com/sambutler1017/fb-awana-microservice/actions/workflows/build.yml/badge.svg)](https://github.com/sambutler1017/fb-awana-microservice/actions)
 
 <!-- ABOUT THE PROJECT -->
 
