@@ -37,9 +37,9 @@ public class DatasourceConfiguration {
      * @return {@link DataSource} object.
      */
     @Bean
-    @Profile({"production"})
+    @Profile({"production", "local"})
     @ConfigurationProperties("spring.datasource")
-    public DataSource dataSource() {
+    DataSource dataSource() {
         return DatabaseConnectionBuilder.create().useDefaultProperties().url(dbUrl).username(dbUsername)
                 .password(dbPassword).build();
     }
@@ -50,10 +50,10 @@ public class DatasourceConfiguration {
      * 
      * @return {@link DataSource} object.
      */
-    @Bean
-    @Profile({"local"})
-    @ConfigurationProperties("spring.datasource")
-    public DataSource dataSourceLocal() {
+    // @Bean
+    // @Profile({"local"})
+    // @ConfigurationProperties("spring.datasource")
+    DataSource dataSourceLocal() {
         DatabaseConnectionBuilder builder = DatabaseConnectionBuilder.create().useDefaultProperties().url(dbUrl)
                 .username(dbUsername).password(dbPassword);
         return LocalInstanceBuilder.create(builder);
