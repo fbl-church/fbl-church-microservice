@@ -16,6 +16,7 @@ import com.awana.app.user.client.domain.request.UserGetRequest;
 import com.awana.app.user.dao.UserProfileDAO;
 import com.awana.common.exception.NotFoundException;
 import com.awana.common.jwt.utility.JwtHolder;
+import com.awana.common.page.Page;
 import com.awana.test.factory.annotations.AwanaServiceTest;
 import com.awana.test.factory.data.UserFactoryData;
 
@@ -43,9 +44,10 @@ public class UserProfileServiceTest {
         User user2 = new User();
         user2.setId(2);
 
-        when(userProfileDAO.getUsers(any(UserGetRequest.class))).thenReturn(Arrays.asList(user1, user2));
+        when(userProfileDAO.getUsers(any(UserGetRequest.class)))
+                .thenReturn(new Page<User>(2, Arrays.asList(user1, user2)));
 
-        List<User> returnedUser = service.getUsers(new UserGetRequest());
+        List<User> returnedUser = service.getUsers(new UserGetRequest()).getList();
 
         verify(userProfileDAO).getUsers(any(UserGetRequest.class));
         assertEquals(user1.getId(), returnedUser.get(0).getId(), "User 1 id should be 12");

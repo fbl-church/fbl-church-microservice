@@ -9,24 +9,36 @@ import com.awana.common.dictionary.enums.TextEnum;
  * @since September 6, 2021
  */
 public enum WebRole implements TextEnum {
-    USER(1, "USER"),
-    SYSTEM(2, "SYSTEM"),
-    DEVELOPER(3, "DEVELOPER"),
-    ADMIN(4, "ADMIN");
+    USER(1, "USER", 100),
+    TNT_LEADER(2, "TNT_LEADER", 300),
+    TNT_HELPER(3, "TNT_HELPER", 200),
+    SPARKS_LEADER(4, "SPARKS_LEADER", 300),
+    SPARKS_HELPER(5, "SPARKS_HELPER", 200),
+    CUBBIES_LEADER(6, "CUBBIES_LEADER", 300),
+    CUBBIES_HELPER(7, "CUBBIES_HELPER", 200),
+    SITE_ADMIN(8, "SITE_ADMIN", 500),
+    ADMIN(9, "ADMIN", 1000);
 
-    private int rank;
+    private int id;
     private String textId;
+    private int rank;
 
-    WebRole(int rank, String textId) {
+    WebRole(int id, String textId, int rank) {
+        this.id = id;
         this.rank = rank;
         this.textId = textId;
     }
 
-    /**
-     * This is the rank the webrole holds.
-     * 
-     * @return {@link Integer} of the webroles rank
-     */
+    public static WebRole getRole(int id) {
+        for(WebRole w : WebRole.values())
+            if(w.id == id) return w;
+        return USER;
+    }
+
+    public int getId() {
+        return id;
+    }
+
     public int getRank() {
         return rank;
     }

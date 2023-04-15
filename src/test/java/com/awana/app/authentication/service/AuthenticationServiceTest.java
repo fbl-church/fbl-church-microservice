@@ -5,6 +5,7 @@ import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
 import java.util.Arrays;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -56,8 +57,9 @@ public class AuthenticationServiceTest {
         authRequest.setPassword("testPassword");
 
         when(authenticationDAO.getUserAuthPassword(anyString()))
-                .thenReturn("$2a$10$KusdNWjdceySzNAG3EH8a.5HuIOMWH4hl4Ke64Daqaeqivy1y0Rd.");
+                .thenReturn(Optional.of("$2a$10$KusdNWjdceySzNAG3EH8a.5HuIOMWH4hl4Ke64Daqaeqivy1y0Rd."));
         when(userProfileClient.getUsers(any(UserGetRequest.class))).thenReturn(Arrays.asList(userLoggingIn));
+        when(userProfileClient.updateUserLastLoginToNow(anyInt())).thenReturn(userLoggingIn);
 
         AuthToken authToken = service.authenticate(authRequest);
 
@@ -77,7 +79,7 @@ public class AuthenticationServiceTest {
         authRequest.setPassword("WrongPassword!");
 
         when(authenticationDAO.getUserAuthPassword(anyString()))
-                .thenReturn("$2a$10$KusdNWjdceySzNAG3EH8a.5HuIOMWH4hl4Ke64Daqaeqivy1y0Rd.");
+                .thenReturn(Optional.of("$2a$10$KusdNWjdceySzNAG3EH8a.5HuIOMWH4hl4Ke64Daqaeqivy1y0Rd."));
 
         InvalidCredentialsException e = assertThrows(InvalidCredentialsException.class,
                                                      () -> service.authenticate(authRequest));

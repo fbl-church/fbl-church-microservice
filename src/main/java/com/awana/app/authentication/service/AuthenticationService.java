@@ -13,7 +13,9 @@ import com.awana.app.authentication.dao.AuthenticationDAO;
 import com.awana.app.user.client.UserProfileClient;
 import com.awana.app.user.client.domain.User;
 import com.awana.app.user.client.domain.request.UserGetRequest;
+import com.awana.common.date.TimeZoneUtil;
 import com.awana.common.exception.InvalidCredentialsException;
+import com.awana.common.exception.UserNotFoundException;
 import com.awana.common.jwt.utility.JwtHolder;
 import com.awana.common.jwt.utility.JwtTokenUtil;
 import com.google.common.collect.Sets;
@@ -46,13 +48,13 @@ public class AuthenticationService {
      *
      * @param authenticationRequest A email and password request.
      * @return a new JWT.
-     * @throws Exception - if authentication request does not match a user.
      */
-    public AuthToken authenticate(AuthenticationRequest request) throws Exception {
+    public AuthToken authenticate(AuthenticationRequest request) {
         User user = verifyUser(request.getEmail(), request.getPassword());
 
         String token = jwtTokenUtil.generateToken(user);
-        return new AuthToken(token, LocalDateTime.now(), jwtTokenUtil.getExpirationDateFromToken(token), user);
+        return new AuthToken(token, LocalDateTime.now(TimeZoneUtil.SYSTEM_ZONE),
+                             jwtTokenUtil.getExpirationDateFromToken(token), user);
     }
 
     /**
@@ -60,13 +62,14 @@ public class AuthenticationService {
      * can not be returned from the current token, it will error and return null.
      * 
      * @return {@link AuthToken} from the token.
-     * @throws Exception If the user for that id does not exist.
      */
-    public AuthToken reauthenticate() throws Exception {
+    public AuthToken reauthenticate() {
         User u = userProfileClient.getUserById(jwtHolder.getUserId());
+        // userProfileClient.updateUserLastLoginToNow(u.getId());
 
         String token = jwtTokenUtil.generateToken(u);
-        return new AuthToken(token, LocalDateTime.now(), jwtTokenUtil.getExpirationDateFromToken(token), u);
+        return new AuthToken(token, LocalDateTime.now(TimeZoneUtil.SYSTEM_ZONE),
+                             jwtTokenUtil.getExpirationDateFromToken(token), u);
     }
 
     /**
@@ -74,11 +77,14 @@ public class AuthenticationService {
      *
      * @param email    Entered email at login.
      * @param password Password entered at login.
-     * @throws Exception Throw an exception if the credentials do not match.
      */
-    private User verifyUser(String email, String password) throws Exception {
-        if(BCrypt.checkpw(password, dao.getUserAuthPassword(email))) {
-            return getAuthenticatedUser(email);
+    public User verifyUser(String email, String password) {
+        String hashedPassword = dao.getUserAuthPassword(email).orElseThrow(() -> new UserNotFoundException(String
+                .format("User not found or does not have access for email: '%s'", email)));
+
+        if(BCrypt.checkpw(password, hashedPassword)) {
+            User authUser = getAuthenticatedUser(email);
+            return userProfileClient.updateUserLastLoginToNow(authUser.getId());
         }
         else {
             throw new InvalidCredentialsException(email);
@@ -91,9 +97,8 @@ public class AuthenticationService {
      * 
      * @param email The email to search for.
      * @return {@link User} object of the authenticated user.
-     * @throws Exception
      */
-    private User getAuthenticatedUser(String email) throws Exception {
+    private User getAuthenticatedUser(String email) {
         UserGetRequest request = new UserGetRequest();
         request.setEmail(Sets.newHashSet(email));
         return userProfileClient.getUsers(request).get(0);

@@ -6,10 +6,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 
 import com.awana.sql.builder.DatabaseConnectionBuilder;
-import com.awana.sql.local.service.LocalInstanceBuilder;
 
 /**
  * Application Configs for datasource objects.
@@ -37,25 +35,9 @@ public class DatasourceConfiguration {
      * @return {@link DataSource} object.
      */
     @Bean
-    @Profile({"production", "local"})
     @ConfigurationProperties("spring.datasource")
     DataSource dataSource() {
         return DatabaseConnectionBuilder.create().useDefaultProperties().url(dbUrl).username(dbUsername)
                 .password(dbPassword).build();
-    }
-
-    /**
-     * Datasource configuration. This will get called anywhere a {@link DataSource}
-     * is autowired into the class. This is strictly for local environment use.
-     * 
-     * @return {@link DataSource} object.
-     */
-    // @Bean
-    // @Profile({"local"})
-    // @ConfigurationProperties("spring.datasource")
-    DataSource dataSourceLocal() {
-        DatabaseConnectionBuilder builder = DatabaseConnectionBuilder.create().useDefaultProperties().url(dbUrl)
-                .username(dbUsername).password(dbPassword);
-        return LocalInstanceBuilder.create(builder);
     }
 }

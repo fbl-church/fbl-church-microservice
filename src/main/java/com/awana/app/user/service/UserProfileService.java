@@ -1,7 +1,5 @@
 package com.awana.app.user.service;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,6 +7,7 @@ import com.awana.app.user.client.domain.User;
 import com.awana.app.user.client.domain.request.UserGetRequest;
 import com.awana.app.user.dao.UserProfileDAO;
 import com.awana.common.jwt.utility.JwtHolder;
+import com.awana.common.page.Page;
 
 /**
  * User Service class that handles all service calls to the dao
@@ -32,18 +31,16 @@ public class UserProfileService {
 	 * @return User profile object {@link User}
 	 * @throws Exception
 	 */
-	public List<User> getUsers(UserGetRequest request) {
-		List<User> users = dao.getUsers(request);
-		return users;
+	public Page<User> getUsers(UserGetRequest request) {
+		return dao.getUsers(request);
 	}
 
 	/**
 	 * Get the current user from the jwt token.
 	 * 
 	 * @return User profile object {@link User}
-	 * @throws Exception
 	 */
-	public User getCurrentUser() throws Exception {
+	public User getCurrentUser() {
 		return getUserById(jwtHolder.getUserId());
 	}
 
@@ -52,9 +49,8 @@ public class UserProfileService {
 	 * 
 	 * @param id of the user
 	 * @return User profile object {@link User}
-	 * @throws Exception
 	 */
-	public User getUserById(int id) throws Exception {
+	public User getUserById(int id) {
 		return dao.getUserById(id);
 	}
 }

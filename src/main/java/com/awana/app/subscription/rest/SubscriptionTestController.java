@@ -34,7 +34,7 @@ public class SubscriptionTestController {
      */
     @Operation(summary = "Get's a list of active user sessions", description = "Will return a list of SimpUser objects of connected sessions.")
     @GetMapping(path = "/users")
-    @HasAccess(WebRole.DEVELOPER)
+    @HasAccess(WebRole.SITE_ADMIN)
     public List<UserPrincipal> getActiveSessionUsers() {
         return service.getActiveUserSessions();
     }
@@ -43,7 +43,7 @@ public class SubscriptionTestController {
      * Test endpoint for sending a notification body to everyone.
      */
     @PostMapping(path = "/notification")
-    @HasAccess(WebRole.DEVELOPER)
+    @HasAccess(WebRole.SITE_ADMIN)
     public void pushGeneralNotification() {
         UserNotification user = new UserNotification();
         user.setName("TEST USER");
@@ -55,7 +55,7 @@ public class SubscriptionTestController {
      * Test endpoint for sending a notification body to the given user.
      */
     @PostMapping(path = "/user/{userId}/notification")
-    @HasAccess(WebRole.DEVELOPER)
+    @HasAccess(WebRole.SITE_ADMIN)
     public void pushUserNotification(@PathVariable int userId) {
         UserNotification user = new UserNotification();
         user.setName("TEST USER");
@@ -67,7 +67,7 @@ public class SubscriptionTestController {
      * Test endpoint for sending a notification body to the given system.
      */
     @PostMapping(path = "/system/{uuid}/notification")
-    @HasAccess(WebRole.DEVELOPER)
+    @HasAccess(WebRole.SITE_ADMIN)
     public void pushSystemNotification(@PathVariable String uuid) {
         UserNotification user = new UserNotification();
         user.setName("TEST USER");

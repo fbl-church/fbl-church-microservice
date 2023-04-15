@@ -2,11 +2,10 @@ package com.awana.app.user.rest;
 
 import static org.springframework.http.MediaType.*;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,8 +13,10 @@ import com.awana.app.user.client.domain.User;
 import com.awana.app.user.client.domain.WebRole;
 import com.awana.app.user.client.domain.request.UserGetRequest;
 import com.awana.app.user.openapi.TagUser;
+import com.awana.app.user.service.ManageUserProfileService;
 import com.awana.app.user.service.UserProfileService;
 import com.awana.common.annotations.interfaces.HasAccess;
+import com.awana.common.page.Page;
 
 import io.swagger.v3.oas.annotations.Operation;
 
@@ -27,6 +28,9 @@ public class UserProfileController {
 	@Autowired
 	private UserProfileService userProfileService;
 
+	@Autowired
+	private ManageUserProfileService manageUserProfileService;
+
 	/**
 	 * Gets a list of users based of the request filter
 	 * 
@@ -36,7 +40,7 @@ public class UserProfileController {
 	 */
 	@Operation(summary = "Get a list of users.", description = "Given a User Get Request, it will return a list of users that match the request.")
 	@GetMapping(produces = APPLICATION_JSON_VALUE)
-	public List<User> getUsers(UserGetRequest request) throws Exception {
+	public Page<User> getUsers(UserGetRequest request) {
 		return userProfileService.getUsers(request);
 	}
 
@@ -44,11 +48,10 @@ public class UserProfileController {
 	 * Gets the current logged in user information.
 	 * 
 	 * @return The user currently logged in.
-	 * @throws Exception
 	 */
 	@Operation(summary = "Gets current user of the session call.", description = "Will return the current user based on the active session jwt holder.")
 	@GetMapping(path = "/current-user", produces = APPLICATION_JSON_VALUE)
-	public User getCurrentUser() throws Exception {
+	public User getCurrentUser() {
 		return userProfileService.getCurrentUser();
 	}
 
@@ -57,12 +60,22 @@ public class UserProfileController {
 	 * 
 	 * @param id of the user
 	 * @return user associated to that id
-	 * @throws Exception
 	 */
 	@Operation(summary = "Gets a user by id.", description = "For the given id value, it will return the corresponding user.")
 	@GetMapping(path = "/{id}", produces = APPLICATION_JSON_VALUE)
 	@HasAccess(WebRole.ADMIN)
-	public User getUserById(@PathVariable int id) throws Exception {
+	public User getUserById(@PathVariable int id) {
 		return userProfileService.getUserById(id);
+	}
+
+	/**
+	 * Method that will update the user's last login time to current date and time;
+	 * 
+	 * @param userId The user Id to be updated.
+	 * @return The user object with the updated information.
+	 */
+	@PutMapping(path = "/{id}/last-login", produces = APPLICATION_JSON_VALUE)
+	public User updateUserLastLoginToNow(@PathVariable int id) {
+		return manageUserProfileService.updateUserLastLoginToNow(id);
 	}
 }

@@ -14,6 +14,7 @@ import com.awana.app.user.client.domain.User;
 import com.awana.app.user.client.domain.WebRole;
 import com.awana.app.user.client.domain.request.UserGetRequest;
 import com.awana.common.exception.NotFoundException;
+import com.awana.common.page.Page;
 import com.awana.test.factory.annotations.AwanaDaoTest;
 import com.awana.utility.AwanaDAOTestConfig;
 import com.google.common.collect.Sets;
@@ -34,23 +35,23 @@ public class UserProfileDAOTest {
 
     @Test
     public void testGetUserList() {
-        List<User> user = dao.getUsers(new UserGetRequest());
+        Page<User> user = dao.getUsers(new UserGetRequest());
 
-        assertEquals(3, user.size(), "User Size should be 3");
-        assertEquals("Test", user.get(0).getFirstName(), "User 1 first name");
-        assertEquals("Bill", user.get(1).getFirstName(), "User 2 first name");
-        assertEquals("Fake", user.get(2).getFirstName(), "User 3 first name");
+        assertEquals(3, user.getTotalCount(), "User Size should be 3");
+        assertEquals("Fake", user.getList().get(0).getFirstName(), "User 1 first name");
+        assertEquals("Bill", user.getList().get(1).getFirstName(), "User 2 first name");
+        assertEquals("Test", user.getList().get(2).getFirstName(), "User 3 first name");
     }
 
     @Test
     public void testGetUserListWithFilter() {
         UserGetRequest request = new UserGetRequest();
         request.setWebRole(Sets.newHashSet(WebRole.USER));
-        List<User> user = dao.getUsers(request);
+        List<User> user = dao.getUsers(request).getList();
 
         assertEquals(2, user.size(), "User Size should be 2");
-        assertEquals("Test", user.get(0).getFirstName(), "User 1 first name");
-        assertEquals("Bill", user.get(1).getFirstName(), "User 2 first name");
+        assertEquals("Bill", user.get(0).getFirstName(), "User 1 first name");
+        assertEquals("Test", user.get(1).getFirstName(), "User 2 first name");
     }
 
     @Test
@@ -58,7 +59,7 @@ public class UserProfileDAOTest {
         UserGetRequest request = new UserGetRequest();
         request.setEmail(Sets.newHashSet("noUser@mail.com"));
 
-        assertTrue(dao.getUsers(request).isEmpty(), "User list should be empty");
+        assertTrue(dao.getUsers(request).getList().isEmpty(), "User list should be empty");
     }
 
     @Test
@@ -79,7 +80,7 @@ public class UserProfileDAOTest {
 
     @Test
     public void testInsertUser() throws Exception {
-        List<User> beforeInsertList = dao.getUsers(new UserGetRequest());
+        List<User> beforeInsertList = dao.getUsers(new UserGetRequest()).getList();
 
         assertEquals(3, beforeInsertList.size(), "Size should be 3");
 
@@ -104,11 +105,11 @@ public class UserProfileDAOTest {
         User userProfile = new User();
         assertEquals("Test", dao.getUserById(1).getFirstName());
         userProfile.setFirstName("Randy");
-        userProfile.setWebRole(WebRole.SYSTEM);
+        userProfile.setWebRole(WebRole.USER);
 
         User returnedUser = dao.updateUserProfile(1, userProfile);
         assertEquals(userProfile.getFirstName(), returnedUser.getFirstName());
-        assertEquals(WebRole.SYSTEM, returnedUser.getWebRole());
+        assertEquals(WebRole.USER, returnedUser.getWebRole());
     }
 
     @Test

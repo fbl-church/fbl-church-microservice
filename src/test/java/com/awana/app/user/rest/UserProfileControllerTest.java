@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.ContextConfiguration;
 
@@ -19,6 +20,7 @@ import com.awana.app.user.client.domain.WebRole;
 import com.awana.app.user.client.domain.request.UserGetRequest;
 import com.awana.app.user.service.UserProfileService;
 import com.awana.common.annotations.interfaces.ControllerJwt;
+import com.awana.common.page.Page;
 import com.awana.test.factory.abstracts.BaseControllerTest;
 import com.awana.test.factory.annotations.AwanaRestTest;
 import com.google.common.collect.Sets;
@@ -42,17 +44,19 @@ public class UserProfileControllerTest extends BaseControllerTest {
     @Captor
     private ArgumentCaptor<UserGetRequest> getUsersCaptor;
 
+    ParameterizedTypeReference<Page<User>> pageRef = new ParameterizedTypeReference<Page<User>>() {};
+
     @Test
     public void testGetListOfUsers() throws Exception {
-        when(service.getUsers(any(UserGetRequest.class))).thenReturn(Arrays.asList(new User()));
-        check(get(USER_PROFILE_PATH, Object[].class), serializedList(HttpStatus.OK));
+        when(service.getUsers(any(UserGetRequest.class))).thenReturn(new Page<User>(1, Arrays.asList(new User())));
+        check(get(USER_PROFILE_PATH, User[].class), serializedList(HttpStatus.OK));
 
         verify(service).getUsers(any(UserGetRequest.class));
     }
 
     @Test
     public void testGetListOfUsersWithRequestParams() throws Exception {
-        when(service.getUsers(any(UserGetRequest.class))).thenReturn(Arrays.asList(new User()));
+        when(service.getUsers(any(UserGetRequest.class))).thenReturn(new Page<User>(1, Arrays.asList(new User())));
         check(get(USER_PROFILE_PATH + "?firstName=test&id=1,2", User[].class), serializedList(HttpStatus.OK));
 
         verify(service).getUsers(getUsersCaptor.capture());

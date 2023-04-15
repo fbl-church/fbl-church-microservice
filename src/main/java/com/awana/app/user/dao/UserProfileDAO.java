@@ -1,14 +1,11 @@
 package com.awana.app.user.dao;
 
 import static com.awana.app.user.mapper.UserProfileMapper.*;
-import static com.awana.common.datetime.DateTimeMapper.*;
 
-import java.util.Date;
-import java.util.List;
+import java.time.LocalDateTime;
 
 import javax.sql.DataSource;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -17,7 +14,9 @@ import org.springframework.stereotype.Repository;
 
 import com.awana.app.user.client.domain.User;
 import com.awana.app.user.client.domain.request.UserGetRequest;
+import com.awana.common.date.TimeZoneUtil;
 import com.awana.common.exception.NotFoundException;
+import com.awana.common.page.Page;
 import com.awana.sql.abstracts.BaseDao;
 import com.awana.sql.builder.SqlParamBuilder;
 import com.google.common.collect.Sets;
@@ -31,7 +30,6 @@ import com.google.common.collect.Sets;
 @Repository
 public class UserProfileDAO extends BaseDao {
 
-	@Autowired
 	public UserProfileDAO(DataSource source) {
 		super(source);
 	}
@@ -43,13 +41,13 @@ public class UserProfileDAO extends BaseDao {
 	 * @return User profile object {@link User}
 	 * @throws Exception
 	 */
-	public List<User> getUsers(UserGetRequest request) {
+	public Page<User> getUsers(UserGetRequest request) {
 		MapSqlParameterSource params = SqlParamBuilder.with().withParam(ID, request.getId())
 				.withParam(EMAIL, request.getEmail()).withParam(FIRST_NAME, request.getFirstName())
-				.withParam(LAST_NAME, request.getLastName()).withParamTextEnumCollection(WEB_ROLE, request.getWebRole())
-				.build();
+				.withParam(LAST_NAME, request.getLastName())
+				.withParamTextEnumCollection(WEB_ROLE_TEXT_ID, request.getWebRole()).build();
 
-		return getPage(getSql("getUsers", params), params, USER_MAPPER);
+		return getPage("getUsersPage", params, USER_MAPPER);
 	}
 
 	/**
@@ -60,11 +58,11 @@ public class UserProfileDAO extends BaseDao {
 	 * @return User profile object {@link UserProfile}
 	 * @throws Exception
 	 */
-	public User getUserById(int id) throws Exception {
+	public User getUserById(int id) {
 		try {
 			UserGetRequest request = new UserGetRequest();
 			request.setId(Sets.newHashSet(id));
-			return getUsers(request).get(0);
+			return getUsers(request).getList().get(0);
 		}
 		catch(Exception e) {
 			throw new NotFoundException("User", id);
@@ -82,9 +80,9 @@ public class UserProfileDAO extends BaseDao {
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		MapSqlParameterSource params = SqlParamBuilder.with().withParam(FIRST_NAME, user.getFirstName())
 				.withParam(LAST_NAME, user.getLastName()).withParam(EMAIL, user.getEmail())
-				.withParam(WEB_ROLE, user.getWebRole()).build();
+				.withParam(WEB_ROLE_ID, user.getWebRole().getId()).build();
 
-		post(getSql("insertUser", params), params, keyHolder);
+		post("insertUser", params, keyHolder);
 		return keyHolder.getKey().intValue();
 	}
 
@@ -103,9 +101,10 @@ public class UserProfileDAO extends BaseDao {
 
 		MapSqlParameterSource params = SqlParamBuilder.with().withParam(FIRST_NAME, user.getFirstName())
 				.withParam(LAST_NAME, user.getLastName()).withParam(EMAIL, user.getEmail())
-				.withParam(WEB_ROLE, user.getWebRole()).withParam(ID, userId).build();
+				.withParam(WEB_ROLE_ID, user.getWebRole() == null ? null : user.getWebRole().getId())
+				.withParam(ID, userId).build();
 
-		update(getSql("updateUserProfile", params), params);
+		update("updateUserProfile", params);
 
 		return getUserById(userId);
 	}
@@ -115,15 +114,11 @@ public class UserProfileDAO extends BaseDao {
 	 * 
 	 * @param userId The user Id to be updated.
 	 * @return The user object with the updated information.
-	 * @throws Exception
 	 */
-	public User updateUserLastLoginToNow(int userId) throws Exception {
-		MapSqlParameterSource params = SqlParamBuilder.with().withParam(LAST_LOGIN_DATE, printDate(new Date()))
-				.withParam(ID, userId).build();
-
-		update(getSql("updateUserLastLoginToNow", params), params);
-
-		return getUserById(userId);
+	public void updateUserLastLoginToNow(int userId) {
+		MapSqlParameterSource params = SqlParamBuilder.with()
+				.withParam(LAST_LOGIN_DATE, LocalDateTime.now(TimeZoneUtil.SYSTEM_ZONE)).withParam(ID, userId).build();
+		update("updateUserLastLoginToNow", params);
 	}
 
 	/**
@@ -132,7 +127,7 @@ public class UserProfileDAO extends BaseDao {
 	 * @param id The id of the user being deleted
 	 */
 	public void deleteUser(int id) {
-		delete(getSql("deleteUser"), parameterSource(ID, id));
+		delete("deleteUser", parameterSource(ID, id));
 	}
 
 	/**

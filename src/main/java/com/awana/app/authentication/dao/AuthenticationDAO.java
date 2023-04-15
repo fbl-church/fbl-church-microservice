@@ -1,11 +1,12 @@
 package com.awana.app.authentication.dao;
 
+import java.util.Optional;
+
 import javax.sql.DataSource;
 
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Repository;
 
-import com.awana.common.exception.NotFoundException;
 import com.awana.sql.abstracts.BaseDao;
 
 /**
@@ -26,14 +27,8 @@ public class AuthenticationDAO extends BaseDao {
      * 
      * @param email The email assocaited with the user.
      * @return {@link String} of the hashed password.
-     * @throws Exception If there is not user for the given email.
      */
-    public String getUserAuthPassword(String email) throws Exception {
-        try {
-            return get(getSql("getUserHashedPassword"), parameterSource(EMAIL, email), String.class);
-        }
-        catch(Exception e) {
-            throw new NotFoundException("User Email", email);
-        }
+    public Optional<String> getUserAuthPassword(String email) {
+        return getOptional("getUserHashedPassword", parameterSource(EMAIL, email), String.class);
     }
 }

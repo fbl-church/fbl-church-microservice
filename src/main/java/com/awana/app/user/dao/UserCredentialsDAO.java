@@ -2,7 +2,6 @@ package com.awana.app.user.dao;
 
 import javax.sql.DataSource;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.stereotype.Repository;
 
@@ -17,7 +16,6 @@ import com.awana.sql.abstracts.BaseDao;
 @Repository
 public class UserCredentialsDAO extends BaseDao {
 
-    @Autowired
     public UserCredentialsDAO(DataSource source) {
         super(source);
     }
@@ -32,7 +30,7 @@ public class UserCredentialsDAO extends BaseDao {
      */
     public void insertUserPassword(int userId, String hashedPass) {
         MapSqlParameterSource params = parameterSource(USER_ID, userId).addValue(PASSWORD, hashedPass);
-        post(getSql("insertUserPassword", params), params);
+        post("insertUserPassword", params);
     }
 
     /**
@@ -45,6 +43,6 @@ public class UserCredentialsDAO extends BaseDao {
      */
     public void updateUserPassword(int userId, String hashedPass) {
         MapSqlParameterSource params = parameterSource(PASSWORD, hashedPass).addValue(USER_ID, userId);
-        update(getSql("updateUserPassword", params), params);
+        update("updateUserPassword", params);
     }
 }

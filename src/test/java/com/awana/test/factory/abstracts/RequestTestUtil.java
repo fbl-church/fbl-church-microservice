@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import com.awana.common.exception.domain.ExceptionError;
+import com.awana.common.page.Page;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
@@ -42,6 +43,23 @@ public abstract class RequestTestUtil {
         return serialized(httpStatus, body -> {
             assertNotNull(body, "Returned");
             assertEquals(body.length, 1, "Length of List");
+        });
+    }
+
+    /**
+     * Verify a ResponseEntity is of type list and that the provided length is
+     * correct.
+     * 
+     * @param <T>        type of object from ResponseEntity
+     * @param httpStatus Expected HttpStatus
+     * @param count      The count of entities in the array
+     * @return Consumer to verify the response
+     */
+    @SuppressWarnings("all")
+    public static <T> Consumer<ResponseEntity<Page>> serializedPage(HttpStatus httpStatus) {
+        return serialized(httpStatus, body -> {
+            assertNotNull(body, "Returned");
+            assertEquals(1, body.getTotalCount(), "Length of List");
         });
     }
 
