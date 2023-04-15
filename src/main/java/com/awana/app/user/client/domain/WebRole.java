@@ -16,8 +16,11 @@ public enum WebRole implements TextEnum {
     SPARKS_HELPER(5, "SPARKS_HELPER", 200),
     CUBBIES_LEADER(6, "CUBBIES_LEADER", 300),
     CUBBIES_HELPER(7, "CUBBIES_HELPER", 200),
-    SITE_ADMIN(8, "SITE_ADMIN", 500),
-    ADMIN(9, "ADMIN", 1000);
+    TNT_CLUBBER(8, "TNT_CLUBBER", 0),
+    SPARKS_CLUBBER(9, "SPARKS_CLUBBER", 0),
+    CUBBIES_CLUBBER(10, "CUBBIES_CLUBBER", 0),
+    SITE_ADMIN(11, "SITE_ADMIN", 500),
+    ADMIN(12, "ADMIN", 1000);
 
     private int id;
     private String textId;

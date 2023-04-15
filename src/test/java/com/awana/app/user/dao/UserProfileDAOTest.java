@@ -38,9 +38,9 @@ public class UserProfileDAOTest {
         Page<User> user = dao.getUsers(new UserGetRequest());
 
         assertEquals(3, user.getTotalCount(), "User Size should be 3");
-        assertEquals("Fake", user.getList().get(0).getFirstName(), "User 1 first name");
-        assertEquals("Bill", user.getList().get(1).getFirstName(), "User 2 first name");
-        assertEquals("Test", user.getList().get(2).getFirstName(), "User 3 first name");
+        assertEquals("Bill", user.getList().get(0).getFirstName(), "User 1 first name");
+        assertEquals("Test", user.getList().get(1).getFirstName(), "User 2 first name");
+        assertEquals("Fake", user.getList().get(2).getFirstName(), "User 3 first name");
     }
 
     @Test

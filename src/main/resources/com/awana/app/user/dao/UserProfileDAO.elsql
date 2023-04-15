@@ -4,7 +4,7 @@
   up.last_name,
   up.email,
   up.phone,
-  up.web_role_id,
+  up.web_role,
   up.insert_date,
   up.last_login_date
 
@@ -14,29 +14,28 @@
       up.id IN (:id)
     @AND(:email)
       up.email IN (:email)
-    @AND(:web_role_text_id)
-      wr.text_id IN (:web_role_text_id)
+    @AND(:web_role)
+      up.web_role IN (:web_role)
     @AND(:searchEnabled = true)
       @INCLUDE(search)
 
 @NAME(getUsersBase)
   FROM user_profile up
-    INNER JOIN web_role wr ON up.web_role_id = wr.id
   @INCLUDE(userFilters)
 
 @NAME(getUsersPage)
   @PAGING(:rowOffset, :pageSize)
     SELECT @INCLUDE(userProfileFields) 
     @INCLUDE(getUsersBase)
-    ORDER BY up.web_role_id DESC, up.last_name ASC
+    ORDER BY up.last_name ASC
 
 @NAME(getUsersPageTotalCount)
   SELECT COUNT(*)
   @INCLUDE(getUsersBase)
 
 @NAME(insertUser)
-  INSERT INTO user_profile (first_name, last_name, email, web_role_id)
-  VALUES (:first_name, :last_name, :email, :web_role_id)
+  INSERT INTO user_profile (first_name, last_name, email, web_role)
+  VALUES (:first_name, :last_name, :email, :web_role)
 
 @NAME(deleteUser)
   DELETE FROM user_profile
@@ -48,7 +47,7 @@
     email       = :email,
     first_name  = :first_name,
     last_name   = :last_name,
-    web_role_id = :web_role_id
+    web_role    = :web_role
   WHERE
     id = :id
 

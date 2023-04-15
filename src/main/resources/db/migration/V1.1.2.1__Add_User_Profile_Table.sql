@@ -16,7 +16,7 @@ CREATE TABLE user_profile (
   last_name                VARCHAR(128)          NOT NULL DEFAULT '',
   email                    VARCHAR(128)                   DEFAULT  NULL,
   phone                    VARCHAR(128)                   DEFAULT  NULL,
-  web_role_id              INT          unsigned NOT NULL DEFAULT 1,
+  web_role                 VARCHAR(45)           NOT NULL DEFAULT 'USER',
   last_login_date          DATETIME              NOT NULL DEFAULT CURRENT_TIMESTAMP(),
   insert_date              DATETIME              NOT NULL DEFAULT CURRENT_TIMESTAMP(),
   PRIMARY KEY (id)

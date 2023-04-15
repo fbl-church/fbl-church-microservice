@@ -23,7 +23,7 @@ public class UserProfileMapper extends AbstractMapper<User> {
 		user.setLastName(rs.getString(LAST_NAME));
 		user.setEmail(rs.getString(EMAIL));
 		user.setPhone(rs.getString(PHONE));
-		user.setWebRole(WebRole.getRole(rs.getInt(WEB_ROLE_ID)));
+		user.setWebRole(WebRole.valueOf(rs.getString(WEB_ROLE)));
 
 		try {
 			user.setPassword(rs.getString(PASSWORD));

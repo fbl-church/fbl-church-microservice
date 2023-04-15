@@ -44,8 +44,8 @@ public class UserProfileDAO extends BaseDao {
 	public Page<User> getUsers(UserGetRequest request) {
 		MapSqlParameterSource params = SqlParamBuilder.with().withParam(ID, request.getId())
 				.withParam(EMAIL, request.getEmail()).withParam(FIRST_NAME, request.getFirstName())
-				.withParam(LAST_NAME, request.getLastName())
-				.withParamTextEnumCollection(WEB_ROLE_TEXT_ID, request.getWebRole()).build();
+				.withParam(LAST_NAME, request.getLastName()).withParamTextEnumCollection(WEB_ROLE, request.getWebRole())
+				.build();
 
 		return getPage("getUsersPage", params, USER_MAPPER);
 	}
@@ -80,7 +80,7 @@ public class UserProfileDAO extends BaseDao {
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		MapSqlParameterSource params = SqlParamBuilder.with().withParam(FIRST_NAME, user.getFirstName())
 				.withParam(LAST_NAME, user.getLastName()).withParam(EMAIL, user.getEmail())
-				.withParam(WEB_ROLE_ID, user.getWebRole().getId()).build();
+				.withParam(WEB_ROLE, user.getWebRole()).build();
 
 		post("insertUser", params, keyHolder);
 		return keyHolder.getKey().intValue();
@@ -101,8 +101,7 @@ public class UserProfileDAO extends BaseDao {
 
 		MapSqlParameterSource params = SqlParamBuilder.with().withParam(FIRST_NAME, user.getFirstName())
 				.withParam(LAST_NAME, user.getLastName()).withParam(EMAIL, user.getEmail())
-				.withParam(WEB_ROLE_ID, user.getWebRole() == null ? null : user.getWebRole().getId())
-				.withParam(ID, userId).build();
+				.withParam(WEB_ROLE, user.getWebRole()).withParam(ID, userId).build();
 
 		update("updateUserProfile", params);
 
