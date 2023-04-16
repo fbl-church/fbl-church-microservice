@@ -3,6 +3,8 @@
  */
 package com.awana.app.user.client.domain;
 
+import com.awana.common.enums.ChurchGroup;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
@@ -11,8 +13,20 @@ import io.swagger.v3.oas.annotations.media.Schema;
  * @author Sam Butler
  * @since June 25, 2020
  */
-@Schema(description = "Clubber object for holding user details.")
-public class Clubber extends User {
+@Schema(description = "Clubber object for holding clubber details")
+public class Clubber {
+
+    @Schema(description = "Clubber identifier")
+    private int id;
+
+    @Schema(description = "First name of the clubber")
+    private String firstName;
+
+    @Schema(description = "Last name of the clubber")
+    private String lastName;
+
+    @Schema(description = "The user church group")
+    private ChurchGroup group;
 
     @Schema(description = "Clubbers Allergies, can be null")
     private String allergies;
@@ -20,11 +34,43 @@ public class Clubber extends User {
     @Schema(description = "Clubbers Birthday")
     private String birthday;
 
-    @Schema(description = "Clubbers parents name")
-    private String parentName;
-
     @Schema(description = "Any additional information about the clubber")
     private String additionalInfo;
+
+    @Schema(description = "Clubbers parent/guardian")
+    private Parent parent;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public ChurchGroup getGroup() {
+        return group;
+    }
+
+    public void setGroup(ChurchGroup group) {
+        this.group = group;
+    }
 
     public String getAllergies() {
         return allergies;
@@ -42,19 +88,19 @@ public class Clubber extends User {
         this.birthday = birthday;
     }
 
-    public String getParentName() {
-        return parentName;
-    }
-
-    public void setParentName(String parentName) {
-        this.parentName = parentName;
-    }
-
     public String getAdditionalInfo() {
         return additionalInfo;
     }
 
     public void setAdditionalInfo(String additionalInfo) {
         this.additionalInfo = additionalInfo;
+    }
+
+    public Parent getParent() {
+        return parent;
+    }
+
+    public void setParent(Parent parent) {
+        this.parent = parent;
     }
 }

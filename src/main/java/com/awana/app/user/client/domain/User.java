@@ -5,13 +5,12 @@ package com.awana.app.user.client.domain;
 
 import java.time.LocalDateTime;
 
-import com.awana.common.enums.ChurchGroup;
 import com.awana.common.enums.WebRole;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
- * Class to create a user profile object
+ * Class to create a user object
  * 
  * @author Sam Butler
  * @since June 25, 2020
@@ -36,9 +35,6 @@ public class User {
 
 	@Schema(description = "The user web role")
 	private WebRole webRole;
-
-	@Schema(description = "The user church group")
-	private ChurchGroup group;
 
 	@Schema(description = "The users password (hashed).")
 	private String password;
@@ -95,14 +91,6 @@ public class User {
 
 	public void setWebRole(WebRole webRole) {
 		this.webRole = webRole;
-	}
-
-	public ChurchGroup getGroup() {
-		return group;
-	}
-
-	public void setGroup(ChurchGroup group) {
-		this.group = group;
 	}
 
 	public void setPassword(String password) {

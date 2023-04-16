@@ -40,7 +40,7 @@ public class UserCredentialsDAO extends BaseDao {
      * Update the users password, for the given password.
      * 
      * @param userId   Id of the use that is being updated.
-     * @param password The password to set on the user profile.
+     * @param password The password to set on the user.
      * @param salt     The salt value that was appended to the password.
      * @return user associated to that id with the updated information
      */

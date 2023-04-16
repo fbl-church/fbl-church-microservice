@@ -28,7 +28,7 @@ import com.awana.jwt.utility.JwtHolder;
  */
 @Component
 public abstract class CommonTokenValidator implements BaseRequestValidator {
-    protected static final String TOKEN_PREFIX = "Bearer:";
+    protected static final String TOKEN_PREFIX = "Bearer";
 
     @Autowired
     private JwtHolder jwtHolder;
@@ -39,12 +39,12 @@ public abstract class CommonTokenValidator implements BaseRequestValidator {
     /**
      * Will take in a string token and confirm that it is valid. It will check that
      * token is valid (not null) and if the prefix check is enabled it will confirm
-     * it has the {@code Bearer:} tag on the token. It will check that it is the
+     * it has the {@code Bearer} tag on the token. It will check that it is the
      * correct environment and the fields match what are expected. It will finally
      * check that the token is not expired.
      * 
      * @param token       The token to validate.
-     * @param prefixCheck Determines if should check for the {@code Bearer:} prefix.
+     * @param prefixCheck Determines if should check for the {@code Bearer} prefix.
      * @return boolean confirming if it was a valid token.
      * @throws JwtTokenException If the token is invalid.
      */
@@ -83,14 +83,14 @@ public abstract class CommonTokenValidator implements BaseRequestValidator {
      * an exception with the appropriate message.
      * 
      * @param token       The token to validate.
-     * @param prefixCheck Determines if should check for the {@code Bearer:} prefix.
+     * @param prefixCheck Determines if should check for the {@code Bearer} prefix.
      * @throws JwtTokenException If the token is invalid.
      */
     protected void checkValidToken(String token, boolean prefixCheck) {
         if (!StringUtils.hasText(token)) {
             throw new JwtTokenException("Missing JWT Token.");
         } else if (prefixCheck && !containsBearerPrefix(token)) {
-            throw new JwtTokenException("JWT Token does not begin with 'Bearer:'");
+            throw new JwtTokenException("JWT Token does not begin with 'Bearer'");
         }
     }
 
@@ -125,7 +125,7 @@ public abstract class CommonTokenValidator implements BaseRequestValidator {
 
     /**
      * Extracts out the token from the headers in the request. It will remove the
-     * {@code Bearer:} prefix from the header and retrurn just the token. If the
+     * {@code Bearer} prefix from the header and retrurn just the token. If the
      * token does not contain the prefix then it will return the same token that was
      * passed.
      * 

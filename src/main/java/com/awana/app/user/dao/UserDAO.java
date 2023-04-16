@@ -3,7 +3,7 @@
  */
 package com.awana.app.user.dao;
 
-import static com.awana.app.user.mapper.UserProfileMapper.*;
+import static com.awana.app.user.mapper.UserMapper.USER_MAPPER;
 
 import java.time.LocalDateTime;
 
@@ -31,9 +31,9 @@ import com.google.common.collect.Sets;
  * @since June 25, 2020
  */
 @Repository
-public class UserProfileDAO extends BaseDao {
+public class UserDAO extends BaseDao {
 
-	public UserProfileDAO(DataSource source) {
+	public UserDAO(DataSource source) {
 		super(source);
 	}
 
@@ -41,7 +41,7 @@ public class UserProfileDAO extends BaseDao {
 	 * Get users based on given request filter
 	 * 
 	 * @param request of the user
-	 * @return User profile object {@link User}
+	 * @return User object {@link User}
 	 * @throws Exception
 	 */
 	public Page<User> getUsers(UserGetRequest request) {
@@ -54,12 +54,11 @@ public class UserProfileDAO extends BaseDao {
 	}
 
 	/**
-	 * This method returns a user profile object containing profile type information
+	 * This method returns a user object containing type information
 	 * about the user
 	 * 
 	 * @param id of the user
-	 * @return User profile object {@link UserProfile}
-	 * @throws Exception
+	 * @return User object {@link User}
 	 */
 	public User getUserById(int id) {
 		try {
@@ -97,15 +96,15 @@ public class UserProfileDAO extends BaseDao {
 	 * @return user associated to that id with the updated information
 	 * @throws Exception
 	 */
-	public User updateUserProfile(int userId, User user) throws Exception {
-		User userProfile = getUserById(userId);
-		user = mapNonNullUserFields(user, userProfile);
+	public User updateUser(int userId, User user) throws Exception {
+		User foundUser = getUserById(userId);
+		user = mapNonNullUserFields(user, foundUser);
 
 		MapSqlParameterSource params = SqlParamBuilder.with().withParam(FIRST_NAME, user.getFirstName())
 				.withParam(LAST_NAME, user.getLastName()).withParam(EMAIL, user.getEmail())
 				.withParam(WEB_ROLE, user.getWebRole()).withParam(ID, userId).build();
 
-		update("updateUserProfile", params);
+		update("updateUser", params);
 
 		return getUserById(userId);
 	}

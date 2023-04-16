@@ -1,7 +1,7 @@
-DELETE FROM user_profile;
+DELETE FROM users;
 
 
-INSERT INTO user_profile (id, first_name, last_name, email)
+INSERT INTO users (id, first_name, last_name, email)
 VALUES (1, 'Auth', 'User', 'test@mail.com');
 
 

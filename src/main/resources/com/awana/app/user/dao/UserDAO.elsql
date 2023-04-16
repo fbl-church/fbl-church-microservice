@@ -1,49 +1,48 @@
-@NAME(userProfileFields)
-  up.id,
-  up.first_name,
-  up.last_name,
-  up.email,
-  up.phone,
-  up.web_role,
-  up.church_group,
-  up.insert_date,
-  up.last_login_date
+@NAME(userFields)
+  u.id,
+  u.first_name,
+  u.last_name,
+  u.email,
+  u.phone,
+  u.web_role,
+  u.insert_date,
+  u.last_login_date
 
 @NAME(userFilters)
   @WHERE
     @AND(:id)
-      up.id IN (:id)
+      u.id IN (:id)
     @AND(:email)
-      up.email IN (:email)
+      u.email IN (:email)
     @AND(:web_role)
-      up.web_role IN (:web_role)
+      u.web_role IN (:web_role)
     @AND(:searchEnabled = true)
       @INCLUDE(search)
 
 @NAME(getUsersBase)
-  FROM user_profile up
+  FROM users u
   @INCLUDE(userFilters)
 
 @NAME(getUsersPage)
   @PAGING(:rowOffset, :pageSize)
-    SELECT @INCLUDE(userProfileFields) 
+    SELECT @INCLUDE(userFields) 
     @INCLUDE(getUsersBase)
-    ORDER BY up.last_name ASC
+    ORDER BY u.last_name ASC
 
 @NAME(getUsersPageTotalCount)
   SELECT COUNT(*)
   @INCLUDE(getUsersBase)
 
 @NAME(insertUser)
-  INSERT INTO user_profile (first_name, last_name, email, web_role)
+  INSERT INTO users (first_name, last_name, email, web_role)
   VALUES (:first_name, :last_name, :email, :web_role)
 
 @NAME(deleteUser)
-  DELETE FROM user_profile
+  DELETE FROM users
   WHERE id = :id
 
-@NAME(updateUserProfile)
-  UPDATE user_profile 
+@NAME(updateUser)
+  UPDATE users 
   SET
     email       = :email,
     first_name  = :first_name,
@@ -53,6 +52,6 @@
     id = :id
 
 @NAME(updateUserLastLoginToNow)
-  UPDATE user_profile 
+  UPDATE users 
   SET last_login_date = :last_login_date
   WHERE id = :id

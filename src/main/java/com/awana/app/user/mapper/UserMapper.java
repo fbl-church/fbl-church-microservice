@@ -7,7 +7,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.awana.app.user.client.domain.User;
-import com.awana.common.enums.ChurchGroup;
 import com.awana.common.enums.WebRole;
 import com.awana.sql.abstracts.AbstractMapper;
 
@@ -17,8 +16,8 @@ import com.awana.sql.abstracts.AbstractMapper;
  * @author Sam Butler
  * @since June 25, 2020
  */
-public class UserProfileMapper extends AbstractMapper<User> {
-	public static UserProfileMapper USER_MAPPER = new UserProfileMapper();
+public class UserMapper extends AbstractMapper<User> {
+	public static UserMapper USER_MAPPER = new UserMapper();
 
 	public User mapRow(ResultSet rs, int rowNum) throws SQLException {
 		User user = new User();
@@ -28,9 +27,6 @@ public class UserProfileMapper extends AbstractMapper<User> {
 		user.setEmail(rs.getString(EMAIL));
 		user.setPhone(rs.getString(PHONE));
 		user.setWebRole(WebRole.valueOf(rs.getString(WEB_ROLE)));
-
-		String group = rs.getString(CHURCH_GROUP);
-		user.setGroup(group == null ? null : ChurchGroup.valueOf(group));
 
 		try {
 			user.setPassword(rs.getString(PASSWORD));

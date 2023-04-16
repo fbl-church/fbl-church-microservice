@@ -23,7 +23,7 @@ import org.mockito.Mock;
 import com.awana.app.authentication.client.domain.AuthToken;
 import com.awana.app.authentication.client.domain.request.AuthenticationRequest;
 import com.awana.app.authentication.dao.AuthenticationDAO;
-import com.awana.app.user.client.UserProfileClient;
+import com.awana.app.user.client.UserClient;
 import com.awana.app.user.client.domain.User;
 import com.awana.app.user.client.domain.request.UserGetRequest;
 import com.awana.common.exception.InvalidCredentialsException;
@@ -45,7 +45,7 @@ public class AuthenticationServiceTest {
     private AuthenticationDAO authenticationDAO;
 
     @Mock
-    private UserProfileClient userProfileClient;
+    private UserClient userClient;
 
     @Mock
     private JwtTokenUtil jwtTokenUtil;
@@ -67,13 +67,13 @@ public class AuthenticationServiceTest {
 
         when(authenticationDAO.getUserAuthPassword(anyString()))
                 .thenReturn(Optional.of("$2a$10$KusdNWjdceySzNAG3EH8a.5HuIOMWH4hl4Ke64Daqaeqivy1y0Rd."));
-        when(userProfileClient.getUsers(any(UserGetRequest.class))).thenReturn(Arrays.asList(userLoggingIn));
-        when(userProfileClient.updateUserLastLoginToNow(anyInt())).thenReturn(userLoggingIn);
+        when(userClient.getUsers(any(UserGetRequest.class))).thenReturn(Arrays.asList(userLoggingIn));
+        when(userClient.updateUserLastLoginToNow(anyInt())).thenReturn(userLoggingIn);
 
         AuthToken authToken = service.authenticate(authRequest);
 
         verify(authenticationDAO).getUserAuthPassword(anyString());
-        verify(userProfileClient).getUsers(any(UserGetRequest.class));
+        verify(userClient).getUsers(any(UserGetRequest.class));
         verify(jwtTokenUtil).generateToken(userLoggingIn);
         assertNotNull(authToken, "Auth Token is valid");
     }
@@ -95,7 +95,7 @@ public class AuthenticationServiceTest {
 
         assertEquals("Invalid Credentials for user email: 'fake@mail.com'", e.getMessage(), "Exception Message");
         verify(authenticationDAO).getUserAuthPassword(anyString());
-        verify(userProfileClient, never()).getUsers(any(UserGetRequest.class));
+        verify(userClient, never()).getUsers(any(UserGetRequest.class));
         verify(jwtTokenUtil, never()).generateToken(userLoggingIn);
     }
 
@@ -104,13 +104,13 @@ public class AuthenticationServiceTest {
         User userLoggingIn = new User();
         userLoggingIn.setId(1);
 
-        when(userProfileClient.getUserById(anyInt())).thenReturn(userLoggingIn);
+        when(userClient.getUserById(anyInt())).thenReturn(userLoggingIn);
         when(jwtHolder.getUserId()).thenReturn(1);
 
         AuthToken authToken = service.reauthenticate();
 
         verify(authenticationDAO, never()).getUserAuthPassword(any());
-        verify(userProfileClient).getUserById(anyInt());
+        verify(userClient).getUserById(anyInt());
         verify(jwtTokenUtil).generateToken(userLoggingIn);
         assertNotNull(authToken, "Auth Token is valid");
     }
@@ -120,12 +120,12 @@ public class AuthenticationServiceTest {
         User userLoggingIn = new User();
         userLoggingIn.setId(1);
 
-        when(userProfileClient.getUserById(anyInt())).thenThrow(NotFoundException.class);
+        when(userClient.getUserById(anyInt())).thenThrow(NotFoundException.class);
         when(jwtHolder.getUserId()).thenReturn(1);
 
         assertThrows(NotFoundException.class, () -> service.reauthenticate());
         verify(authenticationDAO, never()).getUserAuthPassword(any());
         verify(jwtTokenUtil, never()).generateToken(userLoggingIn);
-        verify(userProfileClient).getUserById(anyInt());
+        verify(userClient).getUserById(anyInt());
     }
 }

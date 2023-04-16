@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.awana.app.user.client.domain.User;
-import com.awana.app.user.dao.UserProfileDAO;
+import com.awana.app.user.dao.UserDAO;
 
 /**
  * User Service class that handles all service calls to the dao
@@ -19,13 +19,13 @@ import com.awana.app.user.dao.UserProfileDAO;
  * @since June 25, 2020
  */
 @Component
-public class ManageUserProfileService {
+public class ManageUserService {
 
 	@Autowired
-	private UserProfileDAO dao;
+	private UserDAO dao;
 
 	@Autowired
-	private UserProfileService userProfileService;
+	private UserService userService;
 
 	/**
 	 * Method that will update the user's last login time to current date and time;
@@ -35,6 +35,6 @@ public class ManageUserProfileService {
 	 */
 	public User updateUserLastLoginToNow(int userId) {
 		dao.updateUserLastLoginToNow(userId);
-		return userProfileService.getUserById(userId);
+		return userService.getUserById(userId);
 	}
 }

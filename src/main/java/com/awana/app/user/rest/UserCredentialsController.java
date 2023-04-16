@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.awana.app.user.openapi.TagUser;
 
-@RequestMapping("/api/user-app/credentials")
+@RequestMapping("/api/users/credentials")
 @RestController
 @TagUser
 public class UserCredentialsController {

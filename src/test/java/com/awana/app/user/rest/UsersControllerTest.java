@@ -23,7 +23,7 @@ import org.springframework.test.context.ContextConfiguration;
 import com.awana.InsiteMicroserviceApplication;
 import com.awana.app.user.client.domain.User;
 import com.awana.app.user.client.domain.request.UserGetRequest;
-import com.awana.app.user.service.UserProfileService;
+import com.awana.app.user.service.UserService;
 import com.awana.common.annotations.interfaces.ControllerJwt;
 import com.awana.common.enums.WebRole;
 import com.awana.common.page.Page;
@@ -32,7 +32,7 @@ import com.awana.test.factory.annotations.AwanaRestTest;
 import com.google.common.collect.Sets;
 
 /**
- * Test class for the User Profile Controller Test.
+ * Test class for the User Controller Test.
  * 
  * @author Sam Butler
  * @since August 23, 2022
@@ -40,12 +40,12 @@ import com.google.common.collect.Sets;
 @ContextConfiguration(classes = InsiteMicroserviceApplication.class)
 @AwanaRestTest
 @ControllerJwt
-public class UserProfileControllerTest extends BaseControllerTest {
+public class UsersControllerTest extends BaseControllerTest {
 
-    private static final String USER_PROFILE_PATH = "/api/user-app/profile";
+    private static final String USERS_PATH = "/api/users";
 
     @MockBean
-    private UserProfileService service;
+    private UserService service;
 
     @Captor
     private ArgumentCaptor<UserGetRequest> getUsersCaptor;
@@ -56,7 +56,7 @@ public class UserProfileControllerTest extends BaseControllerTest {
     @Test
     public void testGetListOfUsers() throws Exception {
         when(service.getUsers(any(UserGetRequest.class))).thenReturn(new Page<User>(1, Arrays.asList(new User())));
-        check(get(USER_PROFILE_PATH, User[].class), serializedList(HttpStatus.OK));
+        check(get(USERS_PATH, User[].class), serializedList(HttpStatus.OK));
 
         verify(service).getUsers(any(UserGetRequest.class));
     }
@@ -64,7 +64,7 @@ public class UserProfileControllerTest extends BaseControllerTest {
     @Test
     public void testGetListOfUsersWithRequestParams() throws Exception {
         when(service.getUsers(any(UserGetRequest.class))).thenReturn(new Page<User>(1, Arrays.asList(new User())));
-        check(get(USER_PROFILE_PATH + "?firstName=test&id=1,2", User[].class), serializedList(HttpStatus.OK));
+        check(get(USERS_PATH + "?firstName=test&id=1,2", User[].class), serializedList(HttpStatus.OK));
 
         verify(service).getUsers(getUsersCaptor.capture());
 
@@ -76,7 +76,7 @@ public class UserProfileControllerTest extends BaseControllerTest {
     @Test
     public void testGetCurrentUser() throws Exception {
         when(service.getCurrentUser()).thenReturn(new User());
-        check(get(USER_PROFILE_PATH + "/current-user", User.class), serializedNonNull(HttpStatus.OK));
+        check(get(USERS_PATH + "/current-user", User.class), serializedNonNull(HttpStatus.OK));
 
         verify(service).getCurrentUser();
     }
@@ -84,7 +84,7 @@ public class UserProfileControllerTest extends BaseControllerTest {
     @Test
     public void testGetUserById() throws Exception {
         when(service.getUserById(anyInt())).thenReturn(new User());
-        check(get(USER_PROFILE_PATH + "/3", User.class), serializedNonNull(HttpStatus.OK));
+        check(get(USERS_PATH + "/3", User.class), serializedNonNull(HttpStatus.OK));
 
         verify(service).getUserById(3);
     }
@@ -93,7 +93,7 @@ public class UserProfileControllerTest extends BaseControllerTest {
     @ControllerJwt(webRole = WebRole.USER)
     public void testGetUserByIdNonAdmin() throws Exception {
         when(service.getUserById(anyInt())).thenReturn(new User());
-        check(get(USER_PROFILE_PATH + "/3"), error(HttpStatus.FORBIDDEN, "Insufficient Permissions for role 'USER'"));
+        check(get(USERS_PATH + "/3"), error(HttpStatus.FORBIDDEN, "Insufficient Permissions for role 'USER'"));
 
         verify(service, never()).getUserById(anyInt());
     }

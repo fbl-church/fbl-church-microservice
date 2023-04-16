@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import com.awana.app.user.client.domain.User;
 import com.awana.app.user.client.domain.request.UserGetRequest;
-import com.awana.app.user.rest.UserProfileController;
+import com.awana.app.user.rest.UserController;
 import com.awana.common.annotations.interfaces.Client;
 
 /**
@@ -21,10 +21,10 @@ import com.awana.common.annotations.interfaces.Client;
  * @since June 25, 2020
  */
 @Client
-public class UserProfileClient {
+public class UserClient {
 
 	@Autowired
-	private UserProfileController controller;
+	private UserController controller;
 
 	/**
 	 * Get users based on given request filter.

@@ -1,8 +1,8 @@
 -- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
--- Script: V1.1.2.1__Add_User_Profile_Table.sql
+-- Script: V1.1.2.1__Add_Users_Table.sql
 -- Author: Sam Butler
 -- Date: April 24, 2022
--- Issue: AWANA-2: Create User Profile Table 
+-- Issue: AWANA-2: Create User Table 
 -- Version: v1.1.1
 -- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -10,20 +10,19 @@
 -- AWANA-2: START
 -- ---------------------------------------------------------------------------------
 
-CREATE TABLE user_profile (
+CREATE TABLE users (
   id                       INT          UNSIGNED NOT NULL AUTO_INCREMENT,
   first_name               VARCHAR(128)          NOT NULL,
   last_name                VARCHAR(128)          NOT NULL DEFAULT '',
   email                    VARCHAR(128)                   DEFAULT NULL,
   phone                    VARCHAR(128)                   DEFAULT NULL,
   web_role                 VARCHAR(45)           NOT NULL DEFAULT 'USER',
-  church_group             VARCHAR(45)                    DEFAULT NULL,
   last_login_date          DATETIME              NOT NULL DEFAULT CURRENT_TIMESTAMP(),
   insert_date              DATETIME              NOT NULL DEFAULT CURRENT_TIMESTAMP(),
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE UNIQUE INDEX user_profile_AK1 ON user_profile(email);
+CREATE UNIQUE INDEX users_AK1 ON users(email);
 
 -- ---------------------------------------------------------------------------------
 -- AWANA-2: END

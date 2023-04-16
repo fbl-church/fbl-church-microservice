@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.awana.app.authentication.client.domain.AuthToken;
 import com.awana.app.authentication.client.domain.request.AuthenticationRequest;
 import com.awana.app.authentication.dao.AuthenticationDAO;
-import com.awana.app.user.client.UserProfileClient;
+import com.awana.app.user.client.UserClient;
 import com.awana.app.user.client.domain.User;
 import com.awana.app.user.client.domain.request.UserGetRequest;
 import com.awana.common.date.TimeZoneUtil;
@@ -44,7 +44,7 @@ public class AuthenticationService {
     private JwtHolder jwtHolder;
 
     @Autowired
-    private UserProfileClient userProfileClient;
+    private UserClient userClient;
 
     /**
      * Generates a JWT token from a request
@@ -67,8 +67,8 @@ public class AuthenticationService {
      * @return {@link AuthToken} from the token.
      */
     public AuthToken reauthenticate() {
-        User u = userProfileClient.getUserById(jwtHolder.getUserId());
-        // userProfileClient.updateUserLastLoginToNow(u.getId());
+        User u = userClient.getUserById(jwtHolder.getUserId());
+        userClient.updateUserLastLoginToNow(u.getId());
 
         String token = jwtTokenUtil.generateToken(u);
         return new AuthToken(token, LocalDateTime.now(TimeZoneUtil.SYSTEM_ZONE),
@@ -87,7 +87,7 @@ public class AuthenticationService {
 
         if (BCrypt.checkpw(password, hashedPassword)) {
             User authUser = getAuthenticatedUser(email);
-            return userProfileClient.updateUserLastLoginToNow(authUser.getId());
+            return userClient.updateUserLastLoginToNow(authUser.getId());
         } else {
             throw new InvalidCredentialsException(email);
         }
@@ -103,6 +103,6 @@ public class AuthenticationService {
     private User getAuthenticatedUser(String email) {
         UserGetRequest request = new UserGetRequest();
         request.setEmail(Sets.newHashSet(email));
-        return userProfileClient.getUsers(request).get(0);
+        return userClient.getUsers(request).get(0);
     }
 }
