@@ -1,8 +1,11 @@
+/**
+ * Copyright of Awana App. All rights reserved.
+ */
 package com.awana.app.user.client.domain.request;
 
 import java.util.Set;
 
-import com.awana.app.user.client.domain.WebRole;
+import com.awana.common.enums.WebRole;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 

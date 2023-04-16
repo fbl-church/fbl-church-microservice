@@ -1,3 +1,6 @@
+/**
+ * Copyright of Awana App. All rights reserved.
+ */
 package com.awana.app.user.rest;
 
 import org.springframework.web.bind.annotation.RequestMapping;

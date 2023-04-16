@@ -118,7 +118,10 @@ fabric.properties
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
-# Package Files #
+# /**
+ * Copyright of Awana App. All rights reserved.
+ */
+package Files #
 *.jar
 *.war
 *.nar

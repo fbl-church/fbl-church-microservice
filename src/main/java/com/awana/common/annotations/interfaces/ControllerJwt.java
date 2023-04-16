@@ -1,3 +1,6 @@
+/**
+ * Copyright of Awana App. All rights reserved.
+ */
 package com.awana.common.annotations.interfaces;
 
 import java.lang.annotation.Retention;
@@ -5,8 +8,8 @@ import java.lang.annotation.RetentionPolicy;
 
 import org.springframework.stereotype.Component;
 
-import com.awana.app.user.client.domain.WebRole;
-import com.awana.common.jwt.utility.JwtTokenUtil;
+import com.awana.common.enums.WebRole;
+import com.awana.jwt.utility.JwtTokenUtil;
 
 /**
  * Annotation that will add an authorization token to the headers for rest

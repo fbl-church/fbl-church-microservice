@@ -1,8 +1,14 @@
+/**
+ * Copyright of Awana App. All rights reserved.
+ */
 package com.awana.app.user.rest;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 
@@ -16,10 +22,10 @@ import org.springframework.test.context.ContextConfiguration;
 
 import com.awana.InsiteMicroserviceApplication;
 import com.awana.app.user.client.domain.User;
-import com.awana.app.user.client.domain.WebRole;
 import com.awana.app.user.client.domain.request.UserGetRequest;
 import com.awana.app.user.service.UserProfileService;
 import com.awana.common.annotations.interfaces.ControllerJwt;
+import com.awana.common.enums.WebRole;
 import com.awana.common.page.Page;
 import com.awana.test.factory.abstracts.BaseControllerTest;
 import com.awana.test.factory.annotations.AwanaRestTest;
@@ -44,7 +50,8 @@ public class UserProfileControllerTest extends BaseControllerTest {
     @Captor
     private ArgumentCaptor<UserGetRequest> getUsersCaptor;
 
-    ParameterizedTypeReference<Page<User>> pageRef = new ParameterizedTypeReference<Page<User>>() {};
+    ParameterizedTypeReference<Page<User>> pageRef = new ParameterizedTypeReference<Page<User>>() {
+    };
 
     @Test
     public void testGetListOfUsers() throws Exception {

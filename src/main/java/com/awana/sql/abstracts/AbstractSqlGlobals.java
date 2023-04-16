@@ -1,3 +1,6 @@
+/**
+ * Copyright of Awana App. All rights reserved.
+ */
 package com.awana.sql.abstracts;
 
 public abstract class AbstractSqlGlobals {
@@ -13,6 +16,7 @@ public abstract class AbstractSqlGlobals {
     public static final String EMAIL = "email";
     public static final String PHONE = "phone";
     public static final String WEB_ROLE = "web_role";
+    public static final String CHURCH_GROUP = "church_group";
     public static final String LAST_LOGIN_DATE = "last_login_date";
     public static final String UPDATE_USER_ID = "updated_user_id";
     public static final String TEXT_ID = "text_id";

@@ -1,3 +1,6 @@
+/**
+ * Copyright of Awana App. All rights reserved.
+ */
 package com.awana.app.authentication.client.domain;
 
 import java.time.LocalDateTime;
@@ -27,7 +30,8 @@ public class AuthToken {
     @Schema(description = "Data to be attached to the auth token.")
     private User user;
 
-    public AuthToken() {}
+    public AuthToken() {
+    }
 
     public AuthToken(String t, LocalDateTime creation, LocalDateTime expire, User u) {
         token = t;

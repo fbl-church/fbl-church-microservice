@@ -1,3 +1,6 @@
+/**
+ * Copyright of Awana App. All rights reserved.
+ */
 package com.awana.test.factory.annotations;
 
 import java.lang.annotation.Retention;
@@ -10,4 +13,5 @@ import java.lang.annotation.RetentionPolicy;
  * @since July 31, 2021
  */
 @Retention(RetentionPolicy.RUNTIME)
-public @interface AwanaTest {}
+public @interface AwanaTest {
+}

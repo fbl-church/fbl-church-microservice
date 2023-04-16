@@ -1,3 +1,6 @@
+/**
+ * Copyright of Awana App. All rights reserved.
+ */
 package com.awana.app.user.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -6,8 +9,8 @@ import org.springframework.stereotype.Service;
 import com.awana.app.user.client.domain.User;
 import com.awana.app.user.client.domain.request.UserGetRequest;
 import com.awana.app.user.dao.UserProfileDAO;
-import com.awana.common.jwt.utility.JwtHolder;
 import com.awana.common.page.Page;
+import com.awana.jwt.utility.JwtHolder;
 
 /**
  * User Service class that handles all service calls to the dao

@@ -1,6 +1,11 @@
+/**
+ * Copyright of Awana App. All rights reserved.
+ */
 package com.awana.app.user.dao;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 
@@ -11,8 +16,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.awana.app.user.client.domain.User;
-import com.awana.app.user.client.domain.WebRole;
 import com.awana.app.user.client.domain.request.UserGetRequest;
+import com.awana.common.enums.WebRole;
 import com.awana.common.exception.NotFoundException;
 import com.awana.common.page.Page;
 import com.awana.test.factory.annotations.AwanaDaoTest;
@@ -117,7 +122,7 @@ public class UserProfileDAOTest {
         User userProfile = new User();
         userProfile.setEmail("Fake123@mail.com");
         DataIntegrityViolationException e = assertThrows(DataIntegrityViolationException.class,
-                                                         () -> dao.updateUserProfile(1, userProfile));
+                () -> dao.updateUserProfile(1, userProfile));
         assertTrue(e.getMessage().contains("Duplicate entry 'Fake123@mail.com'"));
     }
 }

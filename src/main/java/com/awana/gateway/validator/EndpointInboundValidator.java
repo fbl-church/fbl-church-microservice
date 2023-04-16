@@ -1,3 +1,6 @@
+/**
+ * Copyright of Awana App. All rights reserved.
+ */
 package com.awana.gateway.validator;
 
 import java.util.ArrayList;
@@ -31,7 +34,7 @@ public class EndpointInboundValidator extends CommonTokenValidator {
      * @throws JwtTokenException If the jwt token is not valid.
      */
     public void validateRequest(HttpServletRequest request) throws JwtTokenException {
-        if(shouldNotFilter(request, excludedMatchers())) {
+        if (shouldNotFilter(request, excludedMatchers())) {
             return;
         }
 
@@ -48,9 +51,9 @@ public class EndpointInboundValidator extends CommonTokenValidator {
     private List<AntPathRequestMatcher> excludedMatchers() {
         List<AntPathRequestMatcher> matchers = new ArrayList<>();
         matchers.add(new AntPathRequestMatcher("/api/authenticate", "POST"));
-        matchers.add(new AntPathRequestMatcher("/api/user-app/user-profile/check-email", "GET"));
-        matchers.add(new AntPathRequestMatcher("/api/user-app/user-profile", "POST"));
-        matchers.add(new AntPathRequestMatcher("/api/user-app/user-profile/forgot-password", "POST"));
+        matchers.add(new AntPathRequestMatcher("/api/user-app/profile/check-email", "GET"));
+        matchers.add(new AntPathRequestMatcher("/api/user-app/profile", "POST"));
+        matchers.add(new AntPathRequestMatcher("/api/user-app/profile/forgot-password", "POST"));
         matchers.add(new AntPathRequestMatcher("/**", "OPTIONS"));
         return matchers;
     }

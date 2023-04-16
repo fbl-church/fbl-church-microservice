@@ -1,3 +1,6 @@
+/**
+ * Copyright of Awana App. All rights reserved.
+ */
 package com.awana.gateway.interceptor;
 
 import java.io.IOException;

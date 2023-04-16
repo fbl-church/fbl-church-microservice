@@ -1,3 +1,6 @@
+/**
+ * Copyright of Awana App. All rights reserved.
+ */
 package com.awana.common.exception.domain;
 
 import java.util.Date;
@@ -21,7 +24,8 @@ public class ExceptionError {
 
     private String path;
 
-    public ExceptionError() {}
+    public ExceptionError() {
+    }
 
     public ExceptionError(String message) {
         this.status = HttpStatus.BAD_REQUEST.value();

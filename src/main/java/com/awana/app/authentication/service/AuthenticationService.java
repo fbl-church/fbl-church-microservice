@@ -1,3 +1,6 @@
+/**
+ * Copyright of Awana App. All rights reserved.
+ */
 package com.awana.app.authentication.service;
 
 import java.time.LocalDateTime;
@@ -16,8 +19,8 @@ import com.awana.app.user.client.domain.request.UserGetRequest;
 import com.awana.common.date.TimeZoneUtil;
 import com.awana.common.exception.InvalidCredentialsException;
 import com.awana.common.exception.UserNotFoundException;
-import com.awana.common.jwt.utility.JwtHolder;
-import com.awana.common.jwt.utility.JwtTokenUtil;
+import com.awana.jwt.utility.JwtHolder;
+import com.awana.jwt.utility.JwtTokenUtil;
 import com.google.common.collect.Sets;
 
 /**
@@ -54,7 +57,7 @@ public class AuthenticationService {
 
         String token = jwtTokenUtil.generateToken(user);
         return new AuthToken(token, LocalDateTime.now(TimeZoneUtil.SYSTEM_ZONE),
-                             jwtTokenUtil.getExpirationDateFromToken(token), user);
+                jwtTokenUtil.getExpirationDateFromToken(token), user);
     }
 
     /**
@@ -69,7 +72,7 @@ public class AuthenticationService {
 
         String token = jwtTokenUtil.generateToken(u);
         return new AuthToken(token, LocalDateTime.now(TimeZoneUtil.SYSTEM_ZONE),
-                             jwtTokenUtil.getExpirationDateFromToken(token), u);
+                jwtTokenUtil.getExpirationDateFromToken(token), u);
     }
 
     /**
@@ -82,11 +85,10 @@ public class AuthenticationService {
         String hashedPassword = dao.getUserAuthPassword(email).orElseThrow(() -> new UserNotFoundException(String
                 .format("User not found or does not have access for email: '%s'", email)));
 
-        if(BCrypt.checkpw(password, hashedPassword)) {
+        if (BCrypt.checkpw(password, hashedPassword)) {
             User authUser = getAuthenticatedUser(email);
             return userProfileClient.updateUserLastLoginToNow(authUser.getId());
-        }
-        else {
+        } else {
             throw new InvalidCredentialsException(email);
         }
     }

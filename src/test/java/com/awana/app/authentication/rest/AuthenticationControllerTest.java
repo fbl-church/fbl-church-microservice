@@ -1,7 +1,10 @@
+/**
+ * Copyright of Awana App. All rights reserved.
+ */
 package com.awana.app.authentication.rest;
 
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.mock.mockito.MockBean;

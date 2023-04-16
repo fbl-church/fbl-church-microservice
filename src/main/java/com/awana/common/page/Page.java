@@ -1,6 +1,9 @@
 /**
  * Copyright of awana App. All rights reserved.
  */
+/**
+ * Copyright of Awana App. All rights reserved.
+ */
 package com.awana.common.page;
 
 import java.util.List;
@@ -23,7 +26,8 @@ public class Page<T> {
     @Schema(description = "The list of generic objects.")
     private List<T> list;
 
-    public Page() {}
+    public Page() {
+    }
 
     public Page(long totalCount, List<T> list) {
         this.totalCount = totalCount;

@@ -1,3 +1,6 @@
+/**
+ * Copyright of Awana App. All rights reserved.
+ */
 package com.awana.common.exception.controller;
 
 import org.slf4j.Logger;

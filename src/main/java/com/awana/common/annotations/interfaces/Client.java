@@ -1,3 +1,6 @@
+/**
+ * Copyright of Awana App. All rights reserved.
+ */
 package com.awana.common.annotations.interfaces;
 
 import java.lang.annotation.Retention;
@@ -13,4 +16,5 @@ import org.springframework.stereotype.Component;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Component
-public @interface Client {}
+public @interface Client {
+}

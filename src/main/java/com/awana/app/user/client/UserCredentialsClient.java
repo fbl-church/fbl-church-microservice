@@ -1,3 +1,6 @@
+/**
+ * Copyright of Awana App. All rights reserved.
+ */
 package com.awana.app.user.client;
 
 import com.awana.common.annotations.interfaces.Client;

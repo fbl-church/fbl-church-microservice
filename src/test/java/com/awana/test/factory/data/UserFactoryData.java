@@ -1,9 +1,12 @@
+/**
+ * Copyright of Awana App. All rights reserved.
+ */
 package com.awana.test.factory.data;
 
 import java.time.LocalDateTime;
 
 import com.awana.app.user.client.domain.User;
-import com.awana.app.user.client.domain.WebRole;
+import com.awana.common.enums.WebRole;
 
 /**
  * Class for holding common test data to be used in test classes.

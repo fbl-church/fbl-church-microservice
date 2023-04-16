@@ -1,3 +1,6 @@
+/**
+ * Copyright of Awana App. All rights reserved.
+ */
 package com.awana.app.user.client.domain;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -18,7 +21,8 @@ public class PasswordUpdate {
     @Schema(description = "The users new password")
     private String newPassword;
 
-    public PasswordUpdate() {}
+    public PasswordUpdate() {
+    }
 
     public PasswordUpdate(String currentPassword, String newPassword) {
         this.currentPassword = currentPassword;

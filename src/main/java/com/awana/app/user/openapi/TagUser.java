@@ -1,3 +1,6 @@
+/**
+ * Copyright of Awana App. All rights reserved.
+ */
 package com.awana.app.user.openapi;
 
 import static java.lang.annotation.ElementType.*;
@@ -16,7 +19,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
  * @since July 19, 2022
  */
 @Retention(RUNTIME)
-@Target({TYPE, METHOD, ANNOTATION_TYPE})
+@Target({ TYPE, METHOD, ANNOTATION_TYPE })
 @Inherited
 @Tag(name = "User")
-public @interface TagUser {}
+public @interface TagUser {
+}

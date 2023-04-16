@@ -1,3 +1,6 @@
+/**
+ * Copyright of Awana App. All rights reserved.
+ */
 package com.awana.test.factory.annotations;
 
 import java.lang.annotation.Retention;
@@ -14,4 +17,5 @@ import org.mockito.junit.jupiter.MockitoExtension;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @ExtendWith(MockitoExtension.class)
-public @interface AwanaServiceTest {}
+public @interface AwanaServiceTest {
+}

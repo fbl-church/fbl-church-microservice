@@ -1,6 +1,9 @@
+/**
+ * Copyright of Awana App. All rights reserved.
+ */
 package com.awana.sql.builder;
 
-import static com.awana.common.datetime.DateTimeMapper.*;
+import static com.awana.common.datetime.DateTimeMapper.printDate;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -9,7 +12,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 
-import com.awana.common.dictionary.enums.TextEnum;
+import com.awana.common.enums.TextEnum;
 
 /**
  * Sql builder to create all query binding parameters for making querys to the
@@ -117,7 +120,7 @@ public class SqlParamBuilder {
      */
     public <T> SqlParamBuilder withParamTextEnumCollection(String name, Collection<? extends TextEnum> values) {
         return withParam(name,
-                         values == null ? null : values.stream().map(TextEnum::getTextId).collect(Collectors.toList()));
+                values == null ? null : values.stream().map(TextEnum::getTextId).collect(Collectors.toList()));
     }
 
     /**

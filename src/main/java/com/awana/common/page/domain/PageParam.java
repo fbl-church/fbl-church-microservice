@@ -1,6 +1,9 @@
 /**
  * Copyright of awana App. All rights reserved.
  */
+/**
+ * Copyright of Awana App. All rights reserved.
+ */
 package com.awana.common.page.domain;
 
 import com.awana.common.search.CommonParam;

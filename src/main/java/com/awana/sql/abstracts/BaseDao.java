@@ -1,3 +1,6 @@
+/**
+ * Copyright of Awana App. All rights reserved.
+ */
 package com.awana.sql.abstracts;
 
 import javax.sql.DataSource;

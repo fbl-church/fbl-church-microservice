@@ -1,3 +1,6 @@
+/**
+ * Copyright of Awana App. All rights reserved.
+ */
 package com.awana.configs;
 
 import org.springframework.context.annotation.Bean;

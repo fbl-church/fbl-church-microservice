@@ -1,6 +1,9 @@
+/**
+ * Copyright of Awana App. All rights reserved.
+ */
 package com.awana.app.user.rest;
 
-import static org.springframework.http.MediaType.*;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,12 +13,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.awana.app.user.client.domain.User;
-import com.awana.app.user.client.domain.WebRole;
 import com.awana.app.user.client.domain.request.UserGetRequest;
 import com.awana.app.user.openapi.TagUser;
 import com.awana.app.user.service.ManageUserProfileService;
 import com.awana.app.user.service.UserProfileService;
 import com.awana.common.annotations.interfaces.HasAccess;
+import com.awana.common.enums.WebRole;
 import com.awana.common.page.Page;
 
 import io.swagger.v3.oas.annotations.Operation;

@@ -1,3 +1,6 @@
+/**
+ * Copyright of Awana App. All rights reserved.
+ */
 package com.awana.common.annotations.aspects;
 
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -8,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 import com.awana.common.annotations.interfaces.HasAccess;
 import com.awana.common.exception.InsufficientPermissionsException;
-import com.awana.common.jwt.utility.JwtHolder;
+import com.awana.jwt.utility.JwtHolder;
 
 /**
  * Aspect to check if a user has access to the provided data.
@@ -33,7 +36,7 @@ public class HasAccessAspect {
      */
     @Around(value = "@annotation(anno)", argNames = "jp, anno")
     public Object access(ProceedingJoinPoint joinPoint, HasAccess access) throws Throwable {
-        if(jwtHolder.getWebRole().getRank() < access.value().getRank()) {
+        if (jwtHolder.getWebRole().getRank() < access.value().getRank()) {
             throw new InsufficientPermissionsException(jwtHolder.getWebRole());
         }
         return joinPoint.proceed();

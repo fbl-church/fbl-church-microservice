@@ -1,3 +1,6 @@
+/**
+ * Copyright of Awana App. All rights reserved.
+ */
 package com.awana.app.authentication.client;
 
 import org.springframework.beans.factory.annotation.Autowired;

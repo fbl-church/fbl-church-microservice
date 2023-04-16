@@ -1,3 +1,6 @@
+/**
+ * Copyright of Awana App. All rights reserved.
+ */
 package com.awana.utility;
 
 import org.springframework.context.annotation.ComponentScan;
@@ -8,5 +11,6 @@ import org.springframework.context.annotation.ComponentScan;
  * @author Sam Butler
  * @since April 25, 2022
  */
-@ComponentScan(basePackages = {"com.awana.app.user.dao", "com.awana.app.authentication.dao"})
-public class AwanaDAOTestConfig {}
+@ComponentScan(basePackages = { "com.awana.app.user.dao", "com.awana.app.authentication.dao" })
+public class AwanaDAOTestConfig {
+}

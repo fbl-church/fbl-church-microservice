@@ -1,3 +1,6 @@
+/**
+ * Copyright of Awana App. All rights reserved.
+ */
 package com.awana.gateway.domain.abstracts;
 
 import javax.servlet.Filter;
@@ -12,8 +15,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 
-import com.awana.common.jwt.utility.JwtHolder;
 import com.awana.gateway.domain.interfaces.BaseRequestValidator;
+import com.awana.jwt.utility.JwtHolder;
 
 /**
  * Common interceptor to extend common functionality for API's.
@@ -45,11 +48,9 @@ public abstract class CommonInterceptor implements Filter {
         try {
             v.validateRequest((HttpServletRequest) req);
             chain.doFilter(req, res);
-        }
-        catch(Exception e) {
+        } catch (Exception e) {
             resolveException(req, res, e);
-        }
-        finally {
+        } finally {
             clearThreadToken();
         }
     }

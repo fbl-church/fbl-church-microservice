@@ -1,3 +1,6 @@
+/**
+ * Copyright of Awana App. All rights reserved.
+ */
 package com.awana.test.factory.abstracts;
 
 import java.lang.reflect.AnnotatedElement;
@@ -16,7 +19,7 @@ import org.springframework.http.ResponseEntity;
 
 import com.awana.app.user.client.domain.User;
 import com.awana.common.annotations.interfaces.ControllerJwt;
-import com.awana.common.jwt.utility.JwtTokenUtil;
+import com.awana.jwt.utility.JwtTokenUtil;
 
 /**
  * Base Test class for controllers performing rest endpoint calls.
@@ -61,10 +64,9 @@ public abstract class BaseControllerTest extends RequestTestUtil {
         ControllerJwt annClass = getJwtControllerAnnotation(info.getTestClass().get());
         ControllerJwt annMethod = getJwtControllerAnnotation(info.getTestMethod().get());
 
-        if(annMethod != null) {
+        if (annMethod != null) {
             setHeaders(annMethod);
-        }
-        else if(annClass != null) {
+        } else if (annClass != null) {
             setHeaders(annClass);
         }
     }

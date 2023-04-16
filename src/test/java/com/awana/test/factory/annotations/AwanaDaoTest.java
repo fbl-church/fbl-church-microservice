@@ -1,3 +1,6 @@
+/**
+ * Copyright of Awana App. All rights reserved.
+ */
 package com.awana.test.factory.annotations;
 
 import java.lang.annotation.Retention;
@@ -16,6 +19,7 @@ import com.awana.test.factory.resolver.ActiveProfileDaoTestResolver;
  * @since July 31, 2021
  */
 @Retention(RetentionPolicy.RUNTIME)
-@SpringBootTest(classes = {DataSourceTestConfiguration.class})
+@SpringBootTest(classes = { DataSourceTestConfiguration.class })
 @ActiveProfiles(resolver = ActiveProfileDaoTestResolver.class)
-public @interface AwanaDaoTest {}
+public @interface AwanaDaoTest {
+}

@@ -1,3 +1,6 @@
+/**
+ * Copyright of Awana App. All rights reserved.
+ */
 package com.awana.gateway.domain.abstracts;
 
 import java.util.Date;
@@ -10,12 +13,12 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
-import com.awana.common.dictionary.enums.Environment;
-import com.awana.common.environment.AppEnvironmentService;
+import com.awana.common.enums.Environment;
 import com.awana.common.exception.JwtTokenException;
-import com.awana.common.jwt.domain.JwtPair;
-import com.awana.common.jwt.utility.JwtHolder;
+import com.awana.environment.AppEnvironmentService;
 import com.awana.gateway.domain.interfaces.BaseRequestValidator;
+import com.awana.jwt.domain.JwtPair;
+import com.awana.jwt.utility.JwtHolder;
 
 /**
  * Common abstract validator for tokens.
@@ -84,10 +87,9 @@ public abstract class CommonTokenValidator implements BaseRequestValidator {
      * @throws JwtTokenException If the token is invalid.
      */
     protected void checkValidToken(String token, boolean prefixCheck) {
-        if(!StringUtils.hasText(token)) {
+        if (!StringUtils.hasText(token)) {
             throw new JwtTokenException("Missing JWT Token.");
-        }
-        else if(prefixCheck && !containsBearerPrefix(token)) {
+        } else if (prefixCheck && !containsBearerPrefix(token)) {
             throw new JwtTokenException("JWT Token does not begin with 'Bearer:'");
         }
     }
@@ -103,7 +105,7 @@ public abstract class CommonTokenValidator implements BaseRequestValidator {
     protected void checkCorrectEnvironment(JwtPair pair) {
         Environment environment = Environment.valueOf(pair.getClaimSet().get("env").toString());
 
-        if(!appEnvironmentService.getEnvironment().equals(environment)) {
+        if (!appEnvironmentService.getEnvironment().equals(environment)) {
             throw new JwtTokenException("JWT token doesn't match accessing environment!");
         }
     }
@@ -116,7 +118,7 @@ public abstract class CommonTokenValidator implements BaseRequestValidator {
      * @throws JwtTokenException If the token is expired.
      */
     protected void checkTokenExpiration(JwtPair pair) {
-        if(pair.getClaimSet().getExpiration().before(new Date())) {
+        if (pair.getClaimSet().getExpiration().before(new Date())) {
             throw new JwtTokenException("JWT Token is expired! Please re-authenticate.");
         }
     }

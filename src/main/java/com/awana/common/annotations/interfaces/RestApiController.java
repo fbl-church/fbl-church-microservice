@@ -1,3 +1,6 @@
+/**
+ * Copyright of Awana App. All rights reserved.
+ */
 package com.awana.common.annotations.interfaces;
 
 import java.lang.annotation.Retention;
@@ -15,4 +18,5 @@ import org.springframework.web.bind.annotation.RestController;
 @Retention(RetentionPolicy.RUNTIME)
 @CrossOrigin
 @RestController
-public @interface RestApiController {}
+public @interface RestApiController {
+}

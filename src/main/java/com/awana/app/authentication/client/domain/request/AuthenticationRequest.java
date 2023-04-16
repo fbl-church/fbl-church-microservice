@@ -1,3 +1,6 @@
+/**
+ * Copyright of Awana App. All rights reserved.
+ */
 package com.awana.app.authentication.client.domain.request;
 
 import java.io.Serializable;
@@ -19,7 +22,8 @@ public class AuthenticationRequest implements Serializable {
     @Schema(description = "The password associated with the email.")
     private String password;
 
-    public AuthenticationRequest() {}
+    public AuthenticationRequest() {
+    }
 
     public AuthenticationRequest(String email, String password) {
         this.email = email;

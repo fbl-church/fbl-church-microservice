@@ -1,8 +1,15 @@
+/**
+ * Copyright of Awana App. All rights reserved.
+ */
 package com.awana.app.user.service;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 import java.util.List;
@@ -15,8 +22,8 @@ import com.awana.app.user.client.domain.User;
 import com.awana.app.user.client.domain.request.UserGetRequest;
 import com.awana.app.user.dao.UserProfileDAO;
 import com.awana.common.exception.NotFoundException;
-import com.awana.common.jwt.utility.JwtHolder;
 import com.awana.common.page.Page;
+import com.awana.jwt.utility.JwtHolder;
 import com.awana.test.factory.annotations.AwanaServiceTest;
 import com.awana.test.factory.data.UserFactoryData;
 

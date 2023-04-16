@@ -5,6 +5,7 @@
   up.email,
   up.phone,
   up.web_role,
+  up.church_group,
   up.insert_date,
   up.last_login_date
 

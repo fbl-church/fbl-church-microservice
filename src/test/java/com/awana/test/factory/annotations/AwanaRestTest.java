@@ -1,3 +1,6 @@
+/**
+ * Copyright of Awana App. All rights reserved.
+ */
 package com.awana.test.factory.annotations;
 
 import java.lang.annotation.Retention;
@@ -18,4 +21,5 @@ import com.awana.test.factory.resolver.ActiveProfileRestTestResolver;
 @Retention(RetentionPolicy.RUNTIME)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @ActiveProfiles(resolver = ActiveProfileRestTestResolver.class)
-public @interface AwanaRestTest {}
+public @interface AwanaRestTest {
+}

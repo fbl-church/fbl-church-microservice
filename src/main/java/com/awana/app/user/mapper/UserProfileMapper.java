@@ -1,10 +1,14 @@
+/**
+ * Copyright of Awana App. All rights reserved.
+ */
 package com.awana.app.user.mapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.awana.app.user.client.domain.User;
-import com.awana.app.user.client.domain.WebRole;
+import com.awana.common.enums.ChurchGroup;
+import com.awana.common.enums.WebRole;
 import com.awana.sql.abstracts.AbstractMapper;
 
 /**
@@ -25,10 +29,12 @@ public class UserProfileMapper extends AbstractMapper<User> {
 		user.setPhone(rs.getString(PHONE));
 		user.setWebRole(WebRole.valueOf(rs.getString(WEB_ROLE)));
 
+		String group = rs.getString(CHURCH_GROUP);
+		user.setGroup(group == null ? null : ChurchGroup.valueOf(group));
+
 		try {
 			user.setPassword(rs.getString(PASSWORD));
-		}
-		catch(Exception e) {
+		} catch (Exception e) {
 			user.setPassword(null);
 		}
 

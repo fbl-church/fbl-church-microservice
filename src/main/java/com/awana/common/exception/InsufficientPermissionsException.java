@@ -1,6 +1,9 @@
+/**
+ * Copyright of Awana App. All rights reserved.
+ */
 package com.awana.common.exception;
 
-import com.awana.app.user.client.domain.WebRole;
+import com.awana.common.enums.WebRole;
 
 /**
  * Exception thrown when user does not have the permissions to access certion
@@ -40,6 +43,6 @@ public class InsufficientPermissionsException extends BaseException {
      */
     public InsufficientPermissionsException(WebRole insufficentWebRole, WebRole changingWebRole, String action) {
         super(String.format("Your role of '%s' can not %s a user of role '%s'", insufficentWebRole, action,
-                            changingWebRole));
+                changingWebRole));
     }
 }

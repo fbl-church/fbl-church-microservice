@@ -1,3 +1,6 @@
+/**
+ * Copyright of Awana App. All rights reserved.
+ */
 package com.awana.gateway.domain.interfaces;
 
 import javax.servlet.http.HttpServletRequest;

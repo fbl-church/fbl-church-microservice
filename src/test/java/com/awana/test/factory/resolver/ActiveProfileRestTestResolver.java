@@ -1,3 +1,6 @@
+/**
+ * Copyright of Awana App. All rights reserved.
+ */
 package com.awana.test.factory.resolver;
 
 import java.util.Map;
@@ -18,6 +21,7 @@ public class ActiveProfileRestTestResolver implements ActiveProfilesResolver {
     @Override
     public String[] resolve(Class<?> testClass) {
         Map<String, String> env = System.getenv();
-        return new String[] {env.containsKey("APP_ENVIRONMENT") ? GlobalsTest.PRODUCTION_TEST : GlobalsTest.LOCAL_TEST};
+        return new String[] {
+                env.containsKey("APP_ENVIRONMENT") ? GlobalsTest.PRODUCTION_TEST : GlobalsTest.LOCAL_TEST };
     }
 }
