@@ -25,12 +25,12 @@ public class UserMapper extends AbstractMapper<User> {
 		user.setFirstName(rs.getString(FIRST_NAME));
 		user.setLastName(rs.getString(LAST_NAME));
 		user.setEmail(rs.getString(EMAIL));
-		user.setPhone(rs.getString(PHONE));
 		user.setWebRole(WebRole.valueOf(rs.getString(WEB_ROLE)));
 
 		try {
 			user.setPassword(rs.getString(PASSWORD));
-		} catch (Exception e) {
+		}
+		catch(Exception e) {
 			user.setPassword(null);
 		}
 

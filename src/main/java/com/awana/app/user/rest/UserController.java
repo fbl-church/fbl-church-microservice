@@ -3,12 +3,14 @@
  */
 package com.awana.app.user.rest;
 
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import static org.springframework.http.MediaType.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,10 +31,10 @@ import io.swagger.v3.oas.annotations.Operation;
 public class UserController {
 
 	@Autowired
-	private UserService userProfileService;
+	private UserService userService;
 
 	@Autowired
-	private ManageUserService manageUserProfileService;
+	private ManageUserService manageUserService;
 
 	/**
 	 * Gets a list of users based of the request filter
@@ -44,7 +46,7 @@ public class UserController {
 	@Operation(summary = "Get a list of users.", description = "Given a User Get Request, it will return a list of users that match the request.")
 	@GetMapping(produces = APPLICATION_JSON_VALUE)
 	public Page<User> getUsers(UserGetRequest request) {
-		return userProfileService.getUsers(request);
+		return userService.getUsers(request);
 	}
 
 	/**
@@ -55,7 +57,7 @@ public class UserController {
 	@Operation(summary = "Gets current user of the session call.", description = "Will return the current user based on the active session jwt holder.")
 	@GetMapping(path = "/current-user", produces = APPLICATION_JSON_VALUE)
 	public User getCurrentUser() {
-		return userProfileService.getCurrentUser();
+		return userService.getCurrentUser();
 	}
 
 	/**
@@ -68,7 +70,21 @@ public class UserController {
 	@GetMapping(path = "/{id}", produces = APPLICATION_JSON_VALUE)
 	@HasAccess(WebRole.ADMIN)
 	public User getUserById(@PathVariable int id) {
-		return userProfileService.getUserById(id);
+		return userService.getUserById(id);
+	}
+
+	/**
+	 * Create a new user. This is an account created by someone other the user
+	 * accessing the account.
+	 * 
+	 * @param user The user object to be created.
+	 * @return The new user that was created.
+	 */
+	@Operation(summary = "Add a new user", description = "Add a new user. Called for someone creating an account for someone else.")
+	@PostMapping(path = "/add-user", produces = APPLICATION_JSON_VALUE)
+	@HasAccess(WebRole.SITE_ADMIN)
+	public User addUser(@RequestBody User user) {
+		return manageUserService.addUser(user);
 	}
 
 	/**
@@ -79,6 +95,6 @@ public class UserController {
 	 */
 	@PutMapping(path = "/{id}/last-login", produces = APPLICATION_JSON_VALUE)
 	public User updateUserLastLoginToNow(@PathVariable int id) {
-		return manageUserProfileService.updateUserLastLoginToNow(id);
+		return manageUserService.updateUserLastLoginToNow(id);
 	}
 }

@@ -38,12 +38,10 @@ public class AuthenticationController {
      *
      * @param authenticationRequest A email and password request.
      * @return a JWT token.
-     * @throws Exception if authentication request does not match a user.
      */
     @Operation(summary = "Authentication for a user", description = "Generates a unique JWT token for an authenticated user.")
     @PostMapping(path = "/authenticate", produces = APPLICATION_JSON_VALUE)
-    public ResponseEntity<AuthToken> authenticateUser(@RequestBody AuthenticationRequest authenticationRequest)
-            throws Exception {
+    public ResponseEntity<AuthToken> authenticateUser(@RequestBody AuthenticationRequest authenticationRequest) {
         return ResponseEntity.ok(service.authenticate(authenticationRequest));
     }
 
@@ -52,11 +50,10 @@ public class AuthenticationController {
      *
      * @param authenticationRequest A email and password request.
      * @return a new JWT token.
-     * @throws Exception If user does not exist.
      */
     @Operation(summary = "Re-authenticate a user", description = "Will re-authenticate a user. An existing token is required.")
     @PostMapping(path = "/reauthenticate", produces = APPLICATION_JSON_VALUE)
-    public ResponseEntity<AuthToken> reauthenticateUser() throws Exception {
+    public ResponseEntity<AuthToken> reauthenticateUser() {
         return ResponseEntity.ok(service.reauthenticate());
     }
 }

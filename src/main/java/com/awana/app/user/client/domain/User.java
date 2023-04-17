@@ -30,9 +30,6 @@ public class User {
 	@Schema(description = "The users email")
 	private String email;
 
-	@Schema(description = "The users phone number")
-	private String phone;
-
 	@Schema(description = "The user web role")
 	private WebRole webRole;
 
@@ -75,14 +72,6 @@ public class User {
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-	public String getPhone() {
-		return phone;
-	}
-
-	public void setPhone(String phone) {
-		this.phone = phone;
 	}
 
 	public WebRole getWebRole() {

@@ -3,7 +3,6 @@
   u.first_name,
   u.last_name,
   u.email,
-  u.phone,
   u.web_role,
   u.insert_date,
   u.last_login_date

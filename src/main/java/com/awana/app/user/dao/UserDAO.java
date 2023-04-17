@@ -3,13 +3,12 @@
  */
 package com.awana.app.user.dao;
 
-import static com.awana.app.user.mapper.UserMapper.USER_MAPPER;
+import static com.awana.app.user.mapper.UserMapper.*;
 
 import java.time.LocalDateTime;
 
 import javax.sql.DataSource;
 
-import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -54,8 +53,7 @@ public class UserDAO extends BaseDao {
 	}
 
 	/**
-	 * This method returns a user object containing type information
-	 * about the user
+	 * This method returns a user object containing type information about the user
 	 * 
 	 * @param id of the user
 	 * @return User object {@link User}
@@ -65,7 +63,8 @@ public class UserDAO extends BaseDao {
 			UserGetRequest request = new UserGetRequest();
 			request.setId(Sets.newHashSet(id));
 			return getUsers(request).getList().get(0);
-		} catch (Exception e) {
+		}
+		catch(Exception e) {
 			throw new NotFoundException("User", id);
 		}
 	}
@@ -75,9 +74,8 @@ public class UserDAO extends BaseDao {
 	 * 
 	 * @param user The user to create.
 	 * @return {@link Integer} auto increment id of the new user.
-	 * @throws Exception
 	 */
-	public int insertUser(User user) throws InvalidDataAccessApiUsageException, Exception {
+	public int insertUser(User user) {
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		MapSqlParameterSource params = SqlParamBuilder.with().withParam(FIRST_NAME, user.getFirstName())
 				.withParam(LAST_NAME, user.getLastName()).withParam(EMAIL, user.getEmail())
@@ -94,9 +92,8 @@ public class UserDAO extends BaseDao {
 	 * @param userId Id of the usre being updated.
 	 * @param user   what information on the user needs to be updated.
 	 * @return user associated to that id with the updated information
-	 * @throws Exception
 	 */
-	public User updateUser(int userId, User user) throws Exception {
+	public User updateUser(int userId, User user) {
 		User foundUser = getUserById(userId);
 		user = mapNonNullUserFields(user, foundUser);
 
@@ -138,14 +135,10 @@ public class UserDAO extends BaseDao {
 	 * @return {@link User} with the replaced fields.
 	 */
 	private User mapNonNullUserFields(User destination, User source) {
-		if (destination.getFirstName() == null)
-			destination.setFirstName(source.getFirstName());
-		if (destination.getLastName() == null)
-			destination.setLastName(source.getLastName());
-		if (destination.getEmail() == null)
-			destination.setEmail(source.getEmail());
-		if (destination.getWebRole() == null)
-			destination.setWebRole(source.getWebRole());
+		if(destination.getFirstName() == null) destination.setFirstName(source.getFirstName());
+		if(destination.getLastName() == null) destination.setLastName(source.getLastName());
+		if(destination.getEmail() == null) destination.setEmail(source.getEmail());
+		if(destination.getWebRole() == null) destination.setWebRole(source.getWebRole());
 		return destination;
 	}
 }

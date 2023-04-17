@@ -26,8 +26,7 @@ public class Page<T> {
     @Schema(description = "The list of generic objects.")
     private List<T> list;
 
-    public Page() {
-    }
+    public Page() {}
 
     public Page(long totalCount, List<T> list) {
         this.totalCount = totalCount;

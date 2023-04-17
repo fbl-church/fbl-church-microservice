@@ -35,7 +35,7 @@ public class SubscriptionConfig implements WebSocketMessageBrokerConfigurer {
     private JwtHolder jwtHolder;
 
     @Bean
-    public TaskScheduler taskScheduler() {
+    TaskScheduler taskScheduler() {
         ThreadPoolTaskScheduler ts = new ThreadPoolTaskScheduler();
         ts.setPoolSize(10);
         ts.initialize();
@@ -45,8 +45,7 @@ public class SubscriptionConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
         config.setUserDestinationPrefix("/user").enableSimpleBroker("/queue", "/topic", "/user")
-                .setTaskScheduler(taskScheduler())
-                .setHeartbeatValue(new long[] { DEFAULT_HEARTBEAT, DEFAULT_HEARTBEAT });
+                .setTaskScheduler(taskScheduler()).setHeartbeatValue(new long[] {DEFAULT_HEARTBEAT, DEFAULT_HEARTBEAT});
     }
 
     @Override

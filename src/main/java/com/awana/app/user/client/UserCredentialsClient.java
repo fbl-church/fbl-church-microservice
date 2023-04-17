@@ -3,6 +3,9 @@
  */
 package com.awana.app.user.client;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.awana.app.user.service.UserCredentialsService;
 import com.awana.common.annotations.interfaces.Client;
 
 /**
@@ -15,4 +18,18 @@ import com.awana.common.annotations.interfaces.Client;
 @Client
 public class UserCredentialsClient {
 
+    @Autowired
+    private UserCredentialsService service;
+
+    /**
+     * This will be called when new users are created so that they have default
+     * passwords. This will only be called when someone else is creating a user
+     * account for someone.
+     * 
+     * @param userId The id to add the password for.
+     * @param pass   Contains the hashed password.
+     */
+    public void insertUserPassword(int userId, String pass) {
+        service.insertUserPassword(userId, pass);
+    }
 }

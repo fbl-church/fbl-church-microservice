@@ -28,7 +28,7 @@ info:
   name: First Baptist Awana REST Api
   license:
     type: MIT License
-    url: https://github.com/sambutler1017/fb-awana-microservice/blob/master/LICENSE.md
+    url: https://github.com/fbl-awana/fb-awana-microservice/blob/master/LICENSE
   version: Snapshot
   contact:
     name: Sam Butler

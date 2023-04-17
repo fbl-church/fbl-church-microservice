@@ -46,7 +46,7 @@ public class SwaggerConfiguration {
     private String licenseUrl;
 
     @Bean
-    public OpenAPI openAPI() {
+    OpenAPI openAPI() {
         return new OpenAPI().info(new Info().title(name).version(version).description(description)
                 .contact(new Contact().name(contactName).url(contactUrl).email(contactEmail))
                 .license(new License().name(licenseType).url(licenseUrl)));

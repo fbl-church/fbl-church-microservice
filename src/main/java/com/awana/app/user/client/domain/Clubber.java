@@ -3,6 +3,8 @@
  */
 package com.awana.app.user.client.domain;
 
+import java.time.LocalDate;
+
 import com.awana.common.enums.ChurchGroup;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -32,7 +34,7 @@ public class Clubber {
     private String allergies;
 
     @Schema(description = "Clubbers Birthday")
-    private String birthday;
+    private LocalDate birthday;
 
     @Schema(description = "Any additional information about the clubber")
     private String additionalInfo;
@@ -80,11 +82,11 @@ public class Clubber {
         this.allergies = allergies;
     }
 
-    public String getBirthday() {
+    public LocalDate getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(String birthday) {
+    public void setBirthday(LocalDate birthday) {
         this.birthday = birthday;
     }
 

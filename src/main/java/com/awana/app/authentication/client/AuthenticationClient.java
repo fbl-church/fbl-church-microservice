@@ -4,7 +4,6 @@
 package com.awana.app.authentication.client;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 
 import com.awana.app.authentication.client.domain.AuthToken;
 import com.awana.app.authentication.client.domain.request.AuthenticationRequest;
@@ -20,7 +19,6 @@ import com.awana.common.annotations.interfaces.Client;
 @Client
 public class AuthenticationClient {
 
-    @Lazy
     @Autowired
     private AuthenticationService service;
 
@@ -30,9 +28,8 @@ public class AuthenticationClient {
      * @param email    Entered email at login.
      * @param password Password entered at login.
      * @return {@link AuthToken} with the jwt auth.
-     * @throws Exception
      */
-    public AuthToken authenticate(String email, String password) throws Exception {
+    public AuthToken authenticate(String email, String password) {
         return service.authenticate(new AuthenticationRequest(email, password));
     }
 }

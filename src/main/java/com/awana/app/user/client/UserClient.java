@@ -6,11 +6,11 @@ package com.awana.app.user.client;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import com.awana.app.user.client.domain.User;
 import com.awana.app.user.client.domain.request.UserGetRequest;
-import com.awana.app.user.rest.UserController;
+import com.awana.app.user.service.ManageUserService;
+import com.awana.app.user.service.UserService;
 import com.awana.common.annotations.interfaces.Client;
 
 /**
@@ -24,7 +24,10 @@ import com.awana.common.annotations.interfaces.Client;
 public class UserClient {
 
 	@Autowired
-	private UserController controller;
+	private UserService userService;
+
+	@Autowired
+	private ManageUserService manageUserService;
 
 	/**
 	 * Get users based on given request filter.
@@ -33,17 +36,16 @@ public class UserClient {
 	 * @return User profile object {@link User}
 	 */
 	public List<User> getUsers(UserGetRequest request) {
-		return controller.getUsers(request).getList();
+		return userService.getUsers(request).getList();
 	}
 
 	/**
 	 * Gets the current logged in user information.
 	 * 
 	 * @return The user currently logged in.
-	 * @throws Exception
 	 */
-	public User getCurrentUser() throws Exception {
-		return controller.getCurrentUser();
+	public User getCurrentUser() {
+		return userService.getCurrentUser();
 	}
 
 	/**
@@ -53,7 +55,7 @@ public class UserClient {
 	 * @return User profile object
 	 */
 	public User getUserById(int id) {
-		return controller.getUserById(id);
+		return userService.getUserById(id);
 	}
 
 	/**
@@ -62,7 +64,7 @@ public class UserClient {
 	 * @param userId The user Id to be updated.
 	 * @return The user object with the updated information.
 	 */
-	public User updateUserLastLoginToNow(@PathVariable int id) {
-		return controller.updateUserLastLoginToNow(id);
+	public User updateUserLastLoginToNow(int id) {
+		return manageUserService.updateUserLastLoginToNow(id);
 	}
 }
