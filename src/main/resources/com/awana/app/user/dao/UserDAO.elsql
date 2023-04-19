@@ -54,3 +54,6 @@
   UPDATE users 
   SET last_login_date = :last_login_date
   WHERE id = :id
+
+@NAME(search)
+  (@VALUE(:searchContent))

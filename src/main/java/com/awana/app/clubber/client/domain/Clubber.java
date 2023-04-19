@@ -1,10 +1,15 @@
 /**
  * Copyright of Awana App. All rights reserved.
  */
-package com.awana.app.user.client.domain;
+package com.awana.app.clubber.client.domain;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
+import com.awana.app.user.client.domain.Parent;
 import com.awana.common.enums.ChurchGroup;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -22,13 +27,16 @@ public class Clubber {
     private int id;
 
     @Schema(description = "First name of the clubber")
+    @NotBlank
     private String firstName;
 
     @Schema(description = "Last name of the clubber")
+    @NotBlank
     private String lastName;
 
     @Schema(description = "The user church group")
-    private ChurchGroup group;
+    @NotNull
+    private ChurchGroup churchGroup;
 
     @Schema(description = "Clubbers Allergies, can be null")
     private String allergies;
@@ -41,6 +49,9 @@ public class Clubber {
 
     @Schema(description = "Clubbers parent/guardian")
     private Parent parent;
+
+    @Schema(description = "When the clubber was created.")
+    private LocalDateTime insertDate;
 
     public int getId() {
         return id;
@@ -66,12 +77,12 @@ public class Clubber {
         this.lastName = lastName;
     }
 
-    public ChurchGroup getGroup() {
-        return group;
+    public ChurchGroup getChurchGroup() {
+        return churchGroup;
     }
 
-    public void setGroup(ChurchGroup group) {
-        this.group = group;
+    public void setChurchGroup(ChurchGroup churchGroup) {
+        this.churchGroup = churchGroup;
     }
 
     public String getAllergies() {
@@ -104,5 +115,13 @@ public class Clubber {
 
     public void setParent(Parent parent) {
         this.parent = parent;
+    }
+
+    public LocalDateTime getInsertDate() {
+        return insertDate;
+    }
+
+    public void setInsertDate(LocalDateTime insertDate) {
+        this.insertDate = insertDate;
     }
 }

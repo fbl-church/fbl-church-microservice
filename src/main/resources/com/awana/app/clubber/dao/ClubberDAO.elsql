@@ -1,0 +1,43 @@
+@NAME(clubberFields)
+  c.id,
+  c.first_name,
+  c.last_name,
+  c.birthday,
+  c.allergies,
+  c.additional_info,
+  c.church_group,
+  c.insert_date
+
+@NAME(clubberFilters)
+  @WHERE
+    @AND(:id)
+      c.id IN (:id)
+    @AND(:first_name)
+      c.first_name IN (:first_name)
+    @AND(:last_name)
+      c.last_name IN (:last_name)
+    @AND(:church_group)
+      c.church_group IN (:church_group)
+    @AND(:searchEnabled = true)
+      @INCLUDE(search)
+
+@NAME(getClubbersBase)
+  FROM clubbers c
+  @INCLUDE(clubberFilters)
+
+@NAME(getClubbersPage)
+  @PAGING(:rowOffset, :pageSize)
+    SELECT @INCLUDE(clubberFields) 
+    @INCLUDE(getClubbersBase)
+    ORDER BY c.last_name ASC
+
+@NAME(getClubbersPageTotalCount)
+  SELECT COUNT(*)
+  @INCLUDE(getClubbersBase)
+
+@NAME(insertClubber)
+  INSERT INTO clubbers (first_name, last_name, church_group, birthday, allergies, additional_info)
+  VALUES (:first_name, :last_name, :church_group, :birthday, :allergies, :additional_info)
+
+@NAME(search)
+  (@VALUE(:searchContent))

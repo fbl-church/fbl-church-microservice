@@ -25,4 +25,7 @@ public abstract class AbstractSqlGlobals {
     public static final String UPDATE = "update";
     public static final String DELETE = "delete";
     public static final String NAME = "name";
+    public static final String ADDITIONAL_INFO = "additional_info";
+    public static final String ALLERGIES = "allergies";
+    public static final String BIRTHDAY = "birthday";
 }

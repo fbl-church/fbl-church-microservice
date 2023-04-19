@@ -44,7 +44,7 @@ public class UserDAO extends BaseDao {
 	 * @throws Exception
 	 */
 	public Page<User> getUsers(UserGetRequest request) {
-		MapSqlParameterSource params = SqlParamBuilder.with().withParam(ID, request.getId())
+		MapSqlParameterSource params = SqlParamBuilder.with(request).useAllParams().withParam(ID, request.getId())
 				.withParam(EMAIL, request.getEmail()).withParam(FIRST_NAME, request.getFirstName())
 				.withParam(LAST_NAME, request.getLastName()).withParamTextEnumCollection(WEB_ROLE, request.getWebRole())
 				.build();
@@ -63,8 +63,7 @@ public class UserDAO extends BaseDao {
 			UserGetRequest request = new UserGetRequest();
 			request.setId(Sets.newHashSet(id));
 			return getUsers(request).getList().get(0);
-		}
-		catch(Exception e) {
+		}catch(Exception e) {
 			throw new NotFoundException("User", id);
 		}
 	}

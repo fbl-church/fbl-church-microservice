@@ -1,13 +1,13 @@
 /**
  * Copyright of Awana App. All rights reserved.
  */
-package com.awana.app.user.client.domain.request;
+package com.awana.app.clubber.client.domain.request;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
-import com.awana.common.enums.WebRole;
+import com.awana.common.enums.ChurchGroup;
 import com.awana.common.page.domain.PageParam;
 import com.awana.common.search.SearchField;
 import com.awana.common.search.SearchFieldParams;
@@ -23,7 +23,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
  * @since September 9, 2021
  */
 @Schema(description = "User get request object for filtering users.")
-public class UserGetRequest implements SearchParam, PageParam, SearchFieldParams<UserSearchFields> {
+public class ClubberGetRequest implements SearchParam, PageParam, SearchFieldParams<ClubberSearchFields> {
 
     @Schema(description = "List of user ids.")
     private Set<Integer> id;
@@ -34,11 +34,8 @@ public class UserGetRequest implements SearchParam, PageParam, SearchFieldParams
     @Schema(description = "List of user last names.")
     private Set<String> lastName;
 
-    @Schema(description = "List of emails.")
-    private Set<String> email;
-
     @Schema(description = "List of user web roles.", allowableValues = "USER,ADMIN")
-    private Set<WebRole> webRole;
+    private Set<ChurchGroup> churchGroup;
 
     @Schema(description = "Search Param on search param fields.")
     private String search;
@@ -73,20 +70,12 @@ public class UserGetRequest implements SearchParam, PageParam, SearchFieldParams
         this.lastName = lastName;
     }
 
-    public Set<String> getEmail() {
-        return email;
+    public Set<ChurchGroup> getChurchGroup() {
+        return churchGroup;
     }
 
-    public void setEmail(Set<String> email) {
-        this.email = email;
-    }
-
-    public Set<WebRole> getWebRole() {
-        return webRole;
-    }
-
-    public void setWebRole(Set<WebRole> webRole) {
-        this.webRole = webRole;
+    public void setChurchGroup(Set<ChurchGroup> churchGroup) {
+        this.churchGroup = churchGroup;
     }
 
     public String getSearch() {
@@ -116,6 +105,6 @@ public class UserGetRequest implements SearchParam, PageParam, SearchFieldParams
     @JsonIgnore
     @Override
     public List<SearchField> getSearchFields() {
-        return Arrays.asList(UserSearchFields.values());
+        return Arrays.asList(ClubberSearchFields.values());
     }
 }
