@@ -26,7 +26,7 @@
   @PAGING(:rowOffset, :pageSize)
     SELECT @INCLUDE(userFields) 
     @INCLUDE(getUsersBase)
-    ORDER BY u.last_name ASC
+    ORDER BY u.last_name ASC, u.first_name ASC
 
 @NAME(getUsersPageTotalCount)
   SELECT COUNT(*)
