@@ -7,6 +7,11 @@
   u.insert_date,
   u.last_login_date
 
+@NAME(userStatusFields)
+  us.app_access, 
+  us.account_status, 
+  us.updated_user_id
+
 @NAME(userFilters)
   @WHERE
     @AND(:id)
@@ -20,11 +25,12 @@
 
 @NAME(getUsersBase)
   FROM users u
+  INNER JOIN user_status us ON u.id = us.user_id
   @INCLUDE(userFilters)
 
 @NAME(getUsersPage)
   @PAGING(:rowOffset, :pageSize)
-    SELECT @INCLUDE(userFields) 
+    SELECT @INCLUDE(userFields), @INCLUDE(userStatusFields)
     @INCLUDE(getUsersBase)
     ORDER BY u.last_name ASC, u.first_name ASC
 

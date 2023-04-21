@@ -4,7 +4,7 @@
 package com.awana.app.user.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import com.awana.app.user.client.domain.User;
 import com.awana.app.user.client.domain.request.UserGetRequest;
@@ -18,7 +18,7 @@ import com.awana.jwt.utility.JwtHolder;
  * @author Sam Butler
  * @since June 25, 2020
  */
-@Service
+@Component
 public class UserService {
 
 	@Autowired

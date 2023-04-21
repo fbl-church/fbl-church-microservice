@@ -6,7 +6,6 @@ package com.awana.app.user.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.awana.app.user.dao.UserCredentialsDAO;
 
@@ -20,7 +19,6 @@ import io.jsonwebtoken.lang.Assert;
  * @since June 25, 2020
  */
 @Service
-@Transactional
 public class UserCredentialsService {
 
     @Autowired

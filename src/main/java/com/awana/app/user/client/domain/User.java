@@ -5,6 +5,10 @@ package com.awana.app.user.client.domain;
 
 import java.time.LocalDateTime;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
+import com.awana.common.enums.AccountStatus;
 import com.awana.common.enums.WebRole;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -22,18 +26,29 @@ public class User {
 	private int id;
 
 	@Schema(description = "First name of the user.")
+	@NotBlank(message = "Invalid firstName: Can not be empty or null")
 	private String firstName;
 
 	@Schema(description = "Last name of the user.")
+	@NotBlank(message = "Invalid lastName: Can not be empty or null")
 	private String lastName;
 
 	@Schema(description = "The users email")
+	@NotBlank(message = "Invalid Email: Can not be empty or null")
 	private String email;
 
 	@Schema(description = "The user web role")
+	@NotNull(message = "Invalid webRole: Can not be null")
 	private WebRole webRole;
 
+	@Schema(description = "The access of the user to the website.")
+	private Boolean appAccess;
+
+	@Schema(description = "The user account status.")
+	private AccountStatus accountStatus;
+
 	@Schema(description = "The users password (hashed).")
+	@NotBlank(message = "Invalid password: Can not be empty or null")
 	private String password;
 
 	@Schema(description = "The date the user has last authenticated.")
@@ -80,6 +95,22 @@ public class User {
 
 	public void setWebRole(WebRole webRole) {
 		this.webRole = webRole;
+	}
+
+	public Boolean getAppAccess() {
+		return appAccess;
+	}
+
+	public void setAppAccess(Boolean appAccess) {
+		this.appAccess = appAccess;
+	}
+
+	public AccountStatus getAccountStatus() {
+		return accountStatus;
+	}
+
+	public void setAccountStatus(AccountStatus accountStatus) {
+		this.accountStatus = accountStatus;
 	}
 
 	public void setPassword(String password) {

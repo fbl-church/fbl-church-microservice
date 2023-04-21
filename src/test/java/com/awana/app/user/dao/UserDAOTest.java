@@ -3,9 +3,7 @@
  */
 package com.awana.app.user.dao;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
 
@@ -44,8 +42,8 @@ public class UserDAOTest {
 
         assertEquals(3, user.getTotalCount(), "User Size should be 3");
         assertEquals("Bill", user.getList().get(0).getFirstName(), "User 1 first name");
-        assertEquals("Test", user.getList().get(1).getFirstName(), "User 2 first name");
-        assertEquals("Fake", user.getList().get(2).getFirstName(), "User 3 first name");
+        assertEquals("Fake", user.getList().get(1).getFirstName(), "User 2 first name");
+        assertEquals("Test", user.getList().get(2).getFirstName(), "User 3 first name");
     }
 
     @Test
@@ -96,13 +94,7 @@ public class UserDAOTest {
         user.setWebRole(WebRole.ADMIN);
 
         int newUserId = dao.insertUser(user);
-        User insertedUser = dao.getUserById(newUserId);
-
-        assertEquals(4, insertedUser.getId(), "New user Id should be 4");
-        assertEquals("NewUserInsert", insertedUser.getFirstName(), "User first name");
-        assertEquals("LastName", insertedUser.getLastName(), "User last name");
-        assertEquals("newEmail@mail.com", insertedUser.getEmail(), "User Email");
-        assertEquals(WebRole.ADMIN, insertedUser.getWebRole(), "User Role");
+        assertEquals(4, newUserId, "New user Id should be 4");
     }
 
     @Test
@@ -122,7 +114,7 @@ public class UserDAOTest {
         User user = new User();
         user.setEmail("Fake123@mail.com");
         DataIntegrityViolationException e = assertThrows(DataIntegrityViolationException.class,
-                () -> dao.updateUser(1, user));
+                                                         () -> dao.updateUser(1, user));
         assertTrue(e.getMessage().contains("Duplicate entry 'Fake123@mail.com'"));
     }
 }

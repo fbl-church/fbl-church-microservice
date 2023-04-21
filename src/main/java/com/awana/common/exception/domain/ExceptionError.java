@@ -4,8 +4,11 @@
 package com.awana.common.exception.domain;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.http.HttpStatus;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * Custom exception object to be returned when endpoints have errors.
@@ -13,38 +16,39 @@ import org.springframework.http.HttpStatus;
  * @author Sam Butler
  * @since August 24, 2021
  */
+@Schema(description = "Exception Error object for managing exceptions")
 public class ExceptionError {
-    private Date timestamp;
 
-    private int status;
-
-    private String error;
-
+    @Schema(description = "Exception Message")
     private String message;
 
-    private String path;
+    @Schema(description = "The Http Status of the exception")
+    private int status;
 
-    public ExceptionError() {
-    }
+    @Schema(description = "List of errors associated to the exception")
+    private List<String> errors;
+
+    @Schema(description = "When the exception Occured")
+    private Date timestamp;
+
+    public ExceptionError() {}
 
     public ExceptionError(String message) {
         this.status = HttpStatus.BAD_REQUEST.value();
-        this.error = HttpStatus.BAD_REQUEST.getReasonPhrase();
         this.timestamp = new Date();
         this.message = message;
     }
 
     public ExceptionError(String message, HttpStatus status) {
         this.status = status.value();
-        this.error = status.getReasonPhrase();
         this.timestamp = new Date();
         this.message = message;
     }
 
-    public ExceptionError(Date timestamp, HttpStatus status, String error, String message) {
+    public ExceptionError(String message, HttpStatus status, List<String> errors, Date timestamp) {
         this.timestamp = timestamp;
         this.status = status.value();
-        this.error = error;
+        this.errors = errors;
         this.message = message;
     }
 
@@ -64,12 +68,12 @@ public class ExceptionError {
         this.status = status;
     }
 
-    public String getError() {
-        return error;
+    public List<String> getErrors() {
+        return errors;
     }
 
-    public void setError(String error) {
-        this.error = error;
+    public void setErrors(List<String> error) {
+        this.errors = error;
     }
 
     public String getMessage() {
@@ -78,13 +82,5 @@ public class ExceptionError {
 
     public void setMessage(String message) {
         this.message = message;
-    }
-
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
     }
 }

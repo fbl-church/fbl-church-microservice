@@ -5,6 +5,8 @@ package com.awana.app.user.rest;
 
 import static org.springframework.http.MediaType.*;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -81,10 +83,23 @@ public class UserController {
 	 * @return The new user that was created.
 	 */
 	@Operation(summary = "Add a new user", description = "Add a new user. Called for someone creating an account for someone else.")
-	@PostMapping(path = "/add-user", produces = APPLICATION_JSON_VALUE)
+	@PostMapping(path = "/create", produces = APPLICATION_JSON_VALUE)
 	@HasAccess(WebRole.SITE_ADMIN)
-	public User addUser(@RequestBody User user) {
-		return manageUserService.addUser(user);
+	public User createUser(@RequestBody @Valid User user) {
+		return manageUserService.createUser(user);
+	}
+
+	/**
+	 * Register a new user account. Gets called when a user is creating an account
+	 * for themselves.
+	 * 
+	 * @param user The user object to be created.
+	 * @return The new user that was created.
+	 */
+	@Operation(summary = "Register user", description = "Registering a user will create an account for the requesting user.")
+	@PostMapping(path = "/register", produces = APPLICATION_JSON_VALUE)
+	public User registerUser(@RequestBody @Valid User user) {
+		return manageUserService.registerUser(user);
 	}
 
 	/**

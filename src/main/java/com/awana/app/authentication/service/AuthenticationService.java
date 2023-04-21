@@ -8,7 +8,6 @@ import java.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.awana.app.authentication.client.domain.AuthToken;
 import com.awana.app.authentication.client.domain.request.AuthenticationRequest;
@@ -31,7 +30,6 @@ import com.google.common.collect.Sets;
  * @author Sam Butler
  * @since August 2, 2021
  */
-@Transactional
 @Service
 public class AuthenticationService {
     @Autowired
@@ -57,7 +55,7 @@ public class AuthenticationService {
 
         String token = jwtTokenUtil.generateToken(user);
         return new AuthToken(token, LocalDateTime.now(TimeZoneUtil.SYSTEM_ZONE),
-                jwtTokenUtil.getExpirationDateFromToken(token), user);
+                             jwtTokenUtil.getExpirationDateFromToken(token), user);
     }
 
     /**
@@ -72,7 +70,7 @@ public class AuthenticationService {
 
         String token = jwtTokenUtil.generateToken(u);
         return new AuthToken(token, LocalDateTime.now(TimeZoneUtil.SYSTEM_ZONE),
-                jwtTokenUtil.getExpirationDateFromToken(token), u);
+                             jwtTokenUtil.getExpirationDateFromToken(token), u);
     }
 
     /**
@@ -85,10 +83,10 @@ public class AuthenticationService {
         String hashedPassword = dao.getUserAuthPassword(email).orElseThrow(() -> new UserNotFoundException(String
                 .format("User not found or does not have access for email: '%s'", email)));
 
-        if (BCrypt.checkpw(password, hashedPassword)) {
+        if(BCrypt.checkpw(password, hashedPassword)) {
             User authUser = getAuthenticatedUser(email);
             return userClient.updateUserLastLoginToNow(authUser.getId());
-        } else {
+        }else {
             throw new InvalidCredentialsException(email);
         }
     }

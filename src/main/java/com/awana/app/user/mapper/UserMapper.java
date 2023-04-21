@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.awana.app.user.client.domain.User;
+import com.awana.common.enums.AccountStatus;
 import com.awana.common.enums.WebRole;
 import com.awana.sql.abstracts.AbstractMapper;
 
@@ -26,11 +27,12 @@ public class UserMapper extends AbstractMapper<User> {
 		user.setLastName(rs.getString(LAST_NAME));
 		user.setEmail(rs.getString(EMAIL));
 		user.setWebRole(WebRole.valueOf(rs.getString(WEB_ROLE)));
+		user.setAccountStatus(AccountStatus.valueOf(rs.getString(ACCOUNT_STATUS)));
+		user.setAppAccess(rs.getBoolean(APP_ACCESS));
 
 		try {
 			user.setPassword(rs.getString(PASSWORD));
-		}
-		catch(Exception e) {
+		}catch(Exception e) {
 			user.setPassword(null);
 		}
 
