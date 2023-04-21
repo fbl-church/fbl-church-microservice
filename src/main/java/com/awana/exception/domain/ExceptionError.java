@@ -4,7 +4,6 @@
 package com.awana.exception.domain;
 
 import java.util.Date;
-import java.util.List;
 
 import org.springframework.http.HttpStatus;
 
@@ -26,7 +25,7 @@ public class ExceptionError {
     private int status;
 
     @Schema(description = "List of errors associated to the exception")
-    private List<String> errors;
+    private String error;
 
     @Schema(description = "When the exception Occured")
     private Date timestamp;
@@ -36,19 +35,21 @@ public class ExceptionError {
     public ExceptionError(String message) {
         this.status = HttpStatus.BAD_REQUEST.value();
         this.timestamp = new Date();
+        this.error = HttpStatus.BAD_REQUEST.getReasonPhrase();
         this.message = message;
     }
 
     public ExceptionError(String message, HttpStatus status) {
         this.status = status.value();
         this.timestamp = new Date();
+        this.error = status.getReasonPhrase();
         this.message = message;
     }
 
-    public ExceptionError(String message, HttpStatus status, List<String> errors, Date timestamp) {
+    public ExceptionError(String message, HttpStatus status, String error, Date timestamp) {
         this.timestamp = timestamp;
         this.status = status.value();
-        this.errors = errors;
+        this.error = error;
         this.message = message;
     }
 
@@ -68,12 +69,12 @@ public class ExceptionError {
         this.status = status;
     }
 
-    public List<String> getErrors() {
-        return errors;
+    public String getErrors() {
+        return error;
     }
 
-    public void setErrors(List<String> error) {
-        this.errors = error;
+    public void setErrors(String error) {
+        this.error = error;
     }
 
     public String getMessage() {

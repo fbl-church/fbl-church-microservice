@@ -24,6 +24,7 @@ import com.awana.exception.types.InsufficientPermissionsException;
 import com.awana.exception.types.InvalidCredentialsException;
 import com.awana.exception.types.JwtTokenException;
 import com.awana.exception.types.NotFoundException;
+import com.awana.exception.types.UserNotFoundException;
 
 /**
  * Exception Helper class for returning response entitys of the errored objects.
@@ -42,11 +43,11 @@ public class AwanaExceptionHandlerController {
         return new ExceptionError(ex.getMessage(), HttpStatus.UNAUTHORIZED);
     }
 
-    @ExceptionHandler(NotFoundException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler({NotFoundException.class, UserNotFoundException.class})
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     public ExceptionError handleNotFoundException(Exception ex) {
         LOGGER.error(ex.getMessage());
-        return new ExceptionError(ex.getMessage(), HttpStatus.BAD_REQUEST);
+        return new ExceptionError(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
