@@ -11,7 +11,7 @@ import com.awana.app.user.client.domain.User;
 import com.awana.app.user.client.domain.UserStatus;
 import com.awana.app.user.dao.UserDAO;
 import com.awana.common.enums.AccountStatus;
-import com.awana.common.exception.InsufficientPermissionsException;
+import com.awana.exception.types.InsufficientPermissionsException;
 import com.awana.jwt.utility.JwtHolder;
 
 /**

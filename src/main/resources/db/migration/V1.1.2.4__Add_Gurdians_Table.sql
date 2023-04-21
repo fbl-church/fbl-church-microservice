@@ -10,15 +10,16 @@
 -- AWANA-2: START
 -- ---------------------------------------------------------------------------------
 
-CREATE TABLE parents (
+CREATE TABLE gurdians (
   clubber_id INT unsigned NOT NULL,
   name       VARCHAR(128) NOT NULL,
+  relation   VARCHAR(128) NOT NULL  DEFAULT 'OTHER'
   email      VARCHAR(128)           DEFAULT NULL,
   phone      VARCHAR(128) NOT NULL,
   address    VARCHAR(128)           DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-ALTER TABLE parents ADD CONSTRAINT clubbers__parents__FK1 
+ALTER TABLE gurdians ADD CONSTRAINT clubbers__gurdians__FK1 
   FOREIGN KEY (clubber_id) REFERENCES clubbers (id) 
     ON DELETE CASCADE
     ON UPDATE CASCADE;

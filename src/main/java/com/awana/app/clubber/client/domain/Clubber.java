@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-import com.awana.app.user.client.domain.Parent;
+import com.awana.app.user.client.domain.Gurdian;
 import com.awana.common.enums.ChurchGroup;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -27,15 +27,15 @@ public class Clubber {
     private int id;
 
     @Schema(description = "First name of the clubber")
-    @NotBlank
+    @NotBlank(message = "Invalid firstName: Can not be empty or null")
     private String firstName;
 
     @Schema(description = "Last name of the clubber")
-    @NotBlank
+    @NotBlank(message = "Invalid lastName: Can not be empty or null")
     private String lastName;
 
     @Schema(description = "The user church group")
-    @NotNull
+    @NotNull(message = "Invalid churchGroup: Can not be null")
     private ChurchGroup churchGroup;
 
     @Schema(description = "Clubbers Allergies, can be null")
@@ -47,8 +47,9 @@ public class Clubber {
     @Schema(description = "Any additional information about the clubber")
     private String additionalInfo;
 
-    @Schema(description = "Clubbers parent/guardian")
-    private Parent parent;
+    @Schema(description = "Clubbers guardian")
+    @NotNull(message = "Invalid gurdian: Clubber must be associated to at least one gurdian.")
+    private Gurdian gurdian;
 
     @Schema(description = "When the clubber was created.")
     private LocalDateTime insertDate;
@@ -109,12 +110,12 @@ public class Clubber {
         this.additionalInfo = additionalInfo;
     }
 
-    public Parent getParent() {
-        return parent;
+    public Gurdian getParent() {
+        return gurdian;
     }
 
-    public void setParent(Parent parent) {
-        this.parent = parent;
+    public void setParent(Gurdian gurdian) {
+        this.gurdian = gurdian;
     }
 
     public LocalDateTime getInsertDate() {

@@ -1,7 +1,7 @@
 /**
  * Copyright of Awana App. All rights reserved.
  */
-package com.awana.common.exception.controller;
+package com.awana.exception.controller;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -15,13 +15,15 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.awana.common.exception.BaseException;
-import com.awana.common.exception.InsufficientPermissionsException;
-import com.awana.common.exception.InvalidCredentialsException;
-import com.awana.common.exception.InvalidSystemCredentials;
-import com.awana.common.exception.JwtTokenException;
-import com.awana.common.exception.NotFoundException;
-import com.awana.common.exception.domain.ExceptionError;
+import com.awana.common.enums.ErrorCode;
+import com.awana.exception.domain.DataValidationExceptionError;
+import com.awana.exception.domain.ExceptionError;
+import com.awana.exception.domain.FieldValidationError;
+import com.awana.exception.types.BaseException;
+import com.awana.exception.types.InsufficientPermissionsException;
+import com.awana.exception.types.InvalidCredentialsException;
+import com.awana.exception.types.JwtTokenException;
+import com.awana.exception.types.NotFoundException;
 
 /**
  * Exception Helper class for returning response entitys of the errored objects.
@@ -40,13 +42,6 @@ public class AwanaExceptionHandlerController {
         return new ExceptionError(ex.getMessage(), HttpStatus.UNAUTHORIZED);
     }
 
-    @ExceptionHandler(InvalidSystemCredentials.class)
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    public ExceptionError handleInvalidSystemCredentials(Exception ex) {
-        LOGGER.error(ex.getMessage());
-        return new ExceptionError(ex.getMessage(), HttpStatus.UNAUTHORIZED);
-    }
-
     @ExceptionHandler(NotFoundException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ExceptionError handleNotFoundException(Exception ex) {
@@ -56,10 +51,12 @@ public class AwanaExceptionHandlerController {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ExceptionError handleValidationErrors(MethodArgumentNotValidException ex) {
-        List<String> errors = ex.getBindingResult().getFieldErrors().stream().map(FieldError::getDefaultMessage)
+    public DataValidationExceptionError handleValidationErrors(MethodArgumentNotValidException ex) {
+        List<FieldValidationError> errors = ex.getBindingResult().getFieldErrors().stream().map(this::convertFieldError)
                 .collect(Collectors.toList());
-        return new ExceptionError("Validation Error", HttpStatus.BAD_REQUEST, errors, null);
+        LOGGER.error("Field Validation Errors: {}",
+                     errors.stream().map(e -> e.getField()).collect(Collectors.joining(",")));
+        return new DataValidationExceptionError("Validation Error", HttpStatus.BAD_REQUEST, errors, null);
     }
 
     @ExceptionHandler(JwtTokenException.class)
@@ -88,5 +85,9 @@ public class AwanaExceptionHandlerController {
     public ExceptionError handleException(Exception ex) {
         LOGGER.error(ex.getMessage());
         return new ExceptionError(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    private FieldValidationError convertFieldError(FieldError e) {
+        return new FieldValidationError(ErrorCode.INVALID, e.getField(), e.getRejectedValue(), e.getDefaultMessage());
     }
 }

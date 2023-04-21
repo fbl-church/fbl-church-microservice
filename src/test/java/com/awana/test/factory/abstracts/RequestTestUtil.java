@@ -3,16 +3,15 @@
  */
 package com.awana.test.factory.abstracts;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.function.Consumer;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import com.awana.common.exception.domain.ExceptionError;
 import com.awana.common.page.Page;
+import com.awana.exception.domain.ExceptionError;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**

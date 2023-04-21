@@ -3,13 +3,9 @@
  */
 package com.awana.app.user.service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -21,8 +17,8 @@ import org.mockito.Mock;
 import com.awana.app.user.client.domain.User;
 import com.awana.app.user.client.domain.request.UserGetRequest;
 import com.awana.app.user.dao.UserDAO;
-import com.awana.common.exception.NotFoundException;
 import com.awana.common.page.Page;
+import com.awana.exception.types.NotFoundException;
 import com.awana.jwt.utility.JwtHolder;
 import com.awana.test.factory.annotations.AwanaServiceTest;
 import com.awana.test.factory.data.UserFactoryData;
@@ -51,8 +47,7 @@ public class UserServiceTest {
         User user2 = new User();
         user2.setId(2);
 
-        when(userDAO.getUsers(any(UserGetRequest.class)))
-                .thenReturn(new Page<User>(2, Arrays.asList(user1, user2)));
+        when(userDAO.getUsers(any(UserGetRequest.class))).thenReturn(new Page<User>(2, Arrays.asList(user1, user2)));
 
         List<User> returnedUser = service.getUsers(new UserGetRequest()).getList();
 

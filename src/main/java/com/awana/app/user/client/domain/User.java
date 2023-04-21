@@ -5,6 +5,7 @@ package com.awana.app.user.client.domain;
 
 import java.time.LocalDateTime;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -35,6 +36,7 @@ public class User {
 
 	@Schema(description = "The users email")
 	@NotBlank(message = "Invalid Email: Can not be empty or null")
+	@Email
 	private String email;
 
 	@Schema(description = "The user web role")

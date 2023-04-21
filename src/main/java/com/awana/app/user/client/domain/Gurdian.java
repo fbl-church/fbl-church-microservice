@@ -1,15 +1,17 @@
 package com.awana.app.user.client.domain;
 
+import com.awana.common.enums.GurdianType;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
- * Class to create a parent object
+ * Gurdian Object class
  * 
  * @author Sam Butler
  * @since June 25, 2020
  */
-@Schema(description = "Parent object for holding parent details")
-public class Parent {
+@Schema(description = "Gurdian object for holding gurdian details for a clubber")
+public class Gurdian {
 
     @Schema(description = "Parents name")
     private String name;
@@ -22,4 +24,7 @@ public class Parent {
 
     @Schema(description = "Parents address")
     private String address;
+
+    @Schema(description = "Gurdian relation to the clubber")
+    private GurdianType relation;
 }

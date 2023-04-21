@@ -1,7 +1,7 @@
 /**
  * Copyright of Awana App. All rights reserved.
  */
-package com.awana.common.exception.domain;
+package com.awana.exception.domain;
 
 import java.util.Date;
 import java.util.List;

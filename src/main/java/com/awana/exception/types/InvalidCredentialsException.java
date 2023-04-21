@@ -1,7 +1,7 @@
 /**
  * Copyright of Awana App. All rights reserved.
  */
-package com.awana.common.exception;
+package com.awana.exception.types;
 
 /**
  * Exception thrown when user has invalid credentials.

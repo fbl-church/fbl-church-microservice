@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.awana.common.annotations.interfaces.HasAccess;
-import com.awana.common.exception.InsufficientPermissionsException;
+import com.awana.exception.types.InsufficientPermissionsException;
 import com.awana.jwt.utility.JwtHolder;
 
 /**
@@ -36,7 +36,7 @@ public class HasAccessAspect {
      */
     @Around(value = "@annotation(anno)", argNames = "jp, anno")
     public Object access(ProceedingJoinPoint joinPoint, HasAccess access) throws Throwable {
-        if (jwtHolder.getWebRole().getRank() < access.value().getRank()) {
+        if(jwtHolder.getWebRole().getRank() < access.value().getRank()) {
             throw new InsufficientPermissionsException(jwtHolder.getWebRole());
         }
         return joinPoint.proceed();

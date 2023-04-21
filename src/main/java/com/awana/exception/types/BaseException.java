@@ -1,7 +1,7 @@
 /**
  * Copyright of Awana App. All rights reserved.
  */
-package com.awana.common.exception;
+package com.awana.exception.types;
 
 /**
  * Base Exception class. Will omit stack trace and only display exception.

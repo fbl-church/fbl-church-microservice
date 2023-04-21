@@ -3,15 +3,9 @@
  */
 package com.awana.app.authentication.service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
 
 import java.util.Arrays;
 import java.util.Optional;
@@ -26,8 +20,8 @@ import com.awana.app.authentication.dao.AuthenticationDAO;
 import com.awana.app.user.client.UserClient;
 import com.awana.app.user.client.domain.User;
 import com.awana.app.user.client.domain.request.UserGetRequest;
-import com.awana.common.exception.InvalidCredentialsException;
-import com.awana.common.exception.NotFoundException;
+import com.awana.exception.types.InvalidCredentialsException;
+import com.awana.exception.types.NotFoundException;
 import com.awana.jwt.utility.JwtHolder;
 import com.awana.jwt.utility.JwtTokenUtil;
 import com.awana.test.factory.annotations.AwanaServiceTest;
@@ -91,7 +85,7 @@ public class AuthenticationServiceTest {
                 .thenReturn(Optional.of("$2a$10$KusdNWjdceySzNAG3EH8a.5HuIOMWH4hl4Ke64Daqaeqivy1y0Rd."));
 
         InvalidCredentialsException e = assertThrows(InvalidCredentialsException.class,
-                () -> service.authenticate(authRequest));
+                                                     () -> service.authenticate(authRequest));
 
         assertEquals("Invalid Credentials for user email: 'fake@mail.com'", e.getMessage(), "Exception Message");
         verify(authenticationDAO).getUserAuthPassword(anyString());

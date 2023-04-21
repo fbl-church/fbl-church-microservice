@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Component;
 
-import com.awana.common.exception.JwtTokenException;
+import com.awana.exception.types.JwtTokenException;
 import com.awana.gateway.domain.abstracts.CommonTokenValidator;
 import com.google.common.net.HttpHeaders;
 
