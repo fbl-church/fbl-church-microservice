@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-import com.awana.app.user.client.domain.Gurdian;
+import com.awana.app.gurdian.client.domain.Gurdian;
 import com.awana.common.enums.ChurchGroup;
 
 import io.swagger.v3.oas.annotations.media.Schema;

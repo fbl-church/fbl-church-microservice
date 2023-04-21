@@ -1,7 +1,7 @@
 package com.awana.common.enums;
 
 /**
- * Enum to map clubber gurdian types to objects.
+ * Enum to map for gurdian types to objects.
  * 
  * @author Sam Butler
  * @since July 31, 2021

@@ -22,8 +22,8 @@ public class FieldValidationError {
     @Schema(description = "providedValue", example = "null")
     private String providedValue;
 
-    @Schema(description = "additionalInfo", example = "null")
-    private String additionalInfo;
+    @Schema(description = "message", example = "null")
+    private String message;
 
     public FieldValidationError() {
 
@@ -38,11 +38,11 @@ public class FieldValidationError {
         this.errorCode = code;
     }
 
-    public FieldValidationError(ErrorCode code, String field, Object providedValue, String additionalInfo) {
+    public FieldValidationError(ErrorCode code, String field, Object providedValue, String message) {
         this.errorCode = code;
         this.field = field;
         this.providedValue = providedValue == null ? null : providedValue.toString();
-        this.additionalInfo = additionalInfo;
+        this.message = message;
     }
 
     public FieldValidationError(String field) {
@@ -108,17 +108,17 @@ public class FieldValidationError {
      *
      * @return the additional info
      */
-    public String getAdditionalInfo() {
-        return additionalInfo;
+    public String getMessage() {
+        return message;
     }
 
     /**
      * Sets the additional information regarding the error
      *
-     * @param additionalInfo The additional info for the error
+     * @param message The additional info for the error
      */
-    public void setAdditionalInfo(String additionalInfo) {
-        this.additionalInfo = additionalInfo;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
 }
