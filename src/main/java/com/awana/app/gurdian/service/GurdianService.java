@@ -29,7 +29,7 @@ public class GurdianService {
      * @return list of gurdians objects
      */
     public Page<Gurdian> getGurdians(GurdianGetRequest request) {
-        return null;
+        return dao.getGurdians(request);
     }
 
     /**

@@ -1,6 +1,12 @@
 package com.awana.app.gurdian.client.domain;
 
-import com.awana.common.enums.GurdianType;
+import java.time.LocalDateTime;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import com.awana.common.enums.RelationshipType;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -14,37 +20,55 @@ import io.swagger.v3.oas.annotations.media.Schema;
 public class Gurdian {
 
     @Schema(description = "Gurdian id the gurdian belongs too")
-    private int gurdianId;
+    private int id;
 
-    @Schema(description = "Gurdians name")
-    private String name;
+    @Schema(description = "First name of the gurdian")
+    @NotBlank(message = "Invalid firstName: Can not be empty or null")
+    private String firstName;
+
+    @Schema(description = "Last name of the gurdian")
+    @NotBlank(message = "Invalid lastName: Can not be empty or null")
+    private String lastName;
 
     @Schema(description = "Gurdians email")
     private String email;
 
     @Schema(description = "Gurdian relation to the gurdian")
-    private GurdianType relation;
+    @NotNull(message = "Invalid relation: Can not be null")
+    private RelationshipType relationship;
 
     @Schema(description = "Gurdians phone number")
+    @Size(min = 10, max = 10, message = "Invalid phone: Length must be 10 digits long")
     private String phone;
 
     @Schema(description = "Gurdians address")
     private String address;
 
-    public int getGurdianId() {
-        return gurdianId;
+    @Schema(description = "When the gurdian was created.")
+    private LocalDateTime insertDate;
+
+    public int getId() {
+        return id;
     }
 
-    public void setGurdianId(int gurdianId) {
-        this.gurdianId = gurdianId;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getEmail() {
@@ -55,12 +79,12 @@ public class Gurdian {
         this.email = email;
     }
 
-    public GurdianType getRelation() {
-        return relation;
+    public RelationshipType getRelationship() {
+        return relationship;
     }
 
-    public void setRelation(GurdianType relation) {
-        this.relation = relation;
+    public void setRelationship(RelationshipType relationship) {
+        this.relationship = relationship;
     }
 
     public String getPhone() {
@@ -79,4 +103,11 @@ public class Gurdian {
         this.address = address;
     }
 
+    public LocalDateTime getInsertDate() {
+        return insertDate;
+    }
+
+    public void setInsertDate(LocalDateTime insertDate) {
+        this.insertDate = insertDate;
+    }
 }

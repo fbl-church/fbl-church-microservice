@@ -1,0 +1,45 @@
+@NAME(gurdianFields)
+  g.id,
+  g.first_name,
+  g.last_name,
+  g.relationship,
+  g.email,
+  g.phone,
+  g.address,
+  g.insert_date
+
+@NAME(gurdianFilters)
+  @WHERE
+    @AND(:id)
+      g.id IN (:id)
+    @AND(:first_name)
+      g.first_name IN (:first_name)
+    @AND(:last_name)
+      g.last_name IN (:last_name)
+    @AND(:email)
+      g.email IN (:email)
+    @AND(:phone)
+      g.phone IN (:phone)
+    @AND(:searchEnabled = true)
+      @INCLUDE(search)
+
+@NAME(getGurdiansBase)
+  FROM gurdians g
+  @INCLUDE(gurdianFilters)
+
+@NAME(getGurdiansPage)
+  @PAGING(:rowOffset, :pageSize)
+    SELECT @INCLUDE(gurdianFields) 
+    @INCLUDE(getGurdiansBase)
+    ORDER BY g.last_name ASC
+
+@NAME(getGurdiansPageTotalCount)
+  SELECT COUNT(*)
+  @INCLUDE(getGurdiansBase)
+
+@NAME(insertGurdian)
+  INSERT INTO gurdians (first_name, last_name, relationship, email, phone, address)
+  VALUES (:first_name, :last_name, :relationship, :email, :phone, :address)
+
+@NAME(search)
+  (@VALUE(:searchContent))

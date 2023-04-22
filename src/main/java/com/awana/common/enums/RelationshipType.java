@@ -6,7 +6,7 @@ package com.awana.common.enums;
  * @author Sam Butler
  * @since July 31, 2021
  */
-public enum GurdianType implements TextEnum {
+public enum RelationshipType implements TextEnum {
     MOTHER("MOTHER"),
     FATHER("FATHER"),
     BROTHER("BROTHER"),
@@ -19,7 +19,7 @@ public enum GurdianType implements TextEnum {
 
     private String textId;
 
-    private GurdianType(String textId) {
+    private RelationshipType(String textId) {
         this.textId = textId;
     }
 

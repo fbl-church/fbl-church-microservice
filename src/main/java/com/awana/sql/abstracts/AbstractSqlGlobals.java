@@ -15,6 +15,7 @@ public abstract class AbstractSqlGlobals {
     protected static final String LAST_NAME = "last_name";
     protected static final String EMAIL = "email";
     protected static final String PHONE = "phone";
+    protected static final String ADDRESS = "address";
     protected static final String WEB_ROLE = "web_role";
     protected static final String CHURCH_GROUP = "church_group";
     protected static final String LAST_LOGIN_DATE = "last_login_date";
@@ -31,4 +32,5 @@ public abstract class AbstractSqlGlobals {
     protected static final String REQUEST_ID = "request_id";
     protected static final String ACCOUNT_STATUS = "account_status";
     protected static final String APP_ACCESS = "app_access";
+    protected static final String RELATIONSHIP = "relationship";
 }

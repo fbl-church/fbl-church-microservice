@@ -36,7 +36,8 @@ public class GurdianDAO extends BaseDao {
      */
     public Page<Gurdian> getGurdians(GurdianGetRequest request) {
         MapSqlParameterSource params = SqlParamBuilder.with(request).useAllParams().withParam(ID, request.getId())
-                .withParam(FIRST_NAME, request.getFirstName()).withParam(LAST_NAME, request.getLastName()).build();
+                .withParam(FIRST_NAME, request.getFirstName()).withParam(LAST_NAME, request.getLastName())
+                .withParam(EMAIL, request.getEmail()).withParam(PHONE, request.getPhone()).build();
 
         return getPage("getGurdiansPage", params, GURDIAN_MAPPER);
     }
@@ -49,7 +50,10 @@ public class GurdianDAO extends BaseDao {
      */
     public int insertGurdian(Gurdian gurdian) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
-        MapSqlParameterSource params = SqlParamBuilder.with().withParam(NAME, gurdian.getName()).build();
+        MapSqlParameterSource params = SqlParamBuilder.with().withParam(FIRST_NAME, gurdian.getFirstName())
+                .withParam(LAST_NAME, gurdian.getLastName()).withParam(RELATIONSHIP, gurdian.getRelationship())
+                .withParam(EMAIL, gurdian.getEmail()).withParam(PHONE, gurdian.getPhone())
+                .withParam(ADDRESS, gurdian.getAddress()).build();
 
         post("insertGurdian", params, keyHolder);
         return keyHolder.getKey().intValue();

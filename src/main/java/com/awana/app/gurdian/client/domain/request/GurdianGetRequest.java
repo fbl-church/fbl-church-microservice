@@ -72,6 +72,22 @@ public class GurdianGetRequest implements SearchParam, PageParam, SearchFieldPar
         this.lastName = lastName;
     }
 
+    public Set<String> getEmail() {
+        return email;
+    }
+
+    public void setEmail(Set<String> email) {
+        this.email = email;
+    }
+
+    public Set<String> getPhone() {
+        return phone;
+    }
+
+    public void setPhone(Set<String> phone) {
+        this.phone = phone;
+    }
+
     public String getSearch() {
         return search;
     }
