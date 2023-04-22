@@ -1,6 +1,8 @@
 package com.awana.app.gurdian.dao;
 
-import static com.awana.app.gurdian.mapper.GurdianMapper.*;
+import static com.awana.app.gurdian.mapper.GurdianMapper.GURDIAN_MAPPER;
+
+import java.util.List;
 
 import javax.sql.DataSource;
 
@@ -43,6 +45,17 @@ public class GurdianDAO extends BaseDao {
     }
 
     /**
+     * Gets clubber gurdians by clubber id.
+     * 
+     * @param clubberId The clubber id
+     * @return The list of gurdians associated to the clubber
+     */
+    public List<Gurdian> getClubberGurdians(int clubberId) {
+        MapSqlParameterSource params = SqlParamBuilder.with().withParam(CLUBBER_ID, clubberId).build();
+        return getList("getClubberGurdians", params, GURDIAN_MAPPER);
+    }
+
+    /**
      * Creates a new gurdian for the given user object.
      * 
      * @param gurdian The gurdian to create.
@@ -57,5 +70,29 @@ public class GurdianDAO extends BaseDao {
 
         post("insertGurdian", params, keyHolder);
         return keyHolder.getKey().intValue();
+    }
+
+    /**
+     * Associate a clubber to a gurdian.
+     * 
+     * @param gurdianId The id of the gurdian
+     * @param clubberId The id of the clubber.
+     */
+    public void associateClubber(int gurdianId, int clubberId) {
+        MapSqlParameterSource params = SqlParamBuilder.with().withParam(GURDIAN_ID, gurdianId)
+                .withParam(CLUBBER_ID, clubberId).build();
+        post("associateClubberToGurdian", params);
+    }
+
+    /**
+     * Unassociate a clubber from a gurdian.
+     * 
+     * @param gurdianId The id of the gurdian
+     * @param clubberId The id of the clubber.
+     */
+    public void unassociateClubber(int gurdianId, int clubberId) {
+        MapSqlParameterSource params = SqlParamBuilder.with().withParam(GURDIAN_ID, gurdianId)
+                .withParam(CLUBBER_ID, clubberId).build();
+        post("unassociateClubberFromGurdian", params);
     }
 }

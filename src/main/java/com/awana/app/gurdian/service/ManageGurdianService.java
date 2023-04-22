@@ -31,4 +31,24 @@ public class ManageGurdianService {
         int gurdianId = dao.insertGurdian(gurdian);
         return gurdianService.getGurdianById(gurdianId);
     }
+
+    /**
+     * Associate a clubber to a gurdian.
+     * 
+     * @param gurdianId The id of the gurdian
+     * @param clubberId The id of the clubber.
+     */
+    public void associateClubber(int gurdianId, int clubberId) {
+        dao.associateClubber(gurdianId, clubberId);
+    }
+
+    /**
+     * Unassociate a clubber from a gurdian.
+     * 
+     * @param gurdianId The id of the gurdian
+     * @param clubberId The id of the clubber.
+     */
+    public void unassociateClubber(int gurdianId, int clubberId) {
+        dao.unassociateClubber(gurdianId, clubberId);
+    }
 }

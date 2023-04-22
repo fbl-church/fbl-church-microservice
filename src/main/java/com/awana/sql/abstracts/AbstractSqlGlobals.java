@@ -33,4 +33,6 @@ public abstract class AbstractSqlGlobals {
     protected static final String ACCOUNT_STATUS = "account_status";
     protected static final String APP_ACCESS = "app_access";
     protected static final String RELATIONSHIP = "relationship";
+    protected static final String GURDIAN_ID = "gurdian_id";
+    protected static final String CLUBBER_ID = "clubber_id";
 }

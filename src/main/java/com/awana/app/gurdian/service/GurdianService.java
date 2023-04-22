@@ -1,5 +1,6 @@
 package com.awana.app.gurdian.service;
 
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +42,16 @@ public class GurdianService {
     public Gurdian getGurdianById(int id) {
         GurdianGetRequest request = new GurdianGetRequest();
         request.setId(Set.of(id));
-        return null;
+        return getGurdians(request).getList().get(0);
+    }
+
+    /**
+     * Gets clubber gurdians by clubber id.
+     * 
+     * @param clubberId The clubber id
+     * @return The list of gurdians associated to the clubber
+     */
+    public List<Gurdian> getClubberGurdians(int clubberId) {
+        return dao.getClubberGurdians(clubberId);
     }
 }

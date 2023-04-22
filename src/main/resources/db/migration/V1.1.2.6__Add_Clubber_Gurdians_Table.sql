@@ -24,7 +24,7 @@ ALTER TABLE clubber_gurdians ADD CONSTRAINT clubbers__clubber_gurdians__FK1
 
 ALTER TABLE clubber_gurdians ADD CONSTRAINT gurdians__clubber_gurdians__FK2
   FOREIGN KEY (gurdian_id) REFERENCES gurdians (id) 
-    ON DELETE CASCADE
+    ON DELETE RESTRICT
     ON UPDATE CASCADE;
 
 -- ---------------------------------------------------------------------------------

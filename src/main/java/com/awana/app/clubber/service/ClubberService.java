@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.awana.app.clubber.client.domain.Clubber;
 import com.awana.app.clubber.client.domain.request.ClubberGetRequest;
 import com.awana.app.clubber.dao.ClubberDAO;
+import com.awana.app.gurdian.client.GurdianClient;
 import com.awana.common.page.Page;
 
 /**
@@ -21,6 +22,9 @@ public class ClubberService {
 
     @Autowired
     private ClubberDAO dao;
+
+    @Autowired
+    private GurdianClient gurdianClient;
 
     /**
      * Gets a list of clubbers based of the request filter
@@ -41,6 +45,8 @@ public class ClubberService {
     public Clubber getClubberById(int id) {
         ClubberGetRequest request = new ClubberGetRequest();
         request.setId(Set.of(id));
-        return getClubbers(request).getList().get(0);
+        Clubber c = getClubbers(request).getList().get(0);
+        c.setGurdians(gurdianClient.getClubberGurdians(id));
+        return c;
     }
 }

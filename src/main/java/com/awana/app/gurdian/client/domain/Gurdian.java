@@ -34,10 +34,11 @@ public class Gurdian {
     private String email;
 
     @Schema(description = "Gurdian relation to the gurdian")
-    @NotNull(message = "Invalid relation: Can not be null")
+    @NotNull(message = "Invalid relationship: Can not be null")
     private RelationshipType relationship;
 
     @Schema(description = "Gurdians phone number")
+    @NotNull(message = "Invalid phone: Can not be null")
     @Size(min = 10, max = 10, message = "Invalid phone: Length must be 10 digits long")
     private String phone;
 

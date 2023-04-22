@@ -11,6 +11,8 @@ package com.awana.common.enums;
  */
 public enum WebRole implements TextEnum {
     USER("USER", 100),
+    LEADER("LEADER", 300),
+    HELPER("HELPER", 200),
     TNT_LEADER("TNT_LEADER", 300),
     TNT_HELPER("TNT_HELPER", 200),
     SPARKS_LEADER("SPARKS_LEADER", 300),

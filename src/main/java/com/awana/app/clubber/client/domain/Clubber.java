@@ -5,7 +5,9 @@ package com.awana.app.clubber.client.domain;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -47,9 +49,9 @@ public class Clubber {
     @Schema(description = "Any additional information about the clubber")
     private String additionalInfo;
 
-    @Schema(description = "Clubbers guardian")
-    @NotNull(message = "Invalid gurdian: Clubber must be associated to at least one gurdian.")
-    private Gurdian gurdian;
+    @Schema(description = "Clubber guardians")
+    @Valid
+    private List<Gurdian> gurdians;
 
     @Schema(description = "When the clubber was created.")
     private LocalDateTime insertDate;
@@ -110,12 +112,12 @@ public class Clubber {
         this.additionalInfo = additionalInfo;
     }
 
-    public Gurdian getParent() {
-        return gurdian;
+    public List<Gurdian> getGurdians() {
+        return gurdians;
     }
 
-    public void setParent(Gurdian gurdian) {
-        this.gurdian = gurdian;
+    public void setGurdians(List<Gurdian> gurdians) {
+        this.gurdians = gurdians;
     }
 
     public LocalDateTime getInsertDate() {

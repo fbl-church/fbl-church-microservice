@@ -21,6 +21,7 @@ CREATE TABLE gurdians (
   insert_date  DATETIME              NOT NULL  DEFAULT CURRENT_TIMESTAMP(),
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+CREATE UNIQUE INDEX gurdians_AK1 ON users(email);
 -- ---------------------------------------------------------------------------------
 -- AWANA-2: END
 -- ---------------------------------------------------------------------------------

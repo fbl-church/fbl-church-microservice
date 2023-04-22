@@ -1,11 +1,12 @@
 package com.awana.app.clubber.rest;
 
-import static org.springframework.http.MediaType.*;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -59,7 +60,7 @@ public class ClubberController {
      */
     @Operation(summary = "Get a clubber by id", description = "Given a Clubber id, it will return that clubber information if found.")
     @GetMapping(path = "/{id}", produces = APPLICATION_JSON_VALUE)
-    public Clubber getClubberById(int id) {
+    public Clubber getClubberById(@PathVariable int id) {
         return clubberService.getClubberById(id);
     }
 
