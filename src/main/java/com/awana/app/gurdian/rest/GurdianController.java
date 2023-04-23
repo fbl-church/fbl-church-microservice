@@ -53,7 +53,6 @@ public class GurdianController {
      */
     @Operation(summary = "Get a list of gurdians.", description = "Given a Gurdian Get Request, it will return a list of gurdians that match the request.")
     @GetMapping(produces = APPLICATION_JSON_VALUE)
-    @HasAccess(WebRole.LEADER)
     public Page<Gurdian> getGurdians(GurdianGetRequest request) {
         return gurdianService.getGurdians(request);
     }
@@ -66,7 +65,6 @@ public class GurdianController {
      */
     @Operation(summary = "Get a gurdian by id", description = "Given a Gurdian id, it will return that gurdian information if found.")
     @GetMapping(path = "/{id}", produces = APPLICATION_JSON_VALUE)
-    @HasAccess(WebRole.LEADER)
     public Gurdian getGurdianById(@PathVariable int id) {
         return gurdianService.getGurdianById(id);
     }
@@ -79,7 +77,6 @@ public class GurdianController {
      */
     @Operation(summary = "Get list of clubber gurdians", description = "Given a clubber id, it will get the list of gurdians for that clubber.")
     @GetMapping(path = "/clubber/{clubberId}", produces = APPLICATION_JSON_VALUE)
-    @HasAccess(WebRole.LEADER)
     public List<Gurdian> getClubberGurdians(@PathVariable int clubberId) {
         return gurdianService.getClubberGurdians(clubberId);
     }
