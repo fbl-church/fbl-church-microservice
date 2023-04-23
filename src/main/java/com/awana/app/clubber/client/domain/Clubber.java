@@ -7,8 +7,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import com.awana.app.gurdian.client.domain.Gurdian;
@@ -50,8 +50,11 @@ public class Clubber {
     private String additionalInfo;
 
     @Schema(description = "Clubber guardians")
-    @Valid
     private List<Gurdian> gurdians;
+
+    @Schema(description = "Clubber guardian ids")
+    @NotEmpty
+    private List<Integer> gurdianIds;
 
     @Schema(description = "When the clubber was created.")
     private LocalDateTime insertDate;
@@ -118,6 +121,14 @@ public class Clubber {
 
     public void setGurdians(List<Gurdian> gurdians) {
         this.gurdians = gurdians;
+    }
+
+    public List<Integer> getGurdianIds() {
+        return gurdianIds;
+    }
+
+    public void setGurdianIds(List<Integer> gurdianIds) {
+        this.gurdianIds = gurdianIds;
     }
 
     public LocalDateTime getInsertDate() {

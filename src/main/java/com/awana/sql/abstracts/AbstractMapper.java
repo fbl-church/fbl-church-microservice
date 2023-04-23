@@ -43,7 +43,7 @@ public abstract class AbstractMapper<T> extends AbstractSqlGlobals implements Ro
             return null;
         }
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         return LocalDate.parse(d, formatter);
     }
 }

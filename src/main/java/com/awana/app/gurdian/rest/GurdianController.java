@@ -1,6 +1,6 @@
 package com.awana.app.gurdian.rest;
 
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import static org.springframework.http.MediaType.*;
 
 import java.util.List;
 
@@ -78,7 +78,7 @@ public class GurdianController {
      * @return The list of gurdians associated to the clubber
      */
     @Operation(summary = "Get list of clubber gurdians", description = "Given a clubber id, it will get the list of gurdians for that clubber.")
-    @GetMapping(path = "/{clubberId}", produces = APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/clubber/{clubberId}", produces = APPLICATION_JSON_VALUE)
     @HasAccess(WebRole.LEADER)
     public List<Gurdian> getClubberGurdians(@PathVariable int clubberId) {
         return gurdianService.getClubberGurdians(clubberId);
