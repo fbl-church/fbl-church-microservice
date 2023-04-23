@@ -1,6 +1,6 @@
 package com.awana.app.clubber.rest;
 
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import static org.springframework.http.MediaType.*;
 
 import javax.validation.Valid;
 
@@ -72,7 +72,7 @@ public class ClubberController {
      */
     @Operation(summary = "Create a new Clubber.", description = "Given a Clubber request body. It will create a new clubber.")
     @PostMapping(produces = APPLICATION_JSON_VALUE)
-    @HasAccess(WebRole.CUBBIES_LEADER)
+    @HasAccess(WebRole.LEADER)
     public Clubber insertClubber(@RequestBody @Valid Clubber clubber) {
         return manageClubberService.insertClubber(clubber);
     }

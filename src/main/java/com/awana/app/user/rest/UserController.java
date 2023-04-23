@@ -70,7 +70,6 @@ public class UserController {
 	 */
 	@Operation(summary = "Gets a user by id.", description = "For the given id value, it will return the corresponding user.")
 	@GetMapping(path = "/{id}", produces = APPLICATION_JSON_VALUE)
-	@HasAccess(WebRole.ADMIN)
 	public User getUserById(@PathVariable int id) {
 		return userService.getUserById(id);
 	}
