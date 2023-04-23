@@ -20,7 +20,7 @@
       u.email IN (:email)
     @AND(:web_role)
       u.web_role IN (:web_role)
-    @AND(:searchEnabled = true)
+    @AND(:search = true)
       @INCLUDE(search)
 
 @NAME(getUsersBase)

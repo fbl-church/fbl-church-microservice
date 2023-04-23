@@ -18,7 +18,7 @@
       c.last_name IN (:last_name)
     @AND(:church_group)
       c.church_group IN (:church_group)
-    @AND(:searchEnabled = true)
+    @AND(:search = true)
       @INCLUDE(search)
 
 @NAME(getClubbersBase)

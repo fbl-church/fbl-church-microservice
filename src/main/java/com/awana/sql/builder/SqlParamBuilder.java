@@ -7,7 +7,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Collection;
-import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -186,13 +185,7 @@ public class SqlParamBuilder {
         }
 
         SearchParam searchParam = (SearchParam) commonParam;
-
-        if(searchParam.getSearch() == null) {
-            return this;
-        }
-
-        this.sqlParams.addValue("searchEnabled", true);
-        this.sqlParams.addValue("searchValue", String.format("%%%s%%", searchParam.getSearch()));
+        Parameters.search(sqlParams, searchParam.getSearch());
         return this;
     }
 
@@ -208,16 +201,7 @@ public class SqlParamBuilder {
         }
 
         SearchFieldParams<? extends SearchField> searchFieldParams = (SearchFieldParams<?>) commonParam;
-
-        String searchFieldSql = "";
-
-        List<SearchField> fieldList = searchFieldParams.getSearchFields();
-        for(int i = 0; i < fieldList.size(); i++) {
-            searchFieldSql += String.format("%s LIKE :searchValue", fieldList.get(i).getColumn());
-            searchFieldSql += i == fieldList.size() - 1 ? "" : " OR ";
-        }
-
-        this.sqlParams.addValue("searchContent", searchFieldSql.trim());
+        Parameters.searchField(sqlParams, searchFieldParams.getSearchFields());
         return this;
     }
 

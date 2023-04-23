@@ -20,7 +20,7 @@
       g.email IN (:email)
     @AND(:phone)
       g.phone IN (:phone)
-    @AND(:searchEnabled = true)
+    @AND(:search = true)
       @INCLUDE(search)
 
 @NAME(getGurdiansBase)
