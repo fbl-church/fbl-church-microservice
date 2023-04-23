@@ -46,16 +46,25 @@ public class ManageClubberService {
     }
 
     /**
+     * Delete a clubber by id.
+     * 
+     * @param clubberId The clubber id to delete.
+     */
+    public void deleteClubber(int clubberId) {
+        dao.deleteClubber(clubberId);
+    }
+
+    /**
      * Associates a list of gurdians to a clubber
      * 
      * @param clubberId The clubber id to associate
      * @param gIds      The gurdian ids to associate
      */
     private void associateClubberToGurdians(int clubberId, List<Integer> gIds) {
-        for(int gurdianId : gIds) {
+        for (int gurdianId : gIds) {
             try {
                 gurdianClient.associateClubber(gurdianId, clubberId);
-            }catch(Exception e) {
+            } catch (Exception e) {
                 LOGGER.warn("Clubber Gurdian Association already exists", e);
             }
 

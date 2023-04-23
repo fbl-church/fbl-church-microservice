@@ -3,7 +3,9 @@
  */
 package com.awana.app.user.dao;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 
@@ -104,9 +106,7 @@ public class UserDAOTest {
         user.setFirstName("Randy");
         user.setWebRole(WebRole.USER);
 
-        User returnedUser = dao.updateUser(1, user);
-        assertEquals(user.getFirstName(), returnedUser.getFirstName());
-        assertEquals(WebRole.USER, returnedUser.getWebRole());
+        dao.updateUser(1, user);
     }
 
     @Test
@@ -114,7 +114,7 @@ public class UserDAOTest {
         User user = new User();
         user.setEmail("Fake123@mail.com");
         DataIntegrityViolationException e = assertThrows(DataIntegrityViolationException.class,
-                                                         () -> dao.updateUser(1, user));
+                () -> dao.updateUser(1, user));
         assertTrue(e.getMessage().contains("Duplicate entry 'Fake123@mail.com'"));
     }
 }

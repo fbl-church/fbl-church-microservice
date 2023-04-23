@@ -95,4 +95,14 @@ public class GurdianDAO extends BaseDao {
                 .withParam(CLUBBER_ID, clubberId).build();
         post("unassociateClubberFromGurdian", params);
     }
+
+    /**
+     * Delete gurdian by id.
+     * 
+     * @param gurdianId The id of the gurdian
+     */
+    public void deleteGurdian(int gurdianId) {
+        MapSqlParameterSource params = SqlParamBuilder.with().withParam(GURDIAN_ID, gurdianId).build();
+        delete("deleteGurdian", params);
+    }
 }

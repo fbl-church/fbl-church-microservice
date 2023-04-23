@@ -3,7 +3,7 @@
  */
 package com.awana.app.user.dao;
 
-import static com.awana.app.user.mapper.UserMapper.*;
+import static com.awana.app.user.mapper.UserMapper.USER_MAPPER;
 
 import java.time.LocalDateTime;
 
@@ -63,7 +63,7 @@ public class UserDAO extends BaseDao {
 			UserGetRequest request = new UserGetRequest();
 			request.setId(Sets.newHashSet(id));
 			return getUsers(request).getList().get(0);
-		}catch(Exception e) {
+		} catch (Exception e) {
 			throw new NotFoundException("User", id);
 		}
 	}
@@ -92,17 +92,12 @@ public class UserDAO extends BaseDao {
 	 * @param user   what information on the user needs to be updated.
 	 * @return user associated to that id with the updated information
 	 */
-	public User updateUser(int userId, User user) {
-		User foundUser = getUserById(userId);
-		user = mapNonNullUserFields(user, foundUser);
-
+	public void updateUser(int userId, User user) {
 		MapSqlParameterSource params = SqlParamBuilder.with().withParam(FIRST_NAME, user.getFirstName())
 				.withParam(LAST_NAME, user.getLastName()).withParam(EMAIL, user.getEmail())
 				.withParam(WEB_ROLE, user.getWebRole()).withParam(ID, userId).build();
 
 		update("updateUser", params);
-
-		return getUserById(userId);
 	}
 
 	/**
@@ -124,20 +119,5 @@ public class UserDAO extends BaseDao {
 	 */
 	public void deleteUser(int id) {
 		delete("deleteUser", parameterSource(ID, id));
-	}
-
-	/**
-	 * Maps non null user fields from the source to the desitnation.
-	 * 
-	 * @param destination Where the null fields should be replaced.
-	 * @param source      Where to get the replacements for the null fields.
-	 * @return {@link User} with the replaced fields.
-	 */
-	private User mapNonNullUserFields(User destination, User source) {
-		if(destination.getFirstName() == null) destination.setFirstName(source.getFirstName());
-		if(destination.getLastName() == null) destination.setLastName(source.getLastName());
-		if(destination.getEmail() == null) destination.setEmail(source.getEmail());
-		if(destination.getWebRole() == null) destination.setWebRole(source.getWebRole());
-		return destination;
 	}
 }

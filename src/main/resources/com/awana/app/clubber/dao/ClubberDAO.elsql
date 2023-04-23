@@ -39,5 +39,9 @@
   INSERT INTO clubbers (first_name, last_name, church_group, birthday, allergies, additional_info)
   VALUES (:first_name, :last_name, :church_group, :birthday, :allergies, :additional_info)
 
+@NAME(deleteClubber)
+  DELETE FROM clubbers
+  WHERE clubber_id = :clubber_id
+
 @NAME(search)
   (@VALUE(:searchContent))

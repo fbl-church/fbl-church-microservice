@@ -1,6 +1,6 @@
 package com.awana.app.gurdian.rest;
 
-import static org.springframework.http.MediaType.*;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 import java.util.List;
 
@@ -120,5 +120,17 @@ public class GurdianController {
     @HasAccess(WebRole.LEADER)
     public void unassociateClubber(@PathVariable int gurdianId, @PathVariable int clubberId) {
         manageGurdianService.unassociateClubber(gurdianId, clubberId);
+    }
+
+    /**
+     * Delete gurdian by id.
+     * 
+     * @param gurdianId The id of the gurdian
+     */
+    @Operation(summary = "Delete a gurdian by id", description = "Will delete the specified gurdian for the given id.")
+    @DeleteMapping(path = "/{gurdianId}", produces = APPLICATION_JSON_VALUE)
+    @HasAccess(WebRole.LEADER)
+    public void deleteGurdian(@PathVariable int gurdianId) {
+        manageGurdianService.deleteGurdian(gurdianId);
     }
 }

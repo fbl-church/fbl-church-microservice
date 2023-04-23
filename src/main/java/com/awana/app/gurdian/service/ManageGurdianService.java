@@ -51,4 +51,13 @@ public class ManageGurdianService {
     public void unassociateClubber(int gurdianId, int clubberId) {
         dao.unassociateClubber(gurdianId, clubberId);
     }
+
+    /**
+     * Delete gurdian by id.
+     * 
+     * @param gurdianId The id of the gurdian
+     */
+    public void deleteGurdian(int gurdianId) {
+        dao.deleteGurdian(gurdianId);
+    }
 }

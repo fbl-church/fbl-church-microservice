@@ -56,5 +56,9 @@
   WHERE clubber_id = :clubber_id
   AND gurdian_id   = :gurdian_id
 
+@NAME(deleteGurdian)
+  DELETE FROM gurdians
+  WHERE gurdian_id = :gurdian_id
+
 @NAME(search)
   (@VALUE(:searchContent))

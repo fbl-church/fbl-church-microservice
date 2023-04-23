@@ -1,10 +1,11 @@
 package com.awana.app.clubber.rest;
 
-import static org.springframework.http.MediaType.*;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -75,5 +76,17 @@ public class ClubberController {
     @HasAccess(WebRole.LEADER)
     public Clubber insertClubber(@RequestBody @Valid Clubber clubber) {
         return manageClubberService.insertClubber(clubber);
+    }
+
+    /**
+     * Delete a clubber by id.
+     * 
+     * @param clubberId The clubber id to delete.
+     */
+    @Operation(summary = "Delete a Clubber.", description = "Delete a clubber for the given id.")
+    @DeleteMapping(path = "/{clubberId}", produces = APPLICATION_JSON_VALUE)
+    @HasAccess(WebRole.LEADER)
+    public void deleteClubber(@PathVariable int clubberId) {
+        manageClubberService.deleteClubber(clubberId);
     }
 }

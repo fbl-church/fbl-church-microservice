@@ -57,7 +57,7 @@ public class ManageUserService {
 	 * @return The new user that was created.
 	 */
 	public User createUser(User user) {
-		if(jwtHolder.getWebRole().getRank() <= user.getWebRole().getRank()) {
+		if (jwtHolder.getWebRole().getRank() <= user.getWebRole().getRank()) {
 			throw new InsufficientPermissionsException(String
 					.format("Your role of '%s' can not create a user of role '%s'", jwtHolder.getWebRole(),
 							user.getWebRole()));
@@ -80,5 +80,14 @@ public class ManageUserService {
 		userCredentialsClient.insertUserPassword(newUserId, user.getPassword());
 		manageUserStatusService.insertUserStatus(new UserStatus(newUserId, AccountStatus.PENDING, false));
 		return userService.getUserById(newUserId);
+	}
+
+	/**
+	 * Delete user by id
+	 * 
+	 * @param userId The user Id to be deleted
+	 */
+	public void deleteUser(int userId) {
+		dao.deleteUser(userId);
 	}
 }

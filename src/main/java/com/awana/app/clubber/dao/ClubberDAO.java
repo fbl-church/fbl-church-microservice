@@ -1,6 +1,6 @@
 package com.awana.app.clubber.dao;
 
-import static com.awana.app.clubber.mapper.ClubberMapper.*;
+import static com.awana.app.clubber.mapper.ClubberMapper.CLUBBER_MAPPER;
 
 import javax.sql.DataSource;
 
@@ -57,5 +57,15 @@ public class ClubberDAO extends BaseDao {
 
         post("insertClubber", params, keyHolder);
         return keyHolder.getKey().intValue();
+    }
+
+    /**
+     * Delete a clubber by id.
+     * 
+     * @param clubberId The clubber id to delete.
+     */
+    public void deleteClubber(int clubberId) {
+        MapSqlParameterSource params = SqlParamBuilder.with().withParam(ID, clubberId).build();
+        delete("deleteClubber", params);
     }
 }
