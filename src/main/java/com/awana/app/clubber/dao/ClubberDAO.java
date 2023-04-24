@@ -1,6 +1,6 @@
 package com.awana.app.clubber.dao;
 
-import static com.awana.app.clubber.mapper.ClubberMapper.CLUBBER_MAPPER;
+import static com.awana.app.clubber.mapper.ClubberMapper.*;
 
 import javax.sql.DataSource;
 

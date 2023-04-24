@@ -41,7 +41,7 @@
 
 @NAME(deleteClubber)
   DELETE FROM clubbers
-  WHERE clubber_id = :clubber_id
+  WHERE id = :id
 
 @NAME(search)
   (@VALUE(:searchContent))
