@@ -2,6 +2,8 @@ package com.awana.app.clubber.dao;
 
 import static com.awana.app.clubber.mapper.ClubberMapper.*;
 
+import java.util.List;
+
 import javax.sql.DataSource;
 
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -40,6 +42,17 @@ public class ClubberDAO extends BaseDao {
                 .withParamTextEnumCollection(CHURCH_GROUP, request.getChurchGroup()).build();
 
         return getPage("getClubbersPage", params, CLUBBER_MAPPER);
+    }
+
+    /**
+     * Gets gurdian clubbers by gurdian id.
+     * 
+     * @param gurdianId The gurdian id
+     * @return The list of clubbers associated to the gurdian
+     */
+    public List<Clubber> getGurdianClubbers(int gurdianId) {
+        MapSqlParameterSource params = SqlParamBuilder.with().withParam(GURDIAN_ID, gurdianId).build();
+        return getList("getGurdianClubbers", params, CLUBBER_MAPPER);
     }
 
     /**

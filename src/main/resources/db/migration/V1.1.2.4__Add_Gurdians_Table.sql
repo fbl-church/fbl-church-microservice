@@ -14,7 +14,6 @@ CREATE TABLE gurdians (
   id           INT unsigned NOT NULL AUTO_INCREMENT,
   first_name   VARCHAR(128) NOT NULL,
   last_name    VARCHAR(128) NOT NULL,
-  relationship VARCHAR(128) NOT NULL DEFAULT 'OTHER',
   email        VARCHAR(128)          DEFAULT NULL,
   phone        VARCHAR(128) NOT NULL,
   address      VARCHAR(128)          DEFAULT NULL,

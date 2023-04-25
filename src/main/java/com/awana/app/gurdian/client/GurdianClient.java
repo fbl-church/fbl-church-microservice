@@ -74,19 +74,19 @@ public class GurdianClient {
      * Associate a clubber to a gurdian.
      * 
      * @param gurdianId The id of the gurdian
-     * @param clubberId The id of the clubber.
+     * @param gurdians  The list of gurdians
      */
-    public void associateClubber(int gurdianId, int clubberId) {
-        manageGurdianService.associateClubber(gurdianId, clubberId);
+    public void associateClubber(int clubberId, List<Gurdian> gurdians) {
+        manageGurdianService.associateClubber(clubberId, gurdians);
     }
 
     /**
      * Unassociate a clubber from a gurdian.
      * 
      * @param gurdianId The id of the gurdian
-     * @param clubberId The id of the clubber.
+     * @param gurdians  The list of gurdians
      */
-    public void unassociateClubber(int gurdianId, int clubberId) {
-        manageGurdianService.unassociateClubber(gurdianId, clubberId);
+    public void unassociateClubber(int clubberId, List<Gurdian> gurdians) {
+        manageGurdianService.unassociateClubber(clubberId, gurdians);
     }
 }

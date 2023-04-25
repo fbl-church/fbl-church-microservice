@@ -1,6 +1,6 @@
 package com.awana.app.gurdian.rest;
 
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import static org.springframework.http.MediaType.*;
 
 import java.util.List;
 
@@ -102,11 +102,11 @@ public class GurdianController {
      * @param clubberId The id of the clubber.
      */
     @Operation(summary = "Associate a clubber to a gurdian", description = "Will associate the given clubber and gurdian ids.")
-    @PostMapping(path = "/{gurdianId}/clubber/{clubberId}/associate", produces = APPLICATION_JSON_VALUE)
+    @PostMapping(path = "/associate/{clubberId}/clubber", produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     @HasAccess(WebRole.LEADER)
-    public void associateClubber(@PathVariable int gurdianId, @PathVariable int clubberId) {
-        manageGurdianService.associateClubber(gurdianId, clubberId);
+    public void associateClubber(@PathVariable int clubberId, @RequestBody List<Gurdian> gurdians) {
+        manageGurdianService.associateClubber(clubberId, gurdians);
     }
 
     /**
@@ -116,10 +116,10 @@ public class GurdianController {
      * @param clubberId The id of the clubber.
      */
     @Operation(summary = "Unassociate a clubber from a gurdian", description = "Will unassociate the given clubber and gurdian id.")
-    @DeleteMapping(path = "/{gurdianId}/clubber/{clubberId}/unassociate", produces = APPLICATION_JSON_VALUE)
+    @DeleteMapping(path = "unassociate/{clubberId}/clubber", produces = APPLICATION_JSON_VALUE)
     @HasAccess(WebRole.LEADER)
-    public void unassociateClubber(@PathVariable int gurdianId, @PathVariable int clubberId) {
-        manageGurdianService.unassociateClubber(gurdianId, clubberId);
+    public void unassociateClubber(@PathVariable int clubberId, @RequestBody List<Gurdian> gurdians) {
+        manageGurdianService.unassociateClubber(clubberId, gurdians);
     }
 
     /**

@@ -50,11 +50,8 @@ public class Clubber {
     private String additionalInfo;
 
     @Schema(description = "Clubber guardians")
-    private List<Gurdian> gurdians;
-
-    @Schema(description = "Clubber guardian ids")
     @NotEmpty
-    private List<Integer> gurdianIds;
+    private List<Gurdian> gurdians;
 
     @Schema(description = "When the clubber was created.")
     private LocalDateTime insertDate;
@@ -121,14 +118,6 @@ public class Clubber {
 
     public void setGurdians(List<Gurdian> gurdians) {
         this.gurdians = gurdians;
-    }
-
-    public List<Integer> getGurdianIds() {
-        return gurdianIds;
-    }
-
-    public void setGurdianIds(List<Integer> gurdianIds) {
-        this.gurdianIds = gurdianIds;
     }
 
     public LocalDateTime getInsertDate() {

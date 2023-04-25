@@ -1,6 +1,8 @@
 package com.awana.app.clubber.rest;
 
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import static org.springframework.http.MediaType.*;
+
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -63,6 +65,18 @@ public class ClubberController {
     @GetMapping(path = "/{id}", produces = APPLICATION_JSON_VALUE)
     public Clubber getClubberById(@PathVariable int id) {
         return clubberService.getClubberById(id);
+    }
+
+    /**
+     * Gets gurdian clubbers by gurdian id.
+     * 
+     * @param gurdianId The gurdian id
+     * @return The list of clubbers associated to the gurdian
+     */
+    @Operation(summary = "Get list of gurdian clubbers", description = "Given a gurdian id, it will get the list of clubbers for that gurdian.")
+    @GetMapping(path = "/gurdian/{gurdianId}", produces = APPLICATION_JSON_VALUE)
+    public List<Clubber> getGurdianClubbers(@PathVariable int gurdianId) {
+        return clubberService.getGurdianClubbers(gurdianId);
     }
 
     /**

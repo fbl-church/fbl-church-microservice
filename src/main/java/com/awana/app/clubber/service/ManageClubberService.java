@@ -1,9 +1,5 @@
 package com.awana.app.clubber.service;
 
-import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +17,6 @@ import io.jsonwebtoken.lang.Assert;
  */
 @Service
 public class ManageClubberService {
-    private final Logger LOGGER = LoggerFactory.getLogger(ManageClubberService.class);
 
     @Autowired
     private ClubberDAO dao;
@@ -39,9 +34,9 @@ public class ManageClubberService {
      * @return {@link Clubber} that was created.
      */
     public Clubber insertClubber(Clubber clubber) {
-        Assert.notEmpty(clubber.getGurdianIds(), "Clubber must be associated to at least one gurdian");
+        Assert.notEmpty(clubber.getGurdians(), "Clubber must be associated to at least one gurdian");
         int clubberId = dao.insertClubber(clubber);
-        associateClubberToGurdians(clubberId, clubber.getGurdianIds());
+        gurdianClient.associateClubber(clubberId, clubber.getGurdians());
         return clubberService.getClubberById(clubberId);
     }
 
@@ -52,22 +47,5 @@ public class ManageClubberService {
      */
     public void deleteClubber(int clubberId) {
         dao.deleteClubber(clubberId);
-    }
-
-    /**
-     * Associates a list of gurdians to a clubber
-     * 
-     * @param clubberId The clubber id to associate
-     * @param gIds      The gurdian ids to associate
-     */
-    private void associateClubberToGurdians(int clubberId, List<Integer> gIds) {
-        for (int gurdianId : gIds) {
-            try {
-                gurdianClient.associateClubber(gurdianId, clubberId);
-            } catch (Exception e) {
-                LOGGER.warn("Clubber Gurdian Association already exists", e);
-            }
-
-        }
     }
 }

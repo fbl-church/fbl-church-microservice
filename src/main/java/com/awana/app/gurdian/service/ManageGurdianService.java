@@ -1,10 +1,16 @@
 package com.awana.app.gurdian.service;
 
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.awana.app.gurdian.client.domain.Gurdian;
 import com.awana.app.gurdian.dao.GurdianDAO;
+
+import io.jsonwebtoken.lang.Assert;
 
 /**
  * Manage Gurdian Service class that handles all service calls to the dao
@@ -14,6 +20,8 @@ import com.awana.app.gurdian.dao.GurdianDAO;
  */
 @Service
 public class ManageGurdianService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ManageGurdianService.class);
 
     @Autowired
     private GurdianDAO dao;
@@ -35,21 +43,37 @@ public class ManageGurdianService {
     /**
      * Associate a clubber to a gurdian.
      * 
-     * @param gurdianId The id of the gurdian
      * @param clubberId The id of the clubber.
+     * @param gurdians  List of gurdians to associate
      */
-    public void associateClubber(int gurdianId, int clubberId) {
-        dao.associateClubber(gurdianId, clubberId);
+    public void associateClubber(int clubberId, List<Gurdian> gurdians) {
+        Assert.notEmpty(gurdians, "Can not associate clubber to list of empty gurdians.");
+        for(Gurdian g : gurdians) {
+            try {
+                dao.associateClubber(g.getId(), clubberId, g.getRelationship());
+            }catch(Exception e) {
+                LOGGER.warn("Unable to associate Clubber id '{}' to gurdian id '{}'", clubberId, g.getId());
+            }
+
+        }
     }
 
     /**
      * Unassociate a clubber from a gurdian.
      * 
-     * @param gurdianId The id of the gurdian
      * @param clubberId The id of the clubber.
+     * @param gurdians  List of gurdians to associate
      */
-    public void unassociateClubber(int gurdianId, int clubberId) {
-        dao.unassociateClubber(gurdianId, clubberId);
+    public void unassociateClubber(int clubberId, List<Gurdian> gurdians) {
+        Assert.notEmpty(gurdians, "Can not unassociate clubber from list of empty gurdians.");
+        for(Gurdian g : gurdians) {
+            try {
+                dao.unassociateClubber(g.getId(), clubberId);
+            }catch(Exception e) {
+                LOGGER.warn("Unable to unassociate Clubber id '{}' from gurdian id '{}'", clubberId, g.getId());
+            }
+
+        }
     }
 
     /**

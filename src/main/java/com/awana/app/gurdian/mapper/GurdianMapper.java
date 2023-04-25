@@ -25,7 +25,12 @@ public class GurdianMapper extends AbstractMapper<Gurdian> {
 		gurdian.setId(rs.getInt(ID));
 		gurdian.setFirstName(rs.getString(FIRST_NAME));
 		gurdian.setLastName(rs.getString(LAST_NAME));
-		gurdian.setRelationship(RelationshipType.valueOf(rs.getString(RELATIONSHIP)));
+		try {
+			gurdian.setRelationship(RelationshipType.valueOf(rs.getString(RELATIONSHIP)));
+		}catch(Exception e) {
+			gurdian.setRelationship(null);
+		}
+
 		gurdian.setEmail(rs.getString(EMAIL));
 		gurdian.setPhone(rs.getString(PHONE));
 		gurdian.setAddress(rs.getString(ADDRESS));

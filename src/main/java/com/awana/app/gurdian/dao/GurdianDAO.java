@@ -1,6 +1,6 @@
 package com.awana.app.gurdian.dao;
 
-import static com.awana.app.gurdian.mapper.GurdianMapper.GURDIAN_MAPPER;
+import static com.awana.app.gurdian.mapper.GurdianMapper.*;
 
 import java.util.List;
 
@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import com.awana.app.gurdian.client.domain.Gurdian;
 import com.awana.app.gurdian.client.domain.request.GurdianGetRequest;
+import com.awana.common.enums.RelationshipType;
 import com.awana.common.page.Page;
 import com.awana.sql.abstracts.BaseDao;
 import com.awana.sql.builder.SqlParamBuilder;
@@ -64,9 +65,8 @@ public class GurdianDAO extends BaseDao {
     public int insertGurdian(Gurdian gurdian) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         MapSqlParameterSource params = SqlParamBuilder.with().withParam(FIRST_NAME, gurdian.getFirstName())
-                .withParam(LAST_NAME, gurdian.getLastName()).withParam(RELATIONSHIP, gurdian.getRelationship())
-                .withParam(EMAIL, gurdian.getEmail()).withParam(PHONE, gurdian.getPhone())
-                .withParam(ADDRESS, gurdian.getAddress()).build();
+                .withParam(LAST_NAME, gurdian.getLastName()).withParam(EMAIL, gurdian.getEmail())
+                .withParam(PHONE, gurdian.getPhone()).withParam(ADDRESS, gurdian.getAddress()).build();
 
         post("insertGurdian", params, keyHolder);
         return keyHolder.getKey().intValue();
@@ -75,12 +75,13 @@ public class GurdianDAO extends BaseDao {
     /**
      * Associate a clubber to a gurdian.
      * 
-     * @param gurdianId The id of the gurdian
-     * @param clubberId The id of the clubber.
+     * @param gurdianId    The id of the gurdian
+     * @param clubberId    The id of the clubber.
+     * @param relationship How the to relate
      */
-    public void associateClubber(int gurdianId, int clubberId) {
+    public void associateClubber(int gurdianId, int clubberId, RelationshipType relationship) {
         MapSqlParameterSource params = SqlParamBuilder.with().withParam(GURDIAN_ID, gurdianId)
-                .withParam(CLUBBER_ID, clubberId).build();
+                .withParam(CLUBBER_ID, clubberId).withParam(RELATIONSHIP, relationship).build();
         post("associateClubberToGurdian", params);
     }
 

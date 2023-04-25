@@ -11,8 +11,9 @@
 -- ---------------------------------------------------------------------------------
 
 CREATE TABLE clubber_gurdians (
-  clubber_id INT UNSIGNED NOT NULL,
-  gurdian_id INT UNSIGNED NOT NULL
+  clubber_id   INT          UNSIGNED NOT NULL,
+  gurdian_id   INT          UNSIGNED NOT NULL,
+  relationship VARCHAR(128)          NOT NULL DEFAULT 'OTHER',
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE UNIQUE INDEX clubber_gurdians_AK1 ON clubber_gurdians(clubber_id, gurdian_id);

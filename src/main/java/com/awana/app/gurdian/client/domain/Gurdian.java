@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.Pattern;
 
 import com.awana.common.enums.RelationshipType;
 
@@ -34,12 +34,11 @@ public class Gurdian {
     private String email;
 
     @Schema(description = "Gurdian relation to the gurdian")
-    @NotNull(message = "Invalid relationship: Can not be null")
     private RelationshipType relationship;
 
     @Schema(description = "Gurdians phone number")
     @NotNull(message = "Invalid phone: Can not be null")
-    @Size(min = 10, max = 10, message = "Invalid phone: Length must be 10 digits long")
+    @Pattern(regexp = "\\(\\d{3}\\) \\d{3}-\\d{4}", message = "Invalid phone: Format must be '(123) 456-7890")
     private String phone;
 
     @Schema(description = "Gurdians address")

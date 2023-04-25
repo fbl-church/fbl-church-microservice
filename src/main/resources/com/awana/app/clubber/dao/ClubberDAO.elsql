@@ -35,6 +35,12 @@
   SELECT COUNT(*)
   @INCLUDE(getClubbersBase)
 
+@NAME(getGurdianClubbers)
+  SELECT @INCLUDE(clubberFields)
+  FROM clubbers c
+  INNER JOIN clubber_gurdians cg ON c.id = cg.clubber_id
+  WHERE cg.gurdian_id = :gurdian_id
+
 @NAME(insertClubber)
   INSERT INTO clubbers (first_name, last_name, church_group, birthday, allergies, additional_info)
   VALUES (:first_name, :last_name, :church_group, :birthday, :allergies, :additional_info)
