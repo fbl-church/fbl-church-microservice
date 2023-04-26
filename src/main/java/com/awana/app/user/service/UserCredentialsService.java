@@ -28,16 +28,16 @@ import io.jsonwebtoken.lang.Assert;
 public class UserCredentialsService {
 
     @Autowired
-    private UserCredentialsDAO dao;
-
-    @Autowired
     private JwtHolder jwtHolder;
 
     @Autowired
-    private AuthenticationClient authClient;
+    private UserCredentialsDAO dao;
 
     @Autowired
     private UserClient userClient;
+
+    @Autowired
+    private AuthenticationClient authClient;
 
     /**
      * This will be called when new users are created so that they have default

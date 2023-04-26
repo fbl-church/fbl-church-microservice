@@ -6,8 +6,8 @@ package com.awana.app.user.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.awana.app.user.client.UserClient;
 import com.awana.app.user.client.UserCredentialsClient;
+import com.awana.app.user.client.UserStatusClient;
 import com.awana.app.user.client.domain.User;
 import com.awana.app.user.client.domain.UserStatus;
 import com.awana.app.user.dao.UserDAO;
@@ -31,13 +31,13 @@ public class ManageUserService {
 	private UserDAO dao;
 
 	@Autowired
-	private UserClient userClient;
+	private UserService userService;
 
 	@Autowired
 	private UserCredentialsClient userCredentialsClient;
 
 	@Autowired
-	private ManageUserStatusService manageUserStatusService;
+	private UserStatusClient UserStatusClient;
 
 	/**
 	 * Create a new user. This is an account created by someone other the user
@@ -54,8 +54,8 @@ public class ManageUserService {
 		}
 		int newUserId = dao.insertUser(user);
 		userCredentialsClient.insertUserPassword(newUserId, user.getPassword());
-		manageUserStatusService.insertUserStatus(new UserStatus(newUserId, AccountStatus.APPROVED, true));
-		return userClient.getUserById(newUserId);
+		UserStatusClient.insertUserStatus(new UserStatus(newUserId, AccountStatus.APPROVED, true));
+		return userService.getUserById(newUserId);
 	}
 
 	/**
@@ -68,8 +68,8 @@ public class ManageUserService {
 	public User registerUser(User user) {
 		int newUserId = dao.insertUser(user);
 		userCredentialsClient.insertUserPassword(newUserId, user.getPassword());
-		manageUserStatusService.insertUserStatus(new UserStatus(newUserId, AccountStatus.PENDING, false));
-		return userClient.getUserById(newUserId);
+		UserStatusClient.insertUserStatus(new UserStatus(newUserId, AccountStatus.PENDING, false));
+		return userService.getUserById(newUserId);
 	}
 
 	/**
@@ -89,7 +89,7 @@ public class ManageUserService {
 	 * @return user associated to that id with the updated information.
 	 */
 	public User updateUserById(int id, User user) {
-		User updatingUser = userClient.getUserById(id);
+		User updatingUser = userService.getUserById(id);
 		if(id != updatingUser.getId() && jwtHolder.getWebRole().getRank() <= updatingUser.getWebRole().getRank()) {
 			throw new InsufficientPermissionsException(String
 					.format("Your role of '%s' can not update a user of role '%s'", jwtHolder.getWebRole(),
@@ -107,7 +107,7 @@ public class ManageUserService {
 	 */
 	public User updateUserLastLoginToNow(int userId) {
 		dao.updateUserLastLoginToNow(userId);
-		return userClient.getUserById(userId);
+		return userService.getUserById(userId);
 	}
 
 	/**
@@ -127,6 +127,6 @@ public class ManageUserService {
 	 */
 	private User updateUser(int userId, User user) {
 		dao.updateUser(userId, user);
-		return userClient.getUserById(userId);
+		return userService.getUserById(userId);
 	}
 }

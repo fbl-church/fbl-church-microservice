@@ -13,7 +13,7 @@ import io.jsonwebtoken.lang.Assert;
  * Manage Clubber Service class that handles all service calls to the dao
  * 
  * @author Sam Butler
- * @since June 25, 2022`
+ * @since June 25, 2022
  */
 @Service
 public class ManageClubberService {
