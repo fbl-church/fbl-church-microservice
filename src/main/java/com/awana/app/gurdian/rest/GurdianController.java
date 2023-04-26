@@ -112,13 +112,13 @@ public class GurdianController {
     /**
      * Unassociate a clubber from a gurdian.
      * 
-     * @param gurdianId The id of the gurdian
-     * @param clubberId The id of the clubber.
+     * @param clubberId The id of the clubber
+     * @param gurdians  The list of gurdian ids to unassociate.
      */
     @Operation(summary = "Unassociate a clubber from a gurdian", description = "Will unassociate the given clubber and gurdian id.")
     @DeleteMapping(path = "unassociate/{clubberId}/clubber", produces = APPLICATION_JSON_VALUE)
     @HasAccess(WebRole.LEADER)
-    public void unassociateClubber(@PathVariable int clubberId, @RequestBody List<Gurdian> gurdians) {
+    public void unassociateClubber(@PathVariable int clubberId, @RequestBody List<Integer> gurdians) {
         manageGurdianService.unassociateClubber(clubberId, gurdians);
     }
 

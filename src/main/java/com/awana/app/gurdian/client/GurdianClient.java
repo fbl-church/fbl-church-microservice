@@ -86,7 +86,7 @@ public class GurdianClient {
      * @param gurdianId The id of the gurdian
      * @param gurdians  The list of gurdians
      */
-    public void unassociateClubber(int clubberId, List<Gurdian> gurdians) {
+    public void unassociateClubber(int clubberId, List<Integer> gurdians) {
         manageGurdianService.unassociateClubber(clubberId, gurdians);
     }
 }

@@ -64,13 +64,13 @@ public class ManageGurdianService {
      * @param clubberId The id of the clubber.
      * @param gurdians  List of gurdians to associate
      */
-    public void unassociateClubber(int clubberId, List<Gurdian> gurdians) {
-        Assert.notEmpty(gurdians, "Can not unassociate clubber from list of empty gurdians.");
-        for(Gurdian g : gurdians) {
+    public void unassociateClubber(int clubberId, List<Integer> gurdianIds) {
+        Assert.notEmpty(gurdianIds, "Can not unassociate clubber from list of empty gurdians.");
+        for(Integer gId : gurdianIds) {
             try {
-                dao.unassociateClubber(g.getId(), clubberId);
+                dao.unassociateClubber(gId, clubberId);
             }catch(Exception e) {
-                LOGGER.warn("Unable to unassociate Clubber id '{}' from gurdian id '{}'", clubberId, g.getId());
+                LOGGER.warn("Unable to unassociate Clubber id '{}' from gurdian id '{}'", clubberId, gId);
             }
 
         }
