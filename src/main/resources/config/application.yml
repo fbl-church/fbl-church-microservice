@@ -12,6 +12,8 @@ spring:
     password: ${MYSQL_PASSWORD}
     url: ${MYSQL_URL}
     driver-class-name: com.mysql.cj.jdbc.Driver
+  main:
+    allow-circular-references: true
   profiles:
     default: "local"
 
