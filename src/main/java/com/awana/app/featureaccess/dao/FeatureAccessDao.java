@@ -27,9 +27,9 @@ import com.awana.sql.builder.SqlParamBuilder;
  * @since June 25, 2020
  */
 @Repository
-public class FeatureAccessDao extends BaseDao {
+public class FeatureAccessDAO extends BaseDao {
 
-    public FeatureAccessDao(DataSource source) {
+    public FeatureAccessDAO(DataSource source) {
         super(source);
     }
 

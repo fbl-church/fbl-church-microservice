@@ -9,7 +9,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.awana.app.featureaccess.dao.FeatureAccessDao;
+import com.awana.app.featureaccess.dao.FeatureAccessDAO;
 import com.awana.common.enums.WebRole;
 
 /**
@@ -22,7 +22,7 @@ import com.awana.common.enums.WebRole;
 public class FeatureAccessService {
 
     @Autowired
-    private FeatureAccessDao dao;
+    private FeatureAccessDAO dao;
 
     /**
      * Gets the feature access in an application for user.

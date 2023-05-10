@@ -50,7 +50,7 @@ public class JwtTokenUtil implements Serializable {
     /**
      * Pulls the expiration date from a given token
      * 
-     * @param token - The token being inspected
+     * @param token The token being inspected
      * @return A Date object
      */
     public LocalDateTime getExpirationDateFromToken(String token) {
@@ -61,9 +61,9 @@ public class JwtTokenUtil implements Serializable {
     /**
      * Get Specfic claims from a token based on the passed in resolver
      * 
-     * @param <T>            - Object type
-     * @param token          - Token to be inspected
-     * @param claimsResolver - Claims resolver
+     * @param <T>            Object type
+     * @param token          Token to be inspected
+     * @param claimsResolver Claims resolver
      * @return The generic type passed in of the claims
      */
     public <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {
@@ -74,7 +74,7 @@ public class JwtTokenUtil implements Serializable {
     /**
      * Pulls all the claims off of a given token
      * 
-     * @param token - The token to inspect and pull the claims from
+     * @param token The token to inspect and pull the claims from
      * @return Claims object is returned
      */
     public Claims getAllClaimsFromToken(String token) {
@@ -93,26 +93,13 @@ public class JwtTokenUtil implements Serializable {
     }
 
     /**
-     * generate token for reset password as false by default.
+     * Generate user web token. Token is used to gain access to the web application
+     * and to the exposed API's
      * 
-     * @param user - User info to be added to the token
+     * @param user User info to be added to the token
      * @return String of the new JWT token
-     * @throws Exception
      */
     public String generateToken(User user) {
-        return generateToken(user, false);
-    }
-
-    /**
-     * Sets up the fields to be added to the token. Also takes in a reset param that
-     * will say if the token is for a reset password.
-     * 
-     * @param user  User info to be added to the token
-     * @param reset If this is a reset password token.
-     * @return String of the new JWT token
-     * @throws Exception
-     */
-    public String generateToken(User user, boolean reset) {
         Map<String, Object> claims = new HashMap<>();
         claims.put(AwanaJwtClaims.USER_ID, user.getId());
         claims.put(AwanaJwtClaims.FIRST_NAME, user.getFirstName());
@@ -121,7 +108,6 @@ public class JwtTokenUtil implements Serializable {
         claims.put(AwanaJwtClaims.WEB_ROLE, user.getWebRole());
         claims.put(AwanaJwtClaims.ENVIRONMENT, appEnvironmentService.getEnvironment());
         claims.put(AwanaJwtClaims.JWT_TYPE, JwtType.WEB);
-        claims.put(AwanaJwtClaims.PASSWORD_RESET, reset);
         claims.put(AwanaJwtClaims.APPS, userClient.getUserAppsById(user.getId()).stream()
                 .filter(v -> (v.isAccess() && v.isEnabled())).map(Application::getName).collect(Collectors.toList()));
         claims.put(AwanaJwtClaims.ACCESS, featureAccessClient.getFeatureAccess(user.getWebRole()));
