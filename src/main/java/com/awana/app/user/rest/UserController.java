@@ -5,6 +5,8 @@ package com.awana.app.user.rest;
 
 import static org.springframework.http.MediaType.*;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.awana.app.user.client.domain.Application;
 import com.awana.app.user.client.domain.User;
 import com.awana.app.user.client.domain.request.UserGetRequest;
 import com.awana.app.user.openapi.TagUser;
@@ -73,6 +76,19 @@ public class UserController {
 	@GetMapping(path = "/{id}", produces = APPLICATION_JSON_VALUE)
 	public User getUserById(@PathVariable int id) {
 		return userService.getUserById(id);
+	}
+
+	/**
+	 * End point to a get a list of users apps that they have access too
+	 * 
+	 * @param id The user id to get applications for
+	 * @return List of Application objects {@link Application}
+	 */
+	@Operation(summary = "Get a list of user applications", description = "Returns the given apps that the user has access too.")
+	@GetMapping(path = "/{id}/applications", produces = APPLICATION_JSON_VALUE)
+	@HasAccess(WebRole.SITE_ADMIN)
+	public List<Application> getUserAppsById(@PathVariable int id) {
+		return userService.getUserAppsById(id);
 	}
 
 	/**

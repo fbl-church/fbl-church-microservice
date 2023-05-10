@@ -38,6 +38,20 @@
   SELECT COUNT(*)
   @INCLUDE(getUsersBase)
 
+@NAME(getApplications)
+  SELECT 
+    a.id AS 'app_id',
+    a.app_name AS 'app_name',
+    wraa.access AS 'access',
+    a.enabled AS 'enabled'
+  FROM users u
+    INNER JOIN web_role_app_access wraa ON u.web_role = wraa.web_role
+    INNER JOIN application a ON wraa.app_id = a.id
+  @WHERE
+    @AND(:user_id)
+      u.id = :user_id
+  ORDER BY a.id
+
 @NAME(insertUser)
   INSERT INTO users (first_name, last_name, email, web_role)
   VALUES (:first_name, :last_name, :email, :web_role)

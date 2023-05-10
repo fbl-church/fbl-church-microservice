@@ -4,6 +4,8 @@
 package com.awana.test.factory.abstracts;
 
 import java.lang.reflect.AnnotatedElement;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,8 +19,10 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 
-import com.awana.app.user.client.domain.User;
 import com.awana.common.annotations.interfaces.ControllerJwt;
+import com.awana.environment.AppEnvironmentService;
+import com.awana.jwt.domain.AwanaJwtClaims;
+import com.awana.jwt.domain.JwtType;
 import com.awana.jwt.utility.JwtTokenUtil;
 
 /**
@@ -37,6 +41,9 @@ public abstract class BaseControllerTest extends RequestTestUtil {
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
+
+    @Autowired
+    private AppEnvironmentService appEnvironmentService;
 
     private HttpHeaders headers;
 
@@ -64,9 +71,9 @@ public abstract class BaseControllerTest extends RequestTestUtil {
         ControllerJwt annClass = getJwtControllerAnnotation(info.getTestClass().get());
         ControllerJwt annMethod = getJwtControllerAnnotation(info.getTestMethod().get());
 
-        if (annMethod != null) {
+        if(annMethod != null) {
             setHeaders(annMethod);
-        } else if (annClass != null) {
+        }else if(annClass != null) {
             setHeaders(annClass);
         }
     }
@@ -233,14 +240,17 @@ public abstract class BaseControllerTest extends RequestTestUtil {
      * @param jwtController The annotation containing the user information.
      */
     private void setHeaders(ControllerJwt jwtController) {
-        User u = new User();
-        u.setId(jwtController.userId());
-        u.setFirstName(jwtController.firstName());
-        u.setLastName(jwtController.lastName());
-        u.setEmail(jwtController.email());
-        u.setWebRole(jwtController.webRole());
+        Map<String, Object> claims = new HashMap<>();
+        claims.put(AwanaJwtClaims.USER_ID, jwtController.userId());
+        claims.put(AwanaJwtClaims.FIRST_NAME, jwtController.firstName());
+        claims.put(AwanaJwtClaims.LAST_NAME, jwtController.lastName());
+        claims.put(AwanaJwtClaims.EMAIL, jwtController.email());
+        claims.put(AwanaJwtClaims.WEB_ROLE, jwtController.webRole());
+        claims.put(AwanaJwtClaims.ENVIRONMENT, appEnvironmentService.getEnvironment());
+        claims.put(AwanaJwtClaims.JWT_TYPE, JwtType.WEB);
+        claims.put(AwanaJwtClaims.PASSWORD_RESET, false);
 
-        String token = jwtTokenUtil.generateToken(u);
+        String token = jwtTokenUtil.buildTokenClaims(claims, 3600000);
         headers.set("Authorization", "Bearer " + token);
         headers.set("Content-Type", "application/json");
     }

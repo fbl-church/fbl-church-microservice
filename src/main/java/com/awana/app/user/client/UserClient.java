@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.awana.app.user.client.domain.Application;
 import com.awana.app.user.client.domain.User;
 import com.awana.app.user.client.domain.request.UserGetRequest;
 import com.awana.app.user.service.ManageUserService;
@@ -56,6 +57,16 @@ public class UserClient {
 	 */
 	public User getUserById(int id) {
 		return userService.getUserById(id);
+	}
+
+	/**
+	 * End point to a get a list of users apps that they have access too
+	 * 
+	 * @param id The user id to get applications for
+	 * @return List of Application objects {@link Application}
+	 */
+	public List<Application> getUserAppsById(int id) {
+		return userService.getUserAppsById(id);
 	}
 
 	/**

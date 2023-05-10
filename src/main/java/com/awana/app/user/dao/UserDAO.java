@@ -3,9 +3,11 @@
  */
 package com.awana.app.user.dao;
 
-import static com.awana.app.user.mapper.UserMapper.USER_MAPPER;
+import static com.awana.app.user.mapper.ApplicationMapper.*;
+import static com.awana.app.user.mapper.UserMapper.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import javax.sql.DataSource;
 
@@ -14,6 +16,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import com.awana.app.user.client.domain.Application;
 import com.awana.app.user.client.domain.User;
 import com.awana.app.user.client.domain.request.UserGetRequest;
 import com.awana.common.date.TimeZoneUtil;
@@ -63,9 +66,20 @@ public class UserDAO extends BaseDao {
 			UserGetRequest request = new UserGetRequest();
 			request.setId(Sets.newHashSet(id));
 			return getUsers(request).getList().get(0);
-		} catch (Exception e) {
+		}catch(Exception e) {
 			throw new NotFoundException("User", id);
 		}
+	}
+
+	/**
+	 * End point to a get a list of users apps that they have access too
+	 * 
+	 * @param userId The user id to get the apps for.
+	 * @return List of Application objects {@link Application}
+	 */
+	public List<Application> getUserApps(int userId) {
+		MapSqlParameterSource params = parameterSource(USER_ID, userId);
+		return getList("getApplications", params, APPLICATION_MAPPER);
 	}
 
 	/**

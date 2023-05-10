@@ -18,6 +18,8 @@ public abstract class AwanaJwtClaims {
     public static final String WEB_ROLE = "webRole";
     public static final String ENVIRONMENT = "env";
     public static final String PASSWORD_RESET = "passwordReset";
+    public static final String APPS = "apps";
+    public static final String ACCESS = "access";
 
     // All Claims
     public static final String JWT_TYPE = "jwtType";

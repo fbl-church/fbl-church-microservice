@@ -10,10 +10,14 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.awana.app.featureaccess.client.FeatureAccessClient;
+import com.awana.app.user.client.UserClient;
+import com.awana.app.user.client.domain.Application;
 import com.awana.app.user.client.domain.User;
 import com.awana.environment.AppEnvironmentService;
 import com.awana.jwt.domain.AwanaJwtClaims;
@@ -36,6 +40,12 @@ public class JwtTokenUtil implements Serializable {
 
     @Autowired
     private AppEnvironmentService appEnvironmentService;
+
+    @Autowired
+    private UserClient userClient;
+
+    @Autowired
+    private FeatureAccessClient featureAccessClient;
 
     /**
      * Pulls the expiration date from a given token
@@ -112,18 +122,20 @@ public class JwtTokenUtil implements Serializable {
         claims.put(AwanaJwtClaims.ENVIRONMENT, appEnvironmentService.getEnvironment());
         claims.put(AwanaJwtClaims.JWT_TYPE, JwtType.WEB);
         claims.put(AwanaJwtClaims.PASSWORD_RESET, reset);
-
-        return doGenerateToken(claims, JWT_TOKEN_USER_VALIDITY);
+        claims.put(AwanaJwtClaims.APPS, userClient.getUserAppsById(user.getId()).stream()
+                .filter(v -> (v.isAccess() && v.isEnabled())).map(Application::getName).collect(Collectors.toList()));
+        claims.put(AwanaJwtClaims.ACCESS, featureAccessClient.getFeatureAccess(user.getWebRole()));
+        return buildTokenClaims(claims, JWT_TOKEN_USER_VALIDITY);
     }
 
     /**
      * Generate a token based on the given Claims and subject
      * 
-     * @param claims  - The claims/fields to be added to the token
-     * @param subject - The main subject to be added to the field
+     * @param claims   The claims/fields to be added to the token
+     * @param validity How long in milliseconds the token is good for
      * @return String of the generated JWT token
      */
-    private String doGenerateToken(Map<String, Object> claims, long validity) {
+    public String buildTokenClaims(Map<String, Object> claims, long validity) {
         return Jwts.builder().setClaims(claims).setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + validity))
                 .signWith(SignatureAlgorithm.HS512, appEnvironmentService.getSigningKey()).compact();
