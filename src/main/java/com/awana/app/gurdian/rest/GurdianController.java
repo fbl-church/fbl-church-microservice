@@ -110,6 +110,20 @@ public class GurdianController {
     }
 
     /**
+     * Update the clubber's list of gurdians that they are associated too.
+     * 
+     * @param clubberId The clubber id to be updated
+     * @param gurdians  The list of gurdians to associate to them.
+     * @return clubber associated to that id with the updated information
+     */
+    @Operation(summary = "Update Clubber Gurdians", description = "Will update the clubbers list of gurdians associated to them")
+    @PutMapping(path = "/{clubberId}/gurdians", produces = APPLICATION_JSON_VALUE)
+    @HasAccess(WebRole.HELPER)
+    public List<Gurdian> updateClubberGurdiansById(@PathVariable int clubberId, @RequestBody List<Gurdian> gurdians) {
+        return manageGurdianService.updateClubberGurdiansById(clubberId, gurdians);
+    }
+
+    /**
      * Associate a clubber to a gurdian.
      * 
      * @param gurdianId The id of the gurdian

@@ -1,6 +1,7 @@
 package com.awana.app.gurdian.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,7 +53,20 @@ public class ManageGurdianService {
     }
 
     /**
-     * Associate a clubber to a gurdian.
+     * Update the clubber's list of gurdians that they are associated too.
+     * 
+     * @param clubberId The clubber id to be updated
+     * @param gurdians  The list of gurdians to associate to them.
+     * @return clubber associated to that id with the updated information
+     */
+    public List<Gurdian> updateClubberGurdiansById(int clubberId, List<Gurdian> gurdians) {
+        unassociateClubber(clubberId, gurdians.stream().map(Gurdian::getId).collect(Collectors.toList()));
+        associateClubber(clubberId, gurdians);
+        return gurdians;
+    }
+
+    /**
+     * Associate a clubber to a list of gurdians.
      * 
      * @param clubberId The id of the clubber.
      * @param gurdians  List of gurdians to associate
@@ -63,14 +77,14 @@ public class ManageGurdianService {
             try {
                 dao.associateClubber(g.getId(), clubberId, g.getRelationship());
             }catch(Exception e) {
-                LOGGER.warn("Unable to associate Clubber id '{}' to gurdian id '{}'", clubberId, g.getId());
+                LOGGER.warn("Unable to associate Clubber id '{}' to Gurdian id '{}'", clubberId, g.getId());
             }
 
         }
     }
 
     /**
-     * Unassociate a clubber from a gurdian.
+     * Unassociates a clubber from a list of gurdians.
      * 
      * @param clubberId The id of the clubber.
      * @param gurdians  List of gurdians to associate
@@ -81,7 +95,7 @@ public class ManageGurdianService {
             try {
                 dao.unassociateClubber(gId, clubberId);
             }catch(Exception e) {
-                LOGGER.warn("Unable to unassociate Clubber id '{}' from gurdian id '{}'", clubberId, gId);
+                LOGGER.warn("Unable to unassociate Clubber id '{}' from Gurdian id '{}'", clubberId, gId);
             }
 
         }
