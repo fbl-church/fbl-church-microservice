@@ -73,6 +73,22 @@ public class GurdianDAO extends BaseDao {
     }
 
     /**
+     * Update the gurdian's information such as email, first name, and last name
+     * 
+     * @param id      The id of the gurdian to update
+     * @param gurdian what information on the gurdian needs to be updated.
+     * @return gurdian associated to that id with the updated information
+     */
+    public void updateGurdianById(int id, Gurdian gurdian) {
+        MapSqlParameterSource params = SqlParamBuilder.with().withParam(FIRST_NAME, gurdian.getFirstName())
+                .withParam(LAST_NAME, gurdian.getLastName()).withParam(EMAIL, gurdian.getEmail())
+                .withParam(PHONE, gurdian.getPhone()).withParam(ADDRESS, gurdian.getAddress()).withParam(ID, id)
+                .build();
+
+        post("updateGurdian", params);
+    }
+
+    /**
      * Associate a clubber to a gurdian.
      * 
      * @param gurdianId    The id of the gurdian

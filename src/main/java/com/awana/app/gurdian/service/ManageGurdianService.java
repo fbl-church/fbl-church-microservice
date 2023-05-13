@@ -41,6 +41,17 @@ public class ManageGurdianService {
     }
 
     /**
+     * Update the gurdian's information such as email, first name, and last name
+     * 
+     * @param gurdian what information on the gurdian needs to be updated.
+     * @return gurdian associated to that id with the updated information
+     */
+    public Gurdian updateGurdianById(int id, Gurdian gurdian) {
+        dao.updateGurdianById(id, gurdian);
+        return gurdianService.getGurdianById(id);
+    }
+
+    /**
      * Associate a clubber to a gurdian.
      * 
      * @param clubberId The id of the clubber.

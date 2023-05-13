@@ -46,6 +46,16 @@
   INSERT INTO gurdians (first_name, last_name, email, phone, address)
   VALUES (:first_name, :last_name, :email, :phone, :address)
 
+@NAME(updateGurdian)
+  UPDATE gurdians 
+  SET
+    first_name = IFNULL(:first_name, first_name),
+    last_name  = IFNULL(:last_name, last_name),
+    email      = IFNULL(:email, email),
+    phone      = IFNULL(:phone, phone),
+    address    = IFNULL(:address, address)
+  WHERE id = :id
+
 @NAME(associateClubberToGurdian)
   INSERT INTO clubber_gurdians (clubber_id, gurdian_id, relationship)
   VALUES(:clubber_id, :gurdian_id, :relationship)
