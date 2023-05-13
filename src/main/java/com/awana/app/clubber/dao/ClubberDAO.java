@@ -73,6 +73,22 @@ public class ClubberDAO extends BaseDao {
     }
 
     /**
+     * Update the clubber's information such as email, first name, and last name
+     * 
+     * @param id      The id of the clubber to update
+     * @param clubber what information on the clubber needs to be updated.
+     * @return clubber associated to that id with the updated information
+     */
+    public void updateClubber(int id, Clubber clubber) {
+        MapSqlParameterSource params = SqlParamBuilder.with().withParam(FIRST_NAME, clubber.getFirstName())
+                .withParam(LAST_NAME, clubber.getLastName()).withParam(CHURCH_GROUP, clubber.getChurchGroup())
+                .withParam(BIRTHDAY, clubber.getBirthday()).withParam(ALLERGIES, clubber.getAllergies())
+                .withParam(ADDITIONAL_INFO, clubber.getAdditionalInfo()).withParam(ID, id).build();
+
+        post("updateClubber", params);
+    }
+
+    /**
      * Delete a clubber by id.
      * 
      * @param clubberId The clubber id to delete.

@@ -41,6 +41,18 @@ public class ManageClubberService {
     }
 
     /**
+     * Update the clubber's information such as email, first name, and last name
+     * 
+     * @param id      The id of the clubber to update
+     * @param clubber what information on the clubber needs to be updated.
+     * @return clubber associated to that id with the updated information
+     */
+    public Clubber updateClubber(int id, Clubber clubber) {
+        dao.updateClubber(id, clubber);
+        return clubberService.getClubberById(id);
+    }
+
+    /**
      * Delete a clubber by id.
      * 
      * @param clubberId The clubber id to delete.

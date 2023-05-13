@@ -45,6 +45,17 @@
   INSERT INTO clubbers (first_name, last_name, church_group, birthday, allergies, additional_info)
   VALUES (:first_name, :last_name, :church_group, :birthday, :allergies, :additional_info)
 
+@NAME(updateClubber)
+  UPDATE clubbers 
+  SET
+    first_name      = IFNULL(:first_name, first_name),
+    last_name       = IFNULL(:last_name, last_name),
+    church_group    = IFNULL(:church_group, church_group),
+    birthday        = IFNULL(:birthday, birthday),
+    allergies       = IFNULL(:allergies, allergies),
+    additional_info = IFNULL(:additional_info, additional_info)
+  WHERE id = :id
+
 @NAME(deleteClubber)
   DELETE FROM clubbers
   WHERE id = :id
