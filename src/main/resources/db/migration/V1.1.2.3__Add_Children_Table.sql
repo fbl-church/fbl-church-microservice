@@ -1,8 +1,8 @@
 -- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
--- Script: V1.1.2.3__Add_Clubbers_Table.sql
+-- Script: V1.1.2.3__Add_Children_Table.sql
 -- Author: Sam Butler
 -- Date: April 24, 2022
--- Issue: AWANA-2: Clubbers Table 
+-- Issue: AWANA-2: Children Table 
 -- Version: v1.1.2
 -- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -10,7 +10,7 @@
 -- AWANA-2: START
 -- ---------------------------------------------------------------------------------
 
-CREATE TABLE clubbers (
+CREATE TABLE children (
   id              INT unsigned NOT NULL AUTO_INCREMENT,
   first_name      VARCHAR(128) NOT NULL,
   last_name       VARCHAR(128) NOT NULL,

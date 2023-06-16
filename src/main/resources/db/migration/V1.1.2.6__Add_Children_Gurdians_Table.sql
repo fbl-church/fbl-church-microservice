@@ -1,8 +1,8 @@
 -- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
--- Script: V1.1.2.6__Add_Clubber_Gurdians_Table.sql
+-- Script: V1.1.2.6__Add_Children_Gurdians_Table.sql
 -- Author: Sam Butler
 -- Date: April 24, 2022
--- Issue: AWANA-2: Add Clubber Gurdians Table 
+-- Issue: AWANA-2: Add Children Gurdians Table 
 -- Version: v1.1.2
 -- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -10,20 +10,20 @@
 -- AWANA-2: START
 -- ---------------------------------------------------------------------------------
 
-CREATE TABLE clubber_gurdians (
-  clubber_id   INT          UNSIGNED NOT NULL,
+CREATE TABLE children_gurdians (
+  child_id     INT          UNSIGNED NOT NULL,
   gurdian_id   INT          UNSIGNED NOT NULL,
-  relationship VARCHAR(128)          NOT NULL DEFAULT 'OTHER',
+  relationship VARCHAR(128)          NOT NULL DEFAULT 'OTHER'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE UNIQUE INDEX clubber_gurdians_AK1 ON clubber_gurdians(clubber_id, gurdian_id);
+CREATE UNIQUE INDEX children_gurdians_AK1 ON children_gurdians(child_id, gurdian_id);
 
-ALTER TABLE clubber_gurdians ADD CONSTRAINT clubbers__clubber_gurdians__FK1 
-  FOREIGN KEY (clubber_id) REFERENCES clubbers (id) 
+ALTER TABLE children_gurdians ADD CONSTRAINT children__children_gurdians__FK1 
+  FOREIGN KEY (child_id) REFERENCES children (id) 
     ON DELETE CASCADE
     ON UPDATE CASCADE;
 
-ALTER TABLE clubber_gurdians ADD CONSTRAINT gurdians__clubber_gurdians__FK2
+ALTER TABLE children_gurdians ADD CONSTRAINT gurdians__children_gurdians__FK2
   FOREIGN KEY (gurdian_id) REFERENCES gurdians (id) 
     ON DELETE RESTRICT
     ON UPDATE CASCADE;

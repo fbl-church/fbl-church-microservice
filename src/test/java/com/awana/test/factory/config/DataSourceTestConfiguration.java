@@ -128,7 +128,7 @@ public class DataSourceTestConfiguration {
      * @return {@link String} of the test schema name.
      */
     private String createSchema(DataSource source) {
-        String schemaName = String.format("fb_awana_test__%d", generateRandomNumber());
+        String schemaName = String.format("fbl_church_test__%d", generateRandomNumber());
         NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(source);
         template.update(String.format("CREATE SCHEMA `%s`;", schemaName), new MapSqlParameterSource());
         LOGGER.info("Schema '{}' created successfully...", schemaName);
