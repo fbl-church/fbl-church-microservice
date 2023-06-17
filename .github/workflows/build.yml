@@ -25,7 +25,7 @@ jobs:
           java-version: "14"
           distribution: "adopt"
       - name: Validate Gradle wrapper
-        uses: gradle/wrapper-validation-action@v1
+        uses: gradle/wrapper-validation-action@v1.0.6
       - name: Make gradlew executable
         run: chmod +x ./gradlew
       - name: Run Build
@@ -35,6 +35,6 @@ jobs:
           MYSQL_TEST_PASSWORD: ${{ secrets.MYSQL_TEST_PASSWORD }}
           MYSQL_TEST_URL: ${{ secrets.MYSQL_TEST_URL }}
           JWT_SIGNING_KEY: ${{ secrets.JWT_SIGNING_KEY }}
-        uses: gradle/gradle-build-action@0d13054264b0bb894ded474f08ebb30921341cee
+        uses: gradle/gradle-build-action@v2.4.0
         with:
           arguments: build -i
