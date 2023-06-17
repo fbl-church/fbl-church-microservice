@@ -2,12 +2,12 @@
 -- Script: V1.1.3.3__Add_Web_Role_App_Access_Table.sql
 -- Author: Sam Butler
 -- Date: April 24, 2022
--- Issue: AWANA-2: Create Web Role App Access Table 
+-- Issue: FBL-2: Create Web Role App Access Table 
 -- Version: V1.1.3.3
 -- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 -- ---------------------------------------------------------------------------------
--- AWANA-2: START
+-- FBL-2: START
 -- ---------------------------------------------------------------------------------
 
 CREATE TABLE web_role_app_access (
@@ -24,7 +24,7 @@ ALTER TABLE web_role_app_access
   ADD CONSTRAINT user_profile__web_role_app_access__FK1 FOREIGN KEY(app_id) REFERENCES application(id)
     ON DELETE CASCADE ON UPDATE CASCADE;
 -- ---------------------------------------------------------------------------------
--- AWANA-2: END
+-- FBL-2: END
 -- ---------------------------------------------------------------------------------
 
 -- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

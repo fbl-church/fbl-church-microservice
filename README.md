@@ -1,4 +1,4 @@
-# First Baptist Awana API [![Build Status](https://github.com/sambutler1017/fb-awana-microservice/actions/workflows/build.yml/badge.svg)](https://github.com/sambutler1017/fb-awana-microservice/actions)
+# First Baptist FBL Church API [![Build Status](https://github.com/sambutler1017/fbl-church-microservice/actions/workflows/build.yml/badge.svg)](https://github.com/sambutler1017/fbl-church-microservice/actions)
 
 <!-- ABOUT THE PROJECT -->
 
@@ -13,8 +13,8 @@
 
 - Commit message should have a purpose and link to the ticket you are working on so blind commits aren't added to the repository.
 - An Example would be, say the ticket being worked on as an issue id of 1 that was adding a table to the database. The format would be as follows:
-  - `AWANA-1: Added new table to awana_db_dev table`
-- It should be prefixed with `AWANA` (Project is Awana project) followed by the issue number and then the message
+  - `FBL-Church-1: Added new table to fbl_church_dev table`
+- It should be prefixed with `FBL-Church` (Project is FBL Church project) followed by the issue number and then the message
 
 ### Built With
 
@@ -41,7 +41,7 @@ To get a local copy up and running follow these simple steps.
 1. Clone the repo
 
    ```sh
-   git clone https://github.com/sambutler1017/fb-awana-microservice.git
+   git clone https://github.com/sambutler1017/fbl-church-microservice.git
    ```
 
 2. Build and install packages provided in `build.gradle` file
@@ -87,7 +87,7 @@ To get a local copy up and running follow these simple steps.
 
 Samuel Butler - sambutler1017@icloud.com
 
-Project Link: [https://github.com/sambutler1017/fb-awana-microservice](https://github.com/sambutler1017/fb-awana-microservice)
+Project Link: [https://github.com/sambutler1017/fbl-church-microservice](https://github.com/sambutler1017/fbl-church-microservice)
 
 <!-- ACKNOWLEDGEMENTS -->
 

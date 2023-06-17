@@ -2,12 +2,12 @@
 -- Script: V1.1.0.3__Add_User_Status_Table.sql
 -- Author: Sam Butler
 -- Date: April 24, 2022
--- Issue: AWANA-2: Create User Status Table 
+-- Issue: FBL-2: Create User Status Table 
 -- Version: V1.1.0
 -- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 -- ---------------------------------------------------------------------------------
--- AWANA-2: START
+-- FBL-2: START
 -- ---------------------------------------------------------------------------------
 
 CREATE TABLE user_status (
@@ -24,7 +24,7 @@ ALTER TABLE user_status
   ADD CONSTRAINT users__user_status__FK2 FOREIGN KEY(updated_user_id) REFERENCES users(id)
     ON DELETE SET NULL ON UPDATE CASCADE;
 -- ---------------------------------------------------------------------------------
--- AWANA-2: END
+-- FBL-2: END
 -- ---------------------------------------------------------------------------------
 
 -- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

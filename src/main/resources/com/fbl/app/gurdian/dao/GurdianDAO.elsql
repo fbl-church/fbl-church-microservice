@@ -1,0 +1,73 @@
+@NAME(gurdianFields)
+  g.id,
+  g.first_name,
+  g.last_name,
+  g.email,
+  g.phone,
+  g.address,
+  g.insert_date
+
+@NAME(gurdianFilters)
+  @WHERE
+    @AND(:id)
+      g.id IN (:id)
+    @AND(:first_name)
+      g.first_name IN (:first_name)
+    @AND(:last_name)
+      g.last_name IN (:last_name)
+    @AND(:email)
+      g.email IN (:email)
+    @AND(:phone)
+      g.phone IN (:phone)
+    @AND(:search = true)
+      @INCLUDE(search)
+
+@NAME(getGurdiansBase)
+  FROM gurdians g
+  @INCLUDE(gurdianFilters)
+
+@NAME(getGurdiansPage)
+  @PAGING(:rowOffset, :pageSize)
+    SELECT @INCLUDE(gurdianFields) 
+    @INCLUDE(getGurdiansBase)
+    ORDER BY g.last_name ASC
+
+@NAME(getGurdiansPageTotalCount)
+  SELECT COUNT(*)
+  @INCLUDE(getGurdiansBase)
+
+@NAME(getChildGurdians)
+  SELECT @INCLUDE(gurdianFields), cg.relationship
+  FROM gurdians g
+  INNER JOIN child_gurdians cg ON g.id = cg.gurdian_id
+  WHERE cg.child_id = :child_id
+
+@NAME(insertGurdian)
+  INSERT INTO gurdians (first_name, last_name, email, phone, address)
+  VALUES (:first_name, :last_name, :email, :phone, :address)
+
+@NAME(updateGurdian)
+  UPDATE gurdians 
+  SET
+    first_name = IFNULL(:first_name, first_name),
+    last_name  = IFNULL(:last_name, last_name),
+    email      = IFNULL(:email, email),
+    phone      = IFNULL(:phone, phone),
+    address    = IFNULL(:address, address)
+  WHERE id = :id
+
+@NAME(associateChildToGurdian)
+  INSERT INTO child_gurdians (child_id, gurdian_id, relationship)
+  VALUES(:child_id, :gurdian_id, :relationship)
+
+@NAME(unassociateChildFromGurdian)
+  DELETE FROM child_gurdians
+  WHERE child_id = :child_id
+  AND gurdian_id   = :gurdian_id
+
+@NAME(deleteGurdian)
+  DELETE FROM gurdians
+  WHERE id = :gurdian_id
+
+@NAME(search)
+  (@VALUE(:searchContent))

@@ -1,0 +1,64 @@
+@NAME(childrenFields)
+  c.id,
+  c.first_name,
+  c.last_name,
+  c.birthday,
+  c.allergies,
+  c.additional_info,
+  c.church_group,
+  c.insert_date
+
+@NAME(childrenFilters)
+  @WHERE
+    @AND(:id)
+      c.id IN (:id)
+    @AND(:first_name)
+      c.first_name IN (:first_name)
+    @AND(:last_name)
+      c.last_name IN (:last_name)
+    @AND(:church_group)
+      c.church_group IN (:church_group)
+    @AND(:search = true)
+      @INCLUDE(search)
+
+@NAME(getChildrenBase)
+  FROM children c
+  @INCLUDE(childrenFilters)
+
+@NAME(getChildrenPage)
+  @PAGING(:rowOffset, :pageSize)
+    SELECT @INCLUDE(childrenFields) 
+    @INCLUDE(getChildrenBase)
+    ORDER BY c.last_name ASC
+
+@NAME(getChildrenPageTotalCount)
+  SELECT COUNT(*)
+  @INCLUDE(getChildrenBase)
+
+@NAME(getGurdianChildren)
+  SELECT @INCLUDE(childrenFields)
+  FROM children c
+  INNER JOIN child_gurdians cg ON c.id = cg.child_id
+  WHERE cg.gurdian_id = :gurdian_id
+
+@NAME(insertChild)
+  INSERT INTO children (first_name, last_name, church_group, birthday, allergies, additional_info)
+  VALUES (:first_name, :last_name, :church_group, :birthday, :allergies, :additional_info)
+
+@NAME(updateChild)
+  UPDATE children 
+  SET
+    first_name      = IFNULL(:first_name, first_name),
+    last_name       = IFNULL(:last_name, last_name),
+    church_group    = IFNULL(:church_group, church_group),
+    birthday        = IFNULL(:birthday, birthday),
+    allergies       = IFNULL(:allergies, allergies),
+    additional_info = IFNULL(:additional_info, additional_info)
+  WHERE id = :id
+
+@NAME(deleteChild)
+  DELETE FROM children
+  WHERE id = :id
+
+@NAME(search)
+  (@VALUE(:searchContent))

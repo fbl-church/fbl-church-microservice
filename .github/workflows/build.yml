@@ -1,6 +1,6 @@
-# Workflow will build the fb-awana-microservice application on push to the branch and pull request for the branch.
+# Workflow will build the fbl-church-microservice application on push to the branch and pull request for the branch.
 
-name: FB Awana API Build
+name: FBL Church API Build
 
 on:
   push:
@@ -13,7 +13,7 @@ permissions:
 
 jobs:
   build:
-    name: FB Awana Microservice Build
+    name: FBL Church Microservice Build
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v3

@@ -2,7 +2,7 @@
 -- Script: V1.1.3.4__Add_Web_Role_Feature_Access_Table.sql
 -- Author: Sam Butler
 -- Date: April 24, 2022
--- Issue: AWANA-2: Create Web Role Feature Access Table 
+-- Issue: FBL-2: Create Web Role Feature Access Table 
 -- Version: V1.1.3.4
 -- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -28,7 +28,7 @@ ALTER TABLE web_role_feature_access
     ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- ---------------------------------------------------------------------------------
--- AWANA-2: END
+-- FBL-2: END
 -- ---------------------------------------------------------------------------------
 
 -- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

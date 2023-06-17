@@ -2,12 +2,12 @@
 -- Script: V1.1.2.2__Add_User_Credentials_Table.sql
 -- Author: Sam Butler
 -- Date: April 24, 2022
--- Issue: AWANA-3: Create User Credentials Table 
+-- Issue: FBL-3: Create User Credentials Table 
 -- Version: v1.1.2
 -- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 -- ---------------------------------------------------------------------------------
--- AWANA-3: START
+-- FBL-3: START
 -- ---------------------------------------------------------------------------------
 CREATE TABLE user_credentials (
   user_id                      INT        UNSIGNED NOT NULL,
@@ -21,7 +21,7 @@ ALTER TABLE user_credentials ADD CONSTRAINT users__user_credentials__FK1
     ON UPDATE CASCADE;
 
 -- ---------------------------------------------------------------------------------
--- AWANA-3: END
+-- FBL-3: END
 -- ---------------------------------------------------------------------------------
 
 -- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

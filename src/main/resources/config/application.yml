@@ -27,13 +27,13 @@ security:
     domains: ${ALLOWED_DOMAINS}
 
 info:
-  name: First Baptist Awana REST Api
+  name: First Baptist Church Lagrange REST Api
   license:
     type: MIT License
-    url: https://github.com/fbl-awana/fb-awana-microservice/blob/master/LICENSE
+    url: https://github.com/fbl-awana/fbl-church-microservice/blob/master/LICENSE
   version: Snapshot
   contact:
     name: Sam Butler
     email: sambutler1017@icloud.com
-    url: https://github.com/sambutler1017/fb-awana-microservice
-  description: Restful API's for managing first baptist awana.
+    url: https://github.com/sambutler1017/fbl-church-microservice
+  description: Restful API's for managing first baptist church.

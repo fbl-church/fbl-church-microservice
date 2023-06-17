@@ -2,12 +2,12 @@
 -- Script: V1.1.2.6__Add_Children_Gurdians_Table.sql
 -- Author: Sam Butler
 -- Date: April 24, 2022
--- Issue: AWANA-2: Add Children Gurdians Table 
+-- Issue: FBL-2: Add Children Gurdians Table 
 -- Version: v1.1.2
 -- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 -- ---------------------------------------------------------------------------------
--- AWANA-2: START
+-- FBL-2: START
 -- ---------------------------------------------------------------------------------
 
 CREATE TABLE children_gurdians (
@@ -29,7 +29,7 @@ ALTER TABLE children_gurdians ADD CONSTRAINT gurdians__children_gurdians__FK2
     ON UPDATE CASCADE;
 
 -- ---------------------------------------------------------------------------------
--- AWANA-2: END
+-- FBL-2: END
 -- ---------------------------------------------------------------------------------
 
 -- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
