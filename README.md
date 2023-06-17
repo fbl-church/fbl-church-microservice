@@ -1,4 +1,4 @@
-# First Baptist FBL Church API [![Build Status](https://github.com/sambutler1017/fbl-church-microservice/actions/workflows/build.yml/badge.svg)](https://github.com/sambutler1017/fbl-church-microservice/actions)
+# First Baptist FBL Church API [![Build Status](https://github.com/fbl-church/fbl-church-microservice/actions/workflows/build.yml/badge.svg)](https://github.com/fbl-church/fbl-church-microservice/actions)
 
 <!-- ABOUT THE PROJECT -->
 
@@ -41,7 +41,7 @@ To get a local copy up and running follow these simple steps.
 1. Clone the repo
 
    ```sh
-   git clone https://github.com/sambutler1017/fbl-church-microservice.git
+   git clone https://github.com/fbl-church/fbl-church-microservice.git
    ```
 
 2. Build and install packages provided in `build.gradle` file
@@ -87,7 +87,7 @@ To get a local copy up and running follow these simple steps.
 
 Samuel Butler - sambutler1017@icloud.com
 
-Project Link: [https://github.com/sambutler1017/fbl-church-microservice](https://github.com/sambutler1017/fbl-church-microservice)
+Project Link: [https://github.com/fbl-church/fbl-church-microservice](https://github.com/fbl-church/fbl-church-microservice)
 
 <!-- ACKNOWLEDGEMENTS -->
 
