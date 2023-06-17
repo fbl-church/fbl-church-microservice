@@ -24,7 +24,7 @@ jobs:
         with:
           java-version: "14"
           distribution: "adopt"
-      - name: Validate Gradle wrapper
+      - name: Validate Gradle Wrapper
         uses: gradle/wrapper-validation-action@v1.0.6
       - name: Make gradlew executable
         run: chmod +x ./gradlew
