@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.jdbc.core.RowMapper;
 
 /**
@@ -24,7 +25,7 @@ public abstract class AbstractMapper<T> extends AbstractSqlGlobals implements Ro
      * @return The new LocalDateTime format.
      */
     public LocalDateTime parseDateTime(String d) {
-        if(d == null) {
+        if(StringUtils.isBlank(d)) {
             return null;
         }
 
@@ -39,7 +40,7 @@ public abstract class AbstractMapper<T> extends AbstractSqlGlobals implements Ro
      * @return The new LocalDate format.
      */
     public LocalDate parseDate(String d) {
-        if(d == null) {
+        if(StringUtils.isBlank(d)) {
             return null;
         }
 

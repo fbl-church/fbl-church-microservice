@@ -84,7 +84,7 @@ public class BaseExceptionHandlerController {
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ExceptionError handleException(Exception ex) {
-        LOGGER.error(ex.getMessage());
+        LOGGER.error(ex.getMessage(), ex);
         return new ExceptionError(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
