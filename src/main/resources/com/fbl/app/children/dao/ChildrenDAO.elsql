@@ -38,7 +38,7 @@
 @NAME(getGurdianChildren)
   SELECT @INCLUDE(childrenFields)
   FROM children c
-  INNER JOIN child_gurdians cg ON c.id = cg.child_id
+  INNER JOIN children_gurdians cg ON c.id = cg.child_id
   WHERE cg.gurdian_id = :gurdian_id
 
 @NAME(insertChild)

@@ -39,7 +39,7 @@
 @NAME(getChildGurdians)
   SELECT @INCLUDE(gurdianFields), cg.relationship
   FROM gurdians g
-  INNER JOIN child_gurdians cg ON g.id = cg.gurdian_id
+  INNER JOIN children_gurdians cg ON g.id = cg.gurdian_id
   WHERE cg.child_id = :child_id
 
 @NAME(insertGurdian)
@@ -57,11 +57,11 @@
   WHERE id = :id
 
 @NAME(associateChildToGurdian)
-  INSERT INTO child_gurdians (child_id, gurdian_id, relationship)
+  INSERT INTO children_gurdians (child_id, gurdian_id, relationship)
   VALUES(:child_id, :gurdian_id, :relationship)
 
 @NAME(unassociateChildFromGurdian)
-  DELETE FROM child_gurdians
+  DELETE FROM children_gurdians
   WHERE child_id = :child_id
   AND gurdian_id   = :gurdian_id
 
