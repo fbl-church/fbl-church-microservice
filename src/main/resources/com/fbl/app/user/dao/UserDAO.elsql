@@ -38,6 +38,7 @@
 @NAME(getUsersPageTotalCount)
   SELECT COUNT(*)
   @INCLUDE(getUsersBase)
+  GROUP BY id
 
 @NAME(getApplications)
   SELECT 
