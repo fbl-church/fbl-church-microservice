@@ -1,27 +1,26 @@
 -- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
--- Script: V1.1.3.3__Add_Web_Role_App_Access_Table.sql
+-- Script: V1.1.4.1__Add_User_Roles_Table.sql
 -- Author: Sam Butler
 -- Date: April 24, 2022
--- Issue: FBL-2: Create Web Role App Access Table 
--- Version: V1.1.3.3
+-- Issue: FBL-2: Create User Roles Table
+-- Version: V1.1.4.1
 -- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 -- ---------------------------------------------------------------------------------
 -- FBL-2: START
 -- ---------------------------------------------------------------------------------
 
-CREATE TABLE web_role_app_access (
-  web_role VARCHAR(45)          NOT NULL,
-  app_id   INT         unsigned NOT NULL,
-  access   TINYINT(4)  unsigned NOT NULL DEFAULT 0
+CREATE TABLE user_roles (
+  user_id   INT         unsigned NOT NULL,
+  web_role  VARCHAR(45)          NOT NULL,
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE INDEX web_role_app_access_IDX1 ON web_role_app_access(web_role);
-CREATE INDEX web_role_app_access_IDX2 ON web_role_app_access(app_id);
-CREATE UNIQUE INDEX web_role_app_access_AK1 ON web_role_app_access(web_role,app_id);
+CREATE INDEX user_roles_IDX1 ON user_roles(user_id);
+CREATE INDEX user_roles_IDX2 ON user_roles(web_role);
+CREATE UNIQUE INDEX user_roles_AK1 ON user_roles(user_id,web_role);
 
-ALTER TABLE web_role_app_access 
-  ADD CONSTRAINT users__web_role_app_access__FK1 FOREIGN KEY(app_id) REFERENCES application(id)
+ALTER TABLE user_roles 
+  ADD CONSTRAINT users__user_roles__FK1 FOREIGN KEY(user_id) REFERENCES users(id)
     ON DELETE CASCADE ON UPDATE CASCADE;
 -- ---------------------------------------------------------------------------------
 -- FBL-2: END

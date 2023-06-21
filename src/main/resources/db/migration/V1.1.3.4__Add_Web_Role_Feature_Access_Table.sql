@@ -24,7 +24,7 @@ CREATE INDEX web_role_feature_access_IDX2 ON web_role_feature_access(feature_id)
 CREATE UNIQUE INDEX web_role_feature_access_AK1 ON web_role_feature_access(web_role,feature_id);
 
 ALTER TABLE web_role_feature_access 
-  ADD CONSTRAINT user_profile__web_role_feature_access__FK1 FOREIGN KEY(feature_id) REFERENCES feature_access(id)
+  ADD CONSTRAINT users__web_role_feature_access__FK1 FOREIGN KEY(feature_id) REFERENCES feature_access(id)
     ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- ---------------------------------------------------------------------------------
