@@ -2,12 +2,11 @@
 -- Script: V1.1.3.3__Add_Web_Role_App_Access_Table.sql
 -- Author: Sam Butler
 -- Date: April 24, 2022
--- Issue: FBL-2: Create Web Role App Access Table 
 -- Version: V1.1.3.3
 -- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 -- ---------------------------------------------------------------------------------
--- FBL-2: START
+-- START
 -- ---------------------------------------------------------------------------------
 
 CREATE TABLE web_role_app_access (
@@ -24,7 +23,7 @@ ALTER TABLE web_role_app_access
   ADD CONSTRAINT users__web_role_app_access__FK1 FOREIGN KEY(app_id) REFERENCES application(id)
     ON DELETE CASCADE ON UPDATE CASCADE;
 -- ---------------------------------------------------------------------------------
--- FBL-2: END
+-- END
 -- ---------------------------------------------------------------------------------
 
 -- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
