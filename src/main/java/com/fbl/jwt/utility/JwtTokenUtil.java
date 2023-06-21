@@ -110,7 +110,8 @@ public class JwtTokenUtil implements Serializable {
         claims.put(JwtClaims.JWT_TYPE, JwtType.WEB);
         claims.put(JwtClaims.APPS, userClient.getUserAppsById(user.getId()).stream()
                 .filter(v -> (v.isAccess() && v.isEnabled())).map(Application::getName).collect(Collectors.toList()));
-        claims.put(JwtClaims.ACCESS, featureAccessClient.getFeatureAccess(user.getWebRole()));
+        claims.put(JwtClaims.ACCESS,
+                featureAccessClient.getFeatureAccess(user.getWebRole()));
         return buildTokenClaims(claims, JWT_TOKEN_USER_VALIDITY);
     }
 

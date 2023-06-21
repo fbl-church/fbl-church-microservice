@@ -72,7 +72,6 @@ public class UserDAOTest {
         assertEquals("Test", user.getFirstName(), "First name");
         assertEquals("User", user.getLastName(), "Last name");
         assertEquals("test@mail.com", user.getEmail(), "Email");
-        assertEquals(WebRole.USER, user.getWebRole(), "Web Role");
     }
 
     @Test
@@ -91,7 +90,7 @@ public class UserDAOTest {
         user.setFirstName("NewUserInsert");
         user.setLastName("LastName");
         user.setEmail("newEmail@mail.com");
-        user.setWebRole(WebRole.ADMIN);
+        user.setWebRole(List.of(WebRole.ADMIN));
 
         int newUserId = dao.insertUser(user);
         assertEquals(4, newUserId, "New user Id should be 4");
@@ -102,7 +101,7 @@ public class UserDAOTest {
         User user = new User();
         assertEquals("Test", dao.getUserById(1).getFirstName());
         user.setFirstName("Randy");
-        user.setWebRole(WebRole.USER);
+        user.setWebRole(List.of(WebRole.USER));
 
         dao.updateUser(1, user);
     }
@@ -112,7 +111,7 @@ public class UserDAOTest {
         User user = new User();
         user.setEmail("Fake123@mail.com");
         DataIntegrityViolationException e = assertThrows(DataIntegrityViolationException.class,
-                                                         () -> dao.updateUser(1, user));
+                () -> dao.updateUser(1, user));
         assertTrue(e.getMessage().contains("Duplicate entry 'Fake123@mail.com'"));
     }
 }

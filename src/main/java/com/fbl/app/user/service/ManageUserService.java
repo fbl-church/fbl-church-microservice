@@ -3,6 +3,9 @@
  */
 package com.fbl.app.user.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +15,7 @@ import com.fbl.app.user.client.domain.User;
 import com.fbl.app.user.client.domain.UserStatus;
 import com.fbl.app.user.dao.UserDAO;
 import com.fbl.common.enums.AccountStatus;
+import com.fbl.common.enums.WebRole;
 import com.fbl.exception.types.InsufficientPermissionsException;
 import com.fbl.jwt.utility.JwtHolder;
 
@@ -47,12 +51,13 @@ public class ManageUserService {
 	 * @return The new user that was created.
 	 */
 	public User createUser(User user) {
-		if(jwtHolder.getWebRole().getRank() <= user.getWebRole().getRank()) {
+		if (!WebRole.hasPermission(jwtHolder.getWebRole(), user.getWebRole())) {
 			throw new InsufficientPermissionsException(String
-					.format("Your role of '%s' can not create a user of role '%s'", jwtHolder.getWebRole(),
+					.format("Insufficient permission to create a user of role '%s'", jwtHolder.getWebRole(),
 							user.getWebRole()));
 		}
 		int newUserId = dao.insertUser(user);
+		assignUserRoles(newUserId, user.getWebRole());
 		userCredentialsClient.insertUserPassword(newUserId, user.getPassword());
 		UserStatusClient.insertUserStatus(new UserStatus(newUserId, AccountStatus.APPROVED, true));
 		return userService.getUserById(newUserId);
@@ -90,9 +95,9 @@ public class ManageUserService {
 	 */
 	public User updateUserById(int id, User user) {
 		User updatingUser = userService.getUserById(id);
-		if(id != updatingUser.getId() && jwtHolder.getWebRole().getRank() <= updatingUser.getWebRole().getRank()) {
+		if (id != updatingUser.getId() && !WebRole.hasPermission(jwtHolder.getWebRole(), updatingUser.getWebRole())) {
 			throw new InsufficientPermissionsException(String
-					.format("Your role of '%s' can not update a user of role '%s'", jwtHolder.getWebRole(),
+					.format("Insufficient permission to update a user of role '%s'", jwtHolder.getWebRole(),
 							updatingUser.getWebRole()));
 		}
 
@@ -127,6 +132,28 @@ public class ManageUserService {
 	 */
 	private User updateUser(int userId, User user) {
 		dao.updateUser(userId, user);
+		assignUserRoles(userId, user.getWebRole());
 		return userService.getUserById(userId);
+	}
+
+	/**
+	 * Adds the list of web roles to the given user id.
+	 * 
+	 * @param userId The user id
+	 * @param roles  The roles to assign to the user id
+	 */
+	private void assignUserRoles(int userId, List<WebRole> roles) {
+		dao.deleteUserRoles(userId);
+
+		if (roles == null) {
+			roles = new ArrayList<>();
+		} else {
+			roles.removeIf(r -> r.equals(WebRole.USER));
+		}
+
+		roles.add(WebRole.USER);
+		for (WebRole r : roles) {
+			dao.insertUserRole(userId, r);
+		}
 	}
 }

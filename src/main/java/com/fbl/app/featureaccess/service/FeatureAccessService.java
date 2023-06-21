@@ -29,7 +29,7 @@ public class FeatureAccessService {
      * 
      * @return {@link Map} of the list of feature access.
      */
-    public Map<String, List<Map<String, String>>> getFeatureAccess(WebRole role) {
+    public Map<String, List<Map<String, String>>> getFeatureAccess(List<WebRole> role) {
         return dao.getFeatureAccess(role);
     }
 }

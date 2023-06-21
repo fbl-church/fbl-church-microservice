@@ -31,7 +31,7 @@ public class FeatureAccessClient {
 	 * @param request to filter stores on
 	 * @return List of stores {@link Map<String,String>}
 	 */
-	public Map<String, List<Map<String, String>>> getFeatureAccess(WebRole role) {
+	public Map<String, List<Map<String, String>>> getFeatureAccess(List<WebRole> role) {
 		return service.getFeatureAccess(role);
 	}
 }

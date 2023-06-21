@@ -14,7 +14,6 @@ CREATE TABLE users (
   first_name               VARCHAR(128)          NOT NULL,
   last_name                VARCHAR(128)          NOT NULL DEFAULT '',
   email                    VARCHAR(128)                   DEFAULT NULL,
-  web_role                 VARCHAR(45)           NOT NULL DEFAULT 'USER',
   last_login_date          DATETIME              NOT NULL DEFAULT CURRENT_TIMESTAMP(),
   insert_date              DATETIME              NOT NULL DEFAULT CURRENT_TIMESTAMP(),
   PRIMARY KEY (id)

@@ -12,6 +12,7 @@ import com.fbl.app.user.client.UserClient;
 import com.fbl.app.user.client.domain.PasswordUpdate;
 import com.fbl.app.user.client.domain.User;
 import com.fbl.app.user.dao.UserCredentialsDAO;
+import com.fbl.common.enums.WebRole;
 import com.fbl.exception.types.InsufficientPermissionsException;
 import com.fbl.jwt.utility.JwtHolder;
 
@@ -70,18 +71,19 @@ public class UserCredentialsService {
     /**
      * Method that will take in an id and a PasswordUpdate object
      * 
+     * @param id         The id of the user being updated
      * @param passUpdate Object the holds the current password and new user password
      *                   to change it too.
      * @return {@link User} object of the user that was updated.
      */
-    public User updateUserPasswordById(int userId, PasswordUpdate passUpdate) {
-        User updatingUser = userClient.getUserById(userId);
-        if(userId != updatingUser.getId() && jwtHolder.getWebRole().getRank() <= updatingUser.getWebRole().getRank()) {
+    public User updateUserPasswordById(int id, PasswordUpdate passUpdate) {
+        User updatingUser = userClient.getUserById(id);
+        if (id != updatingUser.getId() && !WebRole.hasPermission(jwtHolder.getWebRole(), updatingUser.getWebRole())) {
             throw new InsufficientPermissionsException(String
-                    .format("Your role of '%s' can not update a user of role '%s'", jwtHolder.getWebRole(),
+                    .format("Insufficient permission to update a user of role '%s'", jwtHolder.getWebRole(),
                             updatingUser.getWebRole()));
         }
-        return passwordUpdate(userId, passUpdate.getNewPassword());
+        return passwordUpdate(id, passUpdate.getNewPassword());
     }
 
     /**
@@ -92,7 +94,7 @@ public class UserCredentialsService {
      * @return {@link User} object of the user that was updated.
      */
     private User passwordUpdate(int userId, String password) {
-        if(password != null && password.trim() != "") {
+        if (password != null && password.trim() != "") {
             dao.updateUserPassword(userId, BCrypt.hashpw(password, BCrypt.gensalt()));
         }
         return userClient.getCurrentUser();

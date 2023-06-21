@@ -8,7 +8,6 @@ import java.sql.SQLException;
 
 import com.fbl.app.user.client.domain.User;
 import com.fbl.common.enums.AccountStatus;
-import com.fbl.common.enums.WebRole;
 import com.fbl.sql.abstracts.AbstractMapper;
 
 /**
@@ -26,13 +25,12 @@ public class UserMapper extends AbstractMapper<User> {
 		user.setFirstName(rs.getString(FIRST_NAME));
 		user.setLastName(rs.getString(LAST_NAME));
 		user.setEmail(rs.getString(EMAIL));
-		user.setWebRole(WebRole.valueOf(rs.getString(WEB_ROLE)));
 		user.setAccountStatus(AccountStatus.valueOf(rs.getString(ACCOUNT_STATUS)));
 		user.setAppAccess(rs.getBoolean(APP_ACCESS));
 
 		try {
 			user.setPassword(rs.getString(PASSWORD));
-		}catch(Exception e) {
+		} catch (Exception e) {
 			user.setPassword(null);
 		}
 

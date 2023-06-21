@@ -3,7 +3,6 @@
   u.first_name,
   u.last_name,
   u.email,
-  u.web_role,
   u.insert_date,
   u.last_login_date
 
@@ -19,19 +18,21 @@
     @AND(:email)
       u.email IN (:email)
     @AND(:web_role)
-      u.web_role IN (:web_role)
+      ur.web_role IN (:web_role)
     @AND(:search = true)
       @INCLUDE(search)
 
 @NAME(getUsersBase)
   FROM users u
   INNER JOIN user_status us ON u.id = us.user_id
+  INNER JOIN user_roles ur ON u.id = ur.user_id
   @INCLUDE(userFilters)
 
 @NAME(getUsersPage)
   @PAGING(:rowOffset, :pageSize)
     SELECT @INCLUDE(userFields), @INCLUDE(userStatusFields)
     @INCLUDE(getUsersBase)
+    GROUP BY id
     ORDER BY u.last_name ASC, u.first_name ASC
 
 @NAME(getUsersPageTotalCount)
@@ -44,35 +45,50 @@
     a.app_name AS 'app_name',
     wraa.access AS 'access',
     a.enabled AS 'enabled'
-  FROM users u
-    INNER JOIN web_role_app_access wraa ON u.web_role = wraa.web_role
+  FROM user_roles ur
+    INNER JOIN web_role_app_access wraa ON ur.web_role = wraa.web_role
     INNER JOIN application a ON wraa.app_id = a.id
   @WHERE
     @AND(:user_id)
-      u.id = :user_id
+      ur.user_id = :user_id
   ORDER BY a.id
 
-@NAME(insertUser)
-  INSERT INTO users (first_name, last_name, email, web_role)
-  VALUES (:first_name, :last_name, :email, :web_role)
+@NAME(getUserRoles)
+  SELECT web_role
+  FROM user_roles ur
+  @WHERE
+    @AND(:user_id)
+      ur.user_id = :user_id
+  ORDER BY web_role
 
-@NAME(deleteUser)
-  DELETE FROM users
-  WHERE id = :id
+@NAME(insertUser)
+  INSERT INTO users (first_name, last_name, email)
+  VALUES (:first_name, :last_name, :email)
+
+@NAME(insertUserRole)
+  INSERT INTO user_roles (user_id, web_role)
+  VALUES (:user_id, :web_role)
 
 @NAME(updateUser)
   UPDATE users 
   SET
     email       = IFNULL(:email, email),
     first_name  = IFNULL(:first_name, first_name),
-    last_name   = IFNULL(:last_name, last_name),
-    web_role    = IFNULL(:web_role, web_role)
+    last_name   = IFNULL(:last_name, last_name)
   WHERE id = :id
 
 @NAME(updateUserLastLoginToNow)
   UPDATE users 
   SET last_login_date = :last_login_date
   WHERE id = :id
+
+@NAME(deleteUser)
+  DELETE FROM users
+  WHERE id = :id
+
+@NAME(deleteUserRoles)
+  DELETE FROM user_roles
+  WHERE user_id = :user_id
 
 @NAME(search)
   (@VALUE(:searchContent))

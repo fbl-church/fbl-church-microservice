@@ -3,6 +3,9 @@
  */
 package com.fbl.common.enums;
 
+import java.util.Comparator;
+import java.util.List;
+
 /**
  * Enums for all the possible user roles.
  * 
@@ -46,5 +49,27 @@ public enum WebRole implements TextEnum {
     @Override
     public String getTextId() {
         return textId;
+    }
+
+    /**
+     * Checks to see if the accessing user has permission to modify the user passed
+     * in.
+     * 
+     * @param accessingUser The user that wants access
+     * @param user          The user to check access against
+     * @return Boolean determining if the accessing user has permission to the user
+     */
+    public static boolean hasPermission(List<WebRole> accessingUser, List<WebRole> user) {
+        return highestRoleRank(accessingUser).getRank() > highestRoleRank(user).getRank();
+    }
+
+    /**
+     * Takes in a list of roles and returns the highest rank of the list.
+     * 
+     * @param roles The list of roles
+     * @return The highest ranking role
+     */
+    public static WebRole highestRoleRank(List<WebRole> roles) {
+        return roles.stream().max(Comparator.comparing(WebRole::getRank)).get();
     }
 }

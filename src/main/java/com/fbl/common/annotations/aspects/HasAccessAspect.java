@@ -3,6 +3,8 @@
  */
 package com.fbl.common.annotations.aspects;
 
+import java.util.List;
+
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -10,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.fbl.common.annotations.interfaces.HasAccess;
+import com.fbl.common.enums.WebRole;
 import com.fbl.exception.types.InsufficientPermissionsException;
 import com.fbl.jwt.utility.JwtHolder;
 
@@ -36,7 +39,7 @@ public class HasAccessAspect {
      */
     @Around(value = "@annotation(anno)", argNames = "jp, anno")
     public Object access(ProceedingJoinPoint joinPoint, HasAccess access) throws Throwable {
-        if(jwtHolder.getWebRole().getRank() < access.value().getRank()) {
+        if (!WebRole.hasPermission(jwtHolder.getWebRole(), List.of(access.value()))) {
             throw new InsufficientPermissionsException(jwtHolder.getWebRole());
         }
         return joinPoint.proceed();

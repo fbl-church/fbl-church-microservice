@@ -3,10 +3,13 @@
  */
 package com.fbl.jwt.utility;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fbl.app.user.client.domain.User;
 import com.fbl.common.enums.Environment;
@@ -142,8 +145,10 @@ public class JwtHolder {
 	 * 
 	 * @return String of the webRole from the current token
 	 */
-	public WebRole getWebRole() {
-		return WebRole.valueOf(parse(JwtClaims.WEB_ROLE).toString());
+	public List<WebRole> getWebRole() {
+		TypeReference<List<WebRole>> webRoleListType = new TypeReference<List<WebRole>>() {
+		};
+		return new ObjectMapper().convertValue(parse(JwtClaims.WEB_ROLE), webRoleListType);
 	}
 
 	/**

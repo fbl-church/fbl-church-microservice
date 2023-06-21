@@ -123,7 +123,7 @@ public abstract class AbstractSqlDao extends AbstractSqlGlobals {
     protected <T> Optional<T> getOptional(String fragment, MapSqlParameterSource params, Class<T> clazz) {
         try {
             return Optional.of(get(fragment, params, clazz));
-        }catch(Exception e) {
+        } catch (Exception e) {
             return Optional.empty();
         }
     }
@@ -141,7 +141,7 @@ public abstract class AbstractSqlDao extends AbstractSqlGlobals {
     protected <T> Optional<T> getOptional(String fragment, Class<T> clazz) {
         try {
             return Optional.of(get(fragment, clazz));
-        }catch(Exception e) {
+        } catch (Exception e) {
             return Optional.empty();
         }
     }
@@ -160,7 +160,7 @@ public abstract class AbstractSqlDao extends AbstractSqlGlobals {
     protected <T> Optional<T> getOptional(String fragment, MapSqlParameterSource params, RowMapper<T> mapper) {
         try {
             return Optional.of(get(fragment, params, mapper));
-        }catch(Exception e) {
+        } catch (Exception e) {
             return Optional.empty();
         }
     }
@@ -178,7 +178,7 @@ public abstract class AbstractSqlDao extends AbstractSqlGlobals {
     protected <T> Optional<T> getOptional(String fragment, RowMapper<T> mapper) {
         try {
             return Optional.of(get(fragment, mapper));
-        }catch(Exception e) {
+        } catch (Exception e) {
             return Optional.empty();
         }
     }
@@ -196,6 +196,21 @@ public abstract class AbstractSqlDao extends AbstractSqlGlobals {
     protected <T> List<T> getList(String fragment, MapSqlParameterSource params, RowMapper<T> mapper) {
         String sql = getSql(fragment, params);
         return getTemplate().query(sql, params, mapper);
+    }
+
+    /**
+     * Querys the database for a list of data. It will return the data as a list of
+     * the passed in class type
+     * 
+     * @param <T>      The object type of the method to cast the rows too.
+     * @param fragment The name of the sql fragment.
+     * @param params   Params to be inserted into the query.
+     * @param clazz    The class to map the data as.
+     * @return List of the returned data.
+     */
+    protected <T> List<T> getList(String fragment, MapSqlParameterSource params, Class<T> clazz) {
+        String sql = getSql(fragment, params);
+        return getTemplate().queryForList(sql, params, clazz);
     }
 
     /**

@@ -3,6 +3,8 @@
  */
 package com.fbl.exception.types;
 
+import java.util.List;
+
 import com.fbl.common.enums.WebRole;
 
 /**
@@ -34,15 +36,11 @@ public class InsufficientPermissionsException extends BaseException {
     }
 
     /**
-     * Throws an insufficent permissions exception for the webrole and action.
+     * Throws {@link InsufficientPermissionsException} for the role.
      * 
-     * @param insufficentWebRole The user that does not have sufficent permissions.
-     * @param changingWebRole    The role of the user that the action was being
-     *                           performed on.
-     * @param action             The type of action (e.g. update, delete, get, etc)
+     * @param roles The roles the user had insufficent permissions for
      */
-    public InsufficientPermissionsException(WebRole insufficentWebRole, WebRole changingWebRole, String action) {
-        super(String.format("Your role of '%s' can not %s a user of role '%s'", insufficentWebRole, action,
-                            changingWebRole));
+    public InsufficientPermissionsException(List<WebRole> roles) {
+        this(WebRole.highestRoleRank(roles));
     }
 }

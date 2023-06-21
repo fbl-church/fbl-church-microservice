@@ -20,6 +20,7 @@ import com.fbl.app.user.client.domain.Application;
 import com.fbl.app.user.client.domain.User;
 import com.fbl.app.user.client.domain.request.UserGetRequest;
 import com.fbl.common.date.TimeZoneUtil;
+import com.fbl.common.enums.WebRole;
 import com.fbl.common.page.Page;
 import com.fbl.exception.types.NotFoundException;
 import com.fbl.sql.abstracts.BaseDao;
@@ -66,7 +67,7 @@ public class UserDAO extends BaseDao {
 			UserGetRequest request = new UserGetRequest();
 			request.setId(Sets.newHashSet(id));
 			return getUsers(request).getList().get(0);
-		}catch(Exception e) {
+		} catch (Exception e) {
 			throw new NotFoundException("User", id);
 		}
 	}
@@ -83,6 +84,17 @@ public class UserDAO extends BaseDao {
 	}
 
 	/**
+	 * Get a list of user roles by id.
+	 * 
+	 * @param userId The user id
+	 * @return List of Webroles
+	 */
+	public List<WebRole> getUserRolesById(int userId) {
+		MapSqlParameterSource params = parameterSource(USER_ID, userId);
+		return getList("getUserRoles", params, WebRole.class);
+	}
+
+	/**
 	 * Creates a new user for the given user object.
 	 * 
 	 * @param user The user to create.
@@ -91,11 +103,22 @@ public class UserDAO extends BaseDao {
 	public int insertUser(User user) {
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		MapSqlParameterSource params = SqlParamBuilder.with().withParam(FIRST_NAME, user.getFirstName())
-				.withParam(LAST_NAME, user.getLastName()).withParam(EMAIL, user.getEmail())
-				.withParam(WEB_ROLE, user.getWebRole()).build();
+				.withParam(LAST_NAME, user.getLastName()).withParam(EMAIL, user.getEmail()).build();
 
 		post("insertUser", params, keyHolder);
 		return keyHolder.getKey().intValue();
+	}
+
+	/**
+	 * Inserts a user role
+	 * 
+	 * @param userId  The user to get the role
+	 * @param webRole The role to assign
+	 */
+	public void insertUserRole(int userId, WebRole webRole) {
+		MapSqlParameterSource params = SqlParamBuilder.with().withParam(USER_ID, userId).withParam(WEB_ROLE, webRole)
+				.build();
+		post("insertUserRole", params);
 	}
 
 	/**
@@ -108,8 +131,8 @@ public class UserDAO extends BaseDao {
 	 */
 	public void updateUser(int userId, User user) {
 		MapSqlParameterSource params = SqlParamBuilder.with().withParam(FIRST_NAME, user.getFirstName())
-				.withParam(LAST_NAME, user.getLastName()).withParam(EMAIL, user.getEmail())
-				.withParam(WEB_ROLE, user.getWebRole()).withParam(ID, userId).build();
+				.withParam(LAST_NAME, user.getLastName()).withParam(EMAIL, user.getEmail()).withParam(ID, userId)
+				.build();
 
 		update("updateUser", params);
 	}
@@ -133,5 +156,14 @@ public class UserDAO extends BaseDao {
 	 */
 	public void deleteUser(int id) {
 		delete("deleteUser", parameterSource(ID, id));
+	}
+
+	/**
+	 * Delete the user roles for the given id.
+	 * 
+	 * @param userId The user id to remove the roles from.
+	 */
+	public void deleteUserRoles(int userId) {
+		delete("deleteUserRoles", parameterSource(USER_ID, userId));
 	}
 }

@@ -56,7 +56,9 @@ public class UserService {
 	 * @return User object {@link User}
 	 */
 	public User getUserById(int id) {
-		return dao.getUserById(id);
+		User u = dao.getUserById(id);
+		u.setWebRole(dao.getUserRolesById(id));
+		return u;
 	}
 
 	/**
