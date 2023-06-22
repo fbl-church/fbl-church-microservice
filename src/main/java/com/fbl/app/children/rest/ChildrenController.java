@@ -88,7 +88,7 @@ public class ChildrenController {
      */
     @Operation(summary = "Create a new child", description = "Given a child request body. It will create a new child.")
     @PostMapping(produces = APPLICATION_JSON_VALUE)
-    @HasAccess(WebRole.AWANA_LEADER)
+    @HasAccess(WebRole.LEADER)
     public Child insertChild(@RequestBody @Valid Child child) {
         return manageChildrenService.insertChild(child);
     }
@@ -101,7 +101,7 @@ public class ChildrenController {
      */
     @Operation(summary = "Update child Information", description = "Will update the given child information.")
     @PutMapping(path = "/{id}", produces = APPLICATION_JSON_VALUE)
-    @HasAccess(WebRole.AWANA_WORKER)
+    @HasAccess(WebRole.WORKER)
     public Child updateChildById(@PathVariable int id, @RequestBody Child child) {
         return manageChildrenService.updateChild(id, child);
     }
@@ -113,7 +113,7 @@ public class ChildrenController {
      */
     @Operation(summary = "Delete a child.", description = "Delete a child for the given id.")
     @DeleteMapping(path = "/{childId}", produces = APPLICATION_JSON_VALUE)
-    @HasAccess(WebRole.AWANA_LEADER)
+    @HasAccess(WebRole.LEADER)
     public void deleteChild(@PathVariable int childId) {
         manageChildrenService.deleteChild(childId);
     }

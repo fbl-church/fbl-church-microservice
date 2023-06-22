@@ -91,7 +91,7 @@ public class GurdianController {
     @Operation(summary = "Create a new Gurdian.", description = "Given a Gurdian request body. It will create a new gurdian.")
     @PostMapping(produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    @HasAccess(WebRole.AWANA_LEADER)
+    @HasAccess(WebRole.LEADER)
     public Gurdian insertGurdian(@RequestBody @Valid Gurdian gurdian) {
         return manageGurdianService.insertGurdian(gurdian);
     }
@@ -104,7 +104,7 @@ public class GurdianController {
      */
     @Operation(summary = "Update Gurdian Information", description = "Will update the given gurdian information.")
     @PutMapping(path = "/{id}", produces = APPLICATION_JSON_VALUE)
-    @HasAccess(WebRole.AWANA_WORKER)
+    @HasAccess(WebRole.WORKER)
     public Gurdian updateGurdianById(@PathVariable int id, @RequestBody Gurdian gurdian) {
         return manageGurdianService.updateGurdianById(id, gurdian);
     }
@@ -118,7 +118,7 @@ public class GurdianController {
      */
     @Operation(summary = "Update child gurdians", description = "Will update the child's list of gurdians associated to them")
     @PutMapping(path = "/{childId}/gurdians", produces = APPLICATION_JSON_VALUE)
-    @HasAccess(WebRole.AWANA_WORKER)
+    @HasAccess(WebRole.WORKER)
     public List<Gurdian> updateChildGurdiansById(@PathVariable int childId, @RequestBody List<Gurdian> gurdians) {
         return manageGurdianService.updateChildGurdiansById(childId, gurdians);
     }
@@ -130,7 +130,7 @@ public class GurdianController {
      */
     @Operation(summary = "Delete a gurdian by id", description = "Will delete the specified gurdian for the given id.")
     @DeleteMapping(path = "/{gurdianId}", produces = APPLICATION_JSON_VALUE)
-    @HasAccess(WebRole.AWANA_LEADER)
+    @HasAccess(WebRole.LEADER)
     public void deleteGurdian(@PathVariable int gurdianId) {
         manageGurdianService.deleteGurdian(gurdianId);
     }
