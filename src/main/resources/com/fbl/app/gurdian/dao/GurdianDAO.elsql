@@ -60,10 +60,9 @@
   INSERT INTO children_gurdians (child_id, gurdian_id, relationship)
   VALUES(:child_id, :gurdian_id, :relationship)
 
-@NAME(unassociateChildFromGurdian)
+@NAME(unassociateChildGurdians)
   DELETE FROM children_gurdians
   WHERE child_id = :child_id
-  AND gurdian_id   = :gurdian_id
 
 @NAME(deleteGurdian)
   DELETE FROM gurdians

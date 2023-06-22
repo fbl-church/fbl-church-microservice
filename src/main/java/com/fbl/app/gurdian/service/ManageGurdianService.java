@@ -1,7 +1,6 @@
 package com.fbl.app.gurdian.service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,7 +59,7 @@ public class ManageGurdianService {
      * @return List of gurdians that were updated on the child
      */
     public List<Gurdian> updateChildGurdiansById(int childId, List<Gurdian> gurdians) {
-        unassociateChild(childId, gurdians.stream().map(Gurdian::getId).collect(Collectors.toList()));
+        unassociateChildGurdians(childId);
         associateChild(childId, gurdians);
         return gurdians;
     }
@@ -73,10 +72,10 @@ public class ManageGurdianService {
      */
     public void associateChild(int childId, List<Gurdian> gurdians) {
         Assert.notEmpty(gurdians, "Can not associate child to list of empty gurdians.");
-        for(Gurdian g : gurdians) {
+        for (Gurdian g : gurdians) {
             try {
                 dao.associateChild(g.getId(), childId, g.getRelationship());
-            }catch(Exception e) {
+            } catch (Exception e) {
                 LOGGER.warn("Unable to associate child id '{}' to Gurdian id '{}'", childId, g.getId());
             }
 
@@ -89,16 +88,8 @@ public class ManageGurdianService {
      * @param childId  The id of the child.
      * @param gurdians List of gurdians to associate
      */
-    public void unassociateChild(int childId, List<Integer> gurdianIds) {
-        Assert.notEmpty(gurdianIds, "Can not unassociate child from list of empty gurdians.");
-        for(Integer gId : gurdianIds) {
-            try {
-                dao.unassociateChild(gId, childId);
-            }catch(Exception e) {
-                LOGGER.warn("Unable to unassociate child id '{}' from Gurdian id '{}'", childId, gId);
-            }
-
-        }
+    public void unassociateChildGurdians(int childId) {
+        dao.unassociateChildGurdians(childId);
     }
 
     /**

@@ -102,15 +102,14 @@ public class GurdianDAO extends BaseDao {
     }
 
     /**
-     * Unassociate a child from a gurdian.
+     * Unassociate a child from it's gurdians.
      * 
      * @param gurdianId The id of the gurdian
      * @param childId   The id of the child.
      */
-    public void unassociateChild(int gurdianId, int childId) {
-        MapSqlParameterSource params = SqlParamBuilder.with().withParam(GURDIAN_ID, gurdianId)
-                .withParam(CHILD_ID, childId).build();
-        post("unassociateChildFromGurdian", params);
+    public void unassociateChildGurdians(int childId) {
+        MapSqlParameterSource params = SqlParamBuilder.with().withParam(CHILD_ID, childId).build();
+        delete("unassociateChildGurdians", params);
     }
 
     /**

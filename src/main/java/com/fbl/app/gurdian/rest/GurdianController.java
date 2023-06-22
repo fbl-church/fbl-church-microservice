@@ -124,33 +124,6 @@ public class GurdianController {
     }
 
     /**
-     * Associate a child to a gurdian.
-     * 
-     * @param gurdianId The id of the gurdian
-     * @param childId   The id of the child.
-     */
-    @Operation(summary = "Associate a child to a gurdian", description = "Will associate the given child and gurdian ids.")
-    @PostMapping(path = "/associate/{childId}/child", produces = APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.CREATED)
-    @HasAccess(WebRole.AWANA_LEADER)
-    public void associateChild(@PathVariable int childId, @RequestBody List<Gurdian> gurdians) {
-        manageGurdianService.associateChild(childId, gurdians);
-    }
-
-    /**
-     * Unassociate a child from a gurdian.
-     * 
-     * @param childId  The id of the child
-     * @param gurdians The list of gurdian ids to unassociate.
-     */
-    @Operation(summary = "Unassociate a child from a gurdian", description = "Will unassociate the given child and gurdian id.")
-    @DeleteMapping(path = "unassociate/{childId}/child", produces = APPLICATION_JSON_VALUE)
-    @HasAccess(WebRole.AWANA_LEADER)
-    public void unassociateChild(@PathVariable int childId, @RequestBody List<Integer> gurdians) {
-        manageGurdianService.unassociateChild(childId, gurdians);
-    }
-
-    /**
      * Delete gurdian by id.
      * 
      * @param gurdianId The id of the gurdian

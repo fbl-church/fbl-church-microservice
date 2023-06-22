@@ -81,12 +81,11 @@ public class GurdianClient {
     }
 
     /**
-     * Unassociate a child from a gurdian.
+     * Unassociate a child from it's gurdians.
      * 
      * @param gurdianId The id of the gurdian
-     * @param gurdians  The list of gurdians
      */
-    public void unassociateChild(int childId, List<Integer> gurdians) {
-        manageGurdianService.unassociateChild(childId, gurdians);
+    public void unassociateChildGurdians(int childId) {
+        manageGurdianService.unassociateChildGurdians(childId);
     }
 }
