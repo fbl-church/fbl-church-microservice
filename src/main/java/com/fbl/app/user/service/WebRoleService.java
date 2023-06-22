@@ -30,8 +30,7 @@ public class WebRoleService {
         List<WebRole> roles = Arrays.asList(WebRole.values());
 
         if (StringUtils.hasText(request.getSearch())) {
-            roles = roles.stream().filter(r -> r.getTextId().contains(request.getSearch().toUpperCase()))
-                    .collect(Collectors.toList());
+            roles = filterPredicate(roles, request.getSearch());
         }
 
         int totalCount = roles.size();
@@ -42,5 +41,18 @@ public class WebRoleService {
         }
 
         return new Page<>(totalCount, roles);
+    }
+
+    /**
+     * Filters out base user role and will perform search on role list.
+     * 
+     * @param roles  The roles to fitler
+     * @param search The search to filter the list on
+     * @return Filtered role list
+     */
+    private List<WebRole> filterPredicate(List<WebRole> roles, String search) {
+        return roles.stream().filter(r -> r.equals(WebRole.USER))
+                .filter(r -> r.getTextId().contains(search.toUpperCase()))
+                .collect(Collectors.toList());
     }
 }
