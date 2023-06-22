@@ -36,9 +36,8 @@
     ORDER BY u.last_name ASC, u.first_name ASC
 
 @NAME(getUsersPageTotalCount)
-  SELECT COUNT(*)
+  SELECT COUNT(DISTINCT id)
   @INCLUDE(getUsersBase)
-  GROUP BY id
 
 @NAME(getApplications)
   SELECT 
