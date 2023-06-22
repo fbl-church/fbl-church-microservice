@@ -8,7 +8,6 @@ import java.util.List;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 
 import com.fbl.common.enums.AccountStatus;
 import com.fbl.common.enums.WebRole;
@@ -41,7 +40,6 @@ public class User {
 	private String email;
 
 	@Schema(description = "The user web role")
-	@NotEmpty(message = "Invalid webRole: Can not be null or empty")
 	private List<WebRole> webRole;
 
 	@Schema(description = "The access of the user to the website.")
