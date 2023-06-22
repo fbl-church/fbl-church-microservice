@@ -27,7 +27,8 @@ public class WebRoleService {
      * @return list of webroles objects
      */
     public Page<WebRole> getRoles(WebRoleGetRequest request) {
-        List<WebRole> roles = Arrays.asList(WebRole.values());
+        List<WebRole> roles = Arrays.asList(WebRole.values()).stream().filter(r -> !r.equals(WebRole.USER))
+                .collect(Collectors.toList());
 
         if (StringUtils.hasText(request.getSearch())) {
             roles = filterPredicate(roles, request.getSearch());
@@ -51,7 +52,7 @@ public class WebRoleService {
      * @return Filtered role list
      */
     private List<WebRole> filterPredicate(List<WebRole> roles, String search) {
-        return roles.stream().filter(r -> !r.equals(WebRole.USER))
+        return roles.stream()
                 .filter(r -> r.getTextId().contains(search.toUpperCase()))
                 .collect(Collectors.toList());
     }
