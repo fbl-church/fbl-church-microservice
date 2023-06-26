@@ -35,10 +35,10 @@ public class WebRoleService {
         }
 
         int totalCount = roles.size();
-        if (request.getPageSize() > 0 && roles.size() > request.getPageSize()) {
+        if (request.getPageSize() > 0 && totalCount > request.getPageSize()) {
             int startSlice = (int) request.getRowOffset();
             int endSlice = (int) (request.getRowOffset() + request.getPageSize());
-            roles = roles.subList(startSlice, endSlice);
+            roles = roles.subList(startSlice, endSlice > totalCount ? totalCount : endSlice);
         }
 
         return new Page<>(totalCount, roles);
