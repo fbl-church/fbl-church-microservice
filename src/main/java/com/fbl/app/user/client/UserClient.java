@@ -5,7 +5,11 @@ package com.fbl.app.user.client;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import com.fbl.app.user.client.domain.Application;
 import com.fbl.app.user.client.domain.User;
@@ -70,6 +74,27 @@ public class UserClient {
 	}
 
 	/**
+	 * Create a new user. This is an account created by someone other the user
+	 * accessing the account.
+	 * 
+	 * @param user The user object to be created.
+	 * @return The new user that was created.
+	 */
+	public User createUser(@RequestBody @Valid User user) {
+		return manageUserService.createUser(user);
+	}
+
+	/**
+	 * Update the user's information such as email, first name, and last name
+	 * 
+	 * @param user what information on the user needs to be updated.
+	 * @return user associated to that id with the updated information
+	 */
+	public User updateUser(@RequestBody User user) {
+		return manageUserService.updateUser(user);
+	}
+
+	/**
 	 * Method that will update the user's last login time to current date and time;
 	 * 
 	 * @param userId The user Id to be updated.
@@ -77,5 +102,14 @@ public class UserClient {
 	 */
 	public User updateUserLastLoginToNow(int id) {
 		return manageUserService.updateUserLastLoginToNow(id);
+	}
+
+	/**
+	 * Delete user by id
+	 * 
+	 * @param userId The user Id to be deleted
+	 */
+	public void deleteUser(@PathVariable int userId) {
+		manageUserService.deleteUser(userId);
 	}
 }

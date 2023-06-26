@@ -16,7 +16,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @Schema(description = "The user profile search fields.")
 public enum UserSearchFields implements SearchField {
     FIRST_NAME("u.first_name"),
-    LAST_NAME("u.last_name");
+    LAST_NAME("u.last_name"),
+    EMAIL("u.email");
 
     private String column;
 

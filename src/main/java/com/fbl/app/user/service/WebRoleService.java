@@ -27,7 +27,8 @@ public class WebRoleService {
      * @return list of webroles objects
      */
     public Page<WebRole> getRoles(WebRoleGetRequest request) {
-        List<WebRole> roles = Arrays.asList(WebRole.values()).stream().filter(r -> !r.equals(WebRole.USER))
+        List<WebRole> roles = Arrays.asList(WebRole.values()).stream()
+                .filter(r -> !r.equals(WebRole.USER) && !r.equals(WebRole.GURDIAN))
                 .collect(Collectors.toList());
 
         if (StringUtils.hasText(request.getSearch())) {

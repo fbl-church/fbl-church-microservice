@@ -31,7 +31,8 @@
   @PAGING(:rowOffset, :pageSize)
     SELECT @INCLUDE(gurdianFields) 
     @INCLUDE(getGurdiansBase)
-    ORDER BY g.last_name ASC
+    GROUP BY u.id
+    ORDER BY u.last_name ASC
 
 @NAME(getGurdiansPageTotalCount)
   SELECT COUNT(*)
@@ -41,7 +42,7 @@
   SELECT @INCLUDE(gurdianFields), cg.relationship
   FROM users u
   INNER JOIN gurdians g ON u.id = g.user_id
-  INNER JOIN children_gurdians cg ON g.id = cg.gurdian_id
+  INNER JOIN children_gurdians cg ON g.user_id = cg.gurdian_id
   WHERE cg.child_id = :child_id
 
 @NAME(insertGurdian)
@@ -65,7 +66,7 @@
 
 @NAME(deleteGurdian)
   DELETE FROM gurdians
-  WHERE user_id = :user_id
+  WHERE user_id = :gurdian_id
 
 @NAME(search)
   (@VALUE(:searchContent))

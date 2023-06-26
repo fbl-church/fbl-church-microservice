@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fbl.app.user.client.domain.request.UserSearchFields;
 import com.fbl.common.page.domain.PageParam;
 import com.fbl.common.search.SearchField;
 import com.fbl.common.search.SearchFieldParams;
@@ -22,7 +23,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
  * @since September 9, 2021
  */
 @Schema(description = "Gurdian get request object for filtering users.")
-public class GurdianGetRequest implements SearchParam, PageParam, SearchFieldParams<GurdianSearchFields> {
+public class GurdianGetRequest implements SearchParam, PageParam, SearchFieldParams<UserSearchFields> {
 
     @Schema(description = "List of gurdian ids.")
     private Set<Integer> id;
@@ -115,6 +116,6 @@ public class GurdianGetRequest implements SearchParam, PageParam, SearchFieldPar
     @JsonIgnore
     @Override
     public List<SearchField> getSearchFields() {
-        return Arrays.asList(GurdianSearchFields.values());
+        return Arrays.asList(UserSearchFields.values());
     }
 }

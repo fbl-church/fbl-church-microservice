@@ -59,13 +59,13 @@ public class GurdianDAO extends BaseDao {
     /**
      * Creates a new gurdian for the given user object.
      * 
+     * @param userId  The user id to associate with
      * @param gurdian The gurdian to create.
      * @return {@link Integer} auto increment id of the new gurdian.
      */
-    public int insertGurdian(Gurdian gurdian) {
+    public int insertGurdian(int userId, Gurdian gurdian) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
-        MapSqlParameterSource params = SqlParamBuilder.with().withParam(USER_ID, gurdian.getFirstName())
-                .withParam(LAST_NAME, gurdian.getLastName()).withParam(EMAIL, gurdian.getEmail())
+        MapSqlParameterSource params = SqlParamBuilder.with().withParam(USER_ID, userId)
                 .withParam(PHONE, gurdian.getPhone()).withParam(ADDRESS, gurdian.getAddress()).build();
 
         post("insertGurdian", params, keyHolder);
@@ -80,9 +80,8 @@ public class GurdianDAO extends BaseDao {
      * @return gurdian associated to that id with the updated information
      */
     public void updateGurdianById(int id, Gurdian gurdian) {
-        MapSqlParameterSource params = SqlParamBuilder.with().withParam(FIRST_NAME, gurdian.getFirstName())
-                .withParam(LAST_NAME, gurdian.getLastName()).withParam(EMAIL, gurdian.getEmail())
-                .withParam(PHONE, gurdian.getPhone()).withParam(ADDRESS, gurdian.getAddress()).withParam(ID, id)
+        MapSqlParameterSource params = SqlParamBuilder.with().withParam(PHONE, gurdian.getPhone())
+                .withParam(ADDRESS, gurdian.getAddress()).withParam(ID, id)
                 .build();
 
         post("updateGurdian", params);

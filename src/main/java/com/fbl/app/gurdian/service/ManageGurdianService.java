@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 import com.fbl.app.gurdian.client.domain.Gurdian;
 import com.fbl.app.gurdian.dao.GurdianDAO;
+import com.fbl.app.user.client.UserClient;
+import com.fbl.app.user.client.domain.User;
 
 import io.jsonwebtoken.lang.Assert;
 
@@ -29,14 +31,19 @@ public class ManageGurdianService {
     @Autowired
     private GurdianService gurdianService;
 
+    @Autowired
+    private UserClient userClient;
+
     /**
      * Creates a new gurdian for the given user object.
      * 
+     * @param userId  The user id to associate with
      * @param gurdian The gurdian to create.
      * @return {@link Gurdian} that was created.
      */
     public Gurdian insertGurdian(Gurdian gurdian) {
-        int gurdianId = dao.insertGurdian(gurdian);
+        User createdUser = userClient.createUser((User) gurdian);
+        int gurdianId = dao.insertGurdian(createdUser.getId(), gurdian);
         return gurdianService.getGurdianById(gurdianId);
     }
 
