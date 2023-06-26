@@ -14,6 +14,7 @@ import java.util.List;
  */
 public enum WebRole implements TextEnum {
     USER("USER", 100),
+    GURDIAN("GURDIAN", 100),
     NURSERY_DIRECTOR("NURSERY_DIRECTOR", 300),
     NURSERY_WORKER("NURSERY_WORKER", 200),
     JUNIOR_CHURCH_DIRECTOR("JUNIOR_CHURCH_DIRECTOR", 300),

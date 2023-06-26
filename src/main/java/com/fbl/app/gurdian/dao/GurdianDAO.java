@@ -64,7 +64,7 @@ public class GurdianDAO extends BaseDao {
      */
     public int insertGurdian(Gurdian gurdian) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
-        MapSqlParameterSource params = SqlParamBuilder.with().withParam(FIRST_NAME, gurdian.getFirstName())
+        MapSqlParameterSource params = SqlParamBuilder.with().withParam(USER_ID, gurdian.getFirstName())
                 .withParam(LAST_NAME, gurdian.getLastName()).withParam(EMAIL, gurdian.getEmail())
                 .withParam(PHONE, gurdian.getPhone()).withParam(ADDRESS, gurdian.getAddress()).build();
 

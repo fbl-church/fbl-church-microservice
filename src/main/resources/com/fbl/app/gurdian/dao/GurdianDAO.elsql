@@ -1,29 +1,30 @@
 @NAME(gurdianFields)
-  g.id,
-  g.first_name,
-  g.last_name,
-  g.email,
+  u.id,
+  u.first_name,
+  u.last_name,
+  u.email,
   g.phone,
   g.address,
-  g.insert_date
+  u.insert_date
 
 @NAME(gurdianFilters)
   @WHERE
     @AND(:id)
-      g.id IN (:id)
+      u.id IN (:id)
     @AND(:first_name)
-      g.first_name IN (:first_name)
+      u.first_name IN (:first_name)
     @AND(:last_name)
-      g.last_name IN (:last_name)
+      u.last_name IN (:last_name)
     @AND(:email)
-      g.email IN (:email)
+      u.email IN (:email)
     @AND(:phone)
       g.phone IN (:phone)
     @AND(:search = true)
       @INCLUDE(search)
 
 @NAME(getGurdiansBase)
-  FROM gurdians g
+  FROM users u
+  INNER JOIN gurdians g ON u.id = g.user_id
   @INCLUDE(gurdianFilters)
 
 @NAME(getGurdiansPage)
@@ -38,23 +39,21 @@
 
 @NAME(getChildGurdians)
   SELECT @INCLUDE(gurdianFields), cg.relationship
-  FROM gurdians g
+  FROM users u
+  INNER JOIN gurdians g ON u.id = g.user_id
   INNER JOIN children_gurdians cg ON g.id = cg.gurdian_id
   WHERE cg.child_id = :child_id
 
 @NAME(insertGurdian)
-  INSERT INTO gurdians (first_name, last_name, email, phone, address)
-  VALUES (:first_name, :last_name, :email, :phone, :address)
+  INSERT INTO gurdians (user_id, phone, address)
+  VALUES (:user_id, :phone, :address)
 
 @NAME(updateGurdian)
   UPDATE gurdians 
   SET
-    first_name = IFNULL(:first_name, first_name),
-    last_name  = IFNULL(:last_name, last_name),
-    email      = IFNULL(:email, email),
     phone      = IFNULL(:phone, phone),
     address    = IFNULL(:address, address)
-  WHERE id = :id
+  WHERE user_id = :user_id
 
 @NAME(associateChildToGurdian)
   INSERT INTO children_gurdians (child_id, gurdian_id, relationship)
@@ -66,7 +65,7 @@
 
 @NAME(deleteGurdian)
   DELETE FROM gurdians
-  WHERE id = :gurdian_id
+  WHERE user_id = :user_id
 
 @NAME(search)
   (@VALUE(:searchContent))

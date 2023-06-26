@@ -10,17 +10,17 @@
 -- ---------------------------------------------------------------------------------
 
 CREATE TABLE gurdians (
-  id           INT unsigned NOT NULL AUTO_INCREMENT,
-  first_name   VARCHAR(128) NOT NULL,
-  last_name    VARCHAR(128) NOT NULL,
-  email        VARCHAR(128)          DEFAULT NULL,
+  user_id      INT unsigned NOT NULL,
   phone        VARCHAR(128) NOT NULL,
-  address      VARCHAR(128)          DEFAULT NULL,
-  insert_date  DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP(),
+  address      VARCHAR(128)          DEFAULT NULL
   PRIMARY KEY (id)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4;
 
-CREATE UNIQUE INDEX gurdians_AK1 ON gurdians(email);
+ALTER TABLE gurdians ADD CONSTRAINT users__gurdians__FK1 
+  FOREIGN KEY (user_id) REFERENCES users (id) 
+    ON DELETE CASCADE 
+    ON UPDATE CASCADE;
+
 -- ---------------------------------------------------------------------------------
 -- END
 -- ---------------------------------------------------------------------------------
