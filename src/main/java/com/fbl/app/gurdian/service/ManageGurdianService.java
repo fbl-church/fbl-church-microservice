@@ -11,6 +11,7 @@ import com.fbl.app.gurdian.client.domain.Gurdian;
 import com.fbl.app.gurdian.dao.GurdianDAO;
 import com.fbl.app.user.client.UserClient;
 import com.fbl.app.user.client.domain.User;
+import com.fbl.common.enums.WebRole;
 
 import io.jsonwebtoken.lang.Assert;
 
@@ -43,8 +44,23 @@ public class ManageGurdianService {
      */
     public Gurdian insertGurdian(Gurdian gurdian) {
         User createdUser = userClient.createUser((User) gurdian);
-        int gurdianId = dao.insertGurdian(createdUser.getId(), gurdian);
-        return gurdianService.getGurdianById(gurdianId);
+        return assignGurdianToExistingUser(createdUser.getId(), gurdian);
+    }
+
+    /**
+     * Used when assigning the gurdian role to an existing user.
+     * 
+     * @param gurdian The gurdian to create.
+     * @return {@link Gurdian} that was created.
+     */
+    public Gurdian assignGurdianToExistingUser(int userId, Gurdian gurdian) {
+        User u = userClient.getUserById(userId);
+        gurdian.setWebRole(u.getWebRole());
+        gurdian.getWebRole().add(WebRole.GURDIAN);
+
+        userClient.updateUserRoles(userId, gurdian.getWebRole());
+        dao.insertGurdian(userId, gurdian);
+        return gurdianService.getGurdianById(userId);
     }
 
     /**

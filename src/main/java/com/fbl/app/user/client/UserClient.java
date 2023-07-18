@@ -17,6 +17,7 @@ import com.fbl.app.user.client.domain.request.UserGetRequest;
 import com.fbl.app.user.service.ManageUserService;
 import com.fbl.app.user.service.UserService;
 import com.fbl.common.annotations.interfaces.Client;
+import com.fbl.common.enums.WebRole;
 
 /**
  * This class exposes the user endpoint's to other app's to pull data across the
@@ -92,6 +93,17 @@ public class UserClient {
 	 */
 	public User updateUser(@RequestBody User user) {
 		return manageUserService.updateUser(user);
+	}
+
+	/**
+	 * Update the user's information such as email, first name, and last name
+	 * 
+	 * @param id    The user id to be updated with the new roles
+	 * @param roles List of roles to be updated
+	 * @return The updated user information
+	 */
+	public User updateUserRoles(int id, List<WebRole> roles) {
+		return manageUserService.updateUserRoles(id, roles);
 	}
 
 	/**

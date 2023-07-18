@@ -1,11 +1,15 @@
 package com.fbl.app.children.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fbl.app.children.client.domain.Child;
 import com.fbl.app.children.dao.ChildrenDAO;
 import com.fbl.app.gurdian.client.GurdianClient;
+import com.fbl.common.enums.ChurchGroup;
 
 import io.jsonwebtoken.lang.Assert;
 
@@ -35,7 +39,9 @@ public class ManageChildrenService {
      */
     public Child insertChild(Child child) {
         Assert.notEmpty(child.getGurdians(), "Child must be associated to at least one gurdian");
+
         int childId = dao.insertChild(child);
+        assignChildGroups(childId, child.getChurchGroup());
         gurdianClient.associateChild(childId, child.getGurdians());
         return childrenService.getChildById(childId);
     }
@@ -49,6 +55,7 @@ public class ManageChildrenService {
      */
     public Child updateChild(int id, Child child) {
         dao.updateChild(id, child);
+        assignChildGroups(id, child.getChurchGroup());
         return childrenService.getChildById(id);
     }
 
@@ -59,5 +66,23 @@ public class ManageChildrenService {
      */
     public void deleteChild(int childId) {
         dao.deleteChild(childId);
+    }
+
+    /**
+     * Adds the list of church groups to the given child id.
+     * 
+     * @param childId The child id
+     * @param roles   The church groups to assign to the child id
+     */
+    private void assignChildGroups(int childId, List<ChurchGroup> groups) {
+        dao.deleteChildGroups(childId);
+
+        if (groups == null) {
+            groups = new ArrayList<>();
+        }
+
+        for (ChurchGroup g : groups) {
+            dao.insertChildGroup(childId, g);
+        }
     }
 }

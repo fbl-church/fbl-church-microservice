@@ -42,8 +42,12 @@
   WHERE cg.gurdian_id = :gurdian_id
 
 @NAME(insertChild)
-  INSERT INTO children (first_name, last_name, church_group, birthday, allergies, additional_info)
-  VALUES (:first_name, :last_name, :church_group, :birthday, :allergies, :additional_info)
+  INSERT INTO children (first_name, last_name, birthday, allergies, additional_info)
+  VALUES (:first_name, :last_name, :birthday, :allergies, :additional_info)
+
+@NAME(insertUserRole)
+  INSERT INTO children_groups (child_id, church_group)
+  VALUES (:child_id, :church_group)
 
 @NAME(updateChild)
   UPDATE children 
@@ -59,6 +63,10 @@
 @NAME(deleteChild)
   DELETE FROM children
   WHERE id = :id
+
+@NAME(deleteChildGroups)
+  DELETE FROM children_groups
+  WHERE child_id = :child_id
 
 @NAME(search)
   (@VALUE(:searchContent))

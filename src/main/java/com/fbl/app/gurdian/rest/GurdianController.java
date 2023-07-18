@@ -97,6 +97,20 @@ public class GurdianController {
     }
 
     /**
+     * Used when assigning the gurdian role to an existing user.
+     * 
+     * @param gurdian The gurdian to create.
+     * @return {@link Gurdian} that was created.
+     */
+    @Operation(summary = "Create gurdian entry to existing user", description = "Will take an existing user and assign them the gurdian entry")
+    @PutMapping(path = "/{userId}", produces = APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.CREATED)
+    @HasAccess(WebRole.WORKER)
+    public Gurdian assignGurdianToExistingUser(@PathVariable int userId, @RequestBody Gurdian gurdian) {
+        return manageGurdianService.assignGurdianToExistingUser(userId, gurdian);
+    }
+
+    /**
      * Update the gurdian's information such as email, first name, and last name
      * 
      * @param gurdian what information on the gurdian needs to be updated.

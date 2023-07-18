@@ -131,6 +131,19 @@ public class UserController {
 	}
 
 	/**
+	 * Update the user's information such as email, first name, and last name
+	 * 
+	 * @param id    The user id to be updated with the new roles
+	 * @param roles List of roles to be updated
+	 * @return The updated user information
+	 */
+	@Operation(summary = "Update User Roles", description = "Will update the given user roles by id.")
+	@PutMapping(path = "/roles/{id}", produces = APPLICATION_JSON_VALUE)
+	public User updateUserRoles(@PathVariable int id, @RequestBody List<WebRole> roles) {
+		return manageUserService.updateUserRoles(id, roles);
+	}
+
+	/**
 	 * Updates a user for the given id.
 	 * 
 	 * @param id   of the user to update

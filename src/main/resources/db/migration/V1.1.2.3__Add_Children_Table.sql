@@ -13,7 +13,6 @@ CREATE TABLE children (
   id              INT unsigned NOT NULL AUTO_INCREMENT,
   first_name      VARCHAR(128) NOT NULL,
   last_name       VARCHAR(128) NOT NULL,
-  church_group    VARCHAR(45)            DEFAULT NULL,
   birthday        VARCHAR(45)            DEFAULT NULL,
   allergies       LONGTEXT               DEFAULT NULL,
   additional_info LONGTEXT               DEFAULT NULL,

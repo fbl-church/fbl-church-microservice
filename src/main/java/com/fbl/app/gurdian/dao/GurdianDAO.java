@@ -7,8 +7,6 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import com.fbl.app.gurdian.client.domain.Gurdian;
@@ -63,13 +61,10 @@ public class GurdianDAO extends BaseDao {
      * @param gurdian The gurdian to create.
      * @return {@link Integer} auto increment id of the new gurdian.
      */
-    public int insertGurdian(int userId, Gurdian gurdian) {
-        KeyHolder keyHolder = new GeneratedKeyHolder();
+    public void insertGurdian(int userId, Gurdian gurdian) {
         MapSqlParameterSource params = SqlParamBuilder.with().withParam(USER_ID, userId)
                 .withParam(PHONE, gurdian.getPhone()).withParam(ADDRESS, gurdian.getAddress()).build();
-
-        post("insertGurdian", params, keyHolder);
-        return keyHolder.getKey().intValue();
+        post("insertGurdian", params);
     }
 
     /**

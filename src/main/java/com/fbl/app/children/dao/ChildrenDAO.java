@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import com.fbl.app.children.client.domain.Child;
 import com.fbl.app.children.client.domain.request.ChildGetRequest;
+import com.fbl.common.enums.ChurchGroup;
 import com.fbl.common.page.Page;
 import com.fbl.sql.abstracts.BaseDao;
 import com.fbl.sql.builder.SqlParamBuilder;
@@ -64,12 +65,25 @@ public class ChildrenDAO extends BaseDao {
     public int insertChild(Child child) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         MapSqlParameterSource params = SqlParamBuilder.with().withParam(FIRST_NAME, child.getFirstName())
-                .withParam(LAST_NAME, child.getLastName()).withParam(CHURCH_GROUP, child.getChurchGroup())
-                .withParam(BIRTHDAY, child.getBirthday()).withParam(ALLERGIES, child.getAllergies())
-                .withParam(ADDITIONAL_INFO, child.getAdditionalInfo()).build();
+                .withParam(LAST_NAME, child.getLastName()).withParam(BIRTHDAY, child.getBirthday())
+                .withParam(ALLERGIES, child.getAllergies()).withParam(ADDITIONAL_INFO, child.getAdditionalInfo())
+                .build();
 
         post("insertChild", params, keyHolder);
         return keyHolder.getKey().intValue();
+    }
+
+    /**
+     * Inserts a child church group
+     * 
+     * @param childId The child to assign the group too
+     * @param group   The group to assign
+     */
+    public void insertChildGroup(int childId, ChurchGroup group) {
+        MapSqlParameterSource params = SqlParamBuilder.with().withParam(CHILD_ID, childId)
+                .withParam(CHURCH_GROUP, group)
+                .build();
+        post("insertChildGroup", params);
     }
 
     /**
@@ -96,5 +110,14 @@ public class ChildrenDAO extends BaseDao {
     public void deleteChild(int childId) {
         MapSqlParameterSource params = SqlParamBuilder.with().withParam(ID, childId).build();
         delete("deleteChild", params);
+    }
+
+    /**
+     * Delete the child groups for the given id.
+     * 
+     * @param childId The child id to remove the groups from.
+     */
+    public void deleteChildGroups(int childId) {
+        delete("deleteChildGroups", parameterSource(CHILD_ID, childId));
     }
 }

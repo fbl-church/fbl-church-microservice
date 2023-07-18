@@ -9,7 +9,6 @@ import java.util.List;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
 import com.fbl.app.gurdian.client.domain.Gurdian;
 import com.fbl.common.enums.ChurchGroup;
@@ -37,8 +36,7 @@ public class Child {
     private String lastName;
 
     @Schema(description = "The user church group")
-    @NotNull(message = "Invalid churchGroup: Can not be null")
-    private ChurchGroup churchGroup;
+    private List<ChurchGroup> churchGroup;
 
     @Schema(description = "Childs Allergies, can be null")
     private String allergies;
@@ -80,11 +78,11 @@ public class Child {
         this.lastName = lastName;
     }
 
-    public ChurchGroup getChurchGroup() {
+    public List<ChurchGroup> getChurchGroup() {
         return churchGroup;
     }
 
-    public void setChurchGroup(ChurchGroup churchGroup) {
+    public void setChurchGroup(List<ChurchGroup> churchGroup) {
         this.churchGroup = churchGroup;
     }
 

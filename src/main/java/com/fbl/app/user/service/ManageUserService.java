@@ -116,6 +116,18 @@ public class ManageUserService {
 	}
 
 	/**
+	 * Update the user's information such as email, first name, and last name
+	 * 
+	 * @param id    The user id to be updated with the new roles
+	 * @param roles List of roles to be updated
+	 * @return The updated user information
+	 */
+	public User updateUserRoles(int id, List<WebRole> roles) {
+		assignUserRoles(id, roles);
+		return userService.getUserById(id);
+	}
+
+	/**
 	 * Delete user by id
 	 * 
 	 * @param userId The user Id to be deleted

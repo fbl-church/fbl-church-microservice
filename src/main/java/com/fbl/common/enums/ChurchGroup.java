@@ -14,7 +14,11 @@ public enum ChurchGroup implements TextEnum {
     SPARKS("SPARKS"),
     TNT_GIRLS("TNT_GIRLS"),
     TNT_BOYS("TNT_BOYS"),
-    CROSS_CHECK("CROSS_CHECK");
+    CROSS_CHECK("CROSS_CHECK"),
+    VBS_PRE_PRIMARY("VBS_PRE_PRIMARY"),
+    VBS_PRIMARY("VBS_PRIMARY"),
+    VBS_MIDDLER("VBS_MIDDLER"),
+    VBS_JUNIOR("VBS_JUNIOR");
 
     private String textId;
 

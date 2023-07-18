@@ -71,6 +71,9 @@ public enum WebRole implements TextEnum {
      * @return The highest ranking role
      */
     public static WebRole highestRoleRank(List<WebRole> roles) {
+        if (roles == null) {
+            return WebRole.USER;
+        }
         return roles.stream().max(Comparator.comparing(WebRole::getRank)).orElse(USER);
     }
 }

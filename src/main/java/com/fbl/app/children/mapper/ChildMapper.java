@@ -7,7 +7,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.fbl.app.children.client.domain.Child;
-import com.fbl.common.enums.ChurchGroup;
 import com.fbl.sql.abstracts.AbstractMapper;
 
 /**
@@ -24,7 +23,6 @@ public class ChildMapper extends AbstractMapper<Child> {
 		child.setId(rs.getInt(ID));
 		child.setFirstName(rs.getString(FIRST_NAME));
 		child.setLastName(rs.getString(LAST_NAME));
-		child.setChurchGroup(ChurchGroup.valueOf(rs.getString(CHURCH_GROUP)));
 		child.setBirthday(parseDate(rs.getString(BIRTHDAY)));
 		child.setAllergies(rs.getString(ALLERGIES));
 		child.setAdditionalInfo(rs.getString(ADDITIONAL_INFO));
