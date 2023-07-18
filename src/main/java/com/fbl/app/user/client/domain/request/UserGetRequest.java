@@ -37,8 +37,11 @@ public class UserGetRequest implements SearchParam, PageParam, SearchFieldParams
     @Schema(description = "List of emails.")
     private Set<String> email;
 
-    @Schema(description = "List of user web roles.", allowableValues = "USER,ADMIN")
+    @Schema(description = "List of user web roles.")
     private Set<WebRole> webRole;
+
+    @Schema(description = "List of user web roles not to return")
+    private Set<WebRole> notWebRole;
 
     @Schema(description = "Search Param on search param fields.")
     private String search;
@@ -87,6 +90,14 @@ public class UserGetRequest implements SearchParam, PageParam, SearchFieldParams
 
     public void setWebRole(Set<WebRole> webRole) {
         this.webRole = webRole;
+    }
+
+    public Set<WebRole> getNotWebRole() {
+        return notWebRole;
+    }
+
+    public void setNotWebRole(Set<WebRole> notWebRole) {
+        this.notWebRole = notWebRole;
     }
 
     public String getSearch() {

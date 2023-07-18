@@ -17,6 +17,7 @@ public abstract class AbstractSqlGlobals {
     protected static final String PHONE = "phone";
     protected static final String ADDRESS = "address";
     protected static final String WEB_ROLE = "web_role";
+    protected static final String NOT_WEB_ROLE = "not_web_role";
     protected static final String CHURCH_GROUP = "church_group";
     protected static final String LAST_LOGIN_DATE = "last_login_date";
     protected static final String UPDATE_USER_ID = "updated_user_id";

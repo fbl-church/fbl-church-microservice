@@ -13,9 +13,9 @@ CREATE TABLE gurdians (
   user_id  INT unsigned NOT NULL,
   phone    VARCHAR(128) NOT NULL,
   address  VARCHAR(256) DEFAULT NULL,
-  city     VARCHAR(45)  NOT NULL,
-  state    VARCHAR(2)   NOT NULL,
-  zip_code VARCHAR(5)   NOT NULL,
+  city     VARCHAR(45)  DEFAULT NULL,
+  state    VARCHAR(2)   DEFAULT NULL,
+  zip_code VARCHAR(5)   DEFAULT NULL,
   PRIMARY KEY (user_id)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4;
 

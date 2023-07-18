@@ -5,11 +5,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
 import com.fbl.app.user.client.domain.request.WebRoleGetRequest;
 import com.fbl.common.enums.WebRole;
 import com.fbl.common.page.Page;
+import com.fbl.common.util.CommonUtil;
 
 /**
  * Web Role Service class that handles all service calls to the dao
@@ -31,30 +31,6 @@ public class WebRoleService {
                 .filter(r -> !r.equals(WebRole.USER) && !r.equals(WebRole.GURDIAN))
                 .collect(Collectors.toList());
 
-        if (StringUtils.hasText(request.getSearch())) {
-            roles = filterPredicate(roles, request.getSearch());
-        }
-
-        int totalCount = roles.size();
-        if (request.getPageSize() > 0 && totalCount > request.getPageSize()) {
-            int startSlice = (int) request.getRowOffset();
-            int endSlice = (int) (request.getRowOffset() + request.getPageSize());
-            roles = roles.subList(startSlice, endSlice > totalCount ? totalCount : endSlice);
-        }
-
-        return new Page<>(totalCount, roles);
-    }
-
-    /**
-     * Filters out base user role and will perform search on role list.
-     * 
-     * @param roles  The roles to fitler
-     * @param search The search to filter the list on
-     * @return Filtered role list
-     */
-    private List<WebRole> filterPredicate(List<WebRole> roles, String search) {
-        return roles.stream()
-                .filter(r -> r.getTextId().contains(search.toUpperCase()))
-                .collect(Collectors.toList());
+        return CommonUtil.enumListToPage(roles, request);
     }
 }

@@ -3,7 +3,16 @@
  */
 package com.fbl.common.util;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
+
+import com.fbl.common.enums.TextEnum;
+import com.fbl.common.page.Page;
+import com.fbl.common.page.domain.PageParam;
+import com.fbl.common.search.SearchParam;
 
 /**
  * Class for storing common methods for use accross the application.
@@ -36,5 +45,35 @@ public class CommonUtil {
         long numberThreshold = Long.parseLong("9" + "0".repeat(length - 1));
         long mask = Long.parseLong("1" + "0".repeat(length - 1));
         return (long) Math.floor(Math.random() * numberThreshold) + mask;
+    }
+
+    public static <T extends TextEnum> Page<T> enumListToPage(List<T> list, PageParam request) {
+        if (request instanceof SearchParam) {
+            SearchParam searchParam = (SearchParam) request;
+            if (StringUtils.hasText(searchParam.getSearch())) {
+                list = filterPredicate(list, searchParam.getSearch());
+            }
+        }
+
+        int totalCount = list.size();
+        if (request.getPageSize() > 0 && totalCount > request.getPageSize()) {
+            int startSlice = (int) request.getRowOffset();
+            int endSlice = (int) (request.getRowOffset() + request.getPageSize());
+            list = list.subList(startSlice, endSlice > totalCount ? totalCount : endSlice);
+        }
+        return new Page<>(totalCount, list);
+    }
+
+    /**
+     * Filters out base enums and will perform search on enum list.
+     * 
+     * @param list   The list to fitler
+     * @param search The search to filter the list on
+     * @return Filtered list
+     */
+    private static <T extends TextEnum> List<T> filterPredicate(List<T> list, String search) {
+        return list.stream()
+                .filter(r -> r.getTextId().contains(search.toUpperCase()))
+                .collect(Collectors.toList());
     }
 }

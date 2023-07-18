@@ -107,12 +107,22 @@ public class GurdianDAO extends BaseDao {
     }
 
     /**
+     * Removes the gurdian role from the user.
+     * 
+     * @param userId The id of the user gurdian
+     */
+    public void removeGurdianRoleFromUser(int userId) {
+        MapSqlParameterSource params = SqlParamBuilder.with().withParam(USER_ID, userId).build();
+        delete("removeGurdianRoleFromUser", params);
+    }
+
+    /**
      * Delete gurdian by id.
      * 
      * @param gurdianId The id of the gurdian
      */
     public void deleteGurdian(int gurdianId) {
-        MapSqlParameterSource params = SqlParamBuilder.with().withParam(GURDIAN_ID, gurdianId).build();
+        MapSqlParameterSource params = SqlParamBuilder.with().withParam(USER_ID, gurdianId).build();
         delete("deleteGurdian", params);
     }
 }

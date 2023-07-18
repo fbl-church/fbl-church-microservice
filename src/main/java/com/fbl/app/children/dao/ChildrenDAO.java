@@ -57,6 +57,17 @@ public class ChildrenDAO extends BaseDao {
     }
 
     /**
+     * Get a list of child groups by id.
+     * 
+     * @param childId The child id
+     * @return List of church groups
+     */
+    public List<ChurchGroup> getChildChurchGroupsById(int childId) {
+        MapSqlParameterSource params = parameterSource(CHILD_ID, childId);
+        return getList("getChildChurchGroupsById", params, ChurchGroup.class);
+    }
+
+    /**
      * Creates a new child for the given user object.
      * 
      * @param child The child to create.

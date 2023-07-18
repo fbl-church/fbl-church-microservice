@@ -64,9 +64,14 @@
   DELETE FROM children_gurdians
   WHERE child_id = :child_id
 
+@NAME(removeGurdianRoleFromUser)
+  DELETE FROM user_roles
+  WHERE user_id = :user_id
+  AND web_role = 'GURDIAN'
+
 @NAME(deleteGurdian)
   DELETE FROM gurdians
-  WHERE user_id = :gurdian_id
+  WHERE user_id = :user_id
 
 @NAME(search)
   (@VALUE(:searchContent))

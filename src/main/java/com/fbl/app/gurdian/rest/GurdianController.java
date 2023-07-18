@@ -4,8 +4,6 @@ import static org.springframework.http.MediaType.*;
 
 import java.util.List;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -92,7 +90,7 @@ public class GurdianController {
     @PostMapping(produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     @HasAccess(WebRole.LEADER)
-    public Gurdian insertGurdian(@RequestBody @Valid Gurdian gurdian) {
+    public Gurdian insertGurdian(@RequestBody Gurdian gurdian) {
         return manageGurdianService.insertGurdian(gurdian);
     }
 
@@ -103,7 +101,7 @@ public class GurdianController {
      * @return {@link Gurdian} that was created.
      */
     @Operation(summary = "Create gurdian entry to existing user", description = "Will take an existing user and assign them the gurdian entry")
-    @PutMapping(path = "/{userId}", produces = APPLICATION_JSON_VALUE)
+    @PutMapping(path = "/{userId}/user", produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     @HasAccess(WebRole.WORKER)
     public Gurdian assignGurdianToExistingUser(@PathVariable int userId, @RequestBody Gurdian gurdian) {

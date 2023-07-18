@@ -19,6 +19,8 @@
       u.email IN (:email)
     @AND(:web_role)
       ur.web_role IN (:web_role)
+    @AND(:not_web_role)
+      u.id NOT IN (SELECT user_id FROM user_roles ur WHERE web_role IN (:not_web_role) GROUP BY user_id)
     @AND(:search = true)
       @INCLUDE(search)
 

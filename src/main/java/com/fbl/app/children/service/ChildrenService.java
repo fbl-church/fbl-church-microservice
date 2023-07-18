@@ -48,6 +48,7 @@ public class ChildrenService {
         request.setId(Set.of(id));
         Child c = getChildren(request).getList().get(0);
         c.setGurdians(gurdianClient.getChildGurdians(id));
+        c.setChurchGroup(dao.getChildChurchGroupsById(id));
         return c;
     }
 

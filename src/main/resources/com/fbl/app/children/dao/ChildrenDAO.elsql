@@ -5,7 +5,6 @@
   c.birthday,
   c.allergies,
   c.additional_info,
-  c.church_group,
   c.insert_date
 
 @NAME(childrenFilters)
@@ -41,11 +40,19 @@
   INNER JOIN children_gurdians cg ON c.id = cg.child_id
   WHERE cg.gurdian_id = :gurdian_id
 
+@NAME(getChildChurchGroupsById)
+  SELECT church_group
+  FROM children_groups cg
+  @WHERE
+    @AND(:child_id)
+      cg.child_id = :child_id
+  ORDER BY church_group
+
 @NAME(insertChild)
   INSERT INTO children (first_name, last_name, birthday, allergies, additional_info)
   VALUES (:first_name, :last_name, :birthday, :allergies, :additional_info)
 
-@NAME(insertUserRole)
+@NAME(insertChildGroup)
   INSERT INTO children_groups (child_id, church_group)
   VALUES (:child_id, :church_group)
 
