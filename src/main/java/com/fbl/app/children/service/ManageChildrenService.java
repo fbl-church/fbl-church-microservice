@@ -9,7 +9,10 @@ import org.springframework.stereotype.Service;
 import com.fbl.app.children.client.domain.Child;
 import com.fbl.app.children.dao.ChildrenDAO;
 import com.fbl.app.gurdian.client.GurdianClient;
+import com.fbl.app.user.client.UserClient;
+import com.fbl.app.user.client.domain.User;
 import com.fbl.common.enums.ChurchGroup;
+import com.fbl.common.enums.WebRole;
 
 import io.jsonwebtoken.lang.Assert;
 
@@ -22,11 +25,16 @@ import io.jsonwebtoken.lang.Assert;
 @Service
 public class ManageChildrenService {
 
+    private static final String CHILD_DEFAULT_PASSWORD = "FBL-CHILD";
+
     @Autowired
     private ChildrenDAO dao;
 
     @Autowired
     private ChildrenService childrenService;
+
+    @Autowired
+    private UserClient userClient;
 
     @Autowired
     private GurdianClient gurdianClient;
@@ -39,11 +47,29 @@ public class ManageChildrenService {
      */
     public Child insertChild(Child child) {
         Assert.notEmpty(child.getGurdians(), "Child must be associated to at least one gurdian");
+        child.setPassword(CHILD_DEFAULT_PASSWORD);
 
-        int childId = dao.insertChild(child);
-        assignChildGroups(childId, child.getChurchGroup());
-        gurdianClient.associateChild(childId, child.getGurdians());
-        return childrenService.getChildById(childId);
+        User createdUser = userClient.createUser(child);
+        return assignChildRoleToExistingUser(createdUser.getId(), child);
+    }
+
+    /**
+     * Used when assigning the child role to an existing user.
+     * 
+     * @param userId The id of the user to assign the child role too.
+     * @param child  The child information to store.
+     * @return {@link Child} that was created.
+     */
+    public Child assignChildRoleToExistingUser(int userId, Child child) {
+        User u = userClient.getUserById(userId);
+        child.setWebRole(u.getWebRole());
+        child.getWebRole().add(WebRole.CHILD);
+
+        userClient.updateUserRoles(userId, child.getWebRole());
+        dao.insertChild(userId, child);
+        assignChildGroups(userId, child.getChurchGroup());
+        gurdianClient.associateChild(userId, child.getGurdians());
+        return childrenService.getChildById(userId);
     }
 
     /**
@@ -53,9 +79,21 @@ public class ManageChildrenService {
      * @param child what information on the child needs to be updated.
      * @return child associated to that id with the updated information
      */
-    public Child updateChild(int id, Child child) {
-        dao.updateChild(id, child);
-        assignChildGroups(id, child.getChurchGroup());
+    public Child updateChildById(int id, Child child) {
+        userClient.updateUserById(id, child);
+        dao.updateChildById(id, child);
+        return childrenService.getChildById(id);
+    }
+
+    /**
+     * Update child groups by id.
+     * 
+     * @param id    The id of the child to be updated
+     * @param group The list of groups to assign to the child
+     * @return The updated child with the new groups.
+     */
+    public Child updateChildGroupsById(int id, List<ChurchGroup> groups) {
+        assignChildGroups(id, groups);
         return childrenService.getChildById(id);
     }
 
@@ -66,6 +104,14 @@ public class ManageChildrenService {
      */
     public void deleteChild(int childId) {
         dao.deleteChild(childId);
+
+        User u = userClient.getUserById(childId);
+        if (u.getWebRole().contains(WebRole.CHILD) && u.getWebRole().size() <= 2) {
+            userClient.deleteUser(childId);
+        } else {
+            u.getWebRole().removeIf(r -> r.equals(WebRole.CHILD));
+            userClient.updateUserRoles(childId, u.getWebRole());
+        }
     }
 
     /**

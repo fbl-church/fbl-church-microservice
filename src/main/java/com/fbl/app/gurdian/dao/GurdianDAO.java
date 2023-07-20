@@ -63,7 +63,9 @@ public class GurdianDAO extends BaseDao {
      */
     public void insertGurdian(int userId, Gurdian gurdian) {
         MapSqlParameterSource params = SqlParamBuilder.with().withParam(USER_ID, userId)
-                .withParam(PHONE, gurdian.getPhone()).withParam(ADDRESS, gurdian.getAddress()).build();
+                .withParam(PHONE, gurdian.getPhone()).withParam(ADDRESS, gurdian.getAddress())
+                .withParam(CITY, gurdian.getCity()).withParam(STATE, gurdian.getState())
+                .withParam(ZIP_CODE, gurdian.getZipCode()).build();
         post("insertGurdian", params);
     }
 
@@ -76,7 +78,8 @@ public class GurdianDAO extends BaseDao {
      */
     public void updateGurdianById(int id, Gurdian gurdian) {
         MapSqlParameterSource params = SqlParamBuilder.with().withParam(PHONE, gurdian.getPhone())
-                .withParam(ADDRESS, gurdian.getAddress()).withParam(ID, id)
+                .withParam(ADDRESS, gurdian.getAddress()).withParam(CITY, gurdian.getCity())
+                .withParam(STATE, gurdian.getState()).withParam(ZIP_CODE, gurdian.getZipCode()).withParam(USER_ID, id)
                 .build();
 
         post("updateGurdian", params);

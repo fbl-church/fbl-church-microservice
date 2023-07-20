@@ -4,13 +4,12 @@
 package com.fbl.app.children.client.domain;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 
 import com.fbl.app.gurdian.client.domain.Gurdian;
+import com.fbl.app.user.client.domain.User;
 import com.fbl.common.enums.ChurchGroup;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -22,18 +21,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
  * @since June 25, 2020
  */
 @Schema(description = "Child object for holding child details")
-public class Child {
-
-    @Schema(description = "Child identifier")
-    private int id;
-
-    @Schema(description = "First name of the child")
-    @NotBlank(message = "Invalid firstName: Can not be empty or null")
-    private String firstName;
-
-    @Schema(description = "Last name of the child")
-    @NotBlank(message = "Invalid lastName: Can not be empty or null")
-    private String lastName;
+public class Child extends User {
 
     @Schema(description = "The user church group")
     private List<ChurchGroup> churchGroup;
@@ -50,33 +38,6 @@ public class Child {
     @Schema(description = "Childs guardians")
     @NotEmpty
     private List<Gurdian> gurdians;
-
-    @Schema(description = "When the child was created.")
-    private LocalDateTime insertDate;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
 
     public List<ChurchGroup> getChurchGroup() {
         return churchGroup;
@@ -116,13 +77,5 @@ public class Child {
 
     public void setGurdians(List<Gurdian> gurdians) {
         this.gurdians = gurdians;
-    }
-
-    public LocalDateTime getInsertDate() {
-        return insertDate;
-    }
-
-    public void setInsertDate(LocalDateTime insertDate) {
-        this.insertDate = insertDate;
     }
 }

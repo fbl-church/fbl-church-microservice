@@ -18,13 +18,13 @@ CREATE TABLE web_role_feature_access (
   `delete`   TINYINT(4)  unsigned NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE INDEX web_role_feature_access_IDX1 ON web_role_feature_access(web_role);
-CREATE INDEX web_role_feature_access_IDX2 ON web_role_feature_access(feature_id);
 CREATE UNIQUE INDEX web_role_feature_access_AK1 ON web_role_feature_access(web_role,feature_id);
+CREATE INDEX web_role_feature_access_IDX2 ON web_role_feature_access(feature_id);
 
 ALTER TABLE web_role_feature_access 
   ADD CONSTRAINT users__web_role_feature_access__FK1 FOREIGN KEY(feature_id) REFERENCES feature_access(id)
-    ON DELETE CASCADE ON UPDATE CASCADE;
+    ON DELETE CASCADE
+    ON UPDATE CASCADE;
 
 -- ---------------------------------------------------------------------------------
 -- END

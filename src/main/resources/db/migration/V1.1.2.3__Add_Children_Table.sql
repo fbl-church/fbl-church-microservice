@@ -10,16 +10,17 @@
 -- ---------------------------------------------------------------------------------
 
 CREATE TABLE children (
-  id              INT unsigned NOT NULL AUTO_INCREMENT,
-  first_name      VARCHAR(128) NOT NULL,
-  last_name       VARCHAR(128) NOT NULL,
-  birthday        VARCHAR(45)            DEFAULT NULL,
-  allergies       LONGTEXT               DEFAULT NULL,
-  additional_info LONGTEXT               DEFAULT NULL,
-  insert_date     DATETIME    NOT NULL   DEFAULT CURRENT_TIMESTAMP(),
-  PRIMARY KEY (id)
+  user_id         INT         unsigned NOT NULL,
+  birthday        VARCHAR(45)          DEFAULT NULL,
+  allergies       LONGTEXT             DEFAULT NULL,
+  additional_info LONGTEXT             DEFAULT NULL,
+  PRIMARY KEY (user_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+ALTER TABLE children ADD CONSTRAINT users__children__FK1 
+  FOREIGN KEY (user_id) REFERENCES users (id) 
+    ON DELETE CASCADE 
+    ON UPDATE CASCADE;
 
 -- ---------------------------------------------------------------------------------
 -- END

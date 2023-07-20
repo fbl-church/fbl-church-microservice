@@ -7,8 +7,6 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import com.fbl.app.children.client.domain.Child;
@@ -73,15 +71,12 @@ public class ChildrenDAO extends BaseDao {
      * @param child The child to create.
      * @return {@link Integer} auto increment id of the new child.
      */
-    public int insertChild(Child child) {
-        KeyHolder keyHolder = new GeneratedKeyHolder();
-        MapSqlParameterSource params = SqlParamBuilder.with().withParam(FIRST_NAME, child.getFirstName())
-                .withParam(LAST_NAME, child.getLastName()).withParam(BIRTHDAY, child.getBirthday())
-                .withParam(ALLERGIES, child.getAllergies()).withParam(ADDITIONAL_INFO, child.getAdditionalInfo())
-                .build();
+    public void insertChild(int userId, Child child) {
+        MapSqlParameterSource params = SqlParamBuilder.with().withParam(USER_ID, userId)
+                .withParam(BIRTHDAY, child.getBirthday()).withParam(ALLERGIES, child.getAllergies())
+                .withParam(ADDITIONAL_INFO, child.getAdditionalInfo()).build();
 
-        post("insertChild", params, keyHolder);
-        return keyHolder.getKey().intValue();
+        post("insertChild", params);
     }
 
     /**
@@ -104,13 +99,12 @@ public class ChildrenDAO extends BaseDao {
      * @param child what information on the child needs to be updated.
      * @return child associated to that id with the updated information
      */
-    public void updateChild(int id, Child child) {
-        MapSqlParameterSource params = SqlParamBuilder.with().withParam(FIRST_NAME, child.getFirstName())
-                .withParam(LAST_NAME, child.getLastName()).withParam(CHURCH_GROUP, child.getChurchGroup())
+    public void updateChildById(int id, Child child) {
+        MapSqlParameterSource params = SqlParamBuilder.with().withParam(CHURCH_GROUP, child.getChurchGroup())
                 .withParam(BIRTHDAY, child.getBirthday()).withParam(ALLERGIES, child.getAllergies())
-                .withParam(ADDITIONAL_INFO, child.getAdditionalInfo()).withParam(ID, id).build();
+                .withParam(ADDITIONAL_INFO, child.getAdditionalInfo()).withParam(USER_ID, id).build();
 
-        post("updateChild", params);
+        post("updateChildById", params);
     }
 
     /**
@@ -119,7 +113,7 @@ public class ChildrenDAO extends BaseDao {
      * @param childId The child id to delete.
      */
     public void deleteChild(int childId) {
-        MapSqlParameterSource params = SqlParamBuilder.with().withParam(ID, childId).build();
+        MapSqlParameterSource params = SqlParamBuilder.with().withParam(USER_ID, childId).build();
         delete("deleteChild", params);
     }
 

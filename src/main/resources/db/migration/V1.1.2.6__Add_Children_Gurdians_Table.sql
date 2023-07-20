@@ -16,15 +16,16 @@ CREATE TABLE children_gurdians (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE UNIQUE INDEX children_gurdians_AK1 ON children_gurdians(child_id, gurdian_id);
+CREATE INDEX children_gurdians_IDX2 ON children_gurdians(gurdian_id);
 
-ALTER TABLE children_gurdians ADD CONSTRAINT children__children_gurdians__FK1 
-  FOREIGN KEY (child_id) REFERENCES children (id) 
-    ON DELETE CASCADE
+ALTER TABLE children_gurdians ADD CONSTRAINT children__children_gurdians__FK1
+  FOREIGN KEY (child_id) REFERENCES children (user_id) 
+    ON DELETE CASCADE 
     ON UPDATE CASCADE;
 
 ALTER TABLE children_gurdians ADD CONSTRAINT gurdians__children_gurdians__FK2
   FOREIGN KEY (gurdian_id) REFERENCES gurdians (user_id) 
-    ON DELETE RESTRICT
+    ON DELETE CASCADE 
     ON UPDATE CASCADE;
 
 -- ---------------------------------------------------------------------------------

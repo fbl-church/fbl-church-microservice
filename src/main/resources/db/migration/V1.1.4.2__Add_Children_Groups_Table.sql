@@ -14,13 +14,13 @@ CREATE TABLE children_groups (
   church_group  VARCHAR(45)          NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE INDEX children_groups_IDX1 ON children_groups(child_id);
-CREATE INDEX children_groups_IDX2 ON children_groups(church_group);
 CREATE UNIQUE INDEX children_groups_AK1 ON children_groups(child_id,church_group);
+CREATE INDEX children_groups_IDX1 ON children_groups(church_group);
 
-ALTER TABLE children_groups
-  ADD CONSTRAINT children__children_groups__FK1 FOREIGN KEY(child_id) REFERENCES children(id)
-    ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE children_groups ADD CONSTRAINT children__children_groups__FK1
+  FOREIGN KEY (child_id) REFERENCES children (user_id) 
+    ON DELETE CASCADE 
+    ON UPDATE CASCADE;
 -- ---------------------------------------------------------------------------------
 -- END
 -- ---------------------------------------------------------------------------------

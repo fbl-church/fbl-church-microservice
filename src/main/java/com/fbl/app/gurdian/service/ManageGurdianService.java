@@ -1,13 +1,11 @@
 package com.fbl.app.gurdian.service;
 
 import java.util.List;
-import java.util.Random;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import com.fbl.app.gurdian.client.domain.Gurdian;
 import com.fbl.app.gurdian.dao.GurdianDAO;
@@ -27,7 +25,7 @@ import io.jsonwebtoken.lang.Assert;
 public class ManageGurdianService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ManageGurdianService.class);
-    private static final String GURDIAN_DEFAULT_PASSWORD = "FBL-GURDIAN2023";
+    private static final String GURDIAN_DEFAULT_PASSWORD = "FBL-GURDIAN";
 
     @Autowired
     private GurdianDAO dao;
@@ -46,14 +44,9 @@ public class ManageGurdianService {
      * @return {@link Gurdian} that was created.
      */
     public Gurdian insertGurdian(Gurdian gurdian) {
-        if (gurdian.getEmail() == null || !StringUtils.hasText(gurdian.getEmail())) {
-            Random rnd = new Random();
-            gurdian.setEmail(String.format("%s.%s-%06d@fbl.com", gurdian.getFirstName(),
-                    gurdian.getLastName(), rnd.nextInt(999999)));
-        }
         gurdian.setPassword(GURDIAN_DEFAULT_PASSWORD);
 
-        User createdUser = userClient.createUser((User) gurdian);
+        User createdUser = userClient.createUser(gurdian);
         return assignGurdianToExistingUser(createdUser.getId(), gurdian);
     }
 
@@ -80,6 +73,7 @@ public class ManageGurdianService {
      * @return gurdian associated to that id with the updated information
      */
     public Gurdian updateGurdianById(int id, Gurdian gurdian) {
+        userClient.updateUserById(id, gurdian);
         dao.updateGurdianById(id, gurdian);
         return gurdianService.getGurdianById(id);
     }

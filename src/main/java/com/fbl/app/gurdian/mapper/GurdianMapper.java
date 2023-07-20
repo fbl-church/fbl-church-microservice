@@ -27,13 +27,16 @@ public class GurdianMapper extends AbstractMapper<Gurdian> {
 		gurdian.setLastName(rs.getString(LAST_NAME));
 		try {
 			gurdian.setRelationship(RelationshipType.valueOf(rs.getString(RELATIONSHIP)));
-		}catch(Exception e) {
+		} catch (Exception e) {
 			gurdian.setRelationship(null);
 		}
 
 		gurdian.setEmail(rs.getString(EMAIL));
 		gurdian.setPhone(rs.getString(PHONE));
 		gurdian.setAddress(rs.getString(ADDRESS));
+		gurdian.setCity(rs.getString(CITY));
+		gurdian.setState(rs.getString(STATE));
+		gurdian.setZipCode(rs.getString(ZIP_CODE));
 		gurdian.setInsertDate(parseDateTime(rs.getString(INSERT_DATE)));
 
 		return gurdian;

@@ -5,11 +5,8 @@ package com.fbl.app.user.client;
 
 import java.util.List;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import com.fbl.app.user.client.domain.Application;
 import com.fbl.app.user.client.domain.User;
@@ -81,7 +78,7 @@ public class UserClient {
 	 * @param user The user object to be created.
 	 * @return The new user that was created.
 	 */
-	public User createUser(@RequestBody @Valid User user) {
+	public User createUser(User user) {
 		return manageUserService.createUser(user);
 	}
 
@@ -91,8 +88,20 @@ public class UserClient {
 	 * @param user what information on the user needs to be updated.
 	 * @return user associated to that id with the updated information
 	 */
-	public User updateUser(@RequestBody User user) {
+	public User updateUser(User user) {
 		return manageUserService.updateUser(user);
+	}
+
+	/**
+	 * Update the user's information such as email, first name, and last name by
+	 * user id.
+	 * 
+	 * @param userId The id of the user to be updated
+	 * @param user   what information on the user needs to be updated.
+	 * @return user associated to that id with the updated information
+	 */
+	public User updateUserById(int userId, User user) {
+		return manageUserService.updateUserById(userId, user);
 	}
 
 	/**

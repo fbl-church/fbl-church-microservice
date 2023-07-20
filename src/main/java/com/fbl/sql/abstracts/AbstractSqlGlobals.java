@@ -16,6 +16,9 @@ public abstract class AbstractSqlGlobals {
     protected static final String EMAIL = "email";
     protected static final String PHONE = "phone";
     protected static final String ADDRESS = "address";
+    protected static final String CITY = "city";
+    protected static final String STATE = "state";
+    protected static final String ZIP_CODE = "zip_code";
     protected static final String WEB_ROLE = "web_role";
     protected static final String NOT_WEB_ROLE = "not_web_role";
     protected static final String CHURCH_GROUP = "church_group";

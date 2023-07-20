@@ -1,34 +1,33 @@
 @NAME(childrenFields)
-  c.id,
-  c.first_name,
-  c.last_name,
+  u.id,
+  u.first_name,
+  u.last_name,
   c.birthday,
   c.allergies,
   c.additional_info,
-  c.insert_date
+  u.insert_date
 
 @NAME(childrenFilters)
   @WHERE
     @AND(:id)
-      c.id IN (:id)
+      u.id IN (:id)
     @AND(:first_name)
       c.first_name IN (:first_name)
     @AND(:last_name)
       c.last_name IN (:last_name)
-    @AND(:church_group)
-      c.church_group IN (:church_group)
     @AND(:search = true)
       @INCLUDE(search)
 
 @NAME(getChildrenBase)
-  FROM children c
+  FROM users u
+  INNER JOIN children c ON u.id = c.user_id
   @INCLUDE(childrenFilters)
 
 @NAME(getChildrenPage)
   @PAGING(:rowOffset, :pageSize)
     SELECT @INCLUDE(childrenFields) 
     @INCLUDE(getChildrenBase)
-    ORDER BY c.last_name ASC
+    ORDER BY u.last_name ASC
 
 @NAME(getChildrenPageTotalCount)
   SELECT COUNT(*)
@@ -36,8 +35,9 @@
 
 @NAME(getGurdianChildren)
   SELECT @INCLUDE(childrenFields)
-  FROM children c
-  INNER JOIN children_gurdians cg ON c.id = cg.child_id
+  FROM users u
+  INNER JOIN children c ON u.id = c.user_id
+  INNER JOIN children_gurdians cg ON c.user_id = cg.child_id
   WHERE cg.gurdian_id = :gurdian_id
 
 @NAME(getChildChurchGroupsById)
@@ -49,27 +49,24 @@
   ORDER BY church_group
 
 @NAME(insertChild)
-  INSERT INTO children (first_name, last_name, birthday, allergies, additional_info)
-  VALUES (:first_name, :last_name, :birthday, :allergies, :additional_info)
+  INSERT INTO children (user_id, birthday, allergies, additional_info)
+  VALUES (:user_id, :birthday, :allergies, :additional_info)
 
 @NAME(insertChildGroup)
   INSERT INTO children_groups (child_id, church_group)
   VALUES (:child_id, :church_group)
 
-@NAME(updateChild)
+@NAME(updateChildById)
   UPDATE children 
   SET
-    first_name      = IFNULL(:first_name, first_name),
-    last_name       = IFNULL(:last_name, last_name),
-    church_group    = IFNULL(:church_group, church_group),
     birthday        = IFNULL(:birthday, birthday),
-    allergies       = IFNULL(:allergies, allergies),
-    additional_info = IFNULL(:additional_info, additional_info)
-  WHERE id = :id
+    allergies       = :allergies,
+    additional_info = :additional_info
+  WHERE user_id = :user_id
 
 @NAME(deleteChild)
   DELETE FROM children
-  WHERE id = :id
+  WHERE user_id = :user_id
 
 @NAME(deleteChildGroups)
   DELETE FROM children_groups

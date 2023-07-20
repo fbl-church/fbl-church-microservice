@@ -5,6 +5,9 @@
   u.email,
   g.phone,
   g.address,
+  g.city,
+  g.state,
+  g.zip_code,
   u.insert_date
 
 @NAME(gurdianFilters)
@@ -46,14 +49,17 @@
   WHERE cg.child_id = :child_id
 
 @NAME(insertGurdian)
-  INSERT INTO gurdians (user_id, phone, address)
-  VALUES (:user_id, :phone, :address)
+  INSERT INTO gurdians (user_id, phone, address, city, state, zip_code)
+  VALUES (:user_id, :phone, :address, :city, :state, :zip_code)
 
 @NAME(updateGurdian)
   UPDATE gurdians 
   SET
-    phone      = IFNULL(:phone, phone),
-    address    = IFNULL(:address, address)
+    phone    = IFNULL(:phone, phone),
+    address  = IFNULL(:address, address),
+    city     = IFNULL(:city, city),
+    state    = IFNULL(:state, state),
+    zip_code = IFNULL(:zip_code, zip_code)
   WHERE user_id = :user_id
 
 @NAME(associateChildToGurdian)

@@ -22,6 +22,7 @@ import com.fbl.app.children.openapi.TagChildren;
 import com.fbl.app.children.service.ChildrenService;
 import com.fbl.app.children.service.ManageChildrenService;
 import com.fbl.common.annotations.interfaces.HasAccess;
+import com.fbl.common.enums.ChurchGroup;
 import com.fbl.common.enums.WebRole;
 import com.fbl.common.page.Page;
 
@@ -103,7 +104,21 @@ public class ChildrenController {
     @PutMapping(path = "/{id}", produces = APPLICATION_JSON_VALUE)
     @HasAccess(WebRole.WORKER)
     public Child updateChildById(@PathVariable int id, @RequestBody Child child) {
-        return manageChildrenService.updateChild(id, child);
+        return manageChildrenService.updateChildById(id, child);
+    }
+
+    /**
+     * Update child groups by id.
+     * 
+     * @param id    The id of the child to be updated
+     * @param group The list of groups to assign to the child
+     * @return The updated child with the new groups.
+     */
+    @Operation(summary = "Update child church groups by id ", description = "Will update the childs church groups.")
+    @PutMapping(path = "/{id}/groups", produces = APPLICATION_JSON_VALUE)
+    @HasAccess(WebRole.WORKER)
+    public Child updateChildGroupsById(@PathVariable int id, @RequestBody List<ChurchGroup> groups) {
+        return manageChildrenService.updateChildGroupsById(id, groups);
     }
 
     /**

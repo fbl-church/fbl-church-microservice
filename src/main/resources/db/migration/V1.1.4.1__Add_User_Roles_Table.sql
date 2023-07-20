@@ -14,13 +14,13 @@ CREATE TABLE user_roles (
   web_role  VARCHAR(45)          NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE INDEX user_roles_IDX1 ON user_roles(user_id);
-CREATE INDEX user_roles_IDX2 ON user_roles(web_role);
 CREATE UNIQUE INDEX user_roles_AK1 ON user_roles(user_id,web_role);
+CREATE INDEX user_roles_IDX2 ON user_roles(web_role);
 
 ALTER TABLE user_roles 
   ADD CONSTRAINT users__user_roles__FK1 FOREIGN KEY(user_id) REFERENCES users(id)
-    ON DELETE CASCADE ON UPDATE CASCADE;
+    ON DELETE CASCADE
+    ON UPDATE CASCADE;
 -- ---------------------------------------------------------------------------------
 -- END
 -- ---------------------------------------------------------------------------------

@@ -6,7 +6,6 @@ package com.fbl.app.user.client.domain;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 import com.fbl.common.enums.AccountStatus;
@@ -35,8 +34,6 @@ public class User {
 	private String lastName;
 
 	@Schema(description = "The users email")
-	@NotBlank(message = "Invalid Email: Can not be empty or null")
-	@Email
 	private String email;
 
 	@Schema(description = "The user web role")
@@ -48,8 +45,7 @@ public class User {
 	@Schema(description = "The user account status.")
 	private AccountStatus accountStatus;
 
-	@Schema(description = "The users password (hashed).")
-	@NotBlank(message = "Invalid password: Can not be empty or null")
+	@Schema(description = "The users password")
 	private String password;
 
 	@Schema(description = "The date the user has last authenticated.")
