@@ -86,7 +86,7 @@ public class UserController {
 	 */
 	@Operation(summary = "Get a list of user applications", description = "Returns the given apps that the user has access too.")
 	@GetMapping(path = "/{id}/applications", produces = APPLICATION_JSON_VALUE)
-	@HasAccess(WebRole.SITE_ADMIN)
+	@HasAccess(WebRole.SITE_ADMINISTRATOR)
 	public List<Application> getUserAppsById(@PathVariable int id) {
 		return userService.getUserAppsById(id);
 	}
@@ -100,7 +100,7 @@ public class UserController {
 	 */
 	@Operation(summary = "Add a new user", description = "Add a new user. Called for someone creating an account for someone else.")
 	@PostMapping(path = "/create", produces = APPLICATION_JSON_VALUE)
-	@HasAccess(WebRole.SITE_ADMIN)
+	@HasAccess(WebRole.SITE_ADMINISTRATOR)
 	public User createUser(@RequestBody @Valid User user) {
 		return manageUserService.createUser(user);
 	}
@@ -151,7 +151,7 @@ public class UserController {
 	 * @return user associated to that id with the updated information
 	 */
 	@Operation(summary = "Update User Information By Id", description = "Will update the given user information for the provided user id.")
-	@HasAccess(WebRole.SITE_ADMIN)
+	@HasAccess(WebRole.SITE_ADMINISTRATOR)
 	@PutMapping(path = "/{id}", produces = APPLICATION_JSON_VALUE)
 	public User updateUserById(@PathVariable int id, @RequestBody User user) {
 		return manageUserService.updateUserById(id, user);
@@ -164,7 +164,7 @@ public class UserController {
 	 */
 	@Operation(summary = "Delete a user", description = "Delete a user for the given id.")
 	@DeleteMapping(path = "/{userId}", produces = APPLICATION_JSON_VALUE)
-	@HasAccess(WebRole.SITE_ADMIN)
+	@HasAccess(WebRole.SITE_ADMINISTRATOR)
 	public void deleteUser(@PathVariable int userId) {
 		manageUserService.deleteUser(userId);
 	}

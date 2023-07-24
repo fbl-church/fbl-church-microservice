@@ -90,7 +90,7 @@ public class UserDAOTest {
         user.setFirstName("NewUserInsert");
         user.setLastName("LastName");
         user.setEmail("newEmail@mail.com");
-        user.setWebRole(List.of(WebRole.ADMIN));
+        user.setWebRole(List.of(WebRole.SITE_ADMINISTRATOR));
 
         int newUserId = dao.insertUser(user);
         assertEquals(4, newUserId, "New user Id should be 4");

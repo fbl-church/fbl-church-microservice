@@ -20,6 +20,9 @@ import com.fbl.common.util.CommonUtil;
 @Component
 public class WebRoleService {
 
+    private static final List<WebRole> FILTERED_ROLES = List.of(WebRole.LEADER, WebRole.WORKER, WebRole.USER,
+            WebRole.GURDIAN);
+
     /**
      * Gets a list of of web roles based on the request
      * 
@@ -28,7 +31,7 @@ public class WebRoleService {
      */
     public Page<WebRole> getRoles(WebRoleGetRequest request) {
         List<WebRole> roles = Arrays.asList(WebRole.values()).stream()
-                .filter(r -> !r.equals(WebRole.USER) && !r.equals(WebRole.GURDIAN))
+                .filter(r -> !FILTERED_ROLES.contains(r))
                 .collect(Collectors.toList());
 
         return CommonUtil.enumListToPage(roles, request);

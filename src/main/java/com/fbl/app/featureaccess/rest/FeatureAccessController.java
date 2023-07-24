@@ -36,7 +36,7 @@ public class FeatureAccessController {
      * @return {@link Map} of the list of feature access.
      */
     @GetMapping
-    @HasAccess(WebRole.SITE_ADMIN)
+    @HasAccess(WebRole.SITE_ADMINISTRATOR)
     public Map<String, List<Map<String, String>>> getFeatureAccess(@RequestParam List<WebRole> webRole) {
         return service.getFeatureAccess(webRole);
     }

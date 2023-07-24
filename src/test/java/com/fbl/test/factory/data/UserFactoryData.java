@@ -28,7 +28,7 @@ public class UserFactoryData {
         u.setFirstName("Test");
         u.setLastName("User");
         u.setEmail("test@user.com");
-        u.setWebRole(List.of(WebRole.ADMIN));
+        u.setWebRole(List.of(WebRole.SITE_ADMINISTRATOR));
         u.setLastLoginDate(LocalDateTime.now());
         return u;
     }
