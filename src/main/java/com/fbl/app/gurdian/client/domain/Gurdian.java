@@ -10,6 +10,8 @@ import com.fbl.app.user.client.domain.User;
 import com.fbl.common.enums.RelationshipType;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Gurdian Object class
@@ -17,6 +19,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
  * @author Sam Butler
  * @since June 25, 2020
  */
+@Getter
+@Setter
 @Schema(description = "Gurdian object for holding gurdian details for a gurdian")
 public class Gurdian extends User {
 
@@ -42,52 +46,4 @@ public class Gurdian extends User {
     @Schema(description = "Gurdians zip code")
     @Length(min = 5, max = 5)
     private String zipCode;
-
-    public RelationshipType getRelationship() {
-        return relationship;
-    }
-
-    public void setRelationship(RelationshipType relationship) {
-        this.relationship = relationship;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    public String getZipCode() {
-        return zipCode;
-    }
-
-    public void setZipCode(String zipCode) {
-        this.zipCode = zipCode;
-    }
 }

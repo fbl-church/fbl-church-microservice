@@ -9,6 +9,10 @@ package com.fbl.common.page;
 import java.util.List;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * Page class to add total count header.
@@ -16,6 +20,10 @@ import io.swagger.v3.oas.annotations.media.Schema;
  * @author Sam Butler
  * @since January 22, 2023
  */
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Schema(description = "Page obejct for holding list and total count.")
 public class Page<T> {
     public static final String TOTAL_ITEM_COUNT = "total-count";
@@ -25,27 +33,4 @@ public class Page<T> {
 
     @Schema(description = "The list of generic objects.")
     private List<T> list;
-
-    public Page() {}
-
-    public Page(long totalCount, List<T> list) {
-        this.totalCount = totalCount;
-        this.list = list;
-    }
-
-    public long getTotalCount() {
-        return totalCount;
-    }
-
-    public void setTotalCount(long totalCount) {
-        this.totalCount = totalCount;
-    }
-
-    public List<T> getList() {
-        return list;
-    }
-
-    public void setList(List<T> list) {
-        this.list = list;
-    }
 }

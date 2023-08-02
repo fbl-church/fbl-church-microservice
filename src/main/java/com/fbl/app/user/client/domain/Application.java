@@ -4,6 +4,8 @@
 package com.fbl.app.user.client.domain;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Class to create a User Application object
@@ -11,6 +13,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
  * @author Sam Butler
  * @since June 25, 2020
  */
+@Getter
+@Setter
 @Schema(description = "The application object.")
 public class Application {
 
@@ -25,37 +29,4 @@ public class Application {
 
     @Schema(description = "The enabled status of the application.")
     private boolean enabled;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public boolean isAccess() {
-        return access;
-    }
-
-    public void setAccess(boolean access) {
-        this.access = access;
-    }
-
-    public boolean isEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
-
 }

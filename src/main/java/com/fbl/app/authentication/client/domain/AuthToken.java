@@ -8,6 +8,10 @@ import java.time.LocalDateTime;
 import com.fbl.app.user.client.domain.User;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * Authentication token to be used within the app.
@@ -15,6 +19,10 @@ import io.swagger.v3.oas.annotations.media.Schema;
  * @author Sam Butler
  * @since July 31, 2021
  */
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Schema(description = "User Auth Token")
 public class AuthToken {
 
@@ -29,45 +37,4 @@ public class AuthToken {
 
     @Schema(description = "Data to be attached to the auth token.")
     private User user;
-
-    public AuthToken() {}
-
-    public AuthToken(String t, LocalDateTime creation, LocalDateTime expire, User u) {
-        token = t;
-        expireDate = expire;
-        createDate = creation;
-        user = u;
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
-
-    public LocalDateTime getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(LocalDateTime createDate) {
-        this.createDate = createDate;
-    }
-
-    public LocalDateTime getExpireDate() {
-        return expireDate;
-    }
-
-    public void setExpireDate(LocalDateTime expireDate) {
-        this.expireDate = expireDate;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
 }

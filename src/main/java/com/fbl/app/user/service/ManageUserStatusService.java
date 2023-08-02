@@ -62,7 +62,7 @@ public class ManageUserStatusService {
      * @return {@link UserStatus} object
      */
     public UserStatus updateUserAppAccessByUserId(int userId, Boolean appAccess) {
-        dao.updateUserStatusByUserId(userId, new UserStatus(jwtHolder.getUserId(), null, appAccess));
+        dao.updateUserStatusByUserId(userId, new UserStatus(jwtHolder.getUserId(), null, appAccess, null));
         return userStatusService.getUserStatusById(userId);
     }
 }

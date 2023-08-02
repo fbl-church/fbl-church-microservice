@@ -4,6 +4,8 @@
 package com.fbl.app.featureaccess.client.domain;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Feature object to map
@@ -11,6 +13,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
  * @author Sam Butler
  * @since May 20, 2021
  */
+@Getter
+@Setter
 @Schema(description = "Feature access object for a user.")
 public class Feature {
 
@@ -22,28 +26,4 @@ public class Feature {
 
     @Schema(description = "Access the user has to the feature.")
     private String access;
-
-    public String getApp() {
-        return app;
-    }
-
-    public void setApp(String app) {
-        this.app = app;
-    }
-
-    public String getFeature() {
-        return feature;
-    }
-
-    public void setFeature(String feature) {
-        this.feature = feature;
-    }
-
-    public String getAccess() {
-        return access;
-    }
-
-    public void setAccess(String access) {
-        this.access = access;
-    }
 }

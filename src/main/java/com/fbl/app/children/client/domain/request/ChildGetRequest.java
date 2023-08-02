@@ -15,6 +15,8 @@ import com.fbl.common.search.SearchFieldParams;
 import com.fbl.common.search.SearchParam;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * This class handles lookups passed to the DAO.
@@ -22,6 +24,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
  * @author Sam Butler
  * @since September 9, 2021
  */
+@Getter
+@Setter
 @Schema(description = "User get request object for filtering users.")
 public class ChildGetRequest implements SearchParam, PageParam, SearchFieldParams<ChildSearchFields> {
 
@@ -45,62 +49,6 @@ public class ChildGetRequest implements SearchParam, PageParam, SearchFieldParam
 
     @Schema(description = "Page Size for pagenation result.")
     private int pageSize;
-
-    public Set<Integer> getId() {
-        return id;
-    }
-
-    public void setId(Set<Integer> id) {
-        this.id = id;
-    }
-
-    public Set<String> getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(Set<String> firstName) {
-        this.firstName = firstName;
-    }
-
-    public Set<String> getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(Set<String> lastName) {
-        this.lastName = lastName;
-    }
-
-    public Set<ChurchGroup> getChurchGroup() {
-        return churchGroup;
-    }
-
-    public void setChurchGroup(Set<ChurchGroup> churchGroup) {
-        this.churchGroup = churchGroup;
-    }
-
-    public String getSearch() {
-        return search;
-    }
-
-    public void setSearch(String search) {
-        this.search = search;
-    }
-
-    public int getRowOffset() {
-        return rowOffset;
-    }
-
-    public void setRowOffset(int rowOffset) {
-        this.rowOffset = rowOffset;
-    }
-
-    public int getPageSize() {
-        return pageSize;
-    }
-
-    public void setPageSize(int pageSize) {
-        this.pageSize = pageSize;
-    }
 
     @JsonIgnore
     @Override

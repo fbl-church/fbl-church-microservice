@@ -6,6 +6,10 @@ package com.fbl.app.authentication.client.domain.request;
 import java.io.Serializable;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * AuthenticationRequest for authenticating and updating user credentials.
@@ -13,6 +17,10 @@ import io.swagger.v3.oas.annotations.media.Schema;
  * @author Sam Butler
  * @since August 1, 2020
  */
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Schema(description = "Authentication Request")
 public class AuthenticationRequest implements Serializable {
 
@@ -21,28 +29,4 @@ public class AuthenticationRequest implements Serializable {
 
     @Schema(description = "The password associated with the email.")
     private String password;
-
-    public AuthenticationRequest() {}
-
-    public AuthenticationRequest(String email, String password) {
-        this.email = email;
-        this.password = password;
-    }
-
-    public String getEmail() {
-        return this.email;
-    }
-
-    public String getPassword() {
-        return this.password;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
 }

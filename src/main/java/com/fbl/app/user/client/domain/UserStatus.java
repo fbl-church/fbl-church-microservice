@@ -8,6 +8,10 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fbl.common.enums.AccountStatus;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * Class to create a user status object
@@ -15,6 +19,10 @@ import io.swagger.v3.oas.annotations.media.Schema;
  * @author Sam Butler
  * @since June 25, 2020
  */
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Schema(description = "The User status request object.")
 public class UserStatus {
 
@@ -30,44 +38,4 @@ public class UserStatus {
     @JsonInclude(Include.NON_DEFAULT)
     @Schema(description = "The last update user id of the user.")
     private Integer updatedUserId;
-
-    public UserStatus() {}
-
-    public UserStatus(int userId, AccountStatus accountStatus, Boolean appAccess) {
-        this.userId = userId;
-        this.accountStatus = accountStatus;
-        this.appAccess = appAccess;
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
-    public AccountStatus getAccountStatus() {
-        return accountStatus;
-    }
-
-    public void setAccountStatus(AccountStatus accountStatus) {
-        this.accountStatus = accountStatus;
-    }
-
-    public Boolean isAppAccess() {
-        return appAccess;
-    }
-
-    public void setAppAccess(Boolean appAccess) {
-        this.appAccess = appAccess;
-    }
-
-    public Integer getUpdatedUserId() {
-        return updatedUserId;
-    }
-
-    public void setUpdatedUserId(Integer updatedUserId) {
-        this.updatedUserId = updatedUserId;
-    }
 }

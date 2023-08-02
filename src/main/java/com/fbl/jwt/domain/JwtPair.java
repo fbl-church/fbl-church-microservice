@@ -7,6 +7,7 @@ import com.fbl.environment.AppEnvironmentService;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import lombok.Getter;
 
 /**
  * Jwt Pair class for storing the token and claims.
@@ -14,6 +15,7 @@ import io.jsonwebtoken.Jwts;
  * @author Sam Butler
  * @since August 22, 2022
  */
+@Getter
 public final class JwtPair {
     private final String token;
 
@@ -23,13 +25,5 @@ public final class JwtPair {
         this.token = token;
         this.claimSet = (Claims) Jwts.parser().setSigningKey(appEnvironmentService.getSigningKey()).parse(token)
                 .getBody();
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public Claims getClaimSet() {
-        return claimSet;
     }
 }

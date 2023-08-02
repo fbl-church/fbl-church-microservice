@@ -47,7 +47,7 @@ public class UserStatusDAO extends BaseDao {
     public void insertUserStatus(UserStatus userStatus, Integer updatingUserId) {
         MapSqlParameterSource params = SqlParamBuilder.with().withParam(USER_ID, userStatus.getUserId())
                 .withParam(ACCOUNT_STATUS, userStatus.getAccountStatus())
-                .withParam(APP_ACCESS, userStatus.isAppAccess()).withParam(UPDATE_USER_ID, updatingUserId).build();
+                .withParam(APP_ACCESS, userStatus.getAppAccess()).withParam(UPDATE_USER_ID, updatingUserId).build();
 
         post("insertUserStatus", params);
     }
@@ -61,7 +61,7 @@ public class UserStatusDAO extends BaseDao {
     public void updateUserStatusByUserId(int id, UserStatus userStatus) {
         MapSqlParameterSource params = SqlParamBuilder.with().withParam(USER_ID, id)
                 .withParam(ACCOUNT_STATUS, userStatus.getAccountStatus())
-                .withParam(APP_ACCESS, userStatus.isAppAccess())
+                .withParam(APP_ACCESS, userStatus.getAppAccess())
                 .withParam(UPDATE_USER_ID, userStatus.getUpdatedUserId()).build();
 
         update("updateUserStatus", params);

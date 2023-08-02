@@ -59,7 +59,7 @@ public class ManageUserService {
 		int newUserId = dao.insertUser(user);
 		assignUserRoles(newUserId, user.getWebRole());
 		userCredentialsClient.insertUserPassword(newUserId, user.getPassword());
-		UserStatusClient.insertUserStatus(new UserStatus(newUserId, AccountStatus.APPROVED, true));
+		UserStatusClient.insertUserStatus(new UserStatus(newUserId, AccountStatus.APPROVED, true, null));
 		return userService.getUserById(newUserId);
 	}
 
@@ -73,7 +73,7 @@ public class ManageUserService {
 	public User registerUser(User user) {
 		int newUserId = dao.insertUser(user);
 		userCredentialsClient.insertUserPassword(newUserId, user.getPassword());
-		UserStatusClient.insertUserStatus(new UserStatus(newUserId, AccountStatus.PENDING, false));
+		UserStatusClient.insertUserStatus(new UserStatus(newUserId, AccountStatus.PENDING, false, null));
 		return userService.getUserById(newUserId);
 	}
 
