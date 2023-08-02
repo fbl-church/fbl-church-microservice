@@ -1,0 +1,40 @@
+{
+    "properties": [
+        {
+            "name": "info.name",
+            "type": "java.lang.String"
+        },
+        {
+            "name": "security.allowed.domains",
+            "type": "java.lang.String"
+        },
+        {
+            "name": "info.description",
+            "type": "java.lang.String"
+        },
+        {
+            "name": "info.license.type",
+            "type": "java.lang.String"
+        },
+        {
+            "name": "info.license.url",
+            "type": "java.lang.String"
+        },
+        {
+            "name": "info.version",
+            "type": "java.lang.String"
+        },
+        {
+            "name": "info.contact.name",
+            "type": "java.lang.String"
+        },
+        {
+            "name": "info.contact.email",
+            "type": "java.lang.String"
+        },
+        {
+            "name": "info.contact.url",
+            "type": "java.lang.String"
+        }
+    ]
+}
