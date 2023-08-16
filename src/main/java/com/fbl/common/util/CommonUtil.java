@@ -47,6 +47,13 @@ public class CommonUtil {
         return (long) Math.floor(Math.random() * numberThreshold) + mask;
     }
 
+    /**
+     * Converts an enum list into a page request.
+     * 
+     * @param list    The list of enum values
+     * @param request The page request param
+     * @return The page Request.
+     */
     public static <T extends TextEnum> Page<T> enumListToPage(List<T> list, PageParam request) {
         if (request instanceof SearchParam) {
             SearchParam searchParam = (SearchParam) request;

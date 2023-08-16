@@ -26,7 +26,7 @@ ALTER TABLE children_gurdians ADD CONSTRAINT children__children_gurdians__FK1
 ALTER TABLE children_gurdians ADD CONSTRAINT gurdians__children_gurdians__FK2
   FOREIGN KEY (gurdian_id) REFERENCES gurdians (user_id) 
     ON DELETE CASCADE 
-    ON UPDATE CASCADE;
+    ON UPDATE RESTRICT;
 
 -- ---------------------------------------------------------------------------------
 -- END

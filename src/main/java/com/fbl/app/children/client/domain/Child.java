@@ -26,6 +26,8 @@ import lombok.Setter;
 @Setter
 @Schema(description = "Child object for holding child details")
 public class Child extends User {
+    @Schema(description = "The childs unique identifier")
+    private String cuid;
 
     @Schema(description = "The user church group")
     private List<ChurchGroup> churchGroup;

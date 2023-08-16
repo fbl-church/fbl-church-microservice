@@ -21,6 +21,7 @@ public class ChildMapper extends AbstractMapper<Child> {
 	public Child mapRow(ResultSet rs, int rowNum) throws SQLException {
 		Child child = new Child();
 		child.setId(rs.getInt(ID));
+		child.setCuid(rs.getString(CUID));
 		child.setFirstName(rs.getString(FIRST_NAME));
 		child.setLastName(rs.getString(LAST_NAME));
 		child.setBirthday(parseDate(rs.getString(BIRTHDAY)));

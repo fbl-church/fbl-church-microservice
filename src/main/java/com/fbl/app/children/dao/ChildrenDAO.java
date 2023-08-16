@@ -73,6 +73,7 @@ public class ChildrenDAO extends BaseDao {
      */
     public void insertChild(int userId, Child child) {
         MapSqlParameterSource params = SqlParamBuilder.with().withParam(USER_ID, userId)
+                .withParam(CUID, child.getCuid())
                 .withParam(BIRTHDAY, child.getBirthday()).withParam(ALLERGIES, child.getAllergies())
                 .withParam(ADDITIONAL_INFO, child.getAdditionalInfo()).build();
 

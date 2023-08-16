@@ -11,6 +11,7 @@
 
 CREATE TABLE children (
   user_id         INT         unsigned NOT NULL,
+  cuid            VARCHAR(12)          NOT NULL,
   birthday        VARCHAR(45)          DEFAULT NULL,
   allergies       LONGTEXT             DEFAULT NULL,
   additional_info LONGTEXT             DEFAULT NULL,

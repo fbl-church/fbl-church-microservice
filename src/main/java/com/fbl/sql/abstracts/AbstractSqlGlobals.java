@@ -10,6 +10,7 @@ public abstract class AbstractSqlGlobals {
     protected static final String OWNER_USER_ID = "owner_user_id";
     protected static final String INSERT_DATE = "insert_date";
     protected static final String USER_ID = "user_id";
+    protected static final String CUID = "cuid";
     protected static final String PASSWORD = "password";
     protected static final String FIRST_NAME = "first_name";
     protected static final String LAST_NAME = "last_name";

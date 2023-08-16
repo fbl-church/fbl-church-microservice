@@ -64,6 +64,7 @@ public class ManageChildrenService {
         User u = userClient.getUserById(userId);
         child.setWebRole(u.getWebRole());
         child.getWebRole().add(WebRole.CHILD);
+        child.setCuid(generateChildUID(u));
 
         userClient.updateUserRoles(userId, child.getWebRole());
         dao.insertChild(userId, child);
@@ -130,5 +131,18 @@ public class ManageChildrenService {
         for (ChurchGroup g : groups) {
             dao.insertChildGroup(childId, g);
         }
+    }
+
+    /**
+     * Generates a childs unique identifier.
+     * 
+     * @param u The user child object
+     * @return The generated CUID
+     */
+    private String generateChildUID(User u) {
+        long h = u.getInsertDate().getHour();
+        long m = u.getInsertDate().getMinute();
+        long s = u.getInsertDate().getSecond();
+        return String.format("%02d%02d%02d%06d", h, m, s, u.getId());
     }
 }

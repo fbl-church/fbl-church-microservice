@@ -2,6 +2,7 @@
   u.id,
   u.first_name,
   u.last_name,
+  c.cuid,
   c.birthday,
   c.allergies,
   c.additional_info,
@@ -49,8 +50,8 @@
   ORDER BY church_group
 
 @NAME(insertChild)
-  INSERT INTO children (user_id, birthday, allergies, additional_info)
-  VALUES (:user_id, :birthday, :allergies, :additional_info)
+  INSERT INTO children (user_id, cuid, birthday, allergies, additional_info)
+  VALUES (:user_id, :cuid, :birthday, :allergies, :additional_info)
 
 @NAME(insertChildGroup)
   INSERT INTO children_groups (child_id, church_group)
