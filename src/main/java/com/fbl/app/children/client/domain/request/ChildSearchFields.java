@@ -15,8 +15,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
  */
 @Schema(description = "The child search fields.")
 public enum ChildSearchFields implements SearchField {
-    FIRST_NAME("c.first_name"),
-    LAST_NAME("c.last_name");
+    FIRST_NAME("u.first_name"),
+    LAST_NAME("u.last_name");
 
     private String column;
 
