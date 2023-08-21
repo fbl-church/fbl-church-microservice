@@ -10,6 +10,7 @@ buildscript {
 		elsql_version = '1.2'
 		google_bugs_version = '3.0.2'
 		apache_http_version = '4.5.13'
+		lombok_version = '1.18.28'
     }
 }
 
@@ -54,11 +55,11 @@ dependencies {
 	implementation "org.apache.httpcomponents:httpclient:${apache_http_version}"
 
 	runtimeOnly "mysql:mysql-connector-java:${mysql_connector_version}"
+	
+	compileOnly "org.projectlombok:lombok:${lombok_version}"
+    annotationProcessor "org.projectlombok:lombok:${lombok_version}"
 
 	testImplementation "org.springframework.boot:spring-boot-starter-test"
-	
-	compileOnly 'org.projectlombok:lombok:1.18.28'
-    annotationProcessor 'org.projectlombok:lombok:1.18.28'
 }
 
 sourceSets.test.resources.srcDir "src/test/resources"

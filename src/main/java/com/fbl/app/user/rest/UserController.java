@@ -47,7 +47,6 @@ public class UserController {
 	 * 
 	 * @param request to filter on
 	 * @return list of user objects
-	 * @throws Exception
 	 */
 	@Operation(summary = "Get a list of users.", description = "Given a User Get Request, it will return a list of users that match the request.")
 	@GetMapping(produces = APPLICATION_JSON_VALUE)

@@ -1,0 +1,38 @@
+@NAME(attendanceRecordFields)
+  ar.attendance_id,
+  ar.name,
+  ar.status,
+  ar.type,
+  ar.active_date,
+  ar.closed_date,
+  ar.insert_date
+
+@NAME(attendanceRecordFilters)
+  @WHERE
+    @AND(:attendance_id)
+      ar.attendance_id IN (:attendance_id)
+    @AND(:name)
+      ar.name IN (:name)
+    @AND(:status)
+      ar.status IN (:status)
+    @AND(:type)
+      ar.type IN (:type)
+    @AND(:search = true)
+      @INCLUDE(search)
+
+@NAME(getAttendanceRecordsBase)
+  FROM attendance_records ar
+  @INCLUDE(attendanceRecordFilters)
+
+@NAME(getAttendanceRecordsPage)
+  @PAGING(:rowOffset, :pageSize)
+    SELECT @INCLUDE(attendanceRecordFields)
+    @INCLUDE(getAttendanceRecordsBase)
+    ORDER BY ar.active_date DESC
+
+@NAME(getAttendanceRecordsPageTotalCount)
+  SELECT COUNT(DISTINCT ar.attendance_id)
+  @INCLUDE(getAttendanceRecordsBase)
+
+@NAME(search)
+  (@VALUE(:searchContent))
