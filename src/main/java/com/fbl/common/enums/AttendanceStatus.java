@@ -10,9 +10,10 @@ package com.fbl.common.enums;
  * @since October 9, 2021
  */
 public enum AttendanceStatus implements TextEnum {
-    ACTIVE("PENDING"),
-    CLOSED("APPROVED"),
-    FINALIZED("DENIED");
+    PENDING("PENDING"),
+    ACTIVE("ACTIVE"),
+    CLOSED("CLOSED"),
+    FINALIZED("FINALIZED");
 
     private String textId;
 

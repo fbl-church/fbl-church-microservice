@@ -7,6 +7,19 @@
   ar.closed_date,
   ar.insert_date
 
+@NAME(userFields)
+  u.id,
+  u.first_name,
+  u.last_name,
+  u.email,
+  u.insert_date,
+  u.last_login_date
+
+@NAME(userStatusFields)
+  us.app_access, 
+  us.account_status, 
+  us.updated_user_id
+
 @NAME(attendanceRecordFilters)
   @WHERE
     @AND(:attendance_id)
@@ -19,6 +32,11 @@
       ar.type IN (:type)
     @AND(:search = true)
       @INCLUDE(search)
+
+@NAME(attendanceRecordWorkersFilters)
+  @WHERE
+    @AND(:attendance_id)
+      arw.attendance_id IN (:attendance_id)
 
 @NAME(getAttendanceRecordsBase)
   FROM attendance_records ar
@@ -33,6 +51,14 @@
 @NAME(getAttendanceRecordsPageTotalCount)
   SELECT COUNT(DISTINCT ar.attendance_id)
   @INCLUDE(getAttendanceRecordsBase)
+
+@NAME(getAttendanceRecordWorkersPage)
+  SELECT @INCLUDE(userFields), @INCLUDE(userStatusFields)
+  FROM attendance_record_workers arw
+  INNER JOIN users u ON arw.user_id = u.id
+  INNER JOIN user_status us ON u.id = us.user_id
+  WHERE arw.attendance_id = :attendance_id
+  ORDER BY u.last_name ASC
 
 @NAME(search)
   (@VALUE(:searchContent))
