@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fbl.app.user.client.domain.Application;
 import com.fbl.app.user.client.domain.User;
 import com.fbl.app.user.client.domain.request.UserGetRequest;
 import com.fbl.app.user.openapi.TagUser;
@@ -81,12 +80,12 @@ public class UserController {
 	 * End point to a get a list of users apps that they have access too
 	 * 
 	 * @param id The user id to get applications for
-	 * @return List of Application objects {@link Application}
+	 * @return List of Applications
 	 */
 	@Operation(summary = "Get a list of user applications", description = "Returns the given apps that the user has access too.")
 	@GetMapping(path = "/{id}/applications", produces = APPLICATION_JSON_VALUE)
 	@HasAccess(WebRole.SITE_ADMINISTRATOR)
-	public List<Application> getUserAppsById(@PathVariable int id) {
+	public List<String> getUserAppsById(@PathVariable int id) {
 		return userService.getUserAppsById(id);
 	}
 

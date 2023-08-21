@@ -10,14 +10,12 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fbl.app.featureaccess.client.FeatureAccessClient;
 import com.fbl.app.user.client.UserClient;
-import com.fbl.app.user.client.domain.Application;
 import com.fbl.app.user.client.domain.User;
 import com.fbl.environment.AppEnvironmentService;
 import com.fbl.jwt.domain.JwtClaims;
@@ -108,8 +106,7 @@ public class JwtTokenUtil implements Serializable {
         claims.put(JwtClaims.WEB_ROLE, user.getWebRole());
         claims.put(JwtClaims.ENVIRONMENT, appEnvironmentService.getEnvironment());
         claims.put(JwtClaims.JWT_TYPE, JwtType.WEB);
-        claims.put(JwtClaims.APPS, userClient.getUserAppsById(user.getId()).stream()
-                .filter(v -> (v.isAccess() && v.isEnabled())).map(Application::getName).collect(Collectors.toList()));
+        claims.put(JwtClaims.APPS, userClient.getUserAppsById(user.getId()));
         claims.put(JwtClaims.ACCESS,
                 featureAccessClient.getFeatureAccess(user.getWebRole()));
         return buildTokenClaims(claims, JWT_TOKEN_USER_VALIDITY);

@@ -8,7 +8,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.fbl.app.user.client.domain.Application;
 import com.fbl.app.user.client.domain.User;
 import com.fbl.app.user.client.domain.request.UserGetRequest;
 import com.fbl.app.user.dao.UserDAO;
@@ -65,9 +64,9 @@ public class UserService {
 	 * End point to a get a list of users apps that they have access too
 	 * 
 	 * @param id The user id to get applications for
-	 * @return List of Application objects {@link Application}
+	 * @return List of Applications
 	 */
-	public List<Application> getUserAppsById(int id) {
+	public List<String> getUserAppsById(int id) {
 		return dao.getUserApps(id);
 	}
 }

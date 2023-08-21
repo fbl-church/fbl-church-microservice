@@ -3,7 +3,6 @@
  */
 package com.fbl.app.user.dao;
 
-import static com.fbl.app.user.mapper.ApplicationMapper.*;
 import static com.fbl.app.user.mapper.UserMapper.*;
 
 import java.time.LocalDateTime;
@@ -79,9 +78,9 @@ public class UserDAO extends BaseDao {
 	 * @param userId The user id to get the apps for.
 	 * @return List of Application objects {@link Application}
 	 */
-	public List<Application> getUserApps(int userId) {
+	public List<String> getUserApps(int userId) {
 		MapSqlParameterSource params = parameterSource(USER_ID, userId);
-		return getList("getApplications", params, APPLICATION_MAPPER);
+		return getList("getApplications", params, String.class);
 	}
 
 	/**
