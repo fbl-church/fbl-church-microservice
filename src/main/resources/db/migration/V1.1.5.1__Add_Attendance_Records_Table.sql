@@ -1,26 +1,26 @@
 -- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
--- Script: V1.1.4.2__Add_Children_Groups_Table.sql
+-- Script: V1.1.5.1__Add_Attendance_Records_Table.sql
 -- Author: Sam Butler
 -- Date: April 24, 2022
--- Version: V1.1.4.2
+-- Version: V1.1.5.1
 -- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 -- ---------------------------------------------------------------------------------
 -- START
 -- ---------------------------------------------------------------------------------
 
-CREATE TABLE children_groups (
-  child_id      INT         unsigned NOT NULL,
-  church_group  VARCHAR(45)          NOT NULL,
-  PRIMARY KEY (child_id,church_group)
+CREATE TABLE attendance_records (
+  attendance_id INT          UNSIGNED NOT NULL AUTO_INCREMENT,
+  name          VARCHAR(128)          NOT NULL,
+  status        VARCHAR(32)           NOT NULL,
+  type          VARCHAR(32)           NOT NULL,
+  active_date   DATE                  NOT NULL DEFAULT (CURDATE()),
+  closed_date   DATE                           DEFAULT NULL,
+  insert_date   DATETIME              NOT NULL DEFAULT CURRENT_TIMESTAMP(),
+  PRIMARY KEY (attendance_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE INDEX children_groups_IDX1 ON children_groups(church_group);
-
-ALTER TABLE children_groups ADD CONSTRAINT children__children_groups__FK1
-  FOREIGN KEY (child_id) REFERENCES children (user_id) 
-    ON DELETE CASCADE 
-    ON UPDATE CASCADE;
+CREATE UNIQUE INDEX attendance_records_AK1 ON attendance_records(type,active_date);
 -- ---------------------------------------------------------------------------------
 -- END
 -- ---------------------------------------------------------------------------------

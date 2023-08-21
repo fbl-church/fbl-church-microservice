@@ -12,11 +12,11 @@
 CREATE TABLE children_gurdians (
   child_id     INT          UNSIGNED NOT NULL,
   gurdian_id   INT          UNSIGNED NOT NULL,
-  relationship VARCHAR(128)          NOT NULL DEFAULT 'OTHER'
+  relationship VARCHAR(128)          NOT NULL DEFAULT 'OTHER',
+  PRIMARY KEY (child_id, gurdian_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE UNIQUE INDEX children_gurdians_AK1 ON children_gurdians(child_id, gurdian_id);
-CREATE INDEX children_gurdians_IDX2 ON children_gurdians(gurdian_id);
+CREATE INDEX children_gurdians_IDX1 ON children_gurdians(gurdian_id);
 
 ALTER TABLE children_gurdians ADD CONSTRAINT children__children_gurdians__FK1
   FOREIGN KEY (child_id) REFERENCES children (user_id) 

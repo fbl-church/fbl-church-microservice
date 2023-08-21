@@ -1,24 +1,29 @@
 -- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
--- Script: V1.1.4.2__Add_Children_Groups_Table.sql
+-- Script: V1.1.5.2__Add_Attendance_Record_Workers_Table.sql
 -- Author: Sam Butler
 -- Date: April 24, 2022
--- Version: V1.1.4.2
+-- Version: V1.1.5.2
 -- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 -- ---------------------------------------------------------------------------------
 -- START
 -- ---------------------------------------------------------------------------------
 
-CREATE TABLE children_groups (
-  child_id      INT         unsigned NOT NULL,
-  church_group  VARCHAR(45)          NOT NULL,
-  PRIMARY KEY (child_id,church_group)
+CREATE TABLE attendance_record_workers (
+  attendance_id INT          UNSIGNED NOT NULL,
+  user_id       INT          UNSIGNED NOT NULL,
+  PRIMARY KEY (attendance_id, user_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE INDEX children_groups_IDX1 ON children_groups(church_group);
+CREATE INDEX attendance_record_workers_IDX1 ON attendance_record_workers(user_id);
 
-ALTER TABLE children_groups ADD CONSTRAINT children__children_groups__FK1
-  FOREIGN KEY (child_id) REFERENCES children (user_id) 
+ALTER TABLE attendance_record_workers ADD CONSTRAINT attendance_records__attendance_record_workers__FK1 
+  FOREIGN KEY (attendance_id) REFERENCES attendance_records (attendance_id) 
+    ON DELETE CASCADE 
+    ON UPDATE CASCADE;
+
+ALTER TABLE attendance_record_workers ADD CONSTRAINT users__attendance_record_workers__FK2
+  FOREIGN KEY (user_id) REFERENCES users (id) 
     ON DELETE CASCADE 
     ON UPDATE CASCADE;
 -- ---------------------------------------------------------------------------------

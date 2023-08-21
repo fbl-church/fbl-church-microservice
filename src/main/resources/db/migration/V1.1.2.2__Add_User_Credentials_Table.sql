@@ -9,8 +9,8 @@
 -- START
 -- ---------------------------------------------------------------------------------
 CREATE TABLE user_credentials (
-  user_id                      INT        UNSIGNED NOT NULL,
-  password                     BINARY(60)          NOT NULL,
+  user_id   INT        UNSIGNED NOT NULL,
+  password  BINARY(60)          NOT NULL,
   PRIMARY KEY (user_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 

@@ -15,11 +15,11 @@ CREATE TABLE web_role_feature_access (
   `create`   TINYINT(4)  unsigned NOT NULL DEFAULT 0,
   `read`     TINYINT(4)  unsigned NOT NULL DEFAULT 0,
   `update`   TINYINT(4)  unsigned NOT NULL DEFAULT 0,
-  `delete`   TINYINT(4)  unsigned NOT NULL DEFAULT 0
+  `delete`   TINYINT(4)  unsigned NOT NULL DEFAULT 0,
+  PRIMARY KEY (feature_id,web_role)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE UNIQUE INDEX web_role_feature_access_AK1 ON web_role_feature_access(web_role,feature_id);
-CREATE INDEX web_role_feature_access_IDX2 ON web_role_feature_access(feature_id);
+CREATE INDEX web_role_feature_access_IDX1 ON web_role_feature_access(web_role);
 
 ALTER TABLE web_role_feature_access 
   ADD CONSTRAINT users__web_role_feature_access__FK1 FOREIGN KEY(feature_id) REFERENCES feature_access(id)
