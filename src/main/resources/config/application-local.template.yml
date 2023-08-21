@@ -4,9 +4,9 @@ server:
 
 spring:
   datasource:
-    username: root
+    username:
     password:
-    url: jdbc:mysql://localhost:3306
+    url: jdbc:mysql://databasePI.ddnsfree.com:3306/fbl_church_DEV
 
 security:
   allowed:
