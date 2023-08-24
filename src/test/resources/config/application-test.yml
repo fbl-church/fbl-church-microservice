@@ -8,3 +8,10 @@ spring:
 security:
   allowed:
     domains: "*"
+
+ftp:
+  server: ${FTP_TEST_STORAGE_URL}
+  port: ${FTP_TEST_STORAGE_PORT}
+  environment: ${FTP_TEST_STORAGE_ENVIRONMENT}
+  username: ${FTP_TEST_STORAGE_USERNAME}
+  password: ${FTP_TEST_STORAGE_PASSWORD}

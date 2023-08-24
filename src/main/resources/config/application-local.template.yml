@@ -6,9 +6,16 @@ spring:
   datasource:
     username:
     password:
-    url: jdbc:mysql://databasePI.ddnsfree.com:3306/fbl_church_DEV
+    url:
 
 security:
   allowed:
     domains: "*"
   signing-key: "local-key"
+
+ftp:
+  server:
+  port:
+  environment: DEV
+  username:
+  password:

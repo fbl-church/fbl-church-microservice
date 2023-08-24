@@ -44,6 +44,7 @@ dependencies {
 	implementation "org.springframework.boot:spring-boot-starter-security"
 	implementation "org.springframework.boot:spring-boot-starter-websocket"
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'commons-net:commons-net:3.9.0'
 
 	implementation "io.jsonwebtoken:jjwt:${json_web_token_version}"
 	implementation "com.google.code.findbugs:jsr305:${google_bugs_version}"

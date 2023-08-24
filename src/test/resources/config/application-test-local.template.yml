@@ -1,6 +1,6 @@
 spring:
   datasource:
-    username: root
+    username:
     password:
     url: jdbc:mysql://localhost:3306
 
@@ -8,3 +8,10 @@ security:
   allowed:
     domains: "*"
   signing-key: "test-local-key"
+
+ftp:
+  server: fake-ftp-url
+  port: 21
+  environment: DEV
+  username: test
+  password: password
