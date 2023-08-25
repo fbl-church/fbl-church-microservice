@@ -1,7 +1,5 @@
 package com.fbl.ftp.service;
 
-import java.io.IOException;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +24,8 @@ public class FTPStorageService {
     public void upload(MultipartFile file) {
         try {
             ftpStorageClient.open();
-            ftpStorageClient.upload(file.getInputStream(), "", file.getOriginalFilename());
-        } catch (IOException e) {
+            ftpStorageClient.upload(file.getInputStream(), file.getOriginalFilename());
+        } catch (Exception e) {
             LOGGER.error("Unable to read mulipart file: {}", file.getName(), e);
         } finally {
             ftpStorageClient.close();

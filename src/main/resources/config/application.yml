@@ -18,11 +18,11 @@ spring:
     default: "local"
 
 ftp:
-  server: ${FTP_STORAGE_URL}
-  port: ${FTP_STORAGE_PORT}
-  environment: ${FTP_STORAGE_ENVIRONMENT}
-  username: ${FTP_STORAGE_USERNAME}
-  password: ${FTP_STORAGE_PASSWORD}
+  server: ftp-nas.ddnsfree.com
+  port: 21
+  environment: DEV
+  username: sam.butler
+  password: 100698Sb!
 
 security:
   allowed:
@@ -32,6 +32,7 @@ logging:
   level:
     "[org.springframework]": OFF
     "[org.apache]": OFF
+    "[org.apache.coyote.http11.Http11NioProtocol]": OFF
 
 info:
   name: First Baptist Church Lagrange REST Api
