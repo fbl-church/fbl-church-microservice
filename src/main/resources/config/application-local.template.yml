@@ -9,13 +9,4 @@ spring:
     url:
 
 security:
-  allowed:
-    domains: "*"
   signing-key: "local-key"
-
-ftp:
-  server:
-  port:
-  environment: DEV
-  username:
-  password:

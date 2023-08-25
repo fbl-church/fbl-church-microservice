@@ -6,12 +6,4 @@ spring:
     url: ${MYSQL_TEST_URL}
 
 security:
-  allowed:
-    domains: "*"
-
-ftp:
-  server: ${FTP_TEST_STORAGE_URL}
-  port: ${FTP_TEST_STORAGE_PORT}
-  environment: ${FTP_TEST_STORAGE_ENVIRONMENT}
-  username: ${FTP_TEST_STORAGE_USERNAME}
-  password: ${FTP_TEST_STORAGE_PASSWORD}
+  signing-key: ${JWT_SIGNING_KEY}

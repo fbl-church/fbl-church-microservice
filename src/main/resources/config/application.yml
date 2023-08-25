@@ -17,13 +17,6 @@ spring:
   profiles:
     default: "local"
 
-ftp:
-  server: ftp-nas.ddnsfree.com
-  port: 21
-  environment: DEV
-  username: sam.butler
-  password: 100698Sb!
-
 security:
   allowed:
     domains: ${ALLOWED_DOMAINS}

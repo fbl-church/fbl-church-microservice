@@ -34,11 +34,6 @@ jobs:
           MYSQL_TEST_USERNAME: ${{ secrets.MYSQL_TEST_USERNAME }}
           MYSQL_TEST_PASSWORD: ${{ secrets.MYSQL_TEST_PASSWORD }}
           MYSQL_TEST_URL: ${{ secrets.MYSQL_TEST_URL }}
-          FTP_TEST_STORAGE_URL: ${{ secrets.FTP_TEST_STORAGE_URL }}
-          FTP_TEST_STORAGE_PORT: ${{ secrets.FTP_TEST_STORAGE_PORT }}
-          FTP_TEST_STORAGE_ENVIRONMENT: ${{ secrets.FTP_TEST_STORAGE_ENVIRONMENT }}
-          FTP_TEST_STORAGE_USERNAME: ${{ secrets.FTP_TEST_STORAGE_USERNAME }}
-          FTP_TEST_STORAGE_PASSWORD: ${{ secrets.FTP_TEST_STORAGE_PASSWORD }}
           JWT_SIGNING_KEY: ${{ secrets.JWT_SIGNING_KEY }}
         uses: gradle/gradle-build-action@v2.4.0
         with:
