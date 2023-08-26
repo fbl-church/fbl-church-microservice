@@ -1,0 +1,39 @@
+@NAME(childrenAttendanceFields)
+  u.id,
+  u.first_name,
+  u.last_name,
+  c.cuid,
+  ca.attendance_id,
+  ca.present,
+  ca.notes,
+  ca.check_in_date
+
+@NAME(childrenAttendanceFilters)
+  @WHERE
+    @AND(:first_name)
+      u.first_name IN (:first_name)
+    @AND(:last_name)
+      u.last_name IN (:last_name)
+    @AND(:present)
+      ca.present = (:present)
+    @AND(:search = true)
+      @INCLUDE(search)
+
+@NAME(getchildrenAttendanceByIdBase)
+  FROM users u
+  INNER JOIN children c ON u.id = c.user_id
+  INNER JOIN children_attendance ca ON c.user_id = ca.user_id AND ca.attendance_id = :attendance_id
+  @INCLUDE(childrenAttendanceFilters)
+
+@NAME(childrenAttendanceByIdPage)
+  @PAGING(:rowOffset, :pageSize)
+    SELECT @INCLUDE(childrenAttendanceFields) 
+    @INCLUDE(getchildrenAttendanceByIdBase)
+    ORDER BY u.last_name ASC
+
+@NAME(childrenAttendanceByIdPageTotalCount)
+  SELECT COUNT(*)
+  @INCLUDE(getchildrenAttendanceByIdBase)
+
+@NAME(search)
+  (@VALUE(:searchContent))
