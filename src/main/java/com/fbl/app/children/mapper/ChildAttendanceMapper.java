@@ -28,6 +28,7 @@ public class ChildAttendanceMapper extends AbstractMapper<ChildAttendance> {
 		child.setAttendanceId(rs.getInt(ATTENDANCE_ID));
 		child.setPresent(rs.getBoolean(PRESENT));
 		child.setNotes(rs.getString(NOTES));
+		child.setUpdatedUserId(rs.getInt(UPDATE_USER_ID));
 		child.setCheckInDate(parseDateTime(rs.getString(CHECK_IN_DATE)));
 		return child;
 	}

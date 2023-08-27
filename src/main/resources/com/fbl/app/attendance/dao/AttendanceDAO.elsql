@@ -62,3 +62,12 @@
 
 @NAME(search)
   (@VALUE(:searchContent))
+
+@NAME(insertAttendanceRecord)
+  INSERT INTO attendance_records (name, type, active_date) VALUES (:name, :type, :active_date)
+
+@NAME(assignWorkerToAttendanceRecord)
+  INSERT INTO attendance_record_workers (attendance_id, user_id) VALUES (:attendance_id, :user_id)
+
+@NAME(deleteAttendanceRecordWorkers)
+  DELETE FROM attendance_record_workers WHERE attendance_id = :attendance_id

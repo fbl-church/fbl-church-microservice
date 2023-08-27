@@ -6,6 +6,7 @@
   ca.attendance_id,
   ca.present,
   ca.notes,
+  ca.updated_user_id,
   ca.check_in_date
 
 @NAME(childrenAttendanceFilters)

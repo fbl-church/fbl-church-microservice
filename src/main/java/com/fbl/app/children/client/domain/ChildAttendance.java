@@ -41,6 +41,9 @@ public class ChildAttendance {
     @Schema(description = "The attendance notes")
     private String notes;
 
+    @Schema(description = "The user that last updated the childs check in")
+    private int updatedUserId;
+
     @Schema(description = "The date the child was checked in")
     private LocalDateTime checkInDate;
 }

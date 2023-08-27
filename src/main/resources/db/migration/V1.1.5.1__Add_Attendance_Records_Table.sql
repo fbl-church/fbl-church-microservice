@@ -12,7 +12,7 @@
 CREATE TABLE attendance_records (
   attendance_id INT          UNSIGNED NOT NULL AUTO_INCREMENT,
   name          VARCHAR(128)          NOT NULL,
-  status        VARCHAR(32)           NOT NULL,
+  status        VARCHAR(32)           NOT NULL DEFAULT 'PENDING',
   type          VARCHAR(32)           NOT NULL,
   active_date   DATE                  NOT NULL DEFAULT (CURDATE()),
   closed_date   DATE                           DEFAULT NULL,

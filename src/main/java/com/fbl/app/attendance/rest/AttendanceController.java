@@ -7,15 +7,21 @@ import static org.springframework.http.MediaType.*;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.fbl.app.attendance.client.domain.AttendanceRecord;
 import com.fbl.app.attendance.client.domain.request.AttendanceRecordGetRequest;
 import com.fbl.app.attendance.openapi.TagAttendance;
 import com.fbl.app.attendance.service.AttendanceService;
+import com.fbl.app.attendance.service.ManageAttendanceService;
 import com.fbl.app.user.client.domain.User;
 import com.fbl.common.annotations.interfaces.RestApiController;
 import com.fbl.common.page.Page;
@@ -35,6 +41,9 @@ public class AttendanceController {
 
     @Autowired
     private AttendanceService attendanceService;
+
+    @Autowired
+    private ManageAttendanceService manageAttendanceService;
 
     /**
      * Gets a list of attendance records based of the request filter
@@ -70,5 +79,30 @@ public class AttendanceController {
     @GetMapping(path = "/{id}/workers", produces = APPLICATION_JSON_VALUE)
     public List<User> getAttendanceRecordWorkersById(@PathVariable int id) {
         return attendanceService.getAttendanceRecordWorkersById(id);
+    }
+
+    /**
+     * Create a new attendance record
+     * 
+     * @param record The attendance record to create
+     * @return The record that was created
+     */
+    @Operation(summary = "Create a new Attendance Record", description = "Given a Attendance Record, it will create a new record for that attendance.")
+    @PostMapping(produces = APPLICATION_JSON_VALUE)
+    public AttendanceRecord createAttendanceRecord(@RequestBody @Valid AttendanceRecord record) {
+        return manageAttendanceService.createAttendanceRecord(record);
+    }
+
+    /**
+     * Updates the workers of an attendance record by id
+     * 
+     * @param id      The attendance record id
+     * @param workers The list of workers to be assigned
+     * @return The list of users that were assigned to the attendance record
+     */
+    @Operation(summary = "Update the workers on an attendance record", description = "Given a Attendance Record id and a list of user ids, it will update the workers on the attendance record.")
+    @PutMapping(path = "/{id}/workers", produces = APPLICATION_JSON_VALUE)
+    public List<User> updateAttendanceRecordWorkers(@PathVariable int id, @RequestBody List<User> workers) {
+        return manageAttendanceService.assignWorkersToAttendanceRecord(id, workers);
     }
 }

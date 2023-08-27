@@ -11,6 +11,8 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import com.fbl.app.attendance.client.domain.AttendanceRecord;
@@ -58,5 +60,42 @@ public class AttendanceDAO extends BaseDao {
     public List<User> getAttendanceRecordWorkersById(int id) {
         MapSqlParameterSource params = parameterSource(ATTENDANCE_ID, id);
         return getList("getAttendanceRecordWorkersPage", params, USER_MAPPER);
+    }
+
+    /**
+     * Create a new attendance record
+     * 
+     * @param record The attendance record to create
+     * @return The record that was created
+     */
+    public int createAttendanceRecord(AttendanceRecord record) {
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        MapSqlParameterSource params = SqlParamBuilder.with().withParam(NAME, record.getName())
+                .withParam(TYPE, record.getType()).withParam(ACTIVE_DATE, record.getActiveDate()).build();
+
+        post("insertAttendanceRecord", params, keyHolder);
+        return keyHolder.getKey().intValue();
+    }
+
+    /**
+     * Assigns the given worker id to the attendance record
+     * 
+     * @param recordId The attendance record id
+     * @param workerId The user id to assign to it
+     */
+    public void assignWorkerToAttendanceRecord(int recordId, int workerId) {
+        MapSqlParameterSource params = SqlParamBuilder.with().withParam(ATTENDANCE_ID, recordId)
+                .withParam(USER_ID, workerId).build();
+
+        post("assignWorkerToAttendanceRecord", params);
+    }
+
+    /**
+     * Delete all workers from attendance record
+     * 
+     * @param recordId The attendance record id
+     */
+    public void deleteAttendanceRecordWorkers(int recordId) {
+        delete("deleteAttendanceRecordWorkers", parameterSource(ATTENDANCE_ID, recordId));
     }
 }

@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import com.fbl.app.user.client.domain.User;
@@ -32,10 +33,10 @@ public class AttendanceRecord {
     private int id;
 
     @Schema(description = "Name describing the attendance record.")
+    @NotNull(message = "Invalid name: Can not be null")
     private String name;
 
     @Schema(description = "Status of the attendance record.")
-    @NotNull(message = "Invalid status: Can not be null")
     private AttendanceStatus status;
 
     @Schema(description = "The record type")
@@ -43,6 +44,7 @@ public class AttendanceRecord {
     private ChurchGroup type;
 
     @Schema(description = "The workers on the attendance record.")
+    @NotEmpty(message = "Invalid workers: Can not be null or empty")
     private List<User> workers;
 
     @Schema(description = "The date the attendance record was active.")
