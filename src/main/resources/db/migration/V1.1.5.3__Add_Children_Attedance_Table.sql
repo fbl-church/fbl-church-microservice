@@ -14,7 +14,7 @@ CREATE TABLE children_attendance (
   user_id         INT          UNSIGNED NOT NULL,
   present         TINYINT(4)   UNSIGNED NOT NULL DEFAULT 0,
   notes           LONGTEXT                       DEFAULT NULL,
-  updated_user_id INT          UNSIGNED NOT NULL DEFAULT 0
+  updated_user_id INT          UNSIGNED NOT NULL DEFAULT 0,
   check_in_date   DATETIME              NOT NULL DEFAULT CURRENT_TIMESTAMP(),
   PRIMARY KEY (attendance_id, user_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

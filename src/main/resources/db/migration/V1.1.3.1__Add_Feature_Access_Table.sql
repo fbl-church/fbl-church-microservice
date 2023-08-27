@@ -10,9 +10,10 @@
 -- ---------------------------------------------------------------------------------
 
 CREATE TABLE feature_access (
-  id                       INT          unsigned NOT NULL AUTO_INCREMENT,
+  id                       INT          UNSIGNED NOT NULL AUTO_INCREMENT,
   feature_application_text VARCHAR(128)          NOT NULL,
   feature_name_text        VARCHAR(128)          NOT NULL,
+  insert_date              DATETIME              NOT NULL DEFAULT CURRENT_TIMESTAMP(),
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
