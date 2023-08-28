@@ -66,8 +66,8 @@ public enum WebRole implements TextEnum {
     }
 
     /**
-     * Checks to see if the accessing user has permission to modify the user passed
-     * in with NOT equal permission.
+     * Checks to see if the accessing user has greater permission to modify the user
+     * passed in.
      * 
      * Example:
      * 
@@ -86,8 +86,8 @@ public enum WebRole implements TextEnum {
     }
 
     /**
-     * Checks to see if the accessing user has permission to modify the user passed
-     * in of equal permisson.
+     * Checks to see if the accessing user has equal or greater permisson to modify
+     * the user passed in.
      * 
      * Example:
      * 
