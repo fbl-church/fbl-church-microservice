@@ -3,8 +3,6 @@
  */
 package com.fbl.app.user.rest;
 
-import static org.springframework.http.MediaType.*;
-
 import java.util.List;
 
 import javax.validation.Valid;
@@ -48,7 +46,7 @@ public class UserController {
 	 * @return list of user objects
 	 */
 	@Operation(summary = "Get a list of users.", description = "Given a User Get Request, it will return a list of users that match the request.")
-	@GetMapping(produces = APPLICATION_JSON_VALUE)
+	@GetMapping
 	public Page<User> getUsers(UserGetRequest request) {
 		return userService.getUsers(request);
 	}
@@ -59,7 +57,7 @@ public class UserController {
 	 * @return The user currently logged in.
 	 */
 	@Operation(summary = "Gets current user of the session call.", description = "Will return the current user based on the active session jwt holder.")
-	@GetMapping(path = "/current-user", produces = APPLICATION_JSON_VALUE)
+	@GetMapping("/current-user")
 	public User getCurrentUser() {
 		return userService.getCurrentUser();
 	}
@@ -71,7 +69,7 @@ public class UserController {
 	 * @return user associated to that id
 	 */
 	@Operation(summary = "Gets a user by id.", description = "For the given id value, it will return the corresponding user.")
-	@GetMapping(path = "/{id}", produces = APPLICATION_JSON_VALUE)
+	@GetMapping("/{id}")
 	public User getUserById(@PathVariable int id) {
 		return userService.getUserById(id);
 	}
@@ -83,7 +81,7 @@ public class UserController {
 	 * @return List of Applications
 	 */
 	@Operation(summary = "Get a list of user applications", description = "Returns the given apps that the user has access too.")
-	@GetMapping(path = "/{id}/applications", produces = APPLICATION_JSON_VALUE)
+	@GetMapping("/{id}/applications")
 	@HasAccess(WebRole.SITE_ADMINISTRATOR)
 	public List<String> getUserAppsById(@PathVariable int id) {
 		return userService.getUserAppsById(id);
@@ -97,7 +95,7 @@ public class UserController {
 	 * @return The new user that was created.
 	 */
 	@Operation(summary = "Add a new user", description = "Add a new user. Called for someone creating an account for someone else.")
-	@PostMapping(path = "/create", produces = APPLICATION_JSON_VALUE)
+	@PostMapping("/create")
 	@HasAccess(WebRole.SITE_ADMINISTRATOR)
 	public User createUser(@RequestBody @Valid User user) {
 		return manageUserService.createUser(user);
@@ -111,7 +109,7 @@ public class UserController {
 	 * @return The new user that was created.
 	 */
 	@Operation(summary = "Register user", description = "Registering a user will create an account for the requesting user.")
-	@PostMapping(path = "/register", produces = APPLICATION_JSON_VALUE)
+	@PostMapping("/register")
 	public User registerUser(@RequestBody @Valid User user) {
 		return manageUserService.registerUser(user);
 	}
@@ -123,7 +121,7 @@ public class UserController {
 	 * @return user associated to that id with the updated information
 	 */
 	@Operation(summary = "Update User Information", description = "Will update the given user information.")
-	@PutMapping(produces = APPLICATION_JSON_VALUE)
+	@PutMapping
 	public User updateUser(@RequestBody User user) {
 		return manageUserService.updateUser(user);
 	}
@@ -136,7 +134,7 @@ public class UserController {
 	 * @return The updated user information
 	 */
 	@Operation(summary = "Update User Roles", description = "Will update the given user roles by id.")
-	@PutMapping(path = "/roles/{id}", produces = APPLICATION_JSON_VALUE)
+	@PutMapping("/roles/{id}")
 	public User updateUserRoles(@PathVariable int id, @RequestBody List<WebRole> roles) {
 		return manageUserService.updateUserRoles(id, roles);
 	}
@@ -149,8 +147,8 @@ public class UserController {
 	 * @return user associated to that id with the updated information
 	 */
 	@Operation(summary = "Update User Information By Id", description = "Will update the given user information for the provided user id.")
+	@PutMapping("/{id}")
 	@HasAccess(WebRole.SITE_ADMINISTRATOR)
-	@PutMapping(path = "/{id}", produces = APPLICATION_JSON_VALUE)
 	public User updateUserById(@PathVariable int id, @RequestBody User user) {
 		return manageUserService.updateUserById(id, user);
 	}
@@ -161,7 +159,7 @@ public class UserController {
 	 * @param userId The user Id to be deleted
 	 */
 	@Operation(summary = "Delete a user", description = "Delete a user for the given id.")
-	@DeleteMapping(path = "/{userId}", produces = APPLICATION_JSON_VALUE)
+	@DeleteMapping("/{userId}")
 	@HasAccess(WebRole.SITE_ADMINISTRATOR)
 	public void deleteUser(@PathVariable int userId) {
 		manageUserService.deleteUser(userId);

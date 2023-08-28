@@ -1,7 +1,5 @@
 package com.fbl.app.gurdian.rest;
 
-import static org.springframework.http.MediaType.*;
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +49,7 @@ public class GurdianController {
      * @return list of gurdians objects
      */
     @Operation(summary = "Get a list of gurdians.", description = "Given a Gurdian Get Request, it will return a list of gurdians that match the request.")
-    @GetMapping(produces = APPLICATION_JSON_VALUE)
+    @GetMapping
     public Page<Gurdian> getGurdians(GurdianGetRequest request) {
         return gurdianService.getGurdians(request);
     }
@@ -63,7 +61,7 @@ public class GurdianController {
      * @return The found gurdian based on the id
      */
     @Operation(summary = "Get a gurdian by id", description = "Given a Gurdian id, it will return that gurdian information if found.")
-    @GetMapping(path = "/{id}", produces = APPLICATION_JSON_VALUE)
+    @GetMapping("/{id}")
     public Gurdian getGurdianById(@PathVariable int id) {
         return gurdianService.getGurdianById(id);
     }
@@ -75,7 +73,7 @@ public class GurdianController {
      * @return The list of gurdians associated to the child
      */
     @Operation(summary = "Get list of child gurdians", description = "Given a child id, it will get the list of gurdians for that child.")
-    @GetMapping(path = "/child/{childId}", produces = APPLICATION_JSON_VALUE)
+    @GetMapping("/child/{childId}")
     public List<Gurdian> getChildGurdians(@PathVariable int childId) {
         return gurdianService.getChildGurdians(childId);
     }
@@ -87,7 +85,7 @@ public class GurdianController {
      * @return {@link Gurdian} that was created.
      */
     @Operation(summary = "Create a new Gurdian.", description = "Given a Gurdian request body. It will create a new gurdian.")
-    @PostMapping(produces = APPLICATION_JSON_VALUE)
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @HasAccess(WebRole.LEADER)
     public Gurdian insertGurdian(@RequestBody Gurdian gurdian) {
@@ -101,7 +99,7 @@ public class GurdianController {
      * @return {@link Gurdian} that was created.
      */
     @Operation(summary = "Create gurdian entry to existing user", description = "Will take an existing user and assign them the gurdian entry")
-    @PutMapping(path = "/{userId}/user", produces = APPLICATION_JSON_VALUE)
+    @PutMapping("/{userId}/user")
     @ResponseStatus(HttpStatus.CREATED)
     @HasAccess(WebRole.WORKER)
     public Gurdian assignGurdianToExistingUser(@PathVariable int userId, @RequestBody Gurdian gurdian) {
@@ -115,7 +113,7 @@ public class GurdianController {
      * @return gurdian associated to that id with the updated information
      */
     @Operation(summary = "Update Gurdian Information", description = "Will update the given gurdian information.")
-    @PutMapping(path = "/{id}", produces = APPLICATION_JSON_VALUE)
+    @PutMapping("/{id}")
     @HasAccess(WebRole.WORKER)
     public Gurdian updateGurdianById(@PathVariable int id, @RequestBody Gurdian gurdian) {
         return manageGurdianService.updateGurdianById(id, gurdian);
@@ -129,7 +127,7 @@ public class GurdianController {
      * @return list of gurdians that were updated
      */
     @Operation(summary = "Update child gurdians", description = "Will update the child's list of gurdians associated to them")
-    @PutMapping(path = "/{childId}/gurdians", produces = APPLICATION_JSON_VALUE)
+    @PutMapping("/{childId}/gurdians")
     @HasAccess(WebRole.WORKER)
     public List<Gurdian> updateChildGurdiansById(@PathVariable int childId, @RequestBody List<Gurdian> gurdians) {
         return manageGurdianService.updateChildGurdiansById(childId, gurdians);
@@ -141,7 +139,7 @@ public class GurdianController {
      * @param gurdianId The id of the gurdian
      */
     @Operation(summary = "Delete a gurdian by id", description = "Will delete the specified gurdian for the given id.")
-    @DeleteMapping(path = "/{gurdianId}", produces = APPLICATION_JSON_VALUE)
+    @DeleteMapping("/{gurdianId}")
     @HasAccess(WebRole.LEADER)
     public void deleteGurdian(@PathVariable int gurdianId) {
         manageGurdianService.deleteGurdian(gurdianId);

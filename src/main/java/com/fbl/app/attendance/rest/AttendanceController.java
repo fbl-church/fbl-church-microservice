@@ -3,8 +3,6 @@
  */
 package com.fbl.app.attendance.rest;
 
-import static org.springframework.http.MediaType.*;
-
 import java.util.List;
 
 import javax.validation.Valid;
@@ -52,7 +50,7 @@ public class AttendanceController {
      * @return list of attendance record objects
      */
     @Operation(summary = "Get a list of attendance Records.", description = "Given a Attendance Record Get Request, it will return a list of attendance records that match the request.")
-    @GetMapping(produces = APPLICATION_JSON_VALUE)
+    @GetMapping
     public Page<AttendanceRecord> getAttendanceRecords(AttendanceRecordGetRequest request) {
         return attendanceService.getAttendanceRecords(request);
     }
@@ -64,7 +62,7 @@ public class AttendanceController {
      * @return The Attendance Record that matches that id
      */
     @Operation(summary = "Get anattendance Record  by Attendance Id", description = "Given a Attendance Record Id, it will return an attendance record workers that match the id.")
-    @GetMapping(path = "/{id}", produces = APPLICATION_JSON_VALUE)
+    @GetMapping("/{id}")
     public AttendanceRecord getAttendanceRecordById(@PathVariable int id) {
         return attendanceService.getAttendanceRecordById(id);
     }
@@ -76,7 +74,7 @@ public class AttendanceController {
      * @return List of workers
      */
     @Operation(summary = "Get a list of attendance Record Workers by Attendance Id", description = "Given a Attendance Record Id, it will return a list of attendance record workers that match the id.")
-    @GetMapping(path = "/{id}/workers", produces = APPLICATION_JSON_VALUE)
+    @GetMapping("/{id}/workers")
     public List<User> getAttendanceRecordWorkersById(@PathVariable int id) {
         return attendanceService.getAttendanceRecordWorkersById(id);
     }
@@ -88,7 +86,7 @@ public class AttendanceController {
      * @return The record that was created
      */
     @Operation(summary = "Create a new Attendance Record", description = "Given a Attendance Record, it will create a new record for that attendance.")
-    @PostMapping(produces = APPLICATION_JSON_VALUE)
+    @PostMapping
     public AttendanceRecord createAttendanceRecord(@RequestBody @Valid AttendanceRecord record) {
         return manageAttendanceService.createAttendanceRecord(record);
     }
@@ -101,7 +99,7 @@ public class AttendanceController {
      * @return The list of users that were assigned to the attendance record
      */
     @Operation(summary = "Update the workers on an attendance record", description = "Given a Attendance Record id and a list of user ids, it will update the workers on the attendance record.")
-    @PutMapping(path = "/{id}/workers", produces = APPLICATION_JSON_VALUE)
+    @PutMapping("/{id}/workers")
     public List<User> updateAttendanceRecordWorkers(@PathVariable int id, @RequestBody List<User> workers) {
         return manageAttendanceService.assignWorkersToAttendanceRecord(id, workers);
     }

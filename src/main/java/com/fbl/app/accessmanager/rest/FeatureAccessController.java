@@ -1,7 +1,7 @@
 /**
  * Copyright of FBL Church App. All rights reserved.
  */
-package com.fbl.app.featureaccess.rest;
+package com.fbl.app.accessmanager.rest;
 
 import java.util.List;
 import java.util.Map;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.fbl.app.featureaccess.service.FeatureAccessService;
+import com.fbl.app.accessmanager.service.FeatureAccessService;
 import com.fbl.common.annotations.interfaces.HasAccess;
 import com.fbl.common.annotations.interfaces.RestApiController;
 import com.fbl.common.enums.WebRole;
@@ -30,14 +30,14 @@ public class FeatureAccessController {
     private FeatureAccessService service;
 
     /**
-     * Gets the feature access in an application for user.
+     * Get a map of feature access for the provided web roles.
      * 
-     * @param webRole The web role to get the feature access for
-     * @return {@link Map} of the list of feature access.
+     * @param roles The web roles to get the feature access for
+     * @return {@link Map<String,String>} of the feature access
      */
     @GetMapping
     @HasAccess(WebRole.SITE_ADMINISTRATOR)
-    public Map<String, List<Map<String, String>>> getFeatureAccess(@RequestParam List<WebRole> webRole) {
-        return service.getFeatureAccess(webRole);
+    public Map<String, List<Map<String, String>>> getWebRoleFeatureAccess(@RequestParam List<WebRole> roles) {
+        return service.getWebRoleFeatureAccess(roles);
     }
 }

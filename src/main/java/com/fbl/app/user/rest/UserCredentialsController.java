@@ -3,8 +3,6 @@
  */
 package com.fbl.app.user.rest;
 
-import static org.springframework.http.MediaType.*;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -39,7 +37,7 @@ public class UserCredentialsController {
      * @return {@link User} object of the user that was updated.
      */
     @Operation(summary = "Update the currently logged in user password.", description = "Given a password update request it will update the active users password.")
-    @PutMapping(path = "/password", produces = APPLICATION_JSON_VALUE)
+    @PutMapping("/password")
     public User updateUserPassword(@RequestBody PasswordUpdate passUpdate) {
         return service.updateUserPassword(passUpdate);
     }
@@ -53,7 +51,7 @@ public class UserCredentialsController {
      * @return {@link User} object of the user that was updated.
      */
     @Operation(summary = "Update a users password by id.", description = "Update a users password given there user id and password update request.")
-    @PutMapping(path = "/password/{id}", produces = APPLICATION_JSON_VALUE)
+    @PutMapping("/password/{id}")
     @HasAccess(WebRole.SITE_ADMINISTRATOR)
     public User updateUserPasswordById(@PathVariable int id, @RequestBody PasswordUpdate passUpdate) {
         return service.updateUserPasswordById(id, passUpdate);

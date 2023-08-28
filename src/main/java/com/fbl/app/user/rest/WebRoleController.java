@@ -1,7 +1,5 @@
 package com.fbl.app.user.rest;
 
-import static org.springframework.http.MediaType.*;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,7 +28,7 @@ public class WebRoleController {
      * @return list of webroles objects
      */
     @Operation(summary = "Get a list of web roles.", description = "Given a Web Role Get Request, it will return a list of webroles that match the request.")
-    @GetMapping(produces = APPLICATION_JSON_VALUE)
+    @GetMapping
     public Page<WebRole> getRoles(WebRoleGetRequest request) {
         return webRoleService.getRoles(request);
     }

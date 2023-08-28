@@ -1,0 +1,26 @@
+@NAME(applicationFields)
+  a.id,
+  a.app_name,
+  a.enabled
+
+@NAME(applicationFilters)
+  @WHERE
+    @AND(:search = true)
+      @INCLUDE(search)
+
+@NAME(getApplicationBase)
+  FROM application a
+  @INCLUDE(applicationFilters)
+
+@NAME(getApplicationsPage)
+  @PAGING(:rowOffset, :pageSize)
+    SELECT @INCLUDE(applicationFields) 
+    @INCLUDE(getApplicationBase)
+    ORDER BY a.app_name ASC
+
+@NAME(getApplicationsPageTotalCount)
+  SELECT COUNT(*)
+  @INCLUDE(getApplicationBase)
+
+@NAME(search)
+  (@VALUE(:searchContent))

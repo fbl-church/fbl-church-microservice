@@ -1,7 +1,5 @@
 package com.fbl.app.children.rest;
 
-import static org.springframework.http.MediaType.*;
-
 import java.util.List;
 
 import javax.validation.Valid;
@@ -52,7 +50,7 @@ public class ChildrenController {
      * @return list of child objects
      */
     @Operation(summary = "Get a list of children.", description = "Given a Child Get Request, it will return a list of children that match the request.")
-    @GetMapping(produces = APPLICATION_JSON_VALUE)
+    @GetMapping
     public Page<Child> getChildren(ChildGetRequest request) {
         return childrenService.getChildren(request);
     }
@@ -64,7 +62,7 @@ public class ChildrenController {
      * @return The found child based on the id
      */
     @Operation(summary = "Get a child by id", description = "Given a child id, it will return that child information if found.")
-    @GetMapping(path = "/{id}", produces = APPLICATION_JSON_VALUE)
+    @GetMapping("/{id}")
     public Child getChildById(@PathVariable int id) {
         return childrenService.getChildById(id);
     }
@@ -76,7 +74,7 @@ public class ChildrenController {
      * @return The list of children associated to the gurdian
      */
     @Operation(summary = "Get list of gurdian children", description = "Given a gurdian id, it will get the list of children for that gurdian.")
-    @GetMapping(path = "/gurdian/{gurdianId}", produces = APPLICATION_JSON_VALUE)
+    @GetMapping("/gurdian/{gurdianId}")
     public List<Child> getGurdianChildren(@PathVariable int gurdianId) {
         return childrenService.getGurdianChildren(gurdianId);
     }
@@ -88,7 +86,7 @@ public class ChildrenController {
      * @return {@link Child} that was created.
      */
     @Operation(summary = "Create a new child", description = "Given a child request body. It will create a new child.")
-    @PostMapping(produces = APPLICATION_JSON_VALUE)
+    @PostMapping
     @HasAccess(WebRole.LEADER)
     public Child insertChild(@RequestBody @Valid Child child) {
         return manageChildrenService.insertChild(child);
@@ -101,7 +99,7 @@ public class ChildrenController {
      * @return child associated to that id with the updated information
      */
     @Operation(summary = "Update child Information", description = "Will update the given child information.")
-    @PutMapping(path = "/{id}", produces = APPLICATION_JSON_VALUE)
+    @PutMapping("/{id}")
     @HasAccess(WebRole.WORKER)
     public Child updateChildById(@PathVariable int id, @RequestBody Child child) {
         return manageChildrenService.updateChildById(id, child);
@@ -115,7 +113,7 @@ public class ChildrenController {
      * @return The updated child with the new groups.
      */
     @Operation(summary = "Update child church groups by id ", description = "Will update the childs church groups.")
-    @PutMapping(path = "/{id}/groups", produces = APPLICATION_JSON_VALUE)
+    @PutMapping("/{id}/groups")
     @HasAccess(WebRole.WORKER)
     public Child updateChildGroupsById(@PathVariable int id, @RequestBody List<ChurchGroup> groups) {
         return manageChildrenService.updateChildGroupsById(id, groups);
@@ -127,7 +125,7 @@ public class ChildrenController {
      * @param Id The child id to delete.
      */
     @Operation(summary = "Delete a child.", description = "Delete a child for the given id.")
-    @DeleteMapping(path = "/{childId}", produces = APPLICATION_JSON_VALUE)
+    @DeleteMapping("/{childId}")
     @HasAccess(WebRole.LEADER)
     public void deleteChild(@PathVariable int childId) {
         manageChildrenService.deleteChild(childId);

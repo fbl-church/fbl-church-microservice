@@ -1,7 +1,5 @@
 package com.fbl.app.children.rest;
 
-import static org.springframework.http.MediaType.*;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,7 +28,7 @@ public class ChurchGroupController {
      * @return list of webroles objects
      */
     @Operation(summary = "Get a list of church groups.", description = "Given a Church Group Get Request, it will return a list of church group that match the request.")
-    @GetMapping(produces = APPLICATION_JSON_VALUE)
+    @GetMapping
     public Page<ChurchGroup> getChurchGroups(ChurchGroupGetRequest request) {
         return churchGroupService.getChurchGroups(request);
     }

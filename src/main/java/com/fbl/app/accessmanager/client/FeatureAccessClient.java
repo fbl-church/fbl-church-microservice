@@ -1,14 +1,14 @@
 /**
  * Copyright of FBL Church App. All rights reserved.
  */
-package com.fbl.app.featureaccess.client;
+package com.fbl.app.accessmanager.client;
 
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.fbl.app.featureaccess.service.FeatureAccessService;
+import com.fbl.app.accessmanager.service.FeatureAccessService;
 import com.fbl.common.annotations.interfaces.Client;
 import com.fbl.common.enums.WebRole;
 
@@ -26,12 +26,12 @@ public class FeatureAccessClient {
 	private FeatureAccessService service;
 
 	/**
-	 * Client method to get list of user feature access
+	 * Client method to get a map of feature access for the provided web roles.
 	 * 
-	 * @param request to filter stores on
-	 * @return List of stores {@link Map<String,String>}
+	 * @param roles The web roles to get the feature access for
+	 * @return {@link Map<String,String>} of the feature access
 	 */
-	public Map<String, List<Map<String, String>>> getFeatureAccess(List<WebRole> role) {
-		return service.getFeatureAccess(role);
+	public Map<String, List<Map<String, String>>> getWebRoleFeatureAccess(List<WebRole> roles) {
+		return service.getWebRoleFeatureAccess(roles);
 	}
 }

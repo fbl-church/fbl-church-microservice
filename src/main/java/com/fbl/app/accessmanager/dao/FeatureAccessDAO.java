@@ -1,9 +1,9 @@
 /**
  * Copyright of FBL Church App. All rights reserved.
  */
-package com.fbl.app.featureaccess.dao;
+package com.fbl.app.accessmanager.dao;
 
-import static com.fbl.app.featureaccess.mapper.FeatureAccessMapper.*;
+import static com.fbl.app.accessmanager.mapper.FeatureAccessMapper.*;
 
 import java.text.ParseException;
 import java.text.RuleBasedCollator;
@@ -20,7 +20,7 @@ import javax.sql.DataSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.stereotype.Repository;
 
-import com.fbl.app.featureaccess.client.domain.Feature;
+import com.fbl.app.accessmanager.client.domain.Feature;
 import com.fbl.common.enums.WebRole;
 import com.fbl.sql.abstracts.BaseDao;
 import com.fbl.sql.builder.SqlParamBuilder;
@@ -39,13 +39,13 @@ public class FeatureAccessDAO extends BaseDao {
     }
 
     /**
-     * Get the feature access for the user
+     * Get a map of feature access for the provided web roles.
      * 
-     * @param app to filter features on
-     * @return boolean if that user has feature access for the application
+     * @param roles The web roles to get the feature access for
+     * @return {@link Map<String,String>} of the feature access
      */
-    public Map<String, List<Map<String, String>>> getFeatureAccess(List<WebRole> role) {
-        MapSqlParameterSource params = SqlParamBuilder.with().withParamTextEnumCollection(WEB_ROLE, role).build();
+    public Map<String, List<Map<String, String>>> getWebRoleFeatureAccess(List<WebRole> roles) {
+        MapSqlParameterSource params = SqlParamBuilder.with().withParamTextEnumCollection(WEB_ROLE, roles).build();
         return mapSingleton(getList("getFeatureAccess", params, FEATURE_ACCESS_MAPPER));
     }
 

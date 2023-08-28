@@ -3,8 +3,6 @@
  */
 package com.fbl.app.authentication.rest;
 
-import static org.springframework.http.MediaType.*;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -40,7 +38,7 @@ public class AuthenticationController {
      * @return a JWT token.
      */
     @Operation(summary = "Authentication for a user", description = "Generates a unique JWT token for an authenticated user.")
-    @PostMapping(path = "/authenticate", produces = APPLICATION_JSON_VALUE)
+    @PostMapping("/authenticate")
     public ResponseEntity<AuthToken> authenticateUser(@RequestBody AuthenticationRequest authenticationRequest) {
         return ResponseEntity.ok(service.authenticate(authenticationRequest));
     }
@@ -52,7 +50,7 @@ public class AuthenticationController {
      * @return a new JWT token.
      */
     @Operation(summary = "Re-authenticate a user", description = "Will re-authenticate a user. An existing token is required.")
-    @PostMapping(path = "/reauthenticate", produces = APPLICATION_JSON_VALUE)
+    @PostMapping("/reauthenticate")
     public ResponseEntity<AuthToken> reauthenticateUser() {
         return ResponseEntity.ok(service.reauthenticate());
     }

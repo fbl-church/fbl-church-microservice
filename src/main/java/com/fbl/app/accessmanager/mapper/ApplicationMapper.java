@@ -1,12 +1,12 @@
 /**
  * Copyright of FBL Church App. All rights reserved.
  */
-package com.fbl.app.user.mapper;
+package com.fbl.app.accessmanager.mapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.fbl.app.user.client.domain.Application;
+import com.fbl.app.accessmanager.client.domain.Application;
 import com.fbl.sql.abstracts.AbstractMapper;
 
 /**
@@ -20,9 +20,8 @@ public class ApplicationMapper extends AbstractMapper<Application> {
 
 	public Application mapRow(ResultSet rs, int rowNum) throws SQLException {
 		Application app = new Application();
-		app.setId(rs.getInt(APP_ID));
+		app.setId(rs.getInt(ID));
 		app.setName(rs.getString(APP_NAME));
-		app.setAccess(rs.getBoolean(ACCESS));
 		app.setEnabled(rs.getBoolean(ENABLED));
 		return app;
 	}

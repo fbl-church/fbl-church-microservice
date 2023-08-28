@@ -67,7 +67,15 @@ public enum WebRole implements TextEnum {
 
     /**
      * Checks to see if the accessing user has permission to modify the user passed
-     * in.
+     * in with NOT equal permission.
+     * 
+     * Example:
+     * 
+     * <pre>
+     *  ADMINISTRATOR accessing ADMINISTRATOR -> false
+     *  ADMINISTRATOR accessing SITE_ADMINISTRATOR -> true
+     *  SITE_ADMINISTRATOR accessing ADMINISTRATOR -> false
+     * </pre>
      * 
      * @param accessingUser The user that wants access
      * @param user          The user to check access against
@@ -75,6 +83,26 @@ public enum WebRole implements TextEnum {
      */
     public static boolean hasPermission(List<WebRole> accessingUser, List<WebRole> user) {
         return highestRoleRank(accessingUser).getRank() > highestRoleRank(user).getRank();
+    }
+
+    /**
+     * Checks to see if the accessing user has permission to modify the user passed
+     * in of equal permisson.
+     * 
+     * Example:
+     * 
+     * <pre>
+     *  ADMINISTRATOR accessing ADMINISTRATOR -> true
+     *  ADMINISTRATOR accessing SITE_ADMINISTRATOR -> true
+     *  SITE_ADMINISTRATOR accessing ADMINISTRATOR -> false
+     * </pre>
+     * 
+     * @param accessingUser The user that wants access
+     * @param user          The user to check access against
+     * @return Boolean determining if the accessing user has permission to the user
+     */
+    public static boolean hasEqualPermission(List<WebRole> accessingUser, List<WebRole> user) {
+        return highestRoleRank(accessingUser).getRank() >= highestRoleRank(user).getRank();
     }
 
     /**

@@ -1,7 +1,7 @@
 /**
  * Copyright of FBL Church App. All rights reserved.
  */
-package com.fbl.app.featureaccess.service;
+package com.fbl.app.accessmanager.service;
 
 import java.util.List;
 import java.util.Map;
@@ -9,7 +9,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.fbl.app.featureaccess.dao.FeatureAccessDAO;
+import com.fbl.app.accessmanager.dao.FeatureAccessDAO;
 import com.fbl.common.enums.WebRole;
 
 /**
@@ -25,11 +25,12 @@ public class FeatureAccessService {
     private FeatureAccessDAO dao;
 
     /**
-     * Gets the feature access in an application for user.
+     * Get a map of feature access for the provided web roles.
      * 
-     * @return {@link Map} of the list of feature access.
+     * @param roles The web roles to get the feature access for
+     * @return {@link Map<String,String>} of the feature access
      */
-    public Map<String, List<Map<String, String>>> getFeatureAccess(List<WebRole> role) {
-        return dao.getFeatureAccess(role);
+    public Map<String, List<Map<String, String>>> getWebRoleFeatureAccess(List<WebRole> roles) {
+        return dao.getWebRoleFeatureAccess(roles);
     }
 }

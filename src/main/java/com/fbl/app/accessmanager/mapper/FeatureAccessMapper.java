@@ -1,12 +1,12 @@
 /**
  * Copyright of FBL Church App. All rights reserved.
  */
-package com.fbl.app.featureaccess.mapper;
+package com.fbl.app.accessmanager.mapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.fbl.app.featureaccess.client.domain.Feature;
+import com.fbl.app.accessmanager.client.domain.Feature;
 import com.fbl.sql.abstracts.AbstractMapper;
 
 /**

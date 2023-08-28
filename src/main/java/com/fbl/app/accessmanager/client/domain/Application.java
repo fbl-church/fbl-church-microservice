@@ -1,7 +1,7 @@
 /**
  * Copyright of FBL Church App. All rights reserved.
  */
-package com.fbl.app.user.client.domain;
+package com.fbl.app.accessmanager.client.domain;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;

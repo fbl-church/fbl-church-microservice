@@ -1,7 +1,5 @@
 package com.fbl.app.children.rest;
 
-import static org.springframework.http.MediaType.*;
-
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,7 +36,7 @@ public class ChildrenAttendanceController {
      * @return Page of children attendance objects.
      */
     @Operation(summary = "Get a list of children attendance by id.", description = "Given the attendance id, it will return a page of the children and who attended.")
-    @GetMapping(path = "/{id}", produces = APPLICATION_JSON_VALUE)
+    @GetMapping("/{id}")
     public Page<ChildAttendance> getChildrenAttedanceById(ChildAttendanceGetRequest request,
             @PathVariable int id) {
         return childrenAttendanceService.getChildrenAttedanceById(request, id);

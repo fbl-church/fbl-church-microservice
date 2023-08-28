@@ -46,7 +46,8 @@ public class UsersControllerTest extends BaseControllerTest {
     @Captor
     private ArgumentCaptor<UserGetRequest> getUsersCaptor;
 
-    ParameterizedTypeReference<Page<User>> pageRef = new ParameterizedTypeReference<Page<User>>() {};
+    ParameterizedTypeReference<Page<User>> pageRef = new ParameterizedTypeReference<Page<User>>() {
+    };
 
     @Test
     public void testGetListOfUsers() throws Exception {

@@ -232,6 +232,35 @@ public abstract class AbstractSqlDao extends AbstractSqlGlobals {
      * the called object.
      * 
      * @param <T>      The object type of the method to cast the rows too.
+     * @param fragment The name of the sql fragment.
+     * @param mapper   The mapper to return the data as.
+     * @return List of the returned data.
+     */
+    protected <T> Page<T> getPage(String fragment, RowMapper<T> mapper) {
+        return getPage(fragment + "TotalCount", fragment, mapper);
+    }
+
+    /**
+     * Querys the database for a page of data. It will return the data as a list of
+     * the called object.
+     * 
+     * @param <T>      The object type of the method to cast the rows too.
+     * @param total    The total count sql fragment.
+     * @param fragment The name of the sql fragment.
+     * @param mapper   The mapper to return the data as.
+     * @return List of the returned data.
+     */
+    protected <T> Page<T> getPage(String total, String fragment, RowMapper<T> mapper) {
+        int totalCount = get(total, new MapSqlParameterSource(), Integer.class);
+        List<T> list = getList(fragment, new MapSqlParameterSource(), mapper);
+        return new Page<T>(totalCount, list);
+    }
+
+    /**
+     * Querys the database for a page of data. It will return the data as a list of
+     * the called object.
+     * 
+     * @param <T>      The object type of the method to cast the rows too.
      * @param total    The total count sql fragment.
      * @param fragment The name of the sql fragment.
      * @param params   Params to be inserted into the query.
