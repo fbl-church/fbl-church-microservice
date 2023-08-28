@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fbl.app.accessmanager.client.FeatureAccessClient;
@@ -23,7 +24,6 @@ import com.fbl.jwt.domain.JwtType;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import lombok.RequiredArgsConstructor;
 
 /**
  * Token util to create and manage jwt tokens.
@@ -32,14 +32,18 @@ import lombok.RequiredArgsConstructor;
  * @since July 31, 2021
  */
 @Service
-@RequiredArgsConstructor
 public class JwtTokenUtil implements Serializable {
 
     public static final long JWT_TOKEN_USER_VALIDITY = 18000000; // 5 hours
 
-    private final AppEnvironmentService appEnvironmentService;
-    private final UserClient userClient;
-    private final FeatureAccessClient featureAccessClient;
+    @Autowired
+    private AppEnvironmentService appEnvironmentService;
+
+    @Autowired
+    private UserClient userClient;
+
+    @Autowired
+    private FeatureAccessClient featureAccessClient;
 
     /**
      * Pulls the expiration date from a given token

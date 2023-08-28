@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fbl.app.attendance.client.domain.AttendanceRecord;
@@ -13,8 +14,6 @@ import com.fbl.app.user.client.UserClient;
 import com.fbl.app.user.client.domain.User;
 import com.fbl.app.user.client.domain.request.UserGetRequest;
 
-import lombok.RequiredArgsConstructor;
-
 /**
  * Manage Attendance Service class that handles all service calls to the dao
  * 
@@ -22,14 +21,18 @@ import lombok.RequiredArgsConstructor;
  * @since August 21, 2023
  */
 @Service
-@RequiredArgsConstructor
 public class ManageAttendanceService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ManageAttendanceService.class);
 
-    private final AttendanceDAO attendanceDAO;
-    private final AttendanceService attendanceService;
-    private final UserClient userClient;
+    @Autowired
+    private AttendanceDAO attendanceDAO;
+
+    @Autowired
+    private AttendanceService attendanceService;
+
+    @Autowired
+    private UserClient userClient;
 
     /**
      * Create a new attendance record

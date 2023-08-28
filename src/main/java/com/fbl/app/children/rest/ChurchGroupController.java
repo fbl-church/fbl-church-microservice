@@ -1,5 +1,6 @@
 package com.fbl.app.children.rest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -11,15 +12,14 @@ import com.fbl.common.enums.ChurchGroup;
 import com.fbl.common.page.Page;
 
 import io.swagger.v3.oas.annotations.Operation;
-import lombok.RequiredArgsConstructor;
 
 @RequestMapping("/api/church-groups")
 @RestApiController
-@RequiredArgsConstructor
 @TagUser
 public class ChurchGroupController {
 
-    private final ChurchGroupService churchGroupService;
+    @Autowired
+    private ChurchGroupService churchGroupService;
 
     /**
      * Gets a list Church Groups based on the request

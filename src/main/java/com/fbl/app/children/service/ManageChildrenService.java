@@ -3,6 +3,7 @@ package com.fbl.app.children.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fbl.app.children.client.domain.Child;
@@ -14,7 +15,6 @@ import com.fbl.common.enums.ChurchGroup;
 import com.fbl.common.enums.WebRole;
 
 import io.jsonwebtoken.lang.Assert;
-import lombok.RequiredArgsConstructor;
 
 /**
  * Manage Children Service class that handles all service calls to the dao
@@ -23,15 +23,21 @@ import lombok.RequiredArgsConstructor;
  * @since June 25, 2022
  */
 @Service
-@RequiredArgsConstructor
 public class ManageChildrenService {
 
     private static final String CHILD_DEFAULT_PASSWORD = "FBL-CHILD";
 
-    private final ChildrenDAO dao;
-    private final ChildrenService childrenService;
-    private final UserClient userClient;
-    private final GurdianClient gurdianClient;
+    @Autowired
+    private ChildrenDAO dao;
+
+    @Autowired
+    private ChildrenService childrenService;
+
+    @Autowired
+    private UserClient userClient;
+
+    @Autowired
+    private GurdianClient gurdianClient;
 
     /**
      * Creates a new child for the given user object.

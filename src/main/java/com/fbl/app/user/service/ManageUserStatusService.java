@@ -3,13 +3,12 @@
  */
 package com.fbl.app.user.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fbl.app.user.client.domain.UserStatus;
 import com.fbl.app.user.dao.UserStatusDAO;
 import com.fbl.jwt.utility.JwtHolder;
-
-import lombok.RequiredArgsConstructor;
 
 /**
  * Class for handling the service calls to the dao.
@@ -18,14 +17,16 @@ import lombok.RequiredArgsConstructor;
  * @since October 9, 2021
  */
 @Service
-@RequiredArgsConstructor
 public class ManageUserStatusService {
 
-    private final JwtHolder jwtHolder;
+    @Autowired
+    private JwtHolder jwtHolder;
 
-    private final UserStatusDAO dao;
+    @Autowired
+    private UserStatusDAO dao;
 
-    private final UserStatusService userStatusService;
+    @Autowired
+    private UserStatusService userStatusService;
 
     /**
      * Inserts the given user status object into the db. Will check that the passed

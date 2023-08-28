@@ -6,12 +6,11 @@ package com.fbl.app.accessmanager.service;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fbl.app.accessmanager.dao.FeatureAccessDAO;
 import com.fbl.common.enums.WebRole;
-
-import lombok.RequiredArgsConstructor;
 
 /**
  * Feature Access Service
@@ -20,10 +19,10 @@ import lombok.RequiredArgsConstructor;
  * @since 8/2/2020
  */
 @Service
-@RequiredArgsConstructor
 public class FeatureAccessService {
 
-    private final FeatureAccessDAO dao;
+    @Autowired
+    private FeatureAccessDAO dao;
 
     /**
      * Get a map of feature access for the provided web roles.

@@ -18,7 +18,6 @@ import lombok.Getter;
 @Getter
 public final class JwtPair {
     private final String token;
-
     private final Claims claimSet;
 
     public JwtPair(String token, AppEnvironmentService appEnvironmentService) {

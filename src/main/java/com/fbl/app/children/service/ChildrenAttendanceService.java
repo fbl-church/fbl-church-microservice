@@ -1,13 +1,12 @@
 package com.fbl.app.children.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fbl.app.children.client.domain.ChildAttendance;
 import com.fbl.app.children.client.domain.request.ChildAttendanceGetRequest;
 import com.fbl.app.children.dao.ChildrenAttendanceDAO;
 import com.fbl.common.page.Page;
-
-import lombok.RequiredArgsConstructor;
 
 /**
  * Children Attendance Service class that handles all service calls to the dao
@@ -16,10 +15,10 @@ import lombok.RequiredArgsConstructor;
  * @since June 25, 2022
  */
 @Service
-@RequiredArgsConstructor
 public class ChildrenAttendanceService {
 
-    private final ChildrenAttendanceDAO childrenAttendanceDAO;
+    @Autowired
+    private ChildrenAttendanceDAO childrenAttendanceDAO;
 
     /**
      * Get a list of children attendance.

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fbl.app.gurdian.client.domain.Gurdian;
@@ -13,7 +14,6 @@ import com.fbl.app.user.client.domain.User;
 import com.fbl.common.enums.WebRole;
 
 import io.jsonwebtoken.lang.Assert;
-import lombok.RequiredArgsConstructor;
 
 /**
  * Manage Gurdian Service class that handles all service calls to the dao
@@ -22,17 +22,20 @@ import lombok.RequiredArgsConstructor;
  * @since June 25, 2022
  */
 @Service
-@RequiredArgsConstructor
+
 public class ManageGurdianService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ManageGurdianService.class);
     private static final String GURDIAN_DEFAULT_PASSWORD = "FBL-GURDIAN";
 
-    private final GurdianDAO dao;
+    @Autowired
+    private GurdianDAO dao;
 
-    private final GurdianService gurdianService;
+    @Autowired
+    private GurdianService gurdianService;
 
-    private final UserClient userClient;
+    @Autowired
+    private UserClient userClient;
 
     /**
      * Creates a new gurdian for the given user object.

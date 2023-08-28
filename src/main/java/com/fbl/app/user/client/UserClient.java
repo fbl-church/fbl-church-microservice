@@ -5,6 +5,7 @@ package com.fbl.app.user.client;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.fbl.app.user.client.domain.User;
@@ -14,8 +15,6 @@ import com.fbl.app.user.service.UserService;
 import com.fbl.common.annotations.interfaces.Client;
 import com.fbl.common.enums.WebRole;
 
-import lombok.RequiredArgsConstructor;
-
 /**
  * This class exposes the user endpoint's to other app's to pull data across the
  * platform.
@@ -24,11 +23,13 @@ import lombok.RequiredArgsConstructor;
  * @since June 25, 2020
  */
 @Client
-@RequiredArgsConstructor
 public class UserClient {
 
-	private final UserService userService;
-	private final ManageUserService manageUserService;
+	@Autowired
+	private UserService userService;
+
+	@Autowired
+	private ManageUserService manageUserService;
 
 	/**
 	 * Get users based on given request filter.

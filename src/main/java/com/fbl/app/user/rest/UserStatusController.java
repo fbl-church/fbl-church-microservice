@@ -3,6 +3,7 @@
  */
 package com.fbl.app.user.rest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,16 +17,16 @@ import com.fbl.app.user.service.ManageUserStatusService;
 import com.fbl.app.user.service.UserStatusService;
 import com.fbl.common.annotations.interfaces.RestApiController;
 
-import lombok.RequiredArgsConstructor;
-
 @RequestMapping("api/users/status")
 @RestApiController
-@RequiredArgsConstructor
 @TagUser
 public class UserStatusController {
 
-    private final UserStatusService userStatusService;
-    private final ManageUserStatusService manageUserStatusService;
+    @Autowired
+    private UserStatusService userStatusService;
+
+    @Autowired
+    private ManageUserStatusService manageUserStatusService;
 
     /**
      * Gets the status for the given user id.

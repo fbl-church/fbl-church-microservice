@@ -5,6 +5,7 @@ package com.fbl.app.attendance.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -15,8 +16,6 @@ import com.fbl.app.user.client.domain.User;
 import com.fbl.common.page.Page;
 import com.google.common.collect.Sets;
 
-import lombok.RequiredArgsConstructor;
-
 /**
  * Attendance Service class that handles all service calls to the dao
  * 
@@ -24,10 +23,11 @@ import lombok.RequiredArgsConstructor;
  * @since August 21, 2023
  */
 @Service
-@RequiredArgsConstructor
+
 public class AttendanceService {
 
-    private final AttendanceDAO attendanceDAO;
+    @Autowired
+    private AttendanceDAO attendanceDAO;
 
     /**
      * Get attendance records based on given request filter

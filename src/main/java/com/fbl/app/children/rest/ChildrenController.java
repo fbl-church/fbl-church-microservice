@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,7 +25,6 @@ import com.fbl.common.enums.WebRole;
 import com.fbl.common.page.Page;
 
 import io.swagger.v3.oas.annotations.Operation;
-import lombok.RequiredArgsConstructor;
 
 /**
  * Children Controller for managing endpoints
@@ -34,12 +34,15 @@ import lombok.RequiredArgsConstructor;
  */
 @RequestMapping("/api/children")
 @RestApiController
-@RequiredArgsConstructor
+
 @TagChildren
 public class ChildrenController {
 
-    private final ChildrenService childrenService;
-    private final ManageChildrenService manageChildrenService;
+    @Autowired
+    private ChildrenService childrenService;
+
+    @Autowired
+    private ManageChildrenService manageChildrenService;
 
     /**
      * Gets a list of children based of the request filter

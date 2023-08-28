@@ -5,6 +5,7 @@ package com.fbl.app.user.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fbl.app.user.client.domain.User;
@@ -13,8 +14,6 @@ import com.fbl.app.user.dao.UserDAO;
 import com.fbl.common.page.Page;
 import com.fbl.jwt.utility.JwtHolder;
 
-import lombok.RequiredArgsConstructor;
-
 /**
  * User Service class that handles all service calls to the dao
  * 
@@ -22,12 +21,13 @@ import lombok.RequiredArgsConstructor;
  * @since June 25, 2020
  */
 @Service
-@RequiredArgsConstructor
 public class UserService {
 
-	private final JwtHolder jwtHolder;
+	@Autowired
+	private JwtHolder jwtHolder;
 
-	private final UserDAO dao;
+	@Autowired
+	private UserDAO dao;
 
 	/**
 	 * Get users based on given request filter

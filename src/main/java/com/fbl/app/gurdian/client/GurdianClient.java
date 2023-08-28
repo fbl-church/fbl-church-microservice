@@ -5,14 +5,14 @@ package com.fbl.app.gurdian.client;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.fbl.app.gurdian.client.domain.Gurdian;
 import com.fbl.app.gurdian.client.domain.request.GurdianGetRequest;
 import com.fbl.app.gurdian.service.GurdianService;
 import com.fbl.app.gurdian.service.ManageGurdianService;
 import com.fbl.common.annotations.interfaces.Client;
 import com.fbl.common.page.Page;
-
-import lombok.RequiredArgsConstructor;
 
 /**
  * This class exposes the gurdian endpoint's to other app's to pull data across
@@ -22,11 +22,14 @@ import lombok.RequiredArgsConstructor;
  * @since June 25, 2020
  */
 @Client
-@RequiredArgsConstructor
+
 public class GurdianClient {
 
-    private final GurdianService gurdianService;
-    private final ManageGurdianService manageGurdianService;
+    @Autowired
+    private GurdianService gurdianService;
+
+    @Autowired
+    private ManageGurdianService manageGurdianService;
 
     /**
      * Gets a list of gurdians based of the request filter

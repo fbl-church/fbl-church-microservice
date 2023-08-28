@@ -5,6 +5,7 @@ package com.fbl.app.authentication.service;
 
 import java.time.LocalDateTime;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
@@ -21,8 +22,6 @@ import com.fbl.jwt.utility.JwtHolder;
 import com.fbl.jwt.utility.JwtTokenUtil;
 import com.google.common.collect.Sets;
 
-import lombok.RequiredArgsConstructor;
-
 /**
  * Authorization Service takes a user request and checks the values entered for
  * credentials against known values in the database. If correct credentials are
@@ -32,12 +31,19 @@ import lombok.RequiredArgsConstructor;
  * @since August 2, 2021
  */
 @Service
-@RequiredArgsConstructor
 public class AuthenticationService {
-    private final AuthenticationDAO dao;
-    private final JwtTokenUtil jwtTokenUtil;
-    private final JwtHolder jwtHolder;
-    private final UserClient userClient;
+
+    @Autowired
+    private AuthenticationDAO dao;
+
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
+
+    @Autowired
+    private JwtHolder jwtHolder;
+
+    @Autowired
+    private UserClient userClient;
 
     /**
      * Generates a JWT token from a request

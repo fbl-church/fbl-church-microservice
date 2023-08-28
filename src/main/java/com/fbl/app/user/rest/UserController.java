@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,17 +28,19 @@ import com.fbl.common.enums.WebRole;
 import com.fbl.common.page.Page;
 
 import io.swagger.v3.oas.annotations.Operation;
-import lombok.RequiredArgsConstructor;
 
 @RequestMapping("/api/users")
 @RestController
 @RestApiController
-@RequiredArgsConstructor
+
 @TagUser
 public class UserController {
 
-	private final UserService userService;
-	private final ManageUserService manageUserService;
+	@Autowired
+	private UserService userService;
+
+	@Autowired
+	private ManageUserService manageUserService;
 
 	/**
 	 * Gets a list of users based of the request filter

@@ -3,6 +3,7 @@
  */
 package com.fbl.app.user.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +17,6 @@ import com.fbl.exception.types.InsufficientPermissionsException;
 import com.fbl.jwt.utility.JwtHolder;
 
 import io.jsonwebtoken.lang.Assert;
-import lombok.RequiredArgsConstructor;
 
 /**
  * User Service class that handles all service calls to the
@@ -26,16 +26,20 @@ import lombok.RequiredArgsConstructor;
  * @since June 25, 2020
  */
 @Service
-@RequiredArgsConstructor
+
 public class UserCredentialsService {
 
-    private final JwtHolder jwtHolder;
+    @Autowired
+    private JwtHolder jwtHolder;
 
-    private final UserCredentialsDAO dao;
+    @Autowired
+    private UserCredentialsDAO dao;
 
-    private final UserClient userClient;
+    @Autowired
+    private UserClient userClient;
 
-    private final AuthenticationClient authClient;
+    @Autowired
+    private AuthenticationClient authClient;
 
     /**
      * This will be called when new users are created so that they have default

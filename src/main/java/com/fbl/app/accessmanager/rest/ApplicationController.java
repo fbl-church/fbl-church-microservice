@@ -1,5 +1,6 @@
 package com.fbl.app.accessmanager.rest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -11,8 +12,6 @@ import com.fbl.common.annotations.interfaces.RestApiController;
 import com.fbl.common.enums.WebRole;
 import com.fbl.common.page.Page;
 
-import lombok.RequiredArgsConstructor;
-
 /**
  * Gets feature access for a user
  *
@@ -21,9 +20,10 @@ import lombok.RequiredArgsConstructor;
  */
 @RequestMapping("/api/applications")
 @RestApiController
-@RequiredArgsConstructor
 public class ApplicationController {
-    private final ApplicationService applicationService;
+
+    @Autowired
+    private ApplicationService applicationService;
 
     /**
      * Gets a page of applications

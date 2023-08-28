@@ -9,6 +9,7 @@ package com.fbl.configs;
 import java.util.List;
 import java.util.ListIterator;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.AbstractJackson2HttpMessageConverter;
@@ -16,8 +17,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fbl.common.page.config.PageSerializerMessageConverter;
-
-import lombok.RequiredArgsConstructor;
 
 /**
  * Configuration for the custom page deserializer to be added to the message
@@ -27,10 +26,10 @@ import lombok.RequiredArgsConstructor;
  * @since January 23, 2023
  */
 @Configuration
-@RequiredArgsConstructor
 public class PageSerializationConfiguration implements WebMvcConfigurer {
 
-    private final ObjectMapper objectMapper;
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {

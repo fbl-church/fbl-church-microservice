@@ -3,14 +3,13 @@ package com.fbl.app.gurdian.service;
 import java.util.List;
 import java.util.Set;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fbl.app.gurdian.client.domain.Gurdian;
 import com.fbl.app.gurdian.client.domain.request.GurdianGetRequest;
 import com.fbl.app.gurdian.dao.GurdianDAO;
 import com.fbl.common.page.Page;
-
-import lombok.RequiredArgsConstructor;
 
 /**
  * Gurdian Service class that handles all service calls to the dao
@@ -19,10 +18,10 @@ import lombok.RequiredArgsConstructor;
  * @since June 25, 2022
  */
 @Service
-@RequiredArgsConstructor
 public class GurdianService {
 
-    private final GurdianDAO dao;
+    @Autowired
+    private GurdianDAO dao;
 
     /**
      * Gets a list of gurdians based of the request filter

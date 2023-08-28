@@ -1,13 +1,12 @@
 package com.fbl.app.accessmanager.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fbl.app.accessmanager.client.domain.Application;
 import com.fbl.app.accessmanager.client.domain.request.ApplicationGetRequest;
 import com.fbl.app.accessmanager.dao.ApplicationDAO;
 import com.fbl.common.page.Page;
-
-import lombok.RequiredArgsConstructor;
 
 /**
  * Feature Access Service
@@ -16,9 +15,10 @@ import lombok.RequiredArgsConstructor;
  * @since 8/2/2020
  */
 @Service
-@RequiredArgsConstructor
 public class ApplicationService {
-    private final ApplicationDAO dao;
+
+    @Autowired
+    private ApplicationDAO dao;
 
     /**
      * Gets a page of applications

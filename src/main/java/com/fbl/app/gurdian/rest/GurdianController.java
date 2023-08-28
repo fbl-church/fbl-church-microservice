@@ -2,6 +2,7 @@ package com.fbl.app.gurdian.rest;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,7 +24,6 @@ import com.fbl.common.enums.WebRole;
 import com.fbl.common.page.Page;
 
 import io.swagger.v3.oas.annotations.Operation;
-import lombok.RequiredArgsConstructor;
 
 /**
  * Gurdian Controller for managing endpoints
@@ -33,12 +33,15 @@ import lombok.RequiredArgsConstructor;
  */
 @RequestMapping("/api/gurdians")
 @RestApiController
-@RequiredArgsConstructor
+
 @TagGurdian
 public class GurdianController {
 
-    private final GurdianService gurdianService;
-    private final ManageGurdianService manageGurdianService;
+    @Autowired
+    private GurdianService gurdianService;
+
+    @Autowired
+    private ManageGurdianService manageGurdianService;
 
     /**
      * Gets a list of gurdians based of the request filter

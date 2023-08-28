@@ -1,5 +1,6 @@
 package com.fbl.app.children.rest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,7 +13,6 @@ import com.fbl.common.annotations.interfaces.RestApiController;
 import com.fbl.common.page.Page;
 
 import io.swagger.v3.oas.annotations.Operation;
-import lombok.RequiredArgsConstructor;
 
 /**
  * Children Attendance Controller for managing endpoints
@@ -22,11 +22,11 @@ import lombok.RequiredArgsConstructor;
  */
 @RequestMapping("/api/children/attendance")
 @RestApiController
-@RequiredArgsConstructor
 @TagChildren
 public class ChildrenAttendanceController {
 
-    private final ChildrenAttendanceService childrenAttendanceService;
+    @Autowired
+    private ChildrenAttendanceService childrenAttendanceService;
 
     /**
      * Get a list of children attendance by id.
