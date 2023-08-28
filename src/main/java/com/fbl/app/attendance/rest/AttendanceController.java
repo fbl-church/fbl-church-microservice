@@ -7,7 +7,6 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,6 +24,7 @@ import com.fbl.common.annotations.interfaces.RestApiController;
 import com.fbl.common.page.Page;
 
 import io.swagger.v3.oas.annotations.Operation;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Attendance Controller
@@ -34,14 +34,11 @@ import io.swagger.v3.oas.annotations.Operation;
  */
 @RequestMapping("/api/attendance-records")
 @RestApiController
+@RequiredArgsConstructor
 @TagAttendance
 public class AttendanceController {
-
-    @Autowired
-    private AttendanceService attendanceService;
-
-    @Autowired
-    private ManageAttendanceService manageAttendanceService;
+    private final AttendanceService attendanceService;
+    private final ManageAttendanceService manageAttendanceService;
 
     /**
      * Gets a list of attendance records based of the request filter

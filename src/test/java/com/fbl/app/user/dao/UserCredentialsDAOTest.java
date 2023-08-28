@@ -37,12 +37,12 @@ public class UserCredentialsDAOTest {
         @Test
         public void testInsertUserPasswordValidUserId() throws Exception {
                 assertEquals(1, JdbcTestUtils.countRowsInTable(jdbcTemplate, "user_credentials"),
-                             "Row count should be 1 before insert");
+                                "Row count should be 1 before insert");
 
                 dao.insertUserPassword(2, BCrypt.hashpw("TestPassword!", BCrypt.gensalt()));
 
                 assertEquals(2, JdbcTestUtils.countRowsInTable(jdbcTemplate, "user_credentials"),
-                             "Row count should be 2 after insert");
+                                "Row count should be 2 after insert");
         }
 
         @Test
@@ -58,15 +58,15 @@ public class UserCredentialsDAOTest {
                 String newPassword = BCrypt.hashpw("TestPasswordUpdate!", BCrypt.gensalt());
 
                 assertEquals(0,
-                             JdbcTestUtils.countRowsInTableWhere(jdbcTemplate, "user_credentials",
-                                                                 String.format("password='%s'", newPassword)),
-                             "Password should not exist");
+                                JdbcTestUtils.countRowsInTableWhere(jdbcTemplate, "user_credentials",
+                                                String.format("password='%s'", newPassword)),
+                                "Password should not exist");
 
                 dao.updateUserPassword(1, newPassword);
 
                 assertEquals(1,
-                             JdbcTestUtils.countRowsInTableWhere(jdbcTemplate, "user_credentials",
-                                                                 String.format("password='%s'", newPassword)),
-                             "Password should be updated");
+                                JdbcTestUtils.countRowsInTableWhere(jdbcTemplate, "user_credentials",
+                                                String.format("password='%s'", newPassword)),
+                                "Password should be updated");
         }
 }

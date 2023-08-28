@@ -3,12 +3,12 @@
  */
 package com.fbl.app.authentication.client;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.fbl.app.authentication.client.domain.AuthToken;
 import com.fbl.app.authentication.client.domain.request.AuthenticationRequest;
 import com.fbl.app.authentication.service.AuthenticationService;
 import com.fbl.common.annotations.interfaces.Client;
+
+import lombok.RequiredArgsConstructor;
 
 /**
  * Client method for authentication of a user.
@@ -17,10 +17,10 @@ import com.fbl.common.annotations.interfaces.Client;
  * @since July 31, 2021
  */
 @Client
+@RequiredArgsConstructor
 public class AuthenticationClient {
 
-    @Autowired
-    private AuthenticationService service;
+    private final AuthenticationService service;
 
     /**
      * Authenticates a user for the given email and password.

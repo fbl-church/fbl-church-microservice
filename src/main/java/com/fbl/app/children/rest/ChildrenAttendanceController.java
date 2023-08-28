@@ -3,12 +3,12 @@ package com.fbl.app.children.rest;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.fbl.app.children.client.domain.ChildAttendance;
 import com.fbl.app.children.client.domain.request.ChildAttendanceGetRequest;
 import com.fbl.app.children.openapi.TagChildren;
 import com.fbl.app.children.service.ChildrenAttendanceService;
+import com.fbl.common.annotations.interfaces.RestApiController;
 import com.fbl.common.page.Page;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -21,9 +21,9 @@ import lombok.RequiredArgsConstructor;
  * @since June 25, 2022
  */
 @RequestMapping("/api/children/attendance")
-@RestController
-@TagChildren
+@RestApiController
 @RequiredArgsConstructor
+@TagChildren
 public class ChildrenAttendanceController {
 
     private final ChildrenAttendanceService childrenAttendanceService;

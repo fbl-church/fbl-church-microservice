@@ -5,7 +5,6 @@ package com.fbl.jwt.utility;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -20,6 +19,7 @@ import com.fbl.jwt.domain.JwtPair;
 import com.fbl.jwt.domain.JwtType;
 
 import io.jsonwebtoken.Claims;
+import lombok.RequiredArgsConstructor;
 
 /**
  * JwtHolder class to store authentication token in a thread local instance to
@@ -30,11 +30,11 @@ import io.jsonwebtoken.Claims;
  * @since August 8, 2020
  */
 @Service
+@RequiredArgsConstructor
 public class JwtHolder {
 	private static final ThreadLocal<JwtPair> TOKEN = new ThreadLocal<>();
 
-	@Autowired
-	private AppEnvironmentService appEnvironmentService;
+	private final AppEnvironmentService appEnvironmentService;
 
 	/**
 	 * Set the token on the current thread local instance.

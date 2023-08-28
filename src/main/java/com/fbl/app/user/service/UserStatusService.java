@@ -3,11 +3,12 @@
  */
 package com.fbl.app.user.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.fbl.app.user.client.domain.UserStatus;
 import com.fbl.app.user.dao.UserStatusDAO;
+
+import lombok.RequiredArgsConstructor;
 
 /**
  * Class for handling the service calls to the dao.
@@ -15,11 +16,11 @@ import com.fbl.app.user.dao.UserStatusDAO;
  * @author Sam Butler
  * @since October 9, 2021
  */
-@Component
+@Service
+@RequiredArgsConstructor
 public class UserStatusService {
 
-    @Autowired
-    private UserStatusDAO dao;
+    private final UserStatusDAO dao;
 
     /**
      * Gets the status for the given user id.

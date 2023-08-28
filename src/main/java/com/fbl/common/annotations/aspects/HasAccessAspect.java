@@ -8,13 +8,14 @@ import java.util.List;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.fbl.common.annotations.interfaces.HasAccess;
 import com.fbl.common.enums.WebRole;
 import com.fbl.exception.types.InsufficientPermissionsException;
 import com.fbl.jwt.utility.JwtHolder;
+
+import lombok.RequiredArgsConstructor;
 
 /**
  * Aspect to check if a user has access to the provided data.
@@ -24,10 +25,10 @@ import com.fbl.jwt.utility.JwtHolder;
  */
 @Aspect
 @Component
+@RequiredArgsConstructor
 public class HasAccessAspect {
 
-    @Autowired
-    private JwtHolder jwtHolder;
+    private final JwtHolder jwtHolder;
 
     /**
      * Determines if the caller has access to this data.

@@ -18,4 +18,5 @@ import org.springframework.web.bind.annotation.RestController;
 @Retention(RetentionPolicy.RUNTIME)
 @CrossOrigin
 @RestController
-public @interface RestApiController {}
+public @interface RestApiController {
+}

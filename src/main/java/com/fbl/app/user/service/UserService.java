@@ -5,7 +5,6 @@ package com.fbl.app.user.service;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.fbl.app.user.client.domain.User;
@@ -23,10 +22,8 @@ import com.fbl.jwt.utility.JwtHolder;
 @Component
 public class UserService {
 
-	@Autowired
 	private JwtHolder jwtHolder;
 
-	@Autowired
 	private UserDAO dao;
 
 	/**

@@ -3,7 +3,6 @@ package com.fbl.app.children.service;
 import java.util.List;
 import java.util.Set;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fbl.app.children.client.domain.Child;
@@ -12,6 +11,8 @@ import com.fbl.app.children.dao.ChildrenDAO;
 import com.fbl.app.gurdian.client.GurdianClient;
 import com.fbl.common.page.Page;
 
+import lombok.RequiredArgsConstructor;
+
 /**
  * Children Service class that handles all service calls to the dao
  * 
@@ -19,13 +20,11 @@ import com.fbl.common.page.Page;
  * @since June 25, 2022
  */
 @Service
+@RequiredArgsConstructor
 public class ChildrenService {
 
-    @Autowired
-    private ChildrenDAO dao;
-
-    @Autowired
-    private GurdianClient gurdianClient;
+    private final ChildrenDAO dao;
+    private final GurdianClient gurdianClient;
 
     /**
      * Gets a list of children based of the request filter

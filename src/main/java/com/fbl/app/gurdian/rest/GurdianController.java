@@ -2,7 +2,6 @@ package com.fbl.app.gurdian.rest;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.fbl.app.gurdian.client.domain.Gurdian;
 import com.fbl.app.gurdian.client.domain.request.GurdianGetRequest;
@@ -20,10 +18,12 @@ import com.fbl.app.gurdian.openapi.TagGurdian;
 import com.fbl.app.gurdian.service.GurdianService;
 import com.fbl.app.gurdian.service.ManageGurdianService;
 import com.fbl.common.annotations.interfaces.HasAccess;
+import com.fbl.common.annotations.interfaces.RestApiController;
 import com.fbl.common.enums.WebRole;
 import com.fbl.common.page.Page;
 
 import io.swagger.v3.oas.annotations.Operation;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Gurdian Controller for managing endpoints
@@ -32,15 +32,13 @@ import io.swagger.v3.oas.annotations.Operation;
  * @since June 25, 2022
  */
 @RequestMapping("/api/gurdians")
-@RestController
+@RestApiController
+@RequiredArgsConstructor
 @TagGurdian
 public class GurdianController {
 
-    @Autowired
-    private GurdianService gurdianService;
-
-    @Autowired
-    private ManageGurdianService manageGurdianService;
+    private final GurdianService gurdianService;
+    private final ManageGurdianService manageGurdianService;
 
     /**
      * Gets a list of gurdians based of the request filter

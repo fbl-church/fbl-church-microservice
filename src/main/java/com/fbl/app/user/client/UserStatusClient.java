@@ -1,11 +1,11 @@
 package com.fbl.app.user.client;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.fbl.app.user.client.domain.UserStatus;
 import com.fbl.app.user.service.ManageUserStatusService;
 import com.fbl.app.user.service.UserStatusService;
 import com.fbl.common.annotations.interfaces.Client;
+
+import lombok.RequiredArgsConstructor;
 
 /**
  * This class exposes the user endpoint's to other app's to pull data across the
@@ -15,12 +15,11 @@ import com.fbl.common.annotations.interfaces.Client;
  * @since June 25, 2020
  */
 @Client
+@RequiredArgsConstructor
 public class UserStatusClient {
-    @Autowired
-    private UserStatusService userStatusService;
 
-    @Autowired
-    private ManageUserStatusService manageUserStatusService;
+    private final UserStatusService userStatusService;
+    private final ManageUserStatusService manageUserStatusService;
 
     /**
      * Gets the status for the given user id.

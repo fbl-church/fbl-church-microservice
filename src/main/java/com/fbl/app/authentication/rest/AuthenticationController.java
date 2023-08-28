@@ -3,7 +3,6 @@
  */
 package com.fbl.app.authentication.rest;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,6 +15,7 @@ import com.fbl.app.authentication.service.AuthenticationService;
 import com.fbl.common.annotations.interfaces.RestApiController;
 
 import io.swagger.v3.oas.annotations.Operation;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Generates a JWT after being passed a request
@@ -25,11 +25,11 @@ import io.swagger.v3.oas.annotations.Operation;
  */
 @RequestMapping("/api")
 @RestApiController
+@RequiredArgsConstructor
 @TagAuthentication
 public class AuthenticationController {
 
-    @Autowired
-    private AuthenticationService service;
+    private final AuthenticationService service;
 
     /**
      * Generates a JWT token from a request

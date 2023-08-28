@@ -5,7 +5,6 @@ package com.fbl.app.authentication.service;
 
 import java.time.LocalDateTime;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +21,8 @@ import com.fbl.jwt.utility.JwtHolder;
 import com.fbl.jwt.utility.JwtTokenUtil;
 import com.google.common.collect.Sets;
 
+import lombok.RequiredArgsConstructor;
+
 /**
  * Authorization Service takes a user request and checks the values entered for
  * credentials against known values in the database. If correct credentials are
@@ -31,18 +32,12 @@ import com.google.common.collect.Sets;
  * @since August 2, 2021
  */
 @Service
+@RequiredArgsConstructor
 public class AuthenticationService {
-    @Autowired
-    private AuthenticationDAO dao;
-
-    @Autowired
-    private JwtTokenUtil jwtTokenUtil;
-
-    @Autowired
-    private JwtHolder jwtHolder;
-
-    @Autowired
-    private UserClient userClient;
+    private final AuthenticationDAO dao;
+    private final JwtTokenUtil jwtTokenUtil;
+    private final JwtHolder jwtHolder;
+    private final UserClient userClient;
 
     /**
      * Generates a JWT token from a request
@@ -55,7 +50,7 @@ public class AuthenticationService {
 
         String token = jwtTokenUtil.generateToken(user);
         return new AuthToken(token, LocalDateTime.now(TimeZoneUtil.SYSTEM_ZONE),
-                             jwtTokenUtil.getExpirationDateFromToken(token), user);
+                jwtTokenUtil.getExpirationDateFromToken(token), user);
     }
 
     /**
@@ -70,7 +65,7 @@ public class AuthenticationService {
 
         String token = jwtTokenUtil.generateToken(u);
         return new AuthToken(token, LocalDateTime.now(TimeZoneUtil.SYSTEM_ZONE),
-                             jwtTokenUtil.getExpirationDateFromToken(token), u);
+                jwtTokenUtil.getExpirationDateFromToken(token), u);
     }
 
     /**
@@ -83,10 +78,10 @@ public class AuthenticationService {
         String hashedPassword = dao.getUserAuthPassword(email).orElseThrow(() -> new UserNotFoundException(String
                 .format("User not found or does not have access for email: '%s'", email)));
 
-        if(BCrypt.checkpw(password, hashedPassword)) {
+        if (BCrypt.checkpw(password, hashedPassword)) {
             User authUser = getAuthenticatedUser(email);
             return userClient.updateUserLastLoginToNow(authUser.getId());
-        }else {
+        } else {
             throw new InvalidCredentialsException(email);
         }
     }

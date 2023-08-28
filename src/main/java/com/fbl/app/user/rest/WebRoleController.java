@@ -1,25 +1,25 @@
 package com.fbl.app.user.rest;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.fbl.app.user.client.domain.request.WebRoleGetRequest;
 import com.fbl.app.user.openapi.TagUser;
 import com.fbl.app.user.service.WebRoleService;
+import com.fbl.common.annotations.interfaces.RestApiController;
 import com.fbl.common.enums.WebRole;
 import com.fbl.common.page.Page;
 
 import io.swagger.v3.oas.annotations.Operation;
+import lombok.RequiredArgsConstructor;
 
 @RequestMapping("/api/roles")
-@RestController
+@RestApiController
+@RequiredArgsConstructor
 @TagUser
 public class WebRoleController {
 
-    @Autowired
-    private WebRoleService webRoleService;
+    private final WebRoleService webRoleService;
 
     /**
      * Gets a list of of web roles based on the request

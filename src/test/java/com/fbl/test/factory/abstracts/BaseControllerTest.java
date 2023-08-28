@@ -71,9 +71,9 @@ public abstract class BaseControllerTest extends RequestTestUtil {
         ControllerJwt annClass = getJwtControllerAnnotation(info.getTestClass().get());
         ControllerJwt annMethod = getJwtControllerAnnotation(info.getTestMethod().get());
 
-        if(annMethod != null) {
+        if (annMethod != null) {
             setHeaders(annMethod);
-        }else if(annClass != null) {
+        } else if (annClass != null) {
             setHeaders(annClass);
         }
     }

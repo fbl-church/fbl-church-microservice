@@ -43,7 +43,7 @@ public class BaseExceptionHandlerController {
         return new ExceptionError(ex.getMessage(), HttpStatus.UNAUTHORIZED);
     }
 
-    @ExceptionHandler({NotFoundException.class, UserNotFoundException.class})
+    @ExceptionHandler({ NotFoundException.class, UserNotFoundException.class })
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ExceptionError handleNotFoundException(Exception ex) {
         LOGGER.error(ex.getMessage());
@@ -56,7 +56,7 @@ public class BaseExceptionHandlerController {
         List<FieldValidationError> errors = ex.getBindingResult().getFieldErrors().stream().map(this::convertFieldError)
                 .collect(Collectors.toList());
         LOGGER.error("Field Validation Errors: {}",
-                     errors.stream().map(e -> e.getField()).collect(Collectors.joining(",")));
+                errors.stream().map(e -> e.getField()).collect(Collectors.joining(",")));
         return new DataValidationExceptionError("Validation Error", HttpStatus.BAD_REQUEST, errors, null);
     }
 

@@ -87,9 +87,9 @@ public abstract class CommonTokenValidator implements BaseRequestValidator {
      * @throws JwtTokenException If the token is invalid.
      */
     protected void checkValidToken(String token, boolean prefixCheck) {
-        if(!StringUtils.hasText(token)) {
+        if (!StringUtils.hasText(token)) {
             throw new JwtTokenException("Missing JWT Token.");
-        }else if(prefixCheck && !containsBearerPrefix(token)) {
+        } else if (prefixCheck && !containsBearerPrefix(token)) {
             throw new JwtTokenException("JWT Token does not begin with 'Bearer'");
         }
     }
@@ -105,7 +105,7 @@ public abstract class CommonTokenValidator implements BaseRequestValidator {
     protected void checkCorrectEnvironment(JwtPair pair) {
         Environment environment = Environment.valueOf(pair.getClaimSet().get("env").toString());
 
-        if(!appEnvironmentService.getEnvironment().equals(environment)) {
+        if (!appEnvironmentService.getEnvironment().equals(environment)) {
             throw new JwtTokenException("JWT token doesn't match accessing environment!");
         }
     }
@@ -118,7 +118,7 @@ public abstract class CommonTokenValidator implements BaseRequestValidator {
      * @throws JwtTokenException If the token is expired.
      */
     protected void checkTokenExpiration(JwtPair pair) {
-        if(pair.getClaimSet().getExpiration().before(new Date())) {
+        if (pair.getClaimSet().getExpiration().before(new Date())) {
             throw new JwtTokenException("JWT Token is expired! Please re-authenticate.");
         }
     }

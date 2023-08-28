@@ -6,7 +6,6 @@ package com.fbl.app.accessmanager.rest;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,6 +15,8 @@ import com.fbl.common.annotations.interfaces.HasAccess;
 import com.fbl.common.annotations.interfaces.RestApiController;
 import com.fbl.common.enums.WebRole;
 
+import lombok.RequiredArgsConstructor;
+
 /**
  * Gets feature access for a user
  *
@@ -24,10 +25,10 @@ import com.fbl.common.enums.WebRole;
  */
 @RequestMapping("/api/feature/access")
 @RestApiController
+@RequiredArgsConstructor
 public class FeatureAccessController {
 
-    @Autowired
-    private FeatureAccessService service;
+    private final FeatureAccessService service;
 
     /**
      * Get a map of feature access for the provided web roles.

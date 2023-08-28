@@ -3,10 +3,10 @@
  */
 package com.fbl.app.user.client;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.fbl.app.user.service.UserCredentialsService;
 import com.fbl.common.annotations.interfaces.Client;
+
+import lombok.RequiredArgsConstructor;
 
 /**
  * This class exposes the user endpoint's to other app's to pull data across the
@@ -16,10 +16,10 @@ import com.fbl.common.annotations.interfaces.Client;
  * @since June 25, 2020
  */
 @Client
+@RequiredArgsConstructor
 public class UserCredentialsClient {
 
-    @Autowired
-    private UserCredentialsService service;
+    private final UserCredentialsService service;
 
     /**
      * This will be called when new users are created so that they have default

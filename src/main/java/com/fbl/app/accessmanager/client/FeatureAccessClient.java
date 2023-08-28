@@ -6,11 +6,11 @@ package com.fbl.app.accessmanager.client;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.fbl.app.accessmanager.service.FeatureAccessService;
 import com.fbl.common.annotations.interfaces.Client;
 import com.fbl.common.enums.WebRole;
+
+import lombok.RequiredArgsConstructor;
 
 /**
  * This class exposes the feature access endpoint's to other app's to pull data
@@ -20,10 +20,10 @@ import com.fbl.common.enums.WebRole;
  * @since June 25, 2020
  */
 @Client
+@RequiredArgsConstructor
 public class FeatureAccessClient {
 
-	@Autowired
-	private FeatureAccessService service;
+	private final FeatureAccessService service;
 
 	/**
 	 * Client method to get a map of feature access for the provided web roles.

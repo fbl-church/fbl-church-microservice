@@ -6,7 +6,6 @@ package com.fbl.app.user.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fbl.app.user.client.UserCredentialsClient;
@@ -19,6 +18,8 @@ import com.fbl.common.enums.WebRole;
 import com.fbl.exception.types.InsufficientPermissionsException;
 import com.fbl.jwt.utility.JwtHolder;
 
+import lombok.RequiredArgsConstructor;
+
 /**
  * User Service class that handles all service calls to the dao
  * 
@@ -26,21 +27,17 @@ import com.fbl.jwt.utility.JwtHolder;
  * @since June 25, 2020
  */
 @Service
+@RequiredArgsConstructor
 public class ManageUserService {
 
-	@Autowired
 	private JwtHolder jwtHolder;
 
-	@Autowired
 	private UserDAO dao;
 
-	@Autowired
 	private UserService userService;
 
-	@Autowired
 	private UserCredentialsClient userCredentialsClient;
 
-	@Autowired
 	private UserStatusClient UserStatusClient;
 
 	/**

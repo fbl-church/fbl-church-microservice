@@ -3,29 +3,29 @@
  */
 package com.fbl.app.user.rest;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.fbl.app.user.client.domain.PasswordUpdate;
 import com.fbl.app.user.client.domain.User;
 import com.fbl.app.user.openapi.TagUser;
 import com.fbl.app.user.service.UserCredentialsService;
 import com.fbl.common.annotations.interfaces.HasAccess;
+import com.fbl.common.annotations.interfaces.RestApiController;
 import com.fbl.common.enums.WebRole;
 
 import io.swagger.v3.oas.annotations.Operation;
+import lombok.RequiredArgsConstructor;
 
 @RequestMapping("/api/users/credentials")
-@RestController
+@RestApiController
+@RequiredArgsConstructor
 @TagUser
 public class UserCredentialsController {
 
-    @Autowired
-    private UserCredentialsService service;
+    private final UserCredentialsService service;
 
     /**
      * This will take in a {@link PasswordUpdate} object that will confirm that the
