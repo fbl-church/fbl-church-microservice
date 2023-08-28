@@ -5,7 +5,7 @@ package com.fbl.app.user.service;
 
 import java.util.List;
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.fbl.app.user.client.domain.User;
 import com.fbl.app.user.client.domain.request.UserGetRequest;
@@ -13,18 +13,21 @@ import com.fbl.app.user.dao.UserDAO;
 import com.fbl.common.page.Page;
 import com.fbl.jwt.utility.JwtHolder;
 
+import lombok.RequiredArgsConstructor;
+
 /**
  * User Service class that handles all service calls to the dao
  * 
  * @author Sam Butler
  * @since June 25, 2020
  */
-@Component
+@Service
+@RequiredArgsConstructor
 public class UserService {
 
-	private JwtHolder jwtHolder;
+	private final JwtHolder jwtHolder;
 
-	private UserDAO dao;
+	private final UserDAO dao;
 
 	/**
 	 * Get users based on given request filter
