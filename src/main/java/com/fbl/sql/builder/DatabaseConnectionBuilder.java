@@ -5,7 +5,6 @@ package com.fbl.sql.builder;
 
 import javax.sql.DataSource;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
@@ -18,7 +17,6 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
  */
 public class DatabaseConnectionBuilder {
 
-    @Autowired
     private String DRIVER_CLASSNAME = "com.mysql.cj.jdbc.Driver";
 
     private DriverManagerDataSource source;

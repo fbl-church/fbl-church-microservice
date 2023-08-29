@@ -19,7 +19,6 @@ import com.fbl.app.user.client.UserClient;
 import com.fbl.app.user.client.domain.User;
 import com.fbl.environment.EnvironmentService;
 import com.fbl.jwt.domain.JwtClaims;
-import com.fbl.jwt.domain.JwtType;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -105,7 +104,6 @@ public class JwtTokenUtil implements Serializable {
         claims.put(JwtClaims.EMAIL, user.getEmail());
         claims.put(JwtClaims.WEB_ROLE, user.getWebRole());
         claims.put(JwtClaims.ENVIRONMENT, environmentService.getEnvironment());
-        claims.put(JwtClaims.JWT_TYPE, JwtType.WEB);
         claims.put(JwtClaims.APPS, userClient.getUserAppsById(user.getId()));
         claims.put(JwtClaims.ACCESS, featureAccessClient.getWebRoleFeatureAccess(user.getWebRole()));
         return buildTokenClaims(claims, JWT_TOKEN_USER_VALIDITY);

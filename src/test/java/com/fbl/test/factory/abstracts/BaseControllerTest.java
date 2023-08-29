@@ -22,7 +22,6 @@ import org.springframework.http.ResponseEntity;
 import com.fbl.common.annotations.interfaces.ControllerJwt;
 import com.fbl.environment.EnvironmentService;
 import com.fbl.jwt.domain.JwtClaims;
-import com.fbl.jwt.domain.JwtType;
 import com.fbl.jwt.utility.JwtTokenUtil;
 
 /**
@@ -247,7 +246,6 @@ public abstract class BaseControllerTest extends RequestTestUtil {
         claims.put(JwtClaims.EMAIL, jwtController.email());
         claims.put(JwtClaims.WEB_ROLE, jwtController.webRole());
         claims.put(JwtClaims.ENVIRONMENT, environmentService.getEnvironment());
-        claims.put(JwtClaims.JWT_TYPE, JwtType.WEB);
         claims.put(JwtClaims.PASSWORD_RESET, false);
 
         String token = jwtTokenUtil.buildTokenClaims(claims, 3600000);

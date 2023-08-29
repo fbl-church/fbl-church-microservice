@@ -7,7 +7,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -17,7 +16,6 @@ import com.fbl.common.enums.WebRole;
 import com.fbl.environment.EnvironmentService;
 import com.fbl.jwt.domain.JwtClaims;
 import com.fbl.jwt.domain.JwtPair;
-import com.fbl.jwt.domain.JwtType;
 
 import io.jsonwebtoken.Claims;
 
@@ -114,15 +112,6 @@ public class JwtHolder {
 	}
 
 	/**
-	 * Gets the jwt type of the token.
-	 * 
-	 * @return {@link JwtType} of the token.
-	 */
-	public JwtType getJwtType() {
-		return JwtType.valueOf(parse(JwtClaims.JWT_TYPE).toString());
-	}
-
-	/**
 	 * Get the current user Id.
 	 * 
 	 * @return int of the userId from the current token
@@ -167,8 +156,6 @@ public class JwtHolder {
 	 * @return {@link User} object.
 	 */
 	public User getUser() {
-		Assert.isTrue(getJwtType().equals(JwtType.WEB), "Jwt is not of type User!");
-
 		User currentUser = new User();
 		currentUser.setId(getUserId());
 		currentUser.setEmail(getEmail());
