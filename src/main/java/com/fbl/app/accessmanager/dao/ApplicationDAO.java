@@ -36,7 +36,19 @@ public class ApplicationDAO extends BaseDao {
      * @return A page of applications
      */
     public Page<Application> getApplications(ApplicationGetRequest request) {
-        MapSqlParameterSource params = SqlParamBuilder.with(request).useAllParams().build();
+        MapSqlParameterSource params = SqlParamBuilder.with(request).useAllParams().withParam(APP_ID, request.getId())
+                .withParam(APP_NAME, request.getName()).build();
         return getPage("getApplicationsPage", params, APPLICATION_MAPPER);
+    }
+
+    /**
+     * Update the access of an application
+     * 
+     * @param application The application to update the status for
+     * @param enabled     The status of the application to set.
+     * @return The application that was updated
+     */
+    public void updateApplicationEnabledFlag(int appId, boolean enabled) {
+        update("updateApplicationEnabledFlag", parameterSource(ENABLED, enabled).addValue(APP_ID, appId));
     }
 }

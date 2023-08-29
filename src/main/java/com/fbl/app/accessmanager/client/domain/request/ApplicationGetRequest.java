@@ -5,6 +5,7 @@ package com.fbl.app.accessmanager.client.domain.request;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fbl.common.page.domain.PageParam;
@@ -20,6 +21,12 @@ import lombok.Setter;
 @Setter
 @Schema(description = "Application get request object for filtering applications.")
 public class ApplicationGetRequest implements SearchParam, PageParam, SearchFieldParams<ApplicationSearchFields> {
+
+    @Schema(description = "Set of Id's of the applications")
+    private Set<Integer> id;
+
+    @Schema(description = "Set of Names of the applications")
+    private Set<String> name;
 
     @Schema(description = "Search Param on search param fields.")
     private String search;

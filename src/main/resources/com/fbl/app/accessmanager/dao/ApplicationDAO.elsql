@@ -5,6 +5,10 @@
 
 @NAME(applicationFilters)
   @WHERE
+    @AND(:app_id)
+      a.id IN (:app_id)
+    @AND(:app_name)
+      a.app_name IN (:app_name)
     @AND(:search = true)
       @INCLUDE(search)
 
@@ -24,3 +28,8 @@
 
 @NAME(search)
   (@VALUE(:searchContent))
+
+@NAME(updateApplicationEnabledFlag)
+  UPDATE application 
+  SET enabled = :enabled
+  WHERE id = :app_id

@@ -16,6 +16,7 @@ CREATE TABLE application (
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+CREATE UNIQUE INDEX application_AK1 ON application(app_name);
 -- ---------------------------------------------------------------------------------
 -- END
 -- ---------------------------------------------------------------------------------
