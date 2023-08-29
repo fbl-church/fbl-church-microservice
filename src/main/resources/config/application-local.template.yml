@@ -8,5 +8,5 @@ spring:
     password:
     url:
 
-security:
-  signing-key: "local-key"
+jwt:
+  secret: "local-key"

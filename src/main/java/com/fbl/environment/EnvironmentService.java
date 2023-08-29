@@ -15,11 +15,11 @@ import com.fbl.common.enums.Environment;
  * @since July 25, 2022
  */
 @Service
-public class AppEnvironmentService {
+public class EnvironmentService {
     private static final String ACTIVE_PROFILE = "APP_ENVIRONMENT";
     private static final String SIGNING_KEY = "JWT_SIGNING_KEY";
 
-    @Value("${security.signing-key:#{null}}")
+    @Value("${jwt.secret:#{null}}")
     private String LOCAL_SIGNING_KEY;
 
     /**

@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 import com.fbl.app.accessmanager.client.FeatureAccessClient;
 import com.fbl.app.user.client.UserClient;
 import com.fbl.app.user.client.domain.User;
-import com.fbl.environment.AppEnvironmentService;
+import com.fbl.environment.EnvironmentService;
 import com.fbl.jwt.domain.JwtClaims;
 import com.fbl.jwt.domain.JwtType;
 
@@ -37,7 +37,7 @@ public class JwtTokenUtil implements Serializable {
     public static final long JWT_TOKEN_USER_VALIDITY = 18000000; // 5 hours
 
     @Autowired
-    private AppEnvironmentService appEnvironmentService;
+    private EnvironmentService environmentService;
 
     @Autowired
     private UserClient userClient;
@@ -76,7 +76,7 @@ public class JwtTokenUtil implements Serializable {
      * @return Claims object is returned
      */
     public Claims getAllClaimsFromToken(String token) {
-        return Jwts.parser().setSigningKey(appEnvironmentService.getSigningKey()).parseClaimsJws(token).getBody();
+        return Jwts.parser().setSigningKey(environmentService.getSigningKey()).parseClaimsJws(token).getBody();
     }
 
     /**
@@ -104,7 +104,7 @@ public class JwtTokenUtil implements Serializable {
         claims.put(JwtClaims.LAST_NAME, user.getLastName());
         claims.put(JwtClaims.EMAIL, user.getEmail());
         claims.put(JwtClaims.WEB_ROLE, user.getWebRole());
-        claims.put(JwtClaims.ENVIRONMENT, appEnvironmentService.getEnvironment());
+        claims.put(JwtClaims.ENVIRONMENT, environmentService.getEnvironment());
         claims.put(JwtClaims.JWT_TYPE, JwtType.WEB);
         claims.put(JwtClaims.APPS, userClient.getUserAppsById(user.getId()));
         claims.put(JwtClaims.ACCESS, featureAccessClient.getWebRoleFeatureAccess(user.getWebRole()));
@@ -121,6 +121,6 @@ public class JwtTokenUtil implements Serializable {
     public String buildTokenClaims(Map<String, Object> claims, long validity) {
         return Jwts.builder().setClaims(claims).setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + validity))
-                .signWith(SignatureAlgorithm.HS512, appEnvironmentService.getSigningKey()).compact();
+                .signWith(SignatureAlgorithm.HS512, environmentService.getSigningKey()).compact();
     }
 }

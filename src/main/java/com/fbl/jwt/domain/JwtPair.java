@@ -3,7 +3,7 @@
  */
 package com.fbl.jwt.domain;
 
-import com.fbl.environment.AppEnvironmentService;
+import com.fbl.environment.EnvironmentService;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -20,9 +20,9 @@ public final class JwtPair {
     private final String token;
     private final Claims claimSet;
 
-    public JwtPair(String token, AppEnvironmentService appEnvironmentService) {
+    public JwtPair(String token, EnvironmentService environmentService) {
         this.token = token;
-        this.claimSet = (Claims) Jwts.parser().setSigningKey(appEnvironmentService.getSigningKey()).parse(token)
+        this.claimSet = (Claims) Jwts.parser().setSigningKey(environmentService.getSigningKey()).parse(token)
                 .getBody();
     }
 }

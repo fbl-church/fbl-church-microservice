@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import com.fbl.common.enums.Environment;
-import com.fbl.environment.AppEnvironmentService;
+import com.fbl.environment.EnvironmentService;
 import com.fbl.exception.types.JwtTokenException;
 import com.fbl.gateway.domain.interfaces.BaseRequestValidator;
 import com.fbl.jwt.domain.JwtPair;
@@ -34,7 +34,7 @@ public abstract class CommonTokenValidator implements BaseRequestValidator {
     private JwtHolder jwtHolder;
 
     @Autowired
-    private AppEnvironmentService appEnvironmentService;
+    private EnvironmentService environmentService;
 
     /**
      * Will take in a string token and confirm that it is valid. It will check that
@@ -51,7 +51,7 @@ public abstract class CommonTokenValidator implements BaseRequestValidator {
     protected void runTokenValidation(String token, boolean prefixCheck) {
         checkValidToken(token, prefixCheck);
 
-        JwtPair pair = new JwtPair(extractToken(token), appEnvironmentService);
+        JwtPair pair = new JwtPair(extractToken(token), environmentService);
         checkCorrectEnvironment(pair);
         checkTokenExpiration(pair);
     }
@@ -105,7 +105,7 @@ public abstract class CommonTokenValidator implements BaseRequestValidator {
     protected void checkCorrectEnvironment(JwtPair pair) {
         Environment environment = Environment.valueOf(pair.getClaimSet().get("env").toString());
 
-        if (!appEnvironmentService.getEnvironment().equals(environment)) {
+        if (!environmentService.getEnvironment().equals(environment)) {
             throw new JwtTokenException("JWT token doesn't match accessing environment!");
         }
     }

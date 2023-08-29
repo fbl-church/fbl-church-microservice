@@ -17,10 +17,6 @@ spring:
   profiles:
     default: "local"
 
-security:
-  allowed:
-    domains: ${ALLOWED_DOMAINS}
-
 logging:
   level:
     "[org.springframework]": OFF

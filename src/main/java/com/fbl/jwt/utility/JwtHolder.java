@@ -14,7 +14,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fbl.app.user.client.domain.User;
 import com.fbl.common.enums.Environment;
 import com.fbl.common.enums.WebRole;
-import com.fbl.environment.AppEnvironmentService;
+import com.fbl.environment.EnvironmentService;
 import com.fbl.jwt.domain.JwtClaims;
 import com.fbl.jwt.domain.JwtPair;
 import com.fbl.jwt.domain.JwtType;
@@ -34,7 +34,7 @@ public class JwtHolder {
 	private static final ThreadLocal<JwtPair> TOKEN = new ThreadLocal<>();
 
 	@Autowired
-	private AppEnvironmentService appEnvironmentService;
+	private EnvironmentService environmentService;
 
 	/**
 	 * Set the token on the current thread local instance.
@@ -42,7 +42,7 @@ public class JwtHolder {
 	 * @param token The token to store.
 	 */
 	public void setToken(String token) {
-		JwtPair pair = new JwtPair(token, appEnvironmentService);
+		JwtPair pair = new JwtPair(token, environmentService);
 		TOKEN.set(pair);
 	}
 

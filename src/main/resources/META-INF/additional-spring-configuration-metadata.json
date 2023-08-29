@@ -5,10 +5,6 @@
             "type": "java.lang.String"
         },
         {
-            "name": "security.allowed.domains",
-            "type": "java.lang.String"
-        },
-        {
             "name": "info.description",
             "type": "java.lang.String"
         },
@@ -37,8 +33,9 @@
             "type": "java.lang.String"
         },
         {
-            "name": "security.signing-key",
-            "type": "java.lang.String"
+            "name": "jwt.secret",
+            "type": "java.lang.String",
+            "description": "A description for 'jwt.secret'"
         }
     ]
 }

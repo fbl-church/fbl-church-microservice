@@ -5,5 +5,5 @@ spring:
     password: ${MYSQL_TEST_PASSWORD}
     url: ${MYSQL_TEST_URL}
 
-security:
-  signing-key: ${JWT_SIGNING_KEY}
+jwt:
+  secret: ${JWT_SIGNING_KEY}
