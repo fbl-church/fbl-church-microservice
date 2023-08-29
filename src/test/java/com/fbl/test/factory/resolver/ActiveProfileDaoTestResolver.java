@@ -23,7 +23,7 @@ public class ActiveProfileDaoTestResolver implements ActiveProfilesResolver {
     @Override
     public String[] resolve(Class<?> testClass) {
         Map<String, String> env = System.getenv();
-        return new String[] {env.containsKey("APP_ENVIRONMENT") ? GlobalsTest.PRODUCTION_TEST : GlobalsTest.LOCAL_TEST,
-                             DAO_TEST_PROFILE};
+        return new String[] { env.containsKey("APP_ENVIRONMENT") ? GlobalsTest.PRODUCTION_TEST : GlobalsTest.LOCAL_TEST,
+                DAO_TEST_PROFILE };
     }
 }

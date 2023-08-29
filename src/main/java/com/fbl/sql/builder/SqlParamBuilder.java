@@ -32,9 +32,9 @@ public class SqlParamBuilder {
 
     private SqlParamBuilder(CommonParam commonParam, MapSqlParameterSource sqlParams) {
         this.commonParam = commonParam;
-        if(sqlParams == null) {
+        if (sqlParams == null) {
             this.sqlParams = new MapSqlParameterSource();
-        }else {
+        } else {
             this.sqlParams = sqlParams;
         }
     }
@@ -136,7 +136,7 @@ public class SqlParamBuilder {
      * @return this builder object {@link SqlParamBuilder}
      */
     public SqlParamBuilder withParamDefault(String name, LocalDateTime dt) {
-        if(dt == null) {
+        if (dt == null) {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             return withParam(name, LocalDateTime.now(TimeZoneUtil.SYSTEM_ZONE).format(formatter));
         }
@@ -152,7 +152,7 @@ public class SqlParamBuilder {
      * @return this builder object {@link SqlParamBuilder}
      */
     public SqlParamBuilder withParamDefault(String name, LocalDate dt) {
-        if(dt == null) {
+        if (dt == null) {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             return withParam(name, LocalDate.now(TimeZoneUtil.SYSTEM_ZONE).format(formatter));
         }
@@ -169,7 +169,7 @@ public class SqlParamBuilder {
      */
     public SqlParamBuilder withParamTextEnumCollection(String name, Collection<? extends TextEnum> values) {
         return withParam(name,
-                         values == null ? null : values.stream().map(TextEnum::getTextId).collect(Collectors.toList()));
+                values == null ? null : values.stream().map(TextEnum::getTextId).collect(Collectors.toList()));
     }
 
     /**
@@ -180,7 +180,7 @@ public class SqlParamBuilder {
      * @return {@link SqlParamBuilder} with the search ability.
      */
     public SqlParamBuilder useSearch() {
-        if(!(commonParam instanceof SearchParam)) {
+        if (!(commonParam instanceof SearchParam)) {
             return this;
         }
 
@@ -196,7 +196,7 @@ public class SqlParamBuilder {
      * @return {@link SqlParamBuilder} with the search fields.
      */
     public SqlParamBuilder useSearchField() {
-        if(!(commonParam instanceof SearchFieldParams)) {
+        if (!(commonParam instanceof SearchFieldParams)) {
             return this;
         }
 
@@ -211,13 +211,13 @@ public class SqlParamBuilder {
      * @return {@link SqlParamBuilder} with the pagenation.
      */
     public SqlParamBuilder usePagenation() {
-        if(!(commonParam instanceof PageParam)) {
+        if (!(commonParam instanceof PageParam)) {
             return this;
         }
 
         PageParam pageParam = (PageParam) commonParam;
 
-        if(pageParam.getPageSize() == 0) {
+        if (pageParam.getPageSize() == 0) {
             return this;
         }
 

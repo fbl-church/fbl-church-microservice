@@ -25,7 +25,7 @@ public abstract class AbstractMapper<T> extends AbstractSqlGlobals implements Ro
      * @return The new LocalDateTime format.
      */
     public LocalDateTime parseDateTime(String d) {
-        if(StringUtils.isBlank(d)) {
+        if (StringUtils.isBlank(d)) {
             return null;
         }
 
@@ -40,7 +40,7 @@ public abstract class AbstractMapper<T> extends AbstractSqlGlobals implements Ro
      * @return The new LocalDate format.
      */
     public LocalDate parseDate(String d) {
-        if(StringUtils.isBlank(d)) {
+        if (StringUtils.isBlank(d)) {
             return null;
         }
 

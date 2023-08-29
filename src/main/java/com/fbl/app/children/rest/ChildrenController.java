@@ -1,3 +1,6 @@
+/**
+ * Copyright of FBL Church App. All rights reserved.
+ */
 package com.fbl.app.children.rest;
 
 import java.util.List;

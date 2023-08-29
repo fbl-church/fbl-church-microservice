@@ -24,9 +24,6 @@ public class Application {
     @Schema(description = "The application name.")
     private String name;
 
-    @Schema(description = "The application access.")
-    private boolean access;
-
     @Schema(description = "The enabled status of the application.")
     private boolean enabled;
 }

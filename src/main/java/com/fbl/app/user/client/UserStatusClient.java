@@ -1,3 +1,6 @@
+/**
+ * Copyright of FBL Church App. All rights reserved.
+ */
 package com.fbl.app.user.client;
 
 import org.springframework.beans.factory.annotation.Autowired;

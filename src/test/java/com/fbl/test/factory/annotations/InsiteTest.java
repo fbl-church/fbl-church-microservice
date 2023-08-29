@@ -13,4 +13,5 @@ import java.lang.annotation.RetentionPolicy;
  * @since July 31, 2021
  */
 @Retention(RetentionPolicy.RUNTIME)
-public @interface InsiteTest {}
+public @interface InsiteTest {
+}

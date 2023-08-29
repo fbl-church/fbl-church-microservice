@@ -31,7 +31,8 @@ public class DataValidationExceptionError {
     @Schema(description = "When the exception Occured")
     private Date timestamp;
 
-    public DataValidationExceptionError() {}
+    public DataValidationExceptionError() {
+    }
 
     public DataValidationExceptionError(String message) {
         this.status = HttpStatus.BAD_REQUEST.value();

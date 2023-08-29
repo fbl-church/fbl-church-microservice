@@ -1,3 +1,6 @@
+/**
+ * Copyright of FBL Church App. All rights reserved.
+ */
 package com.fbl.app.children.dao;
 
 import static com.fbl.app.children.mapper.ChildMapper.*;

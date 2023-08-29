@@ -1,3 +1,6 @@
+/**
+ * Copyright of FBL Church App. All rights reserved.
+ */
 package com.fbl.sql.builder;
 
 import java.util.List;
@@ -22,18 +25,19 @@ public class Parameters {
 
         int count = 0;
 
-        if(search != null) {
-            for(String searchName : search.split(" ")) {
+        if (search != null) {
+            for (String searchName : search.split(" ")) {
                 // filter out any whitespace searches
-                if(searchName.trim().length() > 0) {
+                if (searchName.trim().length() > 0) {
                     String paramName = SEARCH + count;
                     params.addValue(paramName, "%" + searchName + "%");
                     count++;
-                }else {
+                } else {
                     continue;
                 }
             }
-            params.addValue(SEARCH, count != 0).addValue(SEARCH_SIZE, count);;
+            params.addValue(SEARCH, count != 0).addValue(SEARCH_SIZE, count);
+            ;
         }
         params.addValue(SEARCH_SIZE, count);
         return params;
@@ -44,8 +48,8 @@ public class Parameters {
 
         int searchSize = Integer.valueOf(params.getValue(SEARCH_SIZE).toString());
         String searchFieldSql = searchSize > 0 ? "(" : "";
-        for(int i = 0; i < searchSize; i++) {
-            for(int j = 0; j < fields.size(); j++) {
+        for (int i = 0; i < searchSize; i++) {
+            for (int j = 0; j < fields.size(); j++) {
                 searchFieldSql += String.format("%s LIKE :search%d", fields.get(j).getColumn(), i);
                 searchFieldSql += j == fields.size() - 1 ? "" : " OR ";
             }

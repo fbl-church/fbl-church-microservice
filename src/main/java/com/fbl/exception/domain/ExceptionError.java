@@ -30,7 +30,8 @@ public class ExceptionError {
     @Schema(description = "When the exception Occured")
     private Date timestamp;
 
-    public ExceptionError() {}
+    public ExceptionError() {
+    }
 
     public ExceptionError(String message) {
         this.status = HttpStatus.BAD_REQUEST.value();

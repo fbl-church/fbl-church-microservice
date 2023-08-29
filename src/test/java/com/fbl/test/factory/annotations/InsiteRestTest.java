@@ -21,4 +21,5 @@ import com.fbl.test.factory.resolver.ActiveProfileRestTestResolver;
 @Retention(RetentionPolicy.RUNTIME)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @ActiveProfiles(resolver = ActiveProfileRestTestResolver.class)
-public @interface InsiteRestTest {}
+public @interface InsiteRestTest {
+}

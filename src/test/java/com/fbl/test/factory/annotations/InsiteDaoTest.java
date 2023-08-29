@@ -19,6 +19,7 @@ import com.fbl.test.factory.resolver.ActiveProfileDaoTestResolver;
  * @since July 31, 2021
  */
 @Retention(RetentionPolicy.RUNTIME)
-@SpringBootTest(classes = {DataSourceTestConfiguration.class})
+@SpringBootTest(classes = { DataSourceTestConfiguration.class })
 @ActiveProfiles(resolver = ActiveProfileDaoTestResolver.class)
-public @interface InsiteDaoTest {}
+public @interface InsiteDaoTest {
+}

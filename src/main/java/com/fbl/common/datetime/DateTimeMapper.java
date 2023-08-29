@@ -66,7 +66,7 @@ public class DateTimeMapper {
      * @return {@link String} of the formatted date.
      */
     public static String printDate(LocalDateTime dt) {
-        if(dt == null) {
+        if (dt == null) {
             return null;
         }
         return printDate(dt, DATE_TIME_PRINT);
@@ -80,7 +80,7 @@ public class DateTimeMapper {
      * @return {@link String} of the formatted date.
      */
     public static String printDate(Date dt) {
-        if(dt == null) {
+        if (dt == null) {
             return null;
         }
         return printDate(dt, DATE_TIME_PRINT);

@@ -16,4 +16,5 @@ import org.springframework.stereotype.Component;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Component
-public @interface Client {}
+public @interface Client {
+}

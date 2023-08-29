@@ -46,13 +46,13 @@ public class PageSerializerMessageConverter extends MappingJackson2HttpMessageCo
 
     @Override
     protected void writeInternal(Object object, Type type, HttpOutputMessage outputMessage) throws IOException {
-        if(object instanceof Page) {
+        if (object instanceof Page) {
             Page<?> page = (Page<?>) object;
             HttpHeaders headers = outputMessage.getHeaders();
             headers.remove(Page.TOTAL_ITEM_COUNT);
             headers.put(Page.TOTAL_ITEM_COUNT, Arrays.asList(String.valueOf(page.getTotalCount())));
             super.writeInternal(page.getList(), outputMessage);
-        }else {
+        } else {
             super.writeInternal(object, type, outputMessage);
         }
     }

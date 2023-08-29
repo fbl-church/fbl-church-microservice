@@ -17,4 +17,5 @@ import org.mockito.junit.jupiter.MockitoExtension;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @ExtendWith(MockitoExtension.class)
-public @interface InsiteServiceTest {}
+public @interface InsiteServiceTest {
+}

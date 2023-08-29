@@ -1,3 +1,6 @@
+/**
+ * Copyright of FBL Church App. All rights reserved.
+ */
 package com.fbl.app.accessmanager.client.domain.request;
 
 import java.util.Arrays;

@@ -1,3 +1,6 @@
+/**
+ * Copyright of FBL Church App. All rights reserved.
+ */
 package com.fbl.app.gurdian.dao;
 
 import static com.fbl.app.gurdian.mapper.GurdianMapper.*;

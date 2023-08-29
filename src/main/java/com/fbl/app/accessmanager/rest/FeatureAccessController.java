@@ -22,7 +22,7 @@ import com.fbl.common.enums.WebRole;
  * @author Sam Butler
  * @since 8/3/2020
  */
-@RequestMapping("/api/feature/access")
+@RequestMapping("/api/feature-access")
 @RestApiController
 public class FeatureAccessController {
 
@@ -36,7 +36,7 @@ public class FeatureAccessController {
      * @return {@link Map<String,String>} of the feature access
      */
     @GetMapping
-    @HasAccess(WebRole.SITE_ADMINISTRATOR)
+    @HasAccess(WebRole.ADMINISTRATOR)
     public Map<String, List<Map<String, String>>> getWebRoleFeatureAccess(@RequestParam List<WebRole> roles) {
         return service.getWebRoleFeatureAccess(roles);
     }

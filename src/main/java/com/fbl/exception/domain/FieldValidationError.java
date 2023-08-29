@@ -1,3 +1,6 @@
+/**
+ * Copyright of FBL Church App. All rights reserved.
+ */
 package com.fbl.exception.domain;
 
 import com.fbl.common.enums.ErrorCode;

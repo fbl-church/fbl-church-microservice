@@ -1,3 +1,6 @@
+/**
+ * Copyright of FBL Church App. All rights reserved.
+ */
 package com.fbl.common.enums;
 
 import java.util.ArrayList;
@@ -47,7 +50,7 @@ public enum ErrorCode {
     private ErrorCode(String textId, boolean additionalInfoNeeded, String... errorCodes) {
         this.textId = textId;
         this.additionalInfoNeeded = additionalInfoNeeded;
-        for(String code : errorCodes) {
+        for (String code : errorCodes) {
             this.errorCodes.add(code);
         }
     }
@@ -87,8 +90,8 @@ public enum ErrorCode {
      * @return The ErrorCode object.
      */
     public static ErrorCode fromErrorCode(String errorCode) {
-        for(ErrorCode code : ErrorCode.values()) {
-            if(code.getErrorCodes().contains(errorCode)) {
+        for (ErrorCode code : ErrorCode.values()) {
+            if (code.getErrorCodes().contains(errorCode)) {
                 return code;
             }
         }

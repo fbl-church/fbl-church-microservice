@@ -11,5 +11,6 @@ import org.springframework.context.annotation.ComponentScan;
  * @author Sam Butler
  * @since April 25, 2022
  */
-@ComponentScan(basePackages = {"com.fbl.app.user.dao", "com.fbl.app.authentication.dao"})
-public class InsiteDAOTestConfig {}
+@ComponentScan(basePackages = { "com.fbl.app.user.dao", "com.fbl.app.authentication.dao" })
+public class InsiteDAOTestConfig {
+}
