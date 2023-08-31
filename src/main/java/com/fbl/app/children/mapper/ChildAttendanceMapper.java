@@ -25,7 +25,7 @@ public class ChildAttendanceMapper extends AbstractMapper<ChildAttendance> {
 		child.setCuid(rs.getString(CUID));
 		child.setFirstName(rs.getString(FIRST_NAME));
 		child.setLastName(rs.getString(LAST_NAME));
-		child.setAttendanceId(rs.getInt(ATTENDANCE_ID));
+		child.setAttendanceRecordId(rs.getInt(ATTENDANCE_RECORD_ID));
 		child.setPresent(rs.getBoolean(PRESENT));
 		child.setNotes(rs.getString(NOTES));
 		child.setUpdatedUserId(rs.getInt(UPDATE_USER_ID));

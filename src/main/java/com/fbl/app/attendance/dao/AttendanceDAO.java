@@ -43,7 +43,7 @@ public class AttendanceDAO extends BaseDao {
      */
     public Page<AttendanceRecord> getAttendanceRecords(AttendanceRecordGetRequest request) {
         MapSqlParameterSource params = SqlParamBuilder.with(request).useAllParams()
-                .withParam(ATTENDANCE_ID, request.getId())
+                .withParam(ID, request.getId())
                 .withParam(NAME, request.getName()).withParamTextEnumCollection(TYPE, request.getType())
                 .withParamTextEnumCollection(STATUS, request.getStatus())
                 .build();
@@ -58,7 +58,7 @@ public class AttendanceDAO extends BaseDao {
      * @return List of workers
      */
     public List<User> getAttendanceRecordWorkersById(int id) {
-        MapSqlParameterSource params = parameterSource(ATTENDANCE_ID, id);
+        MapSqlParameterSource params = parameterSource(ATTENDANCE_RECORD_ID, id);
         return getList("getAttendanceRecordWorkersPage", params, USER_MAPPER);
     }
 
@@ -84,7 +84,7 @@ public class AttendanceDAO extends BaseDao {
      * @param workerId The user id to assign to it
      */
     public void assignWorkerToAttendanceRecord(int recordId, int workerId) {
-        MapSqlParameterSource params = SqlParamBuilder.with().withParam(ATTENDANCE_ID, recordId)
+        MapSqlParameterSource params = SqlParamBuilder.with().withParam(ATTENDANCE_RECORD_ID, recordId)
                 .withParam(USER_ID, workerId).build();
 
         post("assignWorkerToAttendanceRecord", params);
@@ -96,6 +96,6 @@ public class AttendanceDAO extends BaseDao {
      * @param recordId The attendance record id
      */
     public void deleteAttendanceRecordWorkers(int recordId) {
-        delete("deleteAttendanceRecordWorkers", parameterSource(ATTENDANCE_ID, recordId));
+        delete("deleteAttendanceRecordWorkers", parameterSource(ATTENDANCE_RECORD_ID, recordId));
     }
 }

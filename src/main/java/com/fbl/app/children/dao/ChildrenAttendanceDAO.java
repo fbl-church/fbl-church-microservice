@@ -37,7 +37,7 @@ public class ChildrenAttendanceDAO extends BaseDao {
      */
     public Page<ChildAttendance> getChildrenAttedanceById(ChildAttendanceGetRequest request, int attendanceId) {
         MapSqlParameterSource params = SqlParamBuilder.with(request).useAllParams()
-                .withParam(ATTENDANCE_ID, attendanceId).withParam(PRESENT, request.getPresent()).build();
+                .withParam(ATTENDANCE_RECORD_ID, attendanceId).withParam(PRESENT, request.getPresent()).build();
 
         return getPage("childrenAttendanceByIdPage", params, CHILD_ATTENDANCE_MAPPER);
     }

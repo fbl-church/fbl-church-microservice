@@ -18,7 +18,7 @@ CREATE TABLE children (
   PRIMARY KEY (user_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-ALTER TABLE children ADD CONSTRAINT users__children__FK1 
+ALTER TABLE children ADD CONSTRAINT FK1_children__users
   FOREIGN KEY (user_id) REFERENCES users (id) 
     ON DELETE CASCADE 
     ON UPDATE CASCADE;

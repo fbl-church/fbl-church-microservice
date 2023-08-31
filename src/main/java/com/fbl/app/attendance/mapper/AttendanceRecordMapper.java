@@ -22,7 +22,7 @@ public class AttendanceRecordMapper extends AbstractMapper<AttendanceRecord> {
 
     public AttendanceRecord mapRow(ResultSet rs, int rowNum) throws SQLException {
         AttendanceRecord record = new AttendanceRecord();
-        record.setId(rs.getInt(ATTENDANCE_ID));
+        record.setId(rs.getInt(ID));
         record.setName(rs.getString(NAME));
         record.setStatus(AttendanceStatus.valueOf(rs.getString(STATUS)));
         record.setType(ChurchGroup.valueOf(rs.getString(TYPE)));

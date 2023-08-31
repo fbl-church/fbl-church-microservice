@@ -21,8 +21,8 @@ CREATE TABLE web_role_feature_access (
 
 CREATE INDEX IX_web_role_feature_access__web_role ON web_role_feature_access(web_role);
 
-ALTER TABLE web_role_feature_access 
-  ADD CONSTRAINT users__web_role_feature_access__FK1 FOREIGN KEY(feature_id) REFERENCES feature_access(id)
+ALTER TABLE web_role_feature_access ADD CONSTRAINT FK1_web_role_feature_access__feature_access
+FOREIGN KEY(feature_id) REFERENCES feature_access(id)
     ON DELETE CASCADE
     ON UPDATE CASCADE;
 

@@ -17,10 +17,11 @@ CREATE TABLE user_roles (
 
 CREATE INDEX IX_user_roles__web_role ON user_roles(web_role);
 
-ALTER TABLE user_roles 
-  ADD CONSTRAINT users__user_roles__FK1 FOREIGN KEY(user_id) REFERENCES users(id)
+ALTER TABLE user_roles ADD CONSTRAINT FK1_user_roles__users
+  FOREIGN KEY(user_id) REFERENCES users(id)
     ON DELETE CASCADE
     ON UPDATE CASCADE;
+
 -- ---------------------------------------------------------------------------------
 -- END
 -- ---------------------------------------------------------------------------------

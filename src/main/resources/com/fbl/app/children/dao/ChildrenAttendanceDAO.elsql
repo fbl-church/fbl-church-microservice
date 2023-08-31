@@ -3,7 +3,7 @@
   u.first_name,
   u.last_name,
   c.cuid,
-  ca.attendance_id,
+  ca.attendance_record_id,
   ca.present,
   ca.notes,
   ca.updated_user_id,
@@ -23,7 +23,7 @@
 @NAME(getchildrenAttendanceByIdBase)
   FROM users u
   INNER JOIN children c ON u.id = c.user_id
-  INNER JOIN children_attendance ca ON c.user_id = ca.user_id AND ca.attendance_id = :attendance_id
+  INNER JOIN children_attendance ca ON c.user_id = ca.user_id AND ca.attendance_record_id = :attendance_record_id
   @INCLUDE(childrenAttendanceFilters)
 
 @NAME(childrenAttendanceByIdPage)

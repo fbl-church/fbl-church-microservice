@@ -12,7 +12,7 @@ public abstract class AbstractSqlGlobals {
     protected static final String ALLERGIES = "allergies";
     protected static final String APP_ACCESS = "app_access";
     protected static final String APP_ID = "app_id";
-    protected static final String ATTENDANCE_ID = "attendance_id";
+    protected static final String ATTENDANCE_RECORD_ID = "attendance_record_id";
     protected static final String BIRTHDAY = "birthday";
     protected static final String CHECK_IN_DATE = "check_in_date";
     protected static final String CHILD_ID = "child_id";

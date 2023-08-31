@@ -19,7 +19,7 @@ CREATE TABLE gurdians (
   PRIMARY KEY (user_id)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4;
 
-ALTER TABLE gurdians ADD CONSTRAINT users__gurdians__FK1 
+ALTER TABLE gurdians ADD CONSTRAINT FK1_gurdians__users
   FOREIGN KEY (user_id) REFERENCES users (id) 
     ON DELETE CASCADE 
     ON UPDATE CASCADE;

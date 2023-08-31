@@ -17,6 +17,7 @@ CREATE TABLE application (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE UNIQUE INDEX UX_application__name ON application(name);
+
 -- ---------------------------------------------------------------------------------
 -- END
 -- ---------------------------------------------------------------------------------

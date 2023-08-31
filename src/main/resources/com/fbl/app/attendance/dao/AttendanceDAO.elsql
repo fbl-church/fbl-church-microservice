@@ -1,5 +1,5 @@
 @NAME(attendanceRecordFields)
-  ar.attendance_id,
+  ar.id,
   ar.name,
   ar.status,
   ar.type,
@@ -22,8 +22,8 @@
 
 @NAME(attendanceRecordFilters)
   @WHERE
-    @AND(:attendance_id)
-      ar.attendance_id IN (:attendance_id)
+    @AND(:id)
+      ar.id IN (:id)
     @AND(:name)
       ar.name IN (:name)
     @AND(:status)
@@ -35,8 +35,8 @@
 
 @NAME(attendanceRecordWorkersFilters)
   @WHERE
-    @AND(:attendance_id)
-      arw.attendance_id IN (:attendance_id)
+    @AND(:attendance_record_id)
+      arw.attendance_record_id IN (:attendance_record_id)
 
 @NAME(getAttendanceRecordsBase)
   FROM attendance_records ar
@@ -49,7 +49,7 @@
     ORDER BY ar.active_date DESC
 
 @NAME(getAttendanceRecordsPageTotalCount)
-  SELECT COUNT(DISTINCT ar.attendance_id)
+  SELECT COUNT(DISTINCT ar.id)
   @INCLUDE(getAttendanceRecordsBase)
 
 @NAME(getAttendanceRecordWorkersPage)
@@ -57,7 +57,7 @@
   FROM attendance_record_workers arw
   INNER JOIN users u ON arw.user_id = u.id
   INNER JOIN user_status us ON u.id = us.user_id
-  WHERE arw.attendance_id = :attendance_id
+  WHERE arw.attendance_record_id = :attendance_record_id
   ORDER BY u.last_name ASC
 
 @NAME(search)
@@ -67,7 +67,7 @@
   INSERT INTO attendance_records (name, type, active_date) VALUES (:name, :type, :active_date)
 
 @NAME(assignWorkerToAttendanceRecord)
-  INSERT INTO attendance_record_workers (attendance_id, user_id) VALUES (:attendance_id, :user_id)
+  INSERT INTO attendance_record_workers (attendance_record_id, user_id) VALUES (:attendance_record_id, :user_id)
 
 @NAME(deleteAttendanceRecordWorkers)
-  DELETE FROM attendance_record_workers WHERE attendance_id = :attendance_id
+  DELETE FROM attendance_record_workers WHERE attendance_record_id = :attendance_record_id

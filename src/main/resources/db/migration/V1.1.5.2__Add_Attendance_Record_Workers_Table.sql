@@ -10,22 +10,23 @@
 -- ---------------------------------------------------------------------------------
 
 CREATE TABLE attendance_record_workers (
-  attendance_id INT          UNSIGNED NOT NULL,
-  user_id       INT          UNSIGNED NOT NULL,
-  PRIMARY KEY (attendance_id, user_id)
+  attendance_record_id  INT          UNSIGNED NOT NULL,
+  user_id               INT          UNSIGNED NOT NULL,
+  PRIMARY KEY (attendance_record_id, user_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE INDEX IX_attendance_record_workers__user_id ON attendance_record_workers(user_id);
 
-ALTER TABLE attendance_record_workers ADD CONSTRAINT attendance_records__attendance_record_workers__FK1 
-  FOREIGN KEY (attendance_id) REFERENCES attendance_records (attendance_id) 
+ALTER TABLE attendance_record_workers ADD CONSTRAINT FK1_attendance_record_workers__attendance_records
+  FOREIGN KEY (attendance_record_id) REFERENCES attendance_records (id) 
     ON DELETE CASCADE 
     ON UPDATE CASCADE;
 
-ALTER TABLE attendance_record_workers ADD CONSTRAINT users__attendance_record_workers__FK2
+ALTER TABLE attendance_record_workers ADD CONSTRAINT FK2_attendance_record_workers__users
   FOREIGN KEY (user_id) REFERENCES users (id) 
     ON DELETE CASCADE 
     ON UPDATE CASCADE;
+
 -- ---------------------------------------------------------------------------------
 -- END
 -- ---------------------------------------------------------------------------------

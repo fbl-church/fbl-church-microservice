@@ -17,10 +17,11 @@ CREATE TABLE children_groups (
 
 CREATE INDEX IX_children_groups__church_group ON children_groups(church_group);
 
-ALTER TABLE children_groups ADD CONSTRAINT children__children_groups__FK1
+ALTER TABLE children_groups ADD CONSTRAINT FK1_children_groups__children
   FOREIGN KEY (child_id) REFERENCES children (user_id) 
     ON DELETE CASCADE 
     ON UPDATE CASCADE;
+
 -- ---------------------------------------------------------------------------------
 -- END
 -- ---------------------------------------------------------------------------------

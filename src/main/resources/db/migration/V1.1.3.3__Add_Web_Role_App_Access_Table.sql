@@ -18,10 +18,11 @@ CREATE TABLE web_role_app_access (
 
 CREATE INDEX IX_web_role_app_access__app_id ON web_role_app_access(app_id);
 
-ALTER TABLE web_role_app_access 
-  ADD CONSTRAINT users__web_role_app_access__FK1 FOREIGN KEY(app_id) REFERENCES application(id)
+ALTER TABLE web_role_app_access ADD CONSTRAINT FK1_web_role_app_access__application
+  FOREIGN KEY(app_id) REFERENCES application (id)
     ON DELETE CASCADE 
     ON UPDATE CASCADE;
+
 -- ---------------------------------------------------------------------------------
 -- END
 -- ---------------------------------------------------------------------------------

@@ -39,7 +39,7 @@ public class ChildAttendance {
     private boolean present;
 
     @Schema(description = "The attendance record id")
-    private int attendanceId;
+    private int attendanceRecordId;
 
     @Schema(description = "The attendance notes")
     private String notes;
