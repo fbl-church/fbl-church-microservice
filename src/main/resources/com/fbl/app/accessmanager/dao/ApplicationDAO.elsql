@@ -1,14 +1,14 @@
 @NAME(applicationFields)
   a.id,
-  a.app_name,
+  a.name,
   a.enabled
 
 @NAME(applicationFilters)
   @WHERE
     @AND(:app_id)
       a.id IN (:app_id)
-    @AND(:app_name)
-      a.app_name IN (:app_name)
+    @AND(:name)
+      a.name IN (:name)
     @AND(:search = true)
       @INCLUDE(search)
 
@@ -20,7 +20,7 @@
   @PAGING(:rowOffset, :pageSize)
     SELECT @INCLUDE(applicationFields) 
     @INCLUDE(getApplicationBase)
-    ORDER BY a.app_name ASC
+    ORDER BY a.name ASC
 
 @NAME(getApplicationsPageTotalCount)
   SELECT COUNT(*)

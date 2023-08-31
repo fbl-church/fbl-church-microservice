@@ -15,7 +15,7 @@ CREATE TABLE user_roles (
   PRIMARY KEY (user_id,web_role)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE INDEX user_roles_IDX1 ON user_roles(web_role);
+CREATE INDEX IX_user_roles__web_role ON user_roles(web_role);
 
 ALTER TABLE user_roles 
   ADD CONSTRAINT users__user_roles__FK1 FOREIGN KEY(user_id) REFERENCES users(id)

@@ -11,12 +11,12 @@
 
 CREATE TABLE application (
   id       INT          unsigned NOT NULL AUTO_INCREMENT,
-  app_name VARCHAR(128)          NOT NULL,
+  name     VARCHAR(128)          NOT NULL,
   enabled  TINYINT(4)            NOT NULL DEFAULT 0,
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE UNIQUE INDEX application_AK1 ON application(app_name);
+CREATE UNIQUE INDEX UX_application__name ON application(name);
 -- ---------------------------------------------------------------------------------
 -- END
 -- ---------------------------------------------------------------------------------

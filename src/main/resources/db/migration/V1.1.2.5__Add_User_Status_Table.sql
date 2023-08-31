@@ -17,6 +17,8 @@ CREATE TABLE user_status (
   PRIMARY KEY (user_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+CREATE INDEX IX_user_status__updated_user_id ON user_status(updated_user_id);
+
 ALTER TABLE user_status 
   ADD CONSTRAINT users__user_status__FK1 FOREIGN KEY(user_id) REFERENCES users(id)
     ON DELETE CASCADE

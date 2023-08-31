@@ -16,7 +16,7 @@ CREATE TABLE web_role_app_access (
   PRIMARY KEY (web_role,app_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE INDEX web_role_app_access_IDX1 ON web_role_app_access(app_id);
+CREATE INDEX IX_web_role_app_access__app_id ON web_role_app_access(app_id);
 
 ALTER TABLE web_role_app_access 
   ADD CONSTRAINT users__web_role_app_access__FK1 FOREIGN KEY(app_id) REFERENCES application(id)

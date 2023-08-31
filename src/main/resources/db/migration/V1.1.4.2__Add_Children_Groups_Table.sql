@@ -15,7 +15,7 @@ CREATE TABLE children_groups (
   PRIMARY KEY (child_id,church_group)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE INDEX children_groups_IDX1 ON children_groups(church_group);
+CREATE INDEX IX_children_groups__church_group ON children_groups(church_group);
 
 ALTER TABLE children_groups ADD CONSTRAINT children__children_groups__FK1
   FOREIGN KEY (child_id) REFERENCES children (user_id) 

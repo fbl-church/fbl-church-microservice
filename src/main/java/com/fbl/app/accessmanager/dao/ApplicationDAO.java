@@ -37,7 +37,7 @@ public class ApplicationDAO extends BaseDao {
      */
     public Page<Application> getApplications(ApplicationGetRequest request) {
         MapSqlParameterSource params = SqlParamBuilder.with(request).useAllParams().withParam(APP_ID, request.getId())
-                .withParam(APP_NAME, request.getName()).build();
+                .withParam(NAME, request.getName()).build();
         return getPage("getApplicationsPage", params, APPLICATION_MAPPER);
     }
 

@@ -19,8 +19,8 @@ CREATE TABLE children_attendance (
   PRIMARY KEY (attendance_id, user_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE INDEX children_attendance_IDX1 ON children_attendance(user_id);
-CREATE INDEX children_attendance_IDX2 ON children_attendance(updated_user_id);
+CREATE INDEX IX_children_attendance__user_id ON children_attendance(user_id);
+CREATE INDEX IX_children_attendance__updated_user_id ON children_attendance(updated_user_id);
 
 ALTER TABLE children_attendance ADD CONSTRAINT attendance_records__children_attendance__FK1 
   FOREIGN KEY (attendance_id) REFERENCES attendance_records (attendance_id) 

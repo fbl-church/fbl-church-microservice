@@ -16,7 +16,7 @@ CREATE TABLE children_gurdians (
   PRIMARY KEY (child_id, gurdian_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE INDEX children_gurdians_IDX1 ON children_gurdians(gurdian_id);
+CREATE INDEX IX_children_gurdians__gurdian_id ON children_gurdians(gurdian_id);
 
 ALTER TABLE children_gurdians ADD CONSTRAINT children__children_gurdians__FK1
   FOREIGN KEY (child_id) REFERENCES children (user_id) 

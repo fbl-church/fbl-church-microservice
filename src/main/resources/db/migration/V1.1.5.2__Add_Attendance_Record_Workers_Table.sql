@@ -15,7 +15,7 @@ CREATE TABLE attendance_record_workers (
   PRIMARY KEY (attendance_id, user_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE INDEX attendance_record_workers_IDX1 ON attendance_record_workers(user_id);
+CREATE INDEX IX_attendance_record_workers__user_id ON attendance_record_workers(user_id);
 
 ALTER TABLE attendance_record_workers ADD CONSTRAINT attendance_records__attendance_record_workers__FK1 
   FOREIGN KEY (attendance_id) REFERENCES attendance_records (attendance_id) 

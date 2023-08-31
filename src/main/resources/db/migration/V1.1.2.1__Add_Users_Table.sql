@@ -19,7 +19,7 @@ CREATE TABLE users (
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE UNIQUE INDEX users_AK1 ON users(email);
+CREATE UNIQUE INDEX UX_users__email ON users(email);
 
 -- ---------------------------------------------------------------------------------
 -- END

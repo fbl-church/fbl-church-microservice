@@ -17,7 +17,7 @@ import lombok.Getter;
 @Getter
 @Schema(description = "The user profile search fields.")
 public enum ApplicationSearchFields implements SearchField {
-    APP_NAME("a.app_name");
+    NAME("a.name");
 
     private String column;
 

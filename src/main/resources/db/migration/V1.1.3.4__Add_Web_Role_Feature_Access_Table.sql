@@ -19,7 +19,7 @@ CREATE TABLE web_role_feature_access (
   PRIMARY KEY (feature_id,web_role)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE INDEX web_role_feature_access_IDX1 ON web_role_feature_access(web_role);
+CREATE INDEX IX_web_role_feature_access__web_role ON web_role_feature_access(web_role);
 
 ALTER TABLE web_role_feature_access 
   ADD CONSTRAINT users__web_role_feature_access__FK1 FOREIGN KEY(feature_id) REFERENCES feature_access(id)
