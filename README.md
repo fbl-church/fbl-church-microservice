@@ -94,4 +94,4 @@ Project Link: [https://github.com/fbl-church/fbl-church-microservice](https://gi
 ## Acknowledgements
 
 - Sam Butler
-- Josue Van Dyke
+- Ryan Suvak
