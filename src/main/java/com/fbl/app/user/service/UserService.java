@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.fbl.app.user.client.domain.User;
 import com.fbl.app.user.client.domain.request.UserGetRequest;
 import com.fbl.app.user.dao.UserDAO;
+import com.fbl.common.enums.WebRole;
 import com.fbl.common.page.Page;
 import com.fbl.jwt.utility.JwtHolder;
 
@@ -56,7 +57,7 @@ public class UserService {
 	 */
 	public User getUserById(int id) {
 		User u = dao.getUserById(id);
-		u.setWebRole(dao.getUserRolesById(id));
+		u.setWebRole(dao.getUserRolesById(id, List.of(WebRole.USER)));
 		return u;
 	}
 
@@ -68,5 +69,15 @@ public class UserService {
 	 */
 	public List<String> getUserAppsById(int id) {
 		return dao.getUserApps(id);
+	}
+
+	/**
+	 * Gets a list of user roles by user id.
+	 * 
+	 * @param id The user id to get roles for
+	 * @return List of Web Roles
+	 */
+	public List<WebRole> getUserRolesById(int id) {
+		return dao.getUserRolesById(id, null);
 	}
 }

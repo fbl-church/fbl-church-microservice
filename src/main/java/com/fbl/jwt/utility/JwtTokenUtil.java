@@ -105,7 +105,7 @@ public class JwtTokenUtil implements Serializable {
         claims.put(JwtClaims.WEB_ROLE, user.getWebRole());
         claims.put(JwtClaims.ENVIRONMENT, environmentService.getEnvironment());
         claims.put(JwtClaims.APPS, userClient.getUserAppsById(user.getId()));
-        claims.put(JwtClaims.ACCESS, featureAccessClient.getWebRoleFeatureAccess(user.getWebRole()));
+        claims.put(JwtClaims.ACCESS, featureAccessClient.getWebRoleFeatureAccess(user.getId()));
         return buildTokenClaims(claims, JWT_TOKEN_USER_VALIDITY);
     }
 

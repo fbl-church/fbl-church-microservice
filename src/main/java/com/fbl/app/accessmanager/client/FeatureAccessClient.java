@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.fbl.app.accessmanager.service.FeatureAccessService;
 import com.fbl.common.annotations.interfaces.Client;
-import com.fbl.common.enums.WebRole;
 
 /**
  * This class exposes the feature access endpoint's to other app's to pull data
@@ -26,12 +25,12 @@ public class FeatureAccessClient {
 	private FeatureAccessService service;
 
 	/**
-	 * Client method to get a map of feature access for the provided web roles.
+	 * Client method to get a map of feature access for the provided user id.
 	 * 
-	 * @param roles The web roles to get the feature access for
+	 * @param userId The user id of the user.
 	 * @return {@link Map<String,String>} of the feature access
 	 */
-	public Map<String, List<Map<String, String>>> getWebRoleFeatureAccess(List<WebRole> roles) {
-		return service.getWebRoleFeatureAccess(roles);
+	public Map<String, List<Map<String, String>>> getWebRoleFeatureAccess(int userId) {
+		return service.getWebRoleFeatureAccess(userId);
 	}
 }

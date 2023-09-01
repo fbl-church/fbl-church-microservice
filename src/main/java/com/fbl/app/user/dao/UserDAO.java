@@ -86,11 +86,13 @@ public class UserDAO extends BaseDao {
 	/**
 	 * Get a list of user roles by id.
 	 * 
-	 * @param userId The user id
+	 * @param userId        The user id
+	 * @param excludedRoles The list of roles not to return
 	 * @return List of Webroles
 	 */
-	public List<WebRole> getUserRolesById(int userId) {
-		MapSqlParameterSource params = parameterSource(USER_ID, userId);
+	public List<WebRole> getUserRolesById(int userId, List<WebRole> excludedRoles) {
+		MapSqlParameterSource params = SqlParamBuilder.with().withParam(USER_ID, userId)
+				.withParamTextEnumCollection(NOT_WEB_ROLE, excludedRoles).build();
 		return getList("getUserRoles", params, WebRole.class);
 	}
 

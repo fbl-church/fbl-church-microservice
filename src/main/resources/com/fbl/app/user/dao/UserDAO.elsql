@@ -55,7 +55,9 @@
 @NAME(getUserRoles)
   SELECT ur.web_role
   FROM user_roles ur
-  @WHERE 
+  @WHERE
+    @AND(:not_web_role)
+      ur.web_role NOT IN(:not_web_role)
     @AND(:user_id)
       ur.user_id = :user_id
   ORDER BY ur.web_role

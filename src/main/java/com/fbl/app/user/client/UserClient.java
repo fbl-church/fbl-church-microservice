@@ -71,6 +71,16 @@ public class UserClient {
 	}
 
 	/**
+	 * Gets a list of user roles by user id.
+	 * 
+	 * @param id The user id to get roles for
+	 * @return List of Web Roles
+	 */
+	public List<WebRole> getUserRolesById(int id) {
+		return userService.getUserRolesById(id);
+	}
+
+	/**
 	 * Create a new user. This is an account created by someone other the user
 	 * accessing the account.
 	 * 

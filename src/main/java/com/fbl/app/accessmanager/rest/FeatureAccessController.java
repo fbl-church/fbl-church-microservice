@@ -8,8 +8,8 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.fbl.app.accessmanager.service.FeatureAccessService;
 import com.fbl.common.annotations.interfaces.HasAccess;
@@ -30,14 +30,14 @@ public class FeatureAccessController {
     private FeatureAccessService service;
 
     /**
-     * Get a map of feature access for the provided web roles.
+     * Client method to get a map of feature access for the provided user id.
      * 
-     * @param roles The web roles to get the feature access for
+     * @param userId The user id of the user.
      * @return {@link Map<String,String>} of the feature access
      */
-    @GetMapping
+    @GetMapping("/user/{id}")
     @HasAccess(WebRole.ADMINISTRATOR)
-    public Map<String, List<Map<String, String>>> getWebRoleFeatureAccess(@RequestParam List<WebRole> roles) {
-        return service.getWebRoleFeatureAccess(roles);
+    public Map<String, List<Map<String, String>>> getWebRoleFeatureAccess(@PathVariable int id) {
+        return service.getWebRoleFeatureAccess(id);
     }
 }
