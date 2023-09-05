@@ -12,9 +12,9 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @SpringBootApplication(exclude = { SecurityAutoConfiguration.class })
 @ServletComponentScan
 @EnableScheduling
-public class InsiteMicroserviceApplication {
+public class FBLChurchApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(InsiteMicroserviceApplication.class, args);
+		SpringApplication.run(FBLChurchApplication.class, args);
 	}
 }

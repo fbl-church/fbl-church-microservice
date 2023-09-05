@@ -11,7 +11,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.ContextConfiguration;
 
-import com.fbl.InsiteMicroserviceApplication;
+import com.fbl.FBLChurchApplication;
 import com.fbl.app.authentication.client.domain.AuthToken;
 import com.fbl.app.authentication.client.domain.request.AuthenticationRequest;
 import com.fbl.app.authentication.service.AuthenticationService;
@@ -25,7 +25,7 @@ import com.fbl.test.factory.annotations.InsiteRestTest;
  * @author Sam Butler
  * @since August 23, 2022
  */
-@ContextConfiguration(classes = InsiteMicroserviceApplication.class)
+@ContextConfiguration(classes = FBLChurchApplication.class)
 @InsiteRestTest
 public class AuthenticationControllerTest extends BaseControllerTest {
 

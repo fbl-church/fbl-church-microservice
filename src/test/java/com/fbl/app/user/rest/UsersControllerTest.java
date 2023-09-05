@@ -17,7 +17,7 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.ContextConfiguration;
 
-import com.fbl.InsiteMicroserviceApplication;
+import com.fbl.FBLChurchApplication;
 import com.fbl.app.user.client.domain.User;
 import com.fbl.app.user.client.domain.request.UserGetRequest;
 import com.fbl.app.user.service.UserService;
@@ -33,7 +33,7 @@ import com.google.common.collect.Sets;
  * @author Sam Butler
  * @since August 23, 2022
  */
-@ContextConfiguration(classes = InsiteMicroserviceApplication.class)
+@ContextConfiguration(classes = FBLChurchApplication.class)
 @InsiteRestTest
 @ControllerJwt
 public class UsersControllerTest extends BaseControllerTest {
