@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import com.fbl.app.user.client.UserCredentialsClient;
 import com.fbl.app.user.client.UserStatusClient;
@@ -144,7 +145,10 @@ public class ManageUserService {
 	 */
 	private User updateUser(int userId, User user) {
 		dao.updateUser(userId, user);
-		assignUserRoles(userId, user.getWebRole());
+
+		if (!CollectionUtils.isEmpty(user.getWebRole())) {
+			assignUserRoles(userId, user.getWebRole());
+		}
 		return userService.getUserById(userId);
 	}
 

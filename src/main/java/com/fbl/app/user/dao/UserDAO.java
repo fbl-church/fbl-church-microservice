@@ -10,6 +10,9 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -62,6 +65,7 @@ public class UserDAO extends BaseDao {
 	 * @param id of the user
 	 * @return User object {@link User}
 	 */
+	@Cacheable(value = "user", key = "#id")
 	public User getUserById(int id) {
 		try {
 			UserGetRequest request = new UserGetRequest();
@@ -78,6 +82,7 @@ public class UserDAO extends BaseDao {
 	 * @param userId The user id to get the apps for.
 	 * @return List of Application objects {@link Application}
 	 */
+	@Cacheable(value = "user.apps", key = "#userId")
 	public List<String> getUserApps(int userId) {
 		MapSqlParameterSource params = parameterSource(USER_ID, userId);
 		return getList("getApplications", params, String.class);
@@ -131,6 +136,9 @@ public class UserDAO extends BaseDao {
 	 * @param user   what information on the user needs to be updated.
 	 * @return user associated to that id with the updated information
 	 */
+	@Caching(evict = {
+			@CacheEvict(cacheNames = "user", key = "#userId"),
+			@CacheEvict(cacheNames = "user.apps", key = "#userId") })
 	public void updateUser(int userId, User user) {
 		MapSqlParameterSource params = SqlParamBuilder.with().withParam(FIRST_NAME, user.getFirstName())
 				.withParam(LAST_NAME, user.getLastName()).withParam(EMAIL, user.getEmail()).withParam(ID, userId)

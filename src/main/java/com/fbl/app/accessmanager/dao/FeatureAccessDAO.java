@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 
 import javax.sql.DataSource;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.stereotype.Repository;
 
@@ -44,6 +45,7 @@ public class FeatureAccessDAO extends BaseDao {
      * @param roles The web roles to get the feature access for
      * @return {@link Map<String,String>} of the feature access
      */
+    @Cacheable(value = "featureAccess", key = "#roles")
     public Map<String, List<Map<String, String>>> getWebRoleFeatureAccess(List<WebRole> roles) {
         MapSqlParameterSource params = SqlParamBuilder.with().withParamTextEnumCollection(WEB_ROLE, roles).build();
         return mapSingleton(getList("getFeatureAccess", params, FEATURE_ACCESS_MAPPER));

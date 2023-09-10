@@ -37,7 +37,6 @@ public class Parameters {
                 }
             }
             params.addValue(SEARCH, count != 0).addValue(SEARCH_SIZE, count);
-            ;
         }
         params.addValue(SEARCH_SIZE, count);
         return params;
