@@ -41,6 +41,9 @@ public class ChildGetRequest implements SearchParam, PageParam, SearchFieldParam
     @Schema(description = "List of user web roles.", allowableValues = "USER,ADMIN")
     private Set<ChurchGroup> churchGroup;
 
+    @Schema(description = "List of church groups not to return")
+    private Set<ChurchGroup> notChurchGroup;
+
     @Schema(description = "Search Param on search param fields.")
     private String search;
 

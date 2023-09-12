@@ -86,6 +86,7 @@ public class ManageChildrenService {
     public Child updateChildById(int id, Child child) {
         userClient.updateUserById(id, child);
         dao.updateChildById(id, child);
+        assignChildGroups(id, child.getChurchGroup());
         return childrenService.getChildById(id);
     }
 
@@ -125,9 +126,13 @@ public class ManageChildrenService {
      * @param roles   The church groups to assign to the child id
      */
     private void assignChildGroups(int childId, List<ChurchGroup> groups) {
+        if (groups == null) {
+            return;
+        }
+
         dao.deleteChildGroups(childId);
 
-        if (groups == null) {
+        if (groups.isEmpty()) {
             groups = new ArrayList<>();
         }
 

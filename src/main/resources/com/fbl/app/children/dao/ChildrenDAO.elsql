@@ -18,6 +18,8 @@
       u.last_name IN (:last_name)
     @AND(:church_group)
       u.id IN (SELECT child_id FROM children_groups cg WHERE church_group IN (:church_group) GROUP BY child_id)
+    @AND(:not_church_group)
+      u.id NOT IN (SELECT child_id FROM children_groups cg WHERE church_group IN (:not_church_group) GROUP BY child_id)
     @AND(:search = true)
       @INCLUDE(search)
 

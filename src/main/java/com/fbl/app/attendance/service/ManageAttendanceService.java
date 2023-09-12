@@ -3,6 +3,7 @@
  */
 package com.fbl.app.attendance.service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -10,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import com.fbl.app.attendance.client.domain.AttendanceRecord;
 import com.fbl.app.attendance.dao.AttendanceDAO;
@@ -29,7 +31,7 @@ public class ManageAttendanceService {
     private static final Logger LOGGER = LoggerFactory.getLogger(ManageAttendanceService.class);
 
     @Autowired
-    private AttendanceDAO attendanceDAO;
+    private AttendanceDAO dao;
 
     @Autowired
     private AttendanceService attendanceService;
@@ -44,7 +46,20 @@ public class ManageAttendanceService {
      * @return The record that was created
      */
     public AttendanceRecord createAttendanceRecord(AttendanceRecord record) {
-        int recordId = attendanceDAO.createAttendanceRecord(record);
+        int recordId = dao.createAttendanceRecord(record);
+        assignWorkersToAttendanceRecord(recordId, record.getWorkers());
+        return attendanceService.getAttendanceRecordById(recordId);
+    }
+
+    /**
+     * Update an attendance record
+     * 
+     * @param record The attendance record to update
+     * @return The record that was updated
+     */
+    public AttendanceRecord updateAttendanceRecord(int recordId, AttendanceRecord record) {
+        attendanceService.getAttendanceRecordById(recordId);
+        dao.updateAttendanceRecord(recordId, record);
         assignWorkersToAttendanceRecord(recordId, record.getWorkers());
         return attendanceService.getAttendanceRecordById(recordId);
     }
@@ -58,21 +73,34 @@ public class ManageAttendanceService {
      */
     public List<User> assignWorkersToAttendanceRecord(int recordId, List<User> workers) {
         UserGetRequest request = new UserGetRequest();
-        request.setId(workers.stream().map(User::getId).collect(Collectors.toSet()));
-        List<User> filteredWorkers = userClient.getUsers(request);
+
+        List<User> filteredWorkers = Collections.emptyList();
+        if (!CollectionUtils.isEmpty(workers)) {
+            request.setId(workers.stream().map(User::getId).collect(Collectors.toSet()));
+            filteredWorkers = userClient.getUsers(request);
+        }
 
         if (!filteredWorkers.isEmpty()) {
-            attendanceDAO.deleteAttendanceRecordWorkers(recordId);
+            dao.deleteAttendanceRecordWorkers(recordId);
         }
 
         for (User u : filteredWorkers) {
             try {
-                attendanceDAO.assignWorkerToAttendanceRecord(recordId, u.getId());
+                dao.assignWorkerToAttendanceRecord(recordId, u.getId());
             } catch (Exception e) {
                 LOGGER.error("Unable to assign user id '{}' to attendance record.", u.getId(), e);
             }
         }
 
         return attendanceService.getAttendanceRecordWorkersById(recordId);
+    }
+
+    /**
+     * Delete an attendance record by id.
+     * 
+     * @param id The attendance record id
+     */
+    public void deleteAttendanceRecordById(int id) {
+        dao.deleteAttendanceRecordById(id);
     }
 }

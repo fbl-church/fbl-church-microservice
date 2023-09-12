@@ -78,6 +78,19 @@ public class AttendanceDAO extends BaseDao {
     }
 
     /**
+     * Update an attendance record
+     * 
+     * @param record The attendance record to update
+     * @return The record that was updated
+     */
+    public void updateAttendanceRecord(int recordId, AttendanceRecord record) {
+        MapSqlParameterSource params = SqlParamBuilder.with().withParam(NAME, record.getName())
+                .withParam(ACTIVE_DATE, record.getActiveDate()).withParam(ID, recordId).build();
+
+        post("updateAttendanceRecord", params);
+    }
+
+    /**
      * Assigns the given worker id to the attendance record
      * 
      * @param recordId The attendance record id
@@ -97,5 +110,14 @@ public class AttendanceDAO extends BaseDao {
      */
     public void deleteAttendanceRecordWorkers(int recordId) {
         delete("deleteAttendanceRecordWorkers", parameterSource(ATTENDANCE_RECORD_ID, recordId));
+    }
+
+    /**
+     * Delete an attendance record by id.
+     * 
+     * @param id The attendance record id
+     */
+    public void deleteAttendanceRecordById(int id) {
+        delete("deleteAttendanceRecordById", parameterSource(ID, id));
     }
 }

@@ -58,7 +58,7 @@
   INNER JOIN users u ON arw.user_id = u.id
   INNER JOIN user_status us ON u.id = us.user_id
   WHERE arw.attendance_record_id = :attendance_record_id
-  ORDER BY u.last_name ASC
+  ORDER BY u.last_name ASC, u.first_name ASC
 
 @NAME(search)
   (@VALUE(:searchContent))
@@ -69,5 +69,15 @@
 @NAME(assignWorkerToAttendanceRecord)
   INSERT INTO attendance_record_workers (attendance_record_id, user_id) VALUES (:attendance_record_id, :user_id)
 
+@NAME(updateAttendanceRecord)
+  UPDATE attendance_records 
+  SET
+    name = IFNULL(:name, name),
+    active_date = IFNULL(:active_date, active_date)
+  WHERE id = :id
+
 @NAME(deleteAttendanceRecordWorkers)
   DELETE FROM attendance_record_workers WHERE attendance_record_id = :attendance_record_id
+
+@NAME(deleteAttendanceRecordById)
+  DELETE FROM attendance_records WHERE id = :id

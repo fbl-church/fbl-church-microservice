@@ -8,6 +8,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,7 +22,9 @@ import com.fbl.app.attendance.openapi.TagAttendance;
 import com.fbl.app.attendance.service.AttendanceService;
 import com.fbl.app.attendance.service.ManageAttendanceService;
 import com.fbl.app.user.client.domain.User;
+import com.fbl.common.annotations.interfaces.HasAccess;
 import com.fbl.common.annotations.interfaces.RestApiController;
+import com.fbl.common.enums.WebRole;
 import com.fbl.common.page.Page;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -85,10 +88,24 @@ public class AttendanceController {
      * @param record The attendance record to create
      * @return The record that was created
      */
-    @Operation(summary = "Create a new Attendance Record", description = "Given a Attendance Record, it will create a new record for that attendance.")
+    @Operation(summary = "Create a new Attendance Record", description = "Given an Attendance Record, it will create a new record for that attendance.")
     @PostMapping
+    @HasAccess(WebRole.JUNIOR_CHURCH_SUPERVISOR)
     public AttendanceRecord createAttendanceRecord(@RequestBody @Valid AttendanceRecord record) {
         return manageAttendanceService.createAttendanceRecord(record);
+    }
+
+    /**
+     * Update an attendance record
+     * 
+     * @param record The attendance record to update
+     * @return The record that was updated
+     */
+    @Operation(summary = "Update a new Attendance Record", description = "Given an Attendance Record, it will update that attendance record.")
+    @PutMapping("/{id}")
+    @HasAccess(WebRole.JUNIOR_CHURCH_SUPERVISOR)
+    public AttendanceRecord updateAttendanceRecord(@PathVariable int id, @RequestBody @Valid AttendanceRecord record) {
+        return manageAttendanceService.updateAttendanceRecord(id, record);
     }
 
     /**
@@ -100,7 +117,20 @@ public class AttendanceController {
      */
     @Operation(summary = "Update the workers on an attendance record", description = "Given a Attendance Record id and a list of user ids, it will update the workers on the attendance record.")
     @PutMapping("/{id}/workers")
+    @HasAccess(WebRole.SITE_ADMINISTRATOR)
     public List<User> updateAttendanceRecordWorkers(@PathVariable int id, @RequestBody List<User> workers) {
         return manageAttendanceService.assignWorkersToAttendanceRecord(id, workers);
+    }
+
+    /**
+     * Delete an attendance record by id.
+     * 
+     * @param id The attendance record id
+     */
+    @Operation(summary = "Delete an attendance record.", description = "Given a Attendance Record id, it will delete that record.")
+    @DeleteMapping("/{id}")
+    @HasAccess(WebRole.SITE_ADMINISTRATOR)
+    public void deleteAttendanceRecordById(@PathVariable int id) {
+        manageAttendanceService.deleteAttendanceRecordById(id);
     }
 }
