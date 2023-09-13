@@ -1,13 +1,13 @@
 /**
  * Copyright of FBL Church App. All rights reserved.
  */
-package com.fbl.app.children.mapper;
+package com.fbl.app.attendance.mapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.fbl.app.attendance.client.domain.ChildAttendance;
 import com.fbl.app.children.client.domain.Child;
-import com.fbl.app.children.client.domain.ChildAttendance;
 import com.fbl.sql.abstracts.AbstractMapper;
 
 /**

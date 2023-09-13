@@ -1,12 +1,13 @@
 /**
  * Copyright of FBL Church App. All rights reserved.
  */
-package com.fbl.app.children.client.domain.request;
+package com.fbl.app.attendance.client.domain.request;
 
 import java.util.Arrays;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fbl.app.children.client.domain.request.ChildSearchFields;
 import com.fbl.common.page.domain.PageParam;
 import com.fbl.common.search.SearchField;
 import com.fbl.common.search.SearchFieldParams;

@@ -1,7 +1,7 @@
 /**
  * Copyright of FBL Church App. All rights reserved.
  */
-package com.fbl.app.children.client.domain.request;
+package com.fbl.app.attendance.client.domain.request;
 
 import com.fbl.common.search.SearchField;
 

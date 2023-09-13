@@ -10,7 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.fbl.app.attendance.client.domain.AttendanceRecord;
+import com.fbl.app.attendance.client.domain.ChildAttendance;
 import com.fbl.app.attendance.client.domain.request.AttendanceRecordGetRequest;
+import com.fbl.app.attendance.client.domain.request.ChildAttendanceGetRequest;
 import com.fbl.app.attendance.dao.AttendanceDAO;
 import com.fbl.app.user.client.domain.User;
 import com.fbl.common.page.Page;
@@ -61,5 +63,15 @@ public class AttendanceService {
      */
     public List<User> getAttendanceRecordWorkersById(int id) {
         return attendanceDAO.getAttendanceRecordWorkersById(id);
+    }
+
+    /**
+     * Gets a Page of children that are the on the attendance record by id
+     * 
+     * @param id The attendance record id
+     * @return Page of workers
+     */
+    public Page<ChildAttendance> getAttendanceRecordChildrenById(int id, ChildAttendanceGetRequest request) {
+        return attendanceDAO.getAttendanceRecordChildrenById(id, request);
     }
 }

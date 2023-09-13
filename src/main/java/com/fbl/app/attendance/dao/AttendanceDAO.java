@@ -4,6 +4,7 @@
 package com.fbl.app.attendance.dao;
 
 import static com.fbl.app.attendance.mapper.AttendanceRecordMapper.*;
+import static com.fbl.app.attendance.mapper.ChildAttendanceMapper.*;
 import static com.fbl.app.user.mapper.UserMapper.*;
 
 import java.util.List;
@@ -16,7 +17,9 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import com.fbl.app.attendance.client.domain.AttendanceRecord;
+import com.fbl.app.attendance.client.domain.ChildAttendance;
 import com.fbl.app.attendance.client.domain.request.AttendanceRecordGetRequest;
+import com.fbl.app.attendance.client.domain.request.ChildAttendanceGetRequest;
 import com.fbl.app.user.client.domain.User;
 import com.fbl.common.page.Page;
 import com.fbl.sql.abstracts.BaseDao;
@@ -60,6 +63,18 @@ public class AttendanceDAO extends BaseDao {
     public List<User> getAttendanceRecordWorkersById(int id) {
         MapSqlParameterSource params = parameterSource(ATTENDANCE_RECORD_ID, id);
         return getList("getAttendanceRecordWorkersPage", params, USER_MAPPER);
+    }
+
+    /**
+     * Gets a Page of children that are the on the attendance record by id
+     * 
+     * @param id The attendance record id
+     * @return Page of workers
+     */
+    public Page<ChildAttendance> getAttendanceRecordChildrenById(int id, ChildAttendanceGetRequest request) {
+        MapSqlParameterSource params = SqlParamBuilder.with(request).useAllParams()
+                .withParam(ATTENDANCE_RECORD_ID, id).withParam(PRESENT, request.getPresent()).build();
+        return getPage("getAttendanceRecordChildrenPage", params, CHILD_ATTENDANCE_MAPPER);
     }
 
     /**

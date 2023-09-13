@@ -1,7 +1,7 @@
 /**
  * Copyright of FBL Church App. All rights reserved.
  */
-package com.fbl.app.children.client.domain;
+package com.fbl.app.attendance.client.domain;
 
 import java.time.LocalDateTime;
 

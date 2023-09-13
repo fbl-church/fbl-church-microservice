@@ -20,6 +20,28 @@
   us.account_status, 
   us.updated_user_id
 
+@NAME(childrenAttendanceFields)
+  u.id,
+  u.first_name,
+  u.last_name,
+  c.cuid,
+  ca.attendance_record_id,
+  ca.present,
+  ca.notes,
+  ca.updated_user_id,
+  ca.check_in_date
+
+@NAME(childrenAttendanceFilters)
+  @WHERE
+    @AND(:first_name)
+      u.first_name IN (:first_name)
+    @AND(:last_name)
+      u.last_name IN (:last_name)
+    @AND(:present)
+      ca.present = (:present)
+    @AND(:search = true)
+      @INCLUDE(search)
+
 @NAME(attendanceRecordFilters)
   @WHERE
     @AND(:id)
@@ -51,6 +73,22 @@
 @NAME(getAttendanceRecordsPageTotalCount)
   SELECT COUNT(DISTINCT ar.id)
   @INCLUDE(getAttendanceRecordsBase)
+
+@NAME(getAttendanceRecordChildrenBase)
+  FROM users u
+  INNER JOIN children c ON u.id = c.user_id
+  INNER JOIN children_attendance ca ON c.user_id = ca.child_id AND ca.attendance_record_id = :attendance_record_id
+  @INCLUDE(childrenAttendanceFilters)
+
+@NAME(getAttendanceRecordChildrenPage)
+  @PAGING(:rowOffset, :pageSize)
+    SELECT @INCLUDE(childrenAttendanceFields) 
+    @INCLUDE(getAttendanceRecordChildrenBase)
+    ORDER BY u.last_name ASC
+
+@NAME(getAttendanceRecordChildrenPageTotalCount)
+  SELECT COUNT(*)
+  @INCLUDE(getAttendanceRecordChildrenBase)
 
 @NAME(getAttendanceRecordWorkersPage)
   SELECT @INCLUDE(userFields), @INCLUDE(userStatusFields)

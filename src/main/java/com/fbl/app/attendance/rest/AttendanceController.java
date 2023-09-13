@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.fbl.app.attendance.client.domain.AttendanceRecord;
+import com.fbl.app.attendance.client.domain.ChildAttendance;
 import com.fbl.app.attendance.client.domain.request.AttendanceRecordGetRequest;
+import com.fbl.app.attendance.client.domain.request.ChildAttendanceGetRequest;
 import com.fbl.app.attendance.openapi.TagAttendance;
 import com.fbl.app.attendance.service.AttendanceService;
 import com.fbl.app.attendance.service.ManageAttendanceService;
@@ -80,6 +82,19 @@ public class AttendanceController {
     @GetMapping("/{id}/workers")
     public List<User> getAttendanceRecordWorkersById(@PathVariable int id) {
         return attendanceService.getAttendanceRecordWorkersById(id);
+    }
+
+    /**
+     * Gets a Page of children that are the on the attendance record by id
+     * 
+     * @param id The attendance record id
+     * @return List of workers
+     */
+    @Operation(summary = "Get a Page of attendance Record children by Attendance Id", description = "Given a Attendance Record Id, it will return a Page of attendance record children that match the id.")
+    @GetMapping("/{id}/children")
+    public Page<ChildAttendance> getAttendanceRecordChildrenById(ChildAttendanceGetRequest request,
+            @PathVariable int id) {
+        return attendanceService.getAttendanceRecordChildrenById(id, request);
     }
 
     /**

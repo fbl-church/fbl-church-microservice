@@ -6,6 +6,7 @@ package com.fbl.app.accessmanager.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 
 import com.fbl.app.accessmanager.client.domain.Application;
@@ -61,6 +62,7 @@ public class ApplicationService {
      * @param enabled     The status of the application to set.
      * @return The application that was updated
      */
+    @CacheEvict(cacheNames = "user.apps", allEntries = true)
     public Application updateApplicationEnabledFlag(int appId, boolean enabled) {
         Application app = getApplicationById(appId);
         dao.updateApplicationEnabledFlag(app.getId(), enabled);
