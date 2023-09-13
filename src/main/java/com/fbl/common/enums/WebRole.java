@@ -14,6 +14,7 @@ import java.util.List;
  */
 public enum WebRole implements TextEnum {
     USER("USER", 100),
+    PASTOR("PASTOR", 100),
     CHILD("CHILD", 100),
     GURDIAN("GURDIAN", 100),
     LEADER("LEADER", 300),
@@ -35,6 +36,7 @@ public enum WebRole implements TextEnum {
     VBS_SNACKS("VBS_SNACKS", 200),
     VBS_CRAFTS("VBS_CRAFTS", 200),
     AWANA_DIRECTOR("AWANA_DIRECTOR", 400),
+    AWANA_REGISTRATION("AWANA_REGISTRATION", 300),
     AWANA_LEADER("AWANA_LEADER", 300),
     AWANA_WORKER("AWANA_WORKER", 200),
     TNT_LEADER("TNT_LEADER", 300),
