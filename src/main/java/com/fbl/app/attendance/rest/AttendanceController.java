@@ -26,6 +26,7 @@ import com.fbl.app.attendance.service.ManageAttendanceService;
 import com.fbl.app.user.client.domain.User;
 import com.fbl.common.annotations.interfaces.HasAccess;
 import com.fbl.common.annotations.interfaces.RestApiController;
+import com.fbl.common.enums.AttendanceStatus;
 import com.fbl.common.enums.WebRole;
 import com.fbl.common.page.Page;
 
@@ -113,7 +114,8 @@ public class AttendanceController {
     /**
      * Update an attendance record
      * 
-     * @param record The attendance record to update
+     * @param id     The attendance record id
+     * @param status The status to update with
      * @return The record that was updated
      */
     @Operation(summary = "Update a new Attendance Record", description = "Given an Attendance Record, it will update that attendance record.")
@@ -121,6 +123,19 @@ public class AttendanceController {
     @HasAccess(WebRole.JUNIOR_CHURCH_SUPERVISOR)
     public AttendanceRecord updateAttendanceRecord(@PathVariable int id, @RequestBody @Valid AttendanceRecord record) {
         return manageAttendanceService.updateAttendanceRecord(id, record);
+    }
+
+    /**
+     * Update an attendance record status
+     * 
+     * @param record The attendance record to update
+     * @return The record that was updated
+     */
+    @Operation(summary = "Update a the status of an attendance record", description = "Given an Attendance Record id and status, it will update the status of that record.")
+    @PutMapping("/{id}/status/{status}")
+    @HasAccess(WebRole.JUNIOR_CHURCH_SUPERVISOR)
+    public AttendanceRecord updateAttendanceRecordStatus(@PathVariable int id, @PathVariable AttendanceStatus status) {
+        return manageAttendanceService.updateAttendanceRecordStatus(id, status);
     }
 
     /**

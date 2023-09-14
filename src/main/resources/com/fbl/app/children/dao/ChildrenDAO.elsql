@@ -32,7 +32,7 @@
   @PAGING(:rowOffset, :pageSize)
     SELECT @INCLUDE(childrenFields) 
     @INCLUDE(getChildrenBase)
-    ORDER BY u.last_name ASC
+    ORDER BY u.last_name ASC, u.first_name ASC
 
 @NAME(getChildrenPageTotalCount)
   SELECT COUNT(*)

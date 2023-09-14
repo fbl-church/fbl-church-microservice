@@ -21,6 +21,7 @@ import com.fbl.app.attendance.client.domain.ChildAttendance;
 import com.fbl.app.attendance.client.domain.request.AttendanceRecordGetRequest;
 import com.fbl.app.attendance.client.domain.request.ChildAttendanceGetRequest;
 import com.fbl.app.user.client.domain.User;
+import com.fbl.common.enums.AttendanceStatus;
 import com.fbl.common.page.Page;
 import com.fbl.sql.abstracts.BaseDao;
 import com.fbl.sql.builder.SqlParamBuilder;
@@ -102,7 +103,19 @@ public class AttendanceDAO extends BaseDao {
         MapSqlParameterSource params = SqlParamBuilder.with().withParam(NAME, record.getName())
                 .withParam(ACTIVE_DATE, record.getActiveDate()).withParam(ID, recordId).build();
 
-        post("updateAttendanceRecord", params);
+        update("updateAttendanceRecord", params);
+    }
+
+    /**
+     * Update an attendance record
+     * 
+     * @param id     The attendance record id
+     * @param status The status to update with
+     * @return The record that was updated
+     */
+    public void updateAttendanceRecordStatus(int id, AttendanceStatus status) {
+        MapSqlParameterSource params = SqlParamBuilder.with().withParam(STATUS, status).withParam(ID, id).build();
+        update("updateAttendanceRecordStatus", params);
     }
 
     /**

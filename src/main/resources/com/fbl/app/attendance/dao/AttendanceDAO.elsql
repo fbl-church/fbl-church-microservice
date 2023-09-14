@@ -114,6 +114,11 @@
     active_date = IFNULL(:active_date, active_date)
   WHERE id = :id
 
+@NAME(updateAttendanceRecordStatus)
+  UPDATE attendance_records 
+  SET status = IFNULL(:status, status)
+  WHERE id = :id
+
 @NAME(deleteAttendanceRecordWorkers)
   DELETE FROM attendance_record_workers WHERE attendance_record_id = :attendance_record_id
 

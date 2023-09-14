@@ -18,6 +18,8 @@ import com.fbl.app.attendance.dao.AttendanceDAO;
 import com.fbl.app.user.client.UserClient;
 import com.fbl.app.user.client.domain.User;
 import com.fbl.app.user.client.domain.request.UserGetRequest;
+import com.fbl.common.enums.AttendanceStatus;
+import com.fbl.exception.types.BaseException;
 
 /**
  * Manage Attendance Service class that handles all service calls to the dao
@@ -62,6 +64,22 @@ public class ManageAttendanceService {
         dao.updateAttendanceRecord(recordId, record);
         assignWorkersToAttendanceRecord(recordId, record.getWorkers());
         return attendanceService.getAttendanceRecordById(recordId);
+    }
+
+    /**
+     * Update an attendance record
+     * 
+     * @param id     The attendance record id
+     * @param status The status to update with
+     * @return The record that was updated
+     */
+    public AttendanceRecord updateAttendanceRecordStatus(int id, AttendanceStatus status) {
+        AttendanceRecord currentRecord = attendanceService.getAttendanceRecordById(id);
+        if (AttendanceStatus.CLOSED.equals(currentRecord.getStatus())) {
+            throw new BaseException("Cannot update status of record that is already closed.");
+        }
+        dao.updateAttendanceRecordStatus(id, status);
+        return attendanceService.getAttendanceRecordById(id);
     }
 
     /**
