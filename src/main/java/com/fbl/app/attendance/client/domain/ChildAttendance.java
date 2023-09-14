@@ -35,14 +35,8 @@ public class ChildAttendance {
     @Schema(description = "The childs unique identifier")
     private String cuid;
 
-    @Schema(description = "If the child was present for the attendance")
-    private boolean present;
-
     @Schema(description = "The attendance record id")
     private int attendanceRecordId;
-
-    @Schema(description = "The attendance notes")
-    private String notes;
 
     @Schema(description = "The user that last updated the childs check in")
     private int updatedUserId;

@@ -23,6 +23,7 @@ import com.fbl.app.attendance.client.domain.request.ChildAttendanceGetRequest;
 import com.fbl.app.attendance.openapi.TagAttendance;
 import com.fbl.app.attendance.service.AttendanceService;
 import com.fbl.app.attendance.service.ManageAttendanceService;
+import com.fbl.app.children.client.domain.Child;
 import com.fbl.app.user.client.domain.User;
 import com.fbl.common.annotations.interfaces.HasAccess;
 import com.fbl.common.annotations.interfaces.RestApiController;
@@ -136,6 +137,20 @@ public class AttendanceController {
     @HasAccess(WebRole.JUNIOR_CHURCH_SUPERVISOR)
     public AttendanceRecord updateAttendanceRecordStatus(@PathVariable int id, @PathVariable AttendanceStatus status) {
         return manageAttendanceService.updateAttendanceRecordStatus(id, status);
+    }
+
+    /**
+     * Updates the children on an attendance record by id
+     * 
+     * @param id       The attendance record id
+     * @param children The list of children to be assigned
+     * @return The updated attendance record
+     */
+    @Operation(summary = "Update the children assigned to the attendance record.", description = "Given a Attendance Record id and a list of children, it will assign them to the record.")
+    @PutMapping("/{id}/children")
+    @HasAccess(WebRole.JUNIOR_CHURCH_WORKER)
+    public AttendanceRecord assignChildrenToAttendanceRecord(@PathVariable int id, @RequestBody List<Child> children) {
+        return manageAttendanceService.assignChildrenToAttendanceRecord(id, children);
     }
 
     /**

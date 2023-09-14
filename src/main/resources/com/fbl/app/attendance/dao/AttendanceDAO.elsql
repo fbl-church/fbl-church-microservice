@@ -26,8 +26,6 @@
   u.last_name,
   c.cuid,
   ca.attendance_record_id,
-  ca.present,
-  ca.notes,
   ca.updated_user_id,
   ca.check_in_date
 
@@ -37,8 +35,6 @@
       u.first_name IN (:first_name)
     @AND(:last_name)
       u.last_name IN (:last_name)
-    @AND(:present)
-      ca.present = (:present)
     @AND(:search = true)
       @INCLUDE(search)
 
@@ -107,6 +103,9 @@
 @NAME(assignWorkerToAttendanceRecord)
   INSERT INTO attendance_record_workers (attendance_record_id, user_id) VALUES (:attendance_record_id, :user_id)
 
+@NAME(assignChildToAttendanceRecord)
+  INSERT INTO children_attendance (attendance_record_id, child_id, updated_user_id) VALUES (:attendance_record_id, :child_id, :updated_user_id)
+
 @NAME(updateAttendanceRecord)
   UPDATE attendance_records 
   SET
@@ -121,6 +120,9 @@
 
 @NAME(deleteAttendanceRecordWorkers)
   DELETE FROM attendance_record_workers WHERE attendance_record_id = :attendance_record_id
+
+@NAME(deleteAttendanceRecordChildren)
+  DELETE FROM children_attendance WHERE attendance_record_id = :attendance_record_id
 
 @NAME(deleteAttendanceRecordById)
   DELETE FROM attendance_records WHERE id = :id

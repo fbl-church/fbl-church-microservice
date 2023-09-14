@@ -74,7 +74,7 @@ public class AttendanceDAO extends BaseDao {
      */
     public Page<ChildAttendance> getAttendanceRecordChildrenById(int id, ChildAttendanceGetRequest request) {
         MapSqlParameterSource params = SqlParamBuilder.with(request).useAllParams()
-                .withParam(ATTENDANCE_RECORD_ID, id).withParam(PRESENT, request.getPresent()).build();
+                .withParam(ATTENDANCE_RECORD_ID, id).build();
         return getPage("getAttendanceRecordChildrenPage", params, CHILD_ATTENDANCE_MAPPER);
     }
 
@@ -128,7 +128,29 @@ public class AttendanceDAO extends BaseDao {
         MapSqlParameterSource params = SqlParamBuilder.with().withParam(ATTENDANCE_RECORD_ID, recordId)
                 .withParam(USER_ID, workerId).build();
 
-        post("assignWorkerToAttendanceRecord", params);
+        update("assignWorkerToAttendanceRecord", params);
+    }
+
+    /**
+     * Assigns the given child id to the attendance record
+     * 
+     * @param recordId The attendance record id
+     * @param childId  The child id to assign to it
+     */
+    public void assignChildToAttendanceRecord(int recordId, int childId, int updatedUserId) {
+        MapSqlParameterSource params = SqlParamBuilder.with().withParam(ATTENDANCE_RECORD_ID, recordId)
+                .withParam(CHILD_ID, childId).withParam(UPDATE_USER_ID, updatedUserId).build();
+
+        update("assignChildToAttendanceRecord", params);
+    }
+
+    /**
+     * Delete all children from attendance record
+     * 
+     * @param recordId The attendance record id
+     */
+    public void deleteAttendanceRecordChildren(int recordId) {
+        delete("deleteAttendanceRecordChildren", parameterSource(ATTENDANCE_RECORD_ID, recordId));
     }
 
     /**

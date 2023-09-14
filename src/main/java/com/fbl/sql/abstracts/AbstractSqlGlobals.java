@@ -36,12 +36,10 @@ public abstract class AbstractSqlGlobals {
     protected static final String NAME = "name";
     protected static final String NOT_WEB_ROLE = "not_web_role";
     protected static final String NOT_CHURCH_GROUP = "not_church_group";
-    protected static final String NOTES = "notes";
     protected static final String OWNER_USER_ID = "owner_user_id";
     protected static final String PASSWORD = "password";
     protected static final String PHONE = "phone";
     protected static final String READ = "read";
-    protected static final String PRESENT = "present";
     protected static final String RELATIONSHIP = "relationship";
     protected static final String REQUEST_ID = "request_id";
     protected static final String STATE = "state";

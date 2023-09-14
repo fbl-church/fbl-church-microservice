@@ -29,9 +29,6 @@ import lombok.Setter;
 public class ChildAttendanceGetRequest
         implements SearchParam, PageParam, SearchFieldParams<ChildAttendanceSearchFields> {
 
-    @Schema(description = "Filter for only showing present students")
-    private Boolean present;
-
     @Schema(description = "Search Param on search param fields.")
     private String search;
 

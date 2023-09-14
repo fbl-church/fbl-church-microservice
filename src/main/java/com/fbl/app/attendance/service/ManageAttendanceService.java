@@ -15,11 +15,13 @@ import org.springframework.util.CollectionUtils;
 
 import com.fbl.app.attendance.client.domain.AttendanceRecord;
 import com.fbl.app.attendance.dao.AttendanceDAO;
+import com.fbl.app.children.client.domain.Child;
 import com.fbl.app.user.client.UserClient;
 import com.fbl.app.user.client.domain.User;
 import com.fbl.app.user.client.domain.request.UserGetRequest;
 import com.fbl.common.enums.AttendanceStatus;
 import com.fbl.exception.types.BaseException;
+import com.fbl.jwt.utility.JwtHolder;
 
 /**
  * Manage Attendance Service class that handles all service calls to the dao
@@ -40,6 +42,9 @@ public class ManageAttendanceService {
 
     @Autowired
     private UserClient userClient;
+
+    @Autowired
+    private JwtHolder jwtHolder;
 
     /**
      * Create a new attendance record
@@ -79,6 +84,39 @@ public class ManageAttendanceService {
             throw new BaseException("Cannot update status of record that is already closed.");
         }
         dao.updateAttendanceRecordStatus(id, status);
+        return attendanceService.getAttendanceRecordById(id);
+    }
+
+    /**
+     * Updates the children on an attendance record by id
+     * 
+     * @param id       The attendance record id
+     * @param children The list of children to be assigned
+     * @return The updated attendance record
+     */
+    public AttendanceRecord assignChildrenToAttendanceRecord(int id, List<Child> children) {
+        UserGetRequest request = new UserGetRequest();
+
+        List<User> filteredChildren = Collections.emptyList();
+        if (!CollectionUtils.isEmpty(children)) {
+            request.setId(children.stream().map(Child::getId).collect(Collectors.toSet()));
+            filteredChildren = userClient.getUsers(request);
+        }
+
+        if (children != null && filteredChildren.size() == children.size()) {
+            dao.deleteAttendanceRecordChildren(id);
+        } else {
+            throw new BaseException("Children list is either null or an invalid child id was passed in.");
+        }
+
+        for (User u : filteredChildren) {
+            try {
+                dao.assignChildToAttendanceRecord(id, u.getId(), jwtHolder.getUserId());
+            } catch (Exception e) {
+                LOGGER.error("Unable to assign child id '{}' to attendance record.", u.getId(), e);
+            }
+        }
+
         return attendanceService.getAttendanceRecordById(id);
     }
 
