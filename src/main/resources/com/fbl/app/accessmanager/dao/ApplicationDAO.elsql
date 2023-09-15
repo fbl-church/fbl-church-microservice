@@ -33,3 +33,15 @@
   UPDATE application 
   SET enabled = :enabled
   WHERE id = :app_id
+
+@NAME(createNewApplication)
+  INSERT INTO application (name, enabled) VALUES (:name, :enabled)
+
+@NAME(assignWebRoleToApplication)
+  INSERT INTO web_role_app_access (web_role, app_id, access) VALUES (:web_role, :app_id, :access)
+
+@NAME(deleteRolesFromApplication)
+  DELETE FROM web_role_app_access WHERE app_id = :app_id
+
+@NAME(deleteApplicationById)
+  DELETE FROM application WHERE id = :app_id

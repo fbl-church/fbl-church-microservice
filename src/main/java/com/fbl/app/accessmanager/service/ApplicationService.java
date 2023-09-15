@@ -12,7 +12,9 @@ import org.springframework.stereotype.Service;
 import com.fbl.app.accessmanager.client.domain.Application;
 import com.fbl.app.accessmanager.client.domain.request.ApplicationGetRequest;
 import com.fbl.app.accessmanager.dao.ApplicationDAO;
+import com.fbl.common.enums.WebRole;
 import com.fbl.common.page.Page;
+import com.fbl.exception.types.BaseException;
 import com.fbl.exception.types.NotFoundException;
 import com.google.common.collect.Sets;
 
@@ -67,5 +69,46 @@ public class ApplicationService {
         Application app = getApplicationById(appId);
         dao.updateApplicationEnabledFlag(app.getId(), enabled);
         return getApplicationById(app.getId());
+    }
+
+    /**
+     * Create a new application
+     * 
+     * @param application The application to be created
+     * @return The created application
+     */
+    @CacheEvict(cacheNames = "user.apps", allEntries = true)
+    public Application createNewApplication(Application app) {
+        int createdId = dao.createNewApplication(app);
+        resetApplicationRoles(createdId);
+        return getApplicationById(createdId);
+    }
+
+    /**
+     * Delete an application
+     * 
+     * @param id The id of the application to delete
+     */
+    public void deleteApplicationById(int id) {
+        dao.deleteApplicationById(id);
+    }
+
+    /**
+     * Assign roles to the application id. This will remove all existing roles on
+     * the application and insert the roles again with default access of false.
+     * 
+     * @param appId The app to assign the roles too.
+     */
+    private void resetApplicationRoles(int appId) {
+        dao.deleteRolesFromApplication(appId);
+
+        for (WebRole r : WebRole.values()) {
+            try {
+                dao.assignWebRoleToApplication(appId, r, false);
+            } catch (Exception e) {
+                throw new BaseException(
+                        String.format("Unable to assign role %s to application id '%i'", r.toString(), appId));
+            }
+        }
     }
 }

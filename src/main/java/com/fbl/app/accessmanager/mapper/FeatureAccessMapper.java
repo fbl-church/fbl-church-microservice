@@ -20,8 +20,8 @@ public class FeatureAccessMapper extends AbstractMapper<Feature> {
 
 	public Feature mapRow(ResultSet rs, int rowNum) throws SQLException {
 		Feature feature = new Feature();
-		feature.setApp(rs.getString(FEATURE_APPLICATION_TEXT));
-		feature.setFeature(rs.getString(FEATURE_NAME_TEXT));
+		feature.setApp(rs.getString(APPLICATION_TEXT));
+		feature.setFeature(rs.getString(NAME));
 		feature.setAccess(rs.getString(ACCESS));
 		return feature;
 	}

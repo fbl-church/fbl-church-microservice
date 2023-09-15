@@ -4,9 +4,12 @@
 package com.fbl.app.accessmanager.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.fbl.app.accessmanager.client.domain.Application;
@@ -65,5 +68,28 @@ public class ApplicationController {
     @HasAccess(WebRole.ADMINISTRATOR)
     public Application updateApplicationEnabledFlag(@PathVariable int appId, @PathVariable boolean enabled) {
         return applicationService.updateApplicationEnabledFlag(appId, enabled);
+    }
+
+    /**
+     * Create a new application
+     * 
+     * @param application The application to be created
+     * @return The created application
+     */
+    @PostMapping
+    @HasAccess(WebRole.ADMINISTRATOR)
+    public Application createNewApplication(@RequestBody Application app) {
+        return applicationService.createNewApplication(app);
+    }
+
+    /**
+     * Delete an application
+     * 
+     * @param id The id of the application to delete
+     */
+    @DeleteMapping("/{id}")
+    @HasAccess(WebRole.ADMINISTRATOR)
+    public void deleteApplicationById(@PathVariable int id) {
+        applicationService.deleteApplicationById(id);
     }
 }

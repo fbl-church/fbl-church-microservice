@@ -1,5 +1,5 @@
 @NAME(getFeatureAccess)
-  SELECT fa.id, fa.feature_application_text, fa.feature_name_text, GROUP_CONCAT(
+  SELECT fa.id, fa.application_text, fa.name, GROUP_CONCAT(
     CONCAT('', 
       CASE WHEN wrfa.create  THEN 'c' ELSE '' END,
       CASE WHEN wrfa.read    THEN 'r' ELSE '' END,

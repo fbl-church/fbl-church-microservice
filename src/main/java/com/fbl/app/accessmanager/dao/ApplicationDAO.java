@@ -8,10 +8,13 @@ import static com.fbl.app.accessmanager.mapper.ApplicationMapper.*;
 import javax.sql.DataSource;
 
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import com.fbl.app.accessmanager.client.domain.Application;
 import com.fbl.app.accessmanager.client.domain.request.ApplicationGetRequest;
+import com.fbl.common.enums.WebRole;
 import com.fbl.common.page.Page;
 import com.fbl.sql.abstracts.BaseDao;
 import com.fbl.sql.builder.SqlParamBuilder;
@@ -50,5 +53,50 @@ public class ApplicationDAO extends BaseDao {
      */
     public void updateApplicationEnabledFlag(int appId, boolean enabled) {
         update("updateApplicationEnabledFlag", parameterSource(ENABLED, enabled).addValue(APP_ID, appId));
+    }
+
+    /**
+     * Create a new application
+     * 
+     * @param application The application to be created
+     * @return The created application
+     */
+    public int createNewApplication(Application app) {
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        MapSqlParameterSource params = SqlParamBuilder.with().withParam(NAME, app.getName())
+                .withParam(ENABLED, app.isEnabled()).build();
+
+        post("createNewApplication", params, keyHolder);
+        return keyHolder.getKey().intValue();
+    }
+
+    /**
+     * Will assign a web role to an application.
+     * 
+     * @param appId The app id to assign the role too
+     * @param role  The role to be assigned
+     */
+    public void assignWebRoleToApplication(int appId, WebRole role, boolean enabled) {
+        MapSqlParameterSource params = SqlParamBuilder.with().withParam(WEB_ROLE, role)
+                .withParam(ACCESS, enabled).withParam(APP_ID, appId).build();
+        post("assignWebRoleToApplication", params);
+    }
+
+    /**
+     * Delete the roles from the application access
+     * 
+     * @param appId The app id to remove role access from
+     */
+    public void deleteRolesFromApplication(int appId) {
+        delete("deleteRolesFromApplication", parameterSource(APP_ID, appId));
+    }
+
+    /**
+     * Delete an application
+     * 
+     * @param id The id of the application to delete
+     */
+    public void deleteApplicationById(int appId) {
+        delete("deleteApplicationById", parameterSource(APP_ID, appId));
     }
 }

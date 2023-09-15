@@ -24,8 +24,7 @@ public abstract class AbstractSqlGlobals {
     protected static final String DELETE = "delete";
     protected static final String EMAIL = "email";
     protected static final String ENABLED = "enabled";
-    protected static final String FEATURE_APPLICATION_TEXT = "feature_application_text";
-    protected static final String FEATURE_NAME_TEXT = "feature_name_text";
+    protected static final String APPLICATION_TEXT = "application_text";
     protected static final String FIRST_NAME = "first_name";
     protected static final String GURDIAN_ID = "gurdian_id";
     protected static final String ID = "id";
