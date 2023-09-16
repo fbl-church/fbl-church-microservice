@@ -15,7 +15,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-@Schema(description = "Feature access object for a user.")
+@Schema(description = "Feature access object.")
 public class Feature {
 
     @Schema(description = "The application name.")
@@ -24,6 +24,6 @@ public class Feature {
     @Schema(description = "The feature name of the application.")
     private String feature;
 
-    @Schema(description = "Access the user has to the feature.")
+    @Schema(description = "Access the role has to the feature.")
     private String access;
 }

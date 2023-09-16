@@ -11,10 +11,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.fbl.app.accessmanager.client.domain.WebRoleFeature;
+import com.fbl.app.accessmanager.client.domain.request.WebRoleFeatureGetRequest;
 import com.fbl.app.accessmanager.service.FeatureAccessService;
 import com.fbl.common.annotations.interfaces.HasAccess;
 import com.fbl.common.annotations.interfaces.RestApiController;
 import com.fbl.common.enums.WebRole;
+import com.fbl.common.page.Page;
 
 /**
  * Gets feature access for a user
@@ -30,6 +33,18 @@ public class FeatureAccessController {
     private FeatureAccessService service;
 
     /**
+     * Get a page of web role feature access
+     * 
+     * @param request The request to filter on.
+     * @return {@link Page} of the feature access
+     */
+    @GetMapping
+    @HasAccess(WebRole.ADMINISTRATOR)
+    public Page<WebRoleFeature> getPageOfWebRoleFeatures(WebRoleFeatureGetRequest request) {
+        return service.getPageOfWebRoleFeatures(request);
+    }
+
+    /**
      * Client method to get a map of feature access for the provided user id.
      * 
      * @param userId The user id of the user.
@@ -40,4 +55,5 @@ public class FeatureAccessController {
     public Map<String, List<Map<String, String>>> getWebRoleFeatureAccess(@PathVariable int id) {
         return service.getWebRoleFeatureAccess(id);
     }
+
 }

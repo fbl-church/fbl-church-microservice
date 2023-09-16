@@ -9,9 +9,12 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fbl.app.accessmanager.client.domain.WebRoleFeature;
+import com.fbl.app.accessmanager.client.domain.request.WebRoleFeatureGetRequest;
 import com.fbl.app.accessmanager.dao.FeatureAccessDAO;
 import com.fbl.app.user.client.UserClient;
 import com.fbl.common.enums.WebRole;
+import com.fbl.common.page.Page;
 
 /**
  * Feature Access Service
@@ -27,6 +30,16 @@ public class FeatureAccessService {
 
     @Autowired
     private UserClient userClient;
+
+    /**
+     * Get a page of web role feature access
+     * 
+     * @param request The request to filter on.
+     * @return {@link Page} of the feature access
+     */
+    public Page<WebRoleFeature> getPageOfWebRoleFeatures(WebRoleFeatureGetRequest request) {
+        return dao.getPageOfWebRoleFeatures(request);
+    }
 
     /**
      * Client method to get a map of feature access for the provided user id.

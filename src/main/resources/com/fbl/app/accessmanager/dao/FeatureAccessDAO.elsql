@@ -1,3 +1,33 @@
+@NAME(webRoleFeatureFields)
+  fa.id,
+  fa.application_text,
+  fa.name,
+  wrfa.web_role,
+  wrfa.create,
+  wrfa.read,
+  wrfa.update,
+  wrfa.delete
+
+@NAME(webRoleFeatureFilters)
+  @WHERE
+    @AND(:web_role)
+      wrfa.web_role IN (:web_role)
+
+@NAME(getWebRoleFeatureBase)
+  FROM web_role_feature_access wrfa
+  INNER JOIN feature_access fa ON wrfa.feature_id = fa.id
+  @INCLUDE(webRoleFeatureFilters)
+
+@NAME(getWebRoleFeaturesPage)
+  @PAGING(:rowOffset, :pageSize)
+    SELECT @INCLUDE(webRoleFeatureFields)
+    @INCLUDE(getWebRoleFeatureBase)
+    ORDER BY wrfa.web_role ASC
+
+@NAME(getWebRoleFeaturesPageTotalCount)
+  SELECT COUNT(DISTINCT id)
+  @INCLUDE(getWebRoleFeatureBase)
+
 @NAME(getFeatureAccess)
   SELECT fa.id, fa.application_text, fa.name, GROUP_CONCAT(
     CONCAT('', 
@@ -12,3 +42,6 @@
     @AND(:web_role)
       wrfa.web_role IN (:web_role)
   GROUP BY id
+
+@NAME(search)
+  (@VALUE(:searchContent))
