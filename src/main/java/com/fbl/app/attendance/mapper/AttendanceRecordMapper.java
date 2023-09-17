@@ -27,7 +27,7 @@ public class AttendanceRecordMapper extends AbstractMapper<AttendanceRecord> {
         record.setStatus(AttendanceStatus.valueOf(rs.getString(STATUS)));
         record.setType(ChurchGroup.valueOf(rs.getString(TYPE)));
         record.setActiveDate(parseDate(rs.getString(ACTIVE_DATE)));
-        record.setClosedDate(parseDate(rs.getString(CLOSED_DATE)));
+        record.setClosedDate(parseDateTime(rs.getString(CLOSED_DATE)));
         record.setInsertDate(parseDateTime(rs.getString(INSERT_DATE)));
         return record;
     }

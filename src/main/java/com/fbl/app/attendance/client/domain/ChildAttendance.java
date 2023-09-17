@@ -35,11 +35,14 @@ public class ChildAttendance {
     @Schema(description = "The childs unique identifier")
     private String cuid;
 
+    @Schema(description = "Any notes for the child attendance.")
+    private String notes;
+
     @Schema(description = "The attendance record id")
-    private int attendanceRecordId;
+    private Integer attendanceRecordId;
 
     @Schema(description = "The user that last updated the childs check in")
-    private int updatedUserId;
+    private Integer updatedUserId;
 
     @Schema(description = "The date the child was checked in")
     private LocalDateTime checkInDate;

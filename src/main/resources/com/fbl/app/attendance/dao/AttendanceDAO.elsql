@@ -25,6 +25,7 @@
   u.first_name,
   u.last_name,
   c.cuid,
+  ca.notes,
   ca.attendance_record_id,
   ca.updated_user_id,
   ca.check_in_date
@@ -35,6 +36,12 @@
       u.first_name IN (:first_name)
     @AND(:last_name)
       u.last_name IN (:last_name)
+    @AND(:church_group)
+      u.id IN (SELECT cg.child_id FROM children_groups cg WHERE cg.church_group = :church_group GROUP BY cg.child_id)
+    @AND(:present = 1)
+      ca.attendance_record_id IS NOT NULL
+    @AND(:present = 0)
+      ca.attendance_record_id IS NULL
     @AND(:search = true)
       @INCLUDE(search)
 
@@ -73,7 +80,8 @@
 @NAME(getAttendanceRecordChildrenBase)
   FROM users u
   INNER JOIN children c ON u.id = c.user_id
-  INNER JOIN children_attendance ca ON c.user_id = ca.child_id AND ca.attendance_record_id = :attendance_record_id
+  LEFT JOIN children_attendance ca ON c.user_id = ca.child_id
+  LEFT JOIN attendance_records ar ON ca.attendance_record_id = ar.id AND ar.id = :attendance_record_id
   @INCLUDE(childrenAttendanceFilters)
 
 @NAME(getAttendanceRecordChildrenPage)
@@ -116,6 +124,13 @@
 @NAME(updateAttendanceRecordStatus)
   UPDATE attendance_records 
   SET status = IFNULL(:status, status)
+  WHERE id = :id
+
+@NAME(updateAttendanceRecordClosedTime)
+  UPDATE attendance_records 
+  SET
+    status      = IFNULL(:status, status),
+    closed_date = IFNULL(:closed_date, closed_date)
   WHERE id = :id
 
 @NAME(deleteAttendanceRecordWorkers)

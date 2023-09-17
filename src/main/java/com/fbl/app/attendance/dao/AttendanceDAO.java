@@ -7,6 +7,7 @@ import static com.fbl.app.attendance.mapper.AttendanceRecordMapper.*;
 import static com.fbl.app.attendance.mapper.ChildAttendanceMapper.*;
 import static com.fbl.app.user.mapper.UserMapper.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -22,6 +23,7 @@ import com.fbl.app.attendance.client.domain.request.AttendanceRecordGetRequest;
 import com.fbl.app.attendance.client.domain.request.ChildAttendanceGetRequest;
 import com.fbl.app.user.client.domain.User;
 import com.fbl.common.enums.AttendanceStatus;
+import com.fbl.common.enums.ChurchGroup;
 import com.fbl.common.page.Page;
 import com.fbl.sql.abstracts.BaseDao;
 import com.fbl.sql.builder.SqlParamBuilder;
@@ -72,9 +74,11 @@ public class AttendanceDAO extends BaseDao {
      * @param id The attendance record id
      * @return Page of workers
      */
-    public Page<ChildAttendance> getAttendanceRecordChildrenById(int id, ChildAttendanceGetRequest request) {
+    public Page<ChildAttendance> getAttendanceRecordChildrenById(int id, ChildAttendanceGetRequest request,
+            ChurchGroup group) {
         MapSqlParameterSource params = SqlParamBuilder.with(request).useAllParams()
-                .withParam(ATTENDANCE_RECORD_ID, id).build();
+                .withParam(ATTENDANCE_RECORD_ID, id).withParam(PRESENT, request.getPresent())
+                .withParam(CHURCH_GROUP, group).build();
         return getPage("getAttendanceRecordChildrenPage", params, CHILD_ATTENDANCE_MAPPER);
     }
 
@@ -111,11 +115,22 @@ public class AttendanceDAO extends BaseDao {
      * 
      * @param id     The attendance record id
      * @param status The status to update with
-     * @return The record that was updated
      */
     public void updateAttendanceRecordStatus(int id, AttendanceStatus status) {
         MapSqlParameterSource params = SqlParamBuilder.with().withParam(STATUS, status).withParam(ID, id).build();
         update("updateAttendanceRecordStatus", params);
+    }
+
+    /**
+     * Closes the attendance record and sets the closed date time.
+     * 
+     * @param id The attendance record id
+     */
+    public void closeAttendanceRecord(int id) {
+        MapSqlParameterSource params = SqlParamBuilder.with().withParam(STATUS, AttendanceStatus.CLOSED)
+                .withParam(CLOSED_DATE, LocalDateTime.now())
+                .withParam(ID, id).build();
+        update("updateAttendanceRecordClosedTime", params);
     }
 
     /**

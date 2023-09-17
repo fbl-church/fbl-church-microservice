@@ -11,7 +11,8 @@
 
 CREATE TABLE children_attendance (
   attendance_record_id  INT          UNSIGNED NOT NULL,
-  child_id               INT          UNSIGNED NOT NULL,
+  child_id              INT          UNSIGNED NOT NULL,
+  notes                 LONGTEXT                       DEFAULT NULL,
   updated_user_id       INT          UNSIGNED NOT NULL DEFAULT 0,
   check_in_date         DATETIME              NOT NULL DEFAULT CURRENT_TIMESTAMP(),
   PRIMARY KEY (attendance_record_id, child_id)

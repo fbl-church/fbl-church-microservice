@@ -72,6 +72,7 @@ public class AttendanceService {
      * @return Page of workers
      */
     public Page<ChildAttendance> getAttendanceRecordChildrenById(int id, ChildAttendanceGetRequest request) {
-        return attendanceDAO.getAttendanceRecordChildrenById(id, request);
+        AttendanceRecord record = getAttendanceRecordById(id);
+        return attendanceDAO.getAttendanceRecordChildrenById(id, request, record.getType());
     }
 }

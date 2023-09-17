@@ -83,7 +83,13 @@ public class ManageAttendanceService {
         if (AttendanceStatus.CLOSED.equals(currentRecord.getStatus())) {
             throw new BaseException("Cannot update status of record that is already closed.");
         }
-        dao.updateAttendanceRecordStatus(id, status);
+
+        if (AttendanceStatus.CLOSED.equals(status)) {
+            dao.closeAttendanceRecord(id);
+        } else {
+            dao.updateAttendanceRecordStatus(id, status);
+        }
+
         return attendanceService.getAttendanceRecordById(id);
     }
 
