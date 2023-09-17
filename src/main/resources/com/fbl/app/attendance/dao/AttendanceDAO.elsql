@@ -80,8 +80,7 @@
 @NAME(getAttendanceRecordChildrenBase)
   FROM users u
   INNER JOIN children c ON u.id = c.user_id
-  LEFT JOIN children_attendance ca ON c.user_id = ca.child_id
-  LEFT JOIN attendance_records ar ON ca.attendance_record_id = ar.id AND ar.id = :attendance_record_id
+  LEFT JOIN children_attendance ca ON c.user_id = ca.child_id AND ca.attendance_record_id = :attendance_record_id
   @INCLUDE(childrenAttendanceFilters)
 
 @NAME(getAttendanceRecordChildrenPage)
