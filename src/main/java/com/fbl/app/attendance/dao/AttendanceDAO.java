@@ -22,6 +22,7 @@ import com.fbl.app.attendance.client.domain.ChildAttendance;
 import com.fbl.app.attendance.client.domain.request.AttendanceRecordGetRequest;
 import com.fbl.app.attendance.client.domain.request.ChildAttendanceGetRequest;
 import com.fbl.app.user.client.domain.User;
+import com.fbl.common.date.TimeZoneUtil;
 import com.fbl.common.enums.AttendanceStatus;
 import com.fbl.common.enums.ChurchGroup;
 import com.fbl.common.page.Page;
@@ -128,7 +129,7 @@ public class AttendanceDAO extends BaseDao {
      */
     public void closeAttendanceRecord(int id) {
         MapSqlParameterSource params = SqlParamBuilder.with().withParam(STATUS, AttendanceStatus.CLOSED)
-                .withParam(CLOSED_DATE, LocalDateTime.now())
+                .withParam(CLOSED_DATE, LocalDateTime.now(TimeZoneUtil.SYSTEM_ZONE))
                 .withParam(ID, id).build();
         update("updateAttendanceRecordClosedTime", params);
     }
