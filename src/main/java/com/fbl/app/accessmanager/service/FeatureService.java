@@ -9,9 +9,11 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fbl.app.accessmanager.client.domain.Feature;
 import com.fbl.app.accessmanager.client.domain.WebRoleFeature;
+import com.fbl.app.accessmanager.client.domain.request.FeatureGetRequest;
 import com.fbl.app.accessmanager.client.domain.request.WebRoleFeatureGetRequest;
-import com.fbl.app.accessmanager.dao.FeatureAccessDAO;
+import com.fbl.app.accessmanager.dao.FeatureDAO;
 import com.fbl.app.user.client.UserClient;
 import com.fbl.common.enums.WebRole;
 import com.fbl.common.page.Page;
@@ -23,13 +25,23 @@ import com.fbl.common.page.Page;
  * @since 8/2/2020
  */
 @Service
-public class FeatureAccessService {
+public class FeatureService {
 
     @Autowired
-    private FeatureAccessDAO dao;
+    private FeatureDAO dao;
 
     @Autowired
     private UserClient userClient;
+
+    /**
+     * Get a page of features
+     * 
+     * @param request The request to filter on.
+     * @return {@link Page} of the features
+     */
+    public Page<Feature> getPageOfFeatures(FeatureGetRequest request) {
+        return dao.getPageOfFeatures(request);
+    }
 
     /**
      * Get a page of web role feature access

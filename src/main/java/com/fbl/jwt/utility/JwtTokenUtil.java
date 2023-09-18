@@ -14,7 +14,7 @@ import java.util.function.Function;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.fbl.app.accessmanager.client.FeatureAccessClient;
+import com.fbl.app.accessmanager.client.FeatureClient;
 import com.fbl.app.user.client.UserClient;
 import com.fbl.app.user.client.domain.User;
 import com.fbl.environment.EnvironmentService;
@@ -42,7 +42,7 @@ public class JwtTokenUtil implements Serializable {
     private UserClient userClient;
 
     @Autowired
-    private FeatureAccessClient featureAccessClient;
+    private FeatureClient featureAccessClient;
 
     /**
      * Pulls the expiration date from a given token
@@ -105,7 +105,7 @@ public class JwtTokenUtil implements Serializable {
         claims.put(JwtClaims.WEB_ROLE, user.getWebRole());
         claims.put(JwtClaims.ENVIRONMENT, environmentService.getEnvironment());
         claims.put(JwtClaims.APPS, userClient.getUserAppsById(user.getId()));
-        claims.put(JwtClaims.ACCESS, featureAccessClient.getWebRoleFeatureAccess(user.getId()));
+        claims.put(JwtClaims.ACCESS, featureAccessClient.getUserFeatureAccess(user.getId()));
         return buildTokenClaims(claims, JWT_TOKEN_USER_VALIDITY);
     }
 

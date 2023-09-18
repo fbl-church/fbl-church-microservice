@@ -1,7 +1,10 @@
-@NAME(webRoleFeatureFields)
+@NAME(featureFields)
   fa.id,
   fa.application_text,
   fa.name,
+  fa.insert_date
+
+@NAME(webRoleFeatureFields)
   wrfa.web_role,
   wrfa.create,
   wrfa.read,
@@ -12,6 +15,27 @@
   @WHERE
     @AND(:web_role)
       wrfa.web_role IN (:web_role)
+    @AND(:feature_id)
+      fa.id IN (:feature_id)
+
+@NAME(featureFilters)
+  @WHERE
+    @AND(:search = true)
+      @INCLUDE(search)
+
+@NAME(getFeatureBase)
+  FROM feature_access fa
+  @INCLUDE(featureFilters)
+
+@NAME(getFeaturesPage)
+  @PAGING(:rowOffset, :pageSize)
+    SELECT @INCLUDE(featureFields)
+    @INCLUDE(getFeatureBase)
+    ORDER BY fa.application_text ASC, fa.name ASC
+
+@NAME(getFeaturesPageTotalCount)
+  SELECT COUNT(DISTINCT id)
+  @INCLUDE(getFeatureBase)
 
 @NAME(getWebRoleFeatureBase)
   FROM web_role_feature_access wrfa
@@ -20,7 +44,7 @@
 
 @NAME(getWebRoleFeaturesPage)
   @PAGING(:rowOffset, :pageSize)
-    SELECT @INCLUDE(webRoleFeatureFields)
+    SELECT @INCLUDE(featureFields), @INCLUDE(webRoleFeatureFields)
     @INCLUDE(getWebRoleFeatureBase)
     ORDER BY wrfa.web_role ASC
 

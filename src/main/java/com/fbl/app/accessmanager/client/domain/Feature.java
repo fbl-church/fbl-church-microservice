@@ -3,6 +3,8 @@
  */
 package com.fbl.app.accessmanager.client.domain;
 
+import java.time.LocalDateTime;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,6 +20,9 @@ import lombok.Setter;
 @Schema(description = "Feature access object.")
 public class Feature {
 
+    @Schema(description = "The feature id.")
+    private int id;
+
     @Schema(description = "The application name.")
     private String app;
 
@@ -26,4 +31,7 @@ public class Feature {
 
     @Schema(description = "Access the role has to the feature.")
     private String access;
+
+    @Schema(description = "When the feature was created")
+    private LocalDateTime insertDate;
 }

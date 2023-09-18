@@ -5,10 +5,8 @@ package com.fbl.app.accessmanager.client.domain.request;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fbl.common.enums.WebRole;
 import com.fbl.common.page.domain.PageParam;
 import com.fbl.common.search.SearchField;
 import com.fbl.common.search.SearchFieldParams;
@@ -20,14 +18,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Schema(description = "Web Role Feature get request object for filtering features.")
-public class WebRoleFeatureGetRequest implements SearchParam, PageParam, SearchFieldParams<WebRoleFeatureSearchFields> {
-
-    @Schema(description = "Set of roles to filter on")
-    private Set<WebRole> webRole;
-
-    @Schema(description = "Set of feature ids to filter on")
-    private Set<Integer> featureId;
+@Schema(description = "Feature get request object for filtering features.")
+public class FeatureGetRequest implements SearchParam, PageParam, SearchFieldParams<FeatureSearchFields> {
 
     @Schema(description = "Search Param on search param fields.")
     private String search;
@@ -41,6 +33,6 @@ public class WebRoleFeatureGetRequest implements SearchParam, PageParam, SearchF
     @JsonIgnore
     @Override
     public List<SearchField> getSearchFields() {
-        return Arrays.asList(WebRoleFeatureSearchFields.values());
+        return Arrays.asList(FeatureSearchFields.values());
     }
 }

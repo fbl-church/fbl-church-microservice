@@ -8,7 +8,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.fbl.app.accessmanager.service.FeatureAccessService;
+import com.fbl.app.accessmanager.service.FeatureService;
 import com.fbl.common.annotations.interfaces.Client;
 
 /**
@@ -19,10 +19,10 @@ import com.fbl.common.annotations.interfaces.Client;
  * @since June 25, 2020
  */
 @Client
-public class FeatureAccessClient {
+public class FeatureClient {
 
 	@Autowired
-	private FeatureAccessService service;
+	private FeatureService service;
 
 	/**
 	 * Client method to get a map of feature access for the provided user id.
@@ -30,7 +30,7 @@ public class FeatureAccessClient {
 	 * @param userId The user id of the user.
 	 * @return {@link Map<String,String>} of the feature access
 	 */
-	public Map<String, List<Map<String, String>>> getWebRoleFeatureAccess(int userId) {
+	public Map<String, List<Map<String, String>>> getUserFeatureAccess(int userId) {
 		return service.getWebRoleFeatureAccess(userId);
 	}
 }

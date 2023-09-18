@@ -4,6 +4,7 @@
 package com.fbl.app.accessmanager.dao;
 
 import static com.fbl.app.accessmanager.mapper.FeatureAccessMapper.*;
+import static com.fbl.app.accessmanager.mapper.FeatureMapper.*;
 import static com.fbl.app.accessmanager.mapper.WebRoleFeatureMapper.*;
 
 import java.text.ParseException;
@@ -24,6 +25,7 @@ import org.springframework.stereotype.Repository;
 
 import com.fbl.app.accessmanager.client.domain.Feature;
 import com.fbl.app.accessmanager.client.domain.WebRoleFeature;
+import com.fbl.app.accessmanager.client.domain.request.FeatureGetRequest;
 import com.fbl.app.accessmanager.client.domain.request.WebRoleFeatureGetRequest;
 import com.fbl.common.enums.WebRole;
 import com.fbl.common.page.Page;
@@ -37,10 +39,21 @@ import com.fbl.sql.builder.SqlParamBuilder;
  * @since June 25, 2020
  */
 @Repository
-public class FeatureAccessDAO extends BaseDao {
+public class FeatureDAO extends BaseDao {
 
-    public FeatureAccessDAO(DataSource source) {
+    public FeatureDAO(DataSource source) {
         super(source);
+    }
+
+    /**
+     * Get a page of features
+     * 
+     * @param request The request to filter on.
+     * @return {@link Page} of the features
+     */
+    public Page<Feature> getPageOfFeatures(FeatureGetRequest request) {
+        MapSqlParameterSource params = SqlParamBuilder.with(request).useAllParams().build();
+        return getPage("getFeaturesPage", params, FEATURE_MAPPER);
     }
 
     /**
@@ -51,7 +64,8 @@ public class FeatureAccessDAO extends BaseDao {
      */
     public Page<WebRoleFeature> getPageOfWebRoleFeatures(WebRoleFeatureGetRequest request) {
         MapSqlParameterSource params = SqlParamBuilder.with(request).useAllParams()
-                .withParamTextEnumCollection(WEB_ROLE, request.getWebRole()).build();
+                .withParamTextEnumCollection(WEB_ROLE, request.getWebRole())
+                .withParam(FEATURE_ID, request.getFeatureId()).build();
 
         return getPage("getWebRoleFeaturesPage", params, WEB_ROLE_FEATURE_MAPPER);
 
