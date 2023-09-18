@@ -17,13 +17,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.fbl.app.attendance.client.domain.AttendanceRecord;
-import com.fbl.app.attendance.client.domain.ChildAttendance;
 import com.fbl.app.attendance.client.domain.request.AttendanceRecordGetRequest;
-import com.fbl.app.attendance.client.domain.request.ChildAttendanceGetRequest;
 import com.fbl.app.attendance.openapi.TagAttendance;
 import com.fbl.app.attendance.service.AttendanceService;
 import com.fbl.app.attendance.service.ManageAttendanceService;
-import com.fbl.app.children.client.domain.Child;
 import com.fbl.app.user.client.domain.User;
 import com.fbl.common.annotations.interfaces.HasAccess;
 import com.fbl.common.annotations.interfaces.RestApiController;
@@ -87,19 +84,6 @@ public class AttendanceController {
     }
 
     /**
-     * Gets a Page of children that are the on the attendance record by id
-     * 
-     * @param id The attendance record id
-     * @return List of workers
-     */
-    @Operation(summary = "Get a Page of attendance Record children by Attendance Id", description = "Given a Attendance Record Id, it will return a Page of attendance record children that match the id.")
-    @GetMapping("/{id}/children")
-    public Page<ChildAttendance> getAttendanceRecordChildrenById(ChildAttendanceGetRequest request,
-            @PathVariable int id) {
-        return attendanceService.getAttendanceRecordChildrenById(id, request);
-    }
-
-    /**
      * Create a new attendance record
      * 
      * @param record The attendance record to create
@@ -137,20 +121,6 @@ public class AttendanceController {
     @HasAccess(WebRole.JUNIOR_CHURCH_SUPERVISOR)
     public AttendanceRecord updateAttendanceRecordStatus(@PathVariable int id, @PathVariable AttendanceStatus status) {
         return manageAttendanceService.updateAttendanceRecordStatus(id, status);
-    }
-
-    /**
-     * Updates the children on an attendance record by id
-     * 
-     * @param id       The attendance record id
-     * @param children The list of children to be assigned
-     * @return The updated attendance record
-     */
-    @Operation(summary = "Update the children assigned to the attendance record.", description = "Given a Attendance Record id and a list of children, it will assign them to the record.")
-    @PutMapping("/{id}/children")
-    @HasAccess(WebRole.JUNIOR_CHURCH_WORKER)
-    public AttendanceRecord assignChildrenToAttendanceRecord(@PathVariable int id, @RequestBody List<Child> children) {
-        return manageAttendanceService.assignChildrenToAttendanceRecord(id, children);
     }
 
     /**

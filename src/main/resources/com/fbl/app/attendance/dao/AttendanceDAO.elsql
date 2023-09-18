@@ -20,31 +20,6 @@
   us.account_status, 
   us.updated_user_id
 
-@NAME(childrenAttendanceFields)
-  u.id,
-  u.first_name,
-  u.last_name,
-  c.cuid,
-  ca.notes,
-  ca.attendance_record_id,
-  ca.updated_user_id,
-  ca.check_in_date
-
-@NAME(childrenAttendanceFilters)
-  @WHERE
-    @AND(:first_name)
-      u.first_name IN (:first_name)
-    @AND(:last_name)
-      u.last_name IN (:last_name)
-    @AND(:church_group)
-      u.id IN (SELECT cg.child_id FROM children_groups cg WHERE cg.church_group = :church_group GROUP BY cg.child_id)
-    @AND(:present = 1)
-      ca.attendance_record_id IS NOT NULL
-    @AND(:present = 0)
-      ca.attendance_record_id IS NULL
-    @AND(:search = true)
-      @INCLUDE(search)
-
 @NAME(attendanceRecordFilters)
   @WHERE
     @AND(:id)
@@ -77,22 +52,6 @@
   SELECT COUNT(DISTINCT ar.id)
   @INCLUDE(getAttendanceRecordsBase)
 
-@NAME(getAttendanceRecordChildrenBase)
-  FROM users u
-  INNER JOIN children c ON u.id = c.user_id
-  LEFT JOIN children_attendance ca ON c.user_id = ca.child_id AND ca.attendance_record_id = :attendance_record_id
-  @INCLUDE(childrenAttendanceFilters)
-
-@NAME(getAttendanceRecordChildrenPage)
-  @PAGING(:rowOffset, :pageSize)
-    SELECT @INCLUDE(childrenAttendanceFields) 
-    @INCLUDE(getAttendanceRecordChildrenBase)
-    ORDER BY u.last_name ASC
-
-@NAME(getAttendanceRecordChildrenPageTotalCount)
-  SELECT COUNT(*)
-  @INCLUDE(getAttendanceRecordChildrenBase)
-
 @NAME(getAttendanceRecordWorkersPage)
   SELECT @INCLUDE(userFields), @INCLUDE(userStatusFields)
   FROM attendance_record_workers arw
@@ -109,9 +68,6 @@
 
 @NAME(assignWorkerToAttendanceRecord)
   INSERT INTO attendance_record_workers (attendance_record_id, user_id) VALUES (:attendance_record_id, :user_id)
-
-@NAME(assignChildToAttendanceRecord)
-  INSERT INTO children_attendance (attendance_record_id, child_id, updated_user_id) VALUES (:attendance_record_id, :child_id, :updated_user_id)
 
 @NAME(updateAttendanceRecord)
   UPDATE attendance_records 
@@ -134,9 +90,6 @@
 
 @NAME(deleteAttendanceRecordWorkers)
   DELETE FROM attendance_record_workers WHERE attendance_record_id = :attendance_record_id
-
-@NAME(deleteAttendanceRecordChildren)
-  DELETE FROM children_attendance WHERE attendance_record_id = :attendance_record_id
 
 @NAME(deleteAttendanceRecordById)
   DELETE FROM attendance_records WHERE id = :id
