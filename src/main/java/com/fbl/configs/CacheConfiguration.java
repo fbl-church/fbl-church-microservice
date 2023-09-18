@@ -22,7 +22,7 @@ import com.google.common.cache.CacheBuilder;
 @EnableCaching
 public class CacheConfiguration {
     private final long CACHE_EXPIRATION_HOURS = 6L;
-    private final long CACHE_SIZE = 500L;
+    private final long CACHE_SIZE = 1000L;
 
     @Bean
     CacheManager cacheManager() {
