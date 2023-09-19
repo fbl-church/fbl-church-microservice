@@ -18,29 +18,17 @@ import lombok.Setter;
 @Getter
 @Setter
 @Schema(description = "Web Role Feature access object.")
-public class WebRoleFeature {
+public class WebRoleFeature extends CRUD {
 
     @Schema(description = "The web role of the feature")
     private WebRole webRole;
 
     @Schema(description = "The id of the feature")
-    private int featureId;
+    private Integer featureId;
 
     @Schema(description = "The application name.")
     private String app;
 
     @Schema(description = "The feature name of the application.")
     private String feature;
-
-    @Schema(description = "The create flag of the feature")
-    private boolean create;
-
-    @Schema(description = "The read flag of the feature")
-    private boolean read;
-
-    @Schema(description = "The update flag of the feature")
-    private boolean update;
-
-    @Schema(description = "The delete flag of the feature")
-    private boolean delete;
 }

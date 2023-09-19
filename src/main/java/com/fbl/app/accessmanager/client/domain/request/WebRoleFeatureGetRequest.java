@@ -26,9 +26,6 @@ public class WebRoleFeatureGetRequest implements SearchParam, PageParam, SearchF
     @Schema(description = "Set of roles to filter on")
     private Set<WebRole> webRole;
 
-    @Schema(description = "Set of feature ids to filter on")
-    private Set<Integer> featureId;
-
     @Schema(description = "Search Param on search param fields.")
     private String search;
 

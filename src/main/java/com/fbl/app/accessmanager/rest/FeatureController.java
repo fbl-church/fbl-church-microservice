@@ -9,8 +9,11 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.fbl.app.accessmanager.client.domain.CRUD;
 import com.fbl.app.accessmanager.client.domain.Feature;
 import com.fbl.app.accessmanager.client.domain.WebRoleFeature;
 import com.fbl.app.accessmanager.client.domain.request.FeatureGetRequest;
@@ -47,15 +50,28 @@ public class FeatureController {
     }
 
     /**
+     * Get feature by id
+     * 
+     * @param id The id of the feature to get
+     * @return {@link Page} of the features
+     */
+    @GetMapping("/{id}")
+    @HasAccess(WebRole.ADMINISTRATOR)
+    public Feature getFeatureById(@PathVariable int id) {
+        return service.getFeatureById(id);
+    }
+
+    /**
      * Get a page of web role feature access
      * 
      * @param request The request to filter on.
      * @return {@link Page} of the feature access
      */
-    @GetMapping("/roles")
+    @GetMapping("/{featureId}/roles")
     @HasAccess(WebRole.ADMINISTRATOR)
-    public Page<WebRoleFeature> getPageOfWebRoleFeatures(WebRoleFeatureGetRequest request) {
-        return service.getPageOfWebRoleFeatures(request);
+    public Page<WebRoleFeature> getPageOfWebRoleFeatures(@PathVariable int featureId,
+            WebRoleFeatureGetRequest request) {
+        return service.getPageOfWebRoleFeatures(featureId, request);
     }
 
     /**
@@ -68,6 +84,19 @@ public class FeatureController {
     @HasAccess(WebRole.ADMINISTRATOR)
     public Map<String, List<Map<String, String>>> getWebRoleFeatureAccess(@PathVariable int id) {
         return service.getWebRoleFeatureAccess(id);
+    }
+
+    /**
+     * Updates the crud access for the given web role feature
+     * 
+     * @param webRoleFeature The web role feature update
+     * @return The updated web role feature
+     */
+    @PutMapping("/{featureId}/roles/{webRole}")
+    @HasAccess(WebRole.ADMINISTRATOR)
+    public WebRoleFeature updateWebRoleFeatureAccess(@PathVariable int featureId, @PathVariable WebRole webRole,
+            @RequestBody CRUD crud) {
+        return service.updateWebRoleFeatureAccess(featureId, webRole, crud);
     }
 
 }

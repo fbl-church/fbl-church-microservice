@@ -5,6 +5,7 @@ package com.fbl.app.accessmanager.client.domain.request;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fbl.common.page.domain.PageParam;
@@ -20,6 +21,9 @@ import lombok.Setter;
 @Setter
 @Schema(description = "Feature get request object for filtering features.")
 public class FeatureGetRequest implements SearchParam, PageParam, SearchFieldParams<FeatureSearchFields> {
+
+    @Schema(description = "Set of feature ids to filter on")
+    private Set<Integer> id;
 
     @Schema(description = "Search Param on search param fields.")
     private String search;

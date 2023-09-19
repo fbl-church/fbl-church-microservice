@@ -13,13 +13,14 @@
 
 @NAME(webRoleFeatureFilters)
   @WHERE
+    fa.id = :feature_id
     @AND(:web_role)
       wrfa.web_role IN (:web_role)
-    @AND(:feature_id)
-      fa.id IN (:feature_id)
 
 @NAME(featureFilters)
   @WHERE
+    @AND(:id)
+      fa.id IN (:id)
     @AND(:search = true)
       @INCLUDE(search)
 
@@ -49,7 +50,7 @@
     ORDER BY wrfa.web_role ASC
 
 @NAME(getWebRoleFeaturesPageTotalCount)
-  SELECT COUNT(DISTINCT id)
+  SELECT COUNT(DISTINCT wrfa.web_role)
   @INCLUDE(getWebRoleFeatureBase)
 
 @NAME(getFeatureAccess)
@@ -66,6 +67,16 @@
     @AND(:web_role)
       wrfa.web_role IN (:web_role)
   GROUP BY id
+
+@NAME(updateWebRoleFeatureAccess)
+  UPDATE web_role_feature_access
+  SET
+    `create` = IFNULL(:create, `create`),
+    `read`   = IFNULL(:read, `read`),
+    `update` = IFNULL(:update, `update`),
+    `delete` = IFNULL(:delete, `delete`)
+  WHERE web_role = :web_role
+  AND feature_id = :feature_id
 
 @NAME(search)
   (@VALUE(:searchContent))

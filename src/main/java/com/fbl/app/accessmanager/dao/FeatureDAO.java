@@ -23,6 +23,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.stereotype.Repository;
 
+import com.fbl.app.accessmanager.client.domain.CRUD;
 import com.fbl.app.accessmanager.client.domain.Feature;
 import com.fbl.app.accessmanager.client.domain.WebRoleFeature;
 import com.fbl.app.accessmanager.client.domain.request.FeatureGetRequest;
@@ -52,7 +53,8 @@ public class FeatureDAO extends BaseDao {
      * @return {@link Page} of the features
      */
     public Page<Feature> getPageOfFeatures(FeatureGetRequest request) {
-        MapSqlParameterSource params = SqlParamBuilder.with(request).useAllParams().build();
+        MapSqlParameterSource params = SqlParamBuilder.with(request).useAllParams().withParam(ID, request.getId())
+                .build();
         return getPage("getFeaturesPage", params, FEATURE_MAPPER);
     }
 
@@ -62,10 +64,10 @@ public class FeatureDAO extends BaseDao {
      * @param request The request to filter on.
      * @return {@link Page} of the feature access
      */
-    public Page<WebRoleFeature> getPageOfWebRoleFeatures(WebRoleFeatureGetRequest request) {
+    public Page<WebRoleFeature> getPageOfWebRoleFeatures(int featureId, WebRoleFeatureGetRequest request) {
         MapSqlParameterSource params = SqlParamBuilder.with(request).useAllParams()
                 .withParamTextEnumCollection(WEB_ROLE, request.getWebRole())
-                .withParam(FEATURE_ID, request.getFeatureId()).build();
+                .withParam(FEATURE_ID, featureId).build();
 
         return getPage("getWebRoleFeaturesPage", params, WEB_ROLE_FEATURE_MAPPER);
 
@@ -81,6 +83,24 @@ public class FeatureDAO extends BaseDao {
     public Map<String, List<Map<String, String>>> getWebRoleFeatureAccess(List<WebRole> roles) {
         MapSqlParameterSource params = SqlParamBuilder.with().withParamTextEnumCollection(WEB_ROLE, roles).build();
         return mapSingleton(getList("getFeatureAccess", params, FEATURE_ACCESS_MAPPER));
+    }
+
+    /**
+     * Updates the crud access for the given web role feature
+     * 
+     * @param webRoleFeature The web role feature update
+     * @return The updated web role feature
+     */
+    public void updateWebRoleFeatureAccess(int featureId, WebRole webRole, CRUD crud) {
+        MapSqlParameterSource params = SqlParamBuilder.with().useAllParams()
+                .withParam(WEB_ROLE, webRole)
+                .withParam(FEATURE_ID, featureId)
+                .withParam(CREATE, crud.getCreate())
+                .withParam(READ, crud.getRead())
+                .withParam(UPDATE, crud.getUpdate())
+                .withParam(DELETE, crud.getDelete()).build();
+
+        update("updateWebRoleFeatureAccess", params);
     }
 
     /**
