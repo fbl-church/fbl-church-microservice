@@ -42,6 +42,7 @@
 @NAME(getWebRoleFeatureBase)
   FROM web_role_feature_access wrfa
   INNER JOIN features f ON wrfa.feature_id = f.id
+  INNER JOIN applications a ON f.app_id = a.id
   @INCLUDE(webRoleFeatureFilters)
 
 @NAME(getWebRoleFeaturesPage)
