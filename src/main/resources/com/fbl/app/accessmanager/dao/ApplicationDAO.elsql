@@ -1,41 +1,44 @@
 @NAME(applicationFields)
   a.id,
-  a.name,
+  a.key,
+  a.display_name,
   a.enabled
 
 @NAME(applicationFilters)
   @WHERE
     @AND(:app_id)
       a.id IN (:app_id)
-    @AND(:name)
-      a.name IN (:name)
+    @AND(:key)
+      a.key IN (:key)
+    @AND(:display_name)
+      a.display_name IN (:display_name)
     @AND(:search = true)
       @INCLUDE(search)
 
 @NAME(getApplicationBase)
-  FROM application a
+  FROM applications a
   @INCLUDE(applicationFilters)
 
 @NAME(getApplicationsPage)
   @PAGING(:rowOffset, :pageSize)
     SELECT @INCLUDE(applicationFields) 
     @INCLUDE(getApplicationBase)
-    ORDER BY a.name ASC
+    ORDER BY a.display_name ASC
 
 @NAME(getApplicationsPageTotalCount)
-  SELECT COUNT(*)
+  SELECT COUNT(1)
   @INCLUDE(getApplicationBase)
 
 @NAME(search)
   (@VALUE(:searchContent))
 
 @NAME(updateApplicationEnabledFlag)
-  UPDATE application 
+  UPDATE applications 
   SET enabled = :enabled
   WHERE id = :app_id
 
 @NAME(createNewApplication)
-  INSERT INTO application (name, enabled) VALUES (:name, :enabled)
+  INSERT INTO applications (key, display_name, enabled) VALUES (:key, :display_name, :enabled)
 
 @NAME(assignWebRoleToApplication)
   INSERT INTO web_role_app_access (web_role, app_id, access) VALUES (:web_role, :app_id, :access)
@@ -44,4 +47,4 @@
   DELETE FROM web_role_app_access WHERE app_id = :app_id
 
 @NAME(deleteApplicationById)
-  DELETE FROM application WHERE id = :app_id
+  DELETE FROM applications WHERE id = :app_id

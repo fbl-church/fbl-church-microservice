@@ -40,7 +40,7 @@ public class ApplicationDAO extends BaseDao {
      */
     public Page<Application> getApplications(ApplicationGetRequest request) {
         MapSqlParameterSource params = SqlParamBuilder.with(request).useAllParams().withParam(APP_ID, request.getId())
-                .withParam(NAME, request.getName()).build();
+                .withParam(DISPLAY_NAME, request.getDisplayName()).build();
         return getPage("getApplicationsPage", params, APPLICATION_MAPPER);
     }
 
@@ -63,8 +63,8 @@ public class ApplicationDAO extends BaseDao {
      */
     public int createNewApplication(Application app) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
-        MapSqlParameterSource params = SqlParamBuilder.with().withParam(NAME, app.getName())
-                .withParam(ENABLED, app.isEnabled()).build();
+        MapSqlParameterSource params = SqlParamBuilder.with().withParam(DISPLAY_NAME, app.getDisplayName())
+                .withParam(ENABLED, app.isEnabled()).withParam(KEY, app.getKey()).build();
 
         post("createNewApplication", params, keyHolder);
         return keyHolder.getKey().intValue();

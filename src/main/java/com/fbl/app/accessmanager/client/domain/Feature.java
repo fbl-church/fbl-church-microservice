@@ -23,10 +23,10 @@ public class Feature {
     @Schema(description = "The feature id.")
     private int id;
 
-    @Schema(description = "The application name.")
+    @Schema(description = "The application key.")
     private String app;
 
-    @Schema(description = "The feature name of the application.")
+    @Schema(description = "The feature key of the application.")
     private String feature;
 
     @Schema(description = "Access the role has to the feature.")

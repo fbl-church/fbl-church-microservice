@@ -1,8 +1,8 @@
 @NAME(featureFields)
-  fa.id,
-  fa.application_text,
-  fa.name,
-  fa.insert_date
+  f.id,
+  a.key AS app_key,
+  f.key AS feature_key,
+  f.insert_date
 
 @NAME(webRoleFeatureFields)
   wrfa.web_role,
@@ -13,34 +13,35 @@
 
 @NAME(webRoleFeatureFilters)
   @WHERE
-    fa.id = :feature_id
+    f.id = :feature_id
     @AND(:web_role)
       wrfa.web_role IN (:web_role)
 
 @NAME(featureFilters)
   @WHERE
     @AND(:id)
-      fa.id IN (:id)
+      f.id IN (:id)
     @AND(:search = true)
       @INCLUDE(search)
 
 @NAME(getFeatureBase)
-  FROM feature_access fa
+  FROM features f
+  INNER JOIN applications a ON f.app_id = a.id
   @INCLUDE(featureFilters)
 
 @NAME(getFeaturesPage)
   @PAGING(:rowOffset, :pageSize)
     SELECT @INCLUDE(featureFields)
     @INCLUDE(getFeatureBase)
-    ORDER BY fa.application_text ASC, fa.name ASC
+    ORDER BY a.key ASC, f.key ASC
 
 @NAME(getFeaturesPageTotalCount)
-  SELECT COUNT(DISTINCT id)
+  SELECT COUNT(1)
   @INCLUDE(getFeatureBase)
 
 @NAME(getWebRoleFeatureBase)
   FROM web_role_feature_access wrfa
-  INNER JOIN feature_access fa ON wrfa.feature_id = fa.id
+  INNER JOIN features f ON wrfa.feature_id = f.id
   @INCLUDE(webRoleFeatureFilters)
 
 @NAME(getWebRoleFeaturesPage)
@@ -54,15 +55,16 @@
   @INCLUDE(getWebRoleFeatureBase)
 
 @NAME(getFeatureAccess)
-  SELECT fa.id, fa.application_text, fa.name, GROUP_CONCAT(
+  SELECT f.id, a.key AS app_key, f.key AS feature_key, GROUP_CONCAT(
     CONCAT('', 
       CASE WHEN wrfa.create  THEN 'c' ELSE '' END,
       CASE WHEN wrfa.read    THEN 'r' ELSE '' END,
       CASE WHEN wrfa.update  THEN 'u' ELSE '' END,
       CASE WHEN wrfa.delete  THEN 'd' ELSE '' END
     )) AS 'access'
-  FROM feature_access fa
-    INNER JOIN web_role_feature_access wrfa ON fa.id = wrfa.feature_id
+  FROM features f
+    INNER JOIN applications a ON f.app_id = a.id
+    INNER JOIN web_role_feature_access wrfa ON f.id = wrfa.feature_id
   @WHERE
     @AND(:web_role)
       wrfa.web_role IN (:web_role)

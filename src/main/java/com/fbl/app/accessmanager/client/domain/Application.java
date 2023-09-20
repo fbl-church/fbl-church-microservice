@@ -23,9 +23,13 @@ public class Application {
     @Schema(description = "The unique id of the application.")
     private int id;
 
-    @Schema(description = "The application name.")
+    @Schema(description = "The application key.")
+    @NotNull(message = "Invalid key: Can not be null")
+    private String key;
+
+    @Schema(description = "The application display name.")
     @NotNull(message = "Invalid name: Can not be null")
-    private String name;
+    private String displayName;
 
     @Schema(description = "The enabled status of the application.")
     private boolean enabled;

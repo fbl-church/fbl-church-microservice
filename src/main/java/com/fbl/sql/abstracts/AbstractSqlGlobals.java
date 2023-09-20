@@ -12,6 +12,8 @@ public abstract class AbstractSqlGlobals {
     protected static final String ALLERGIES = "allergies";
     protected static final String APP_ACCESS = "app_access";
     protected static final String APP_ID = "app_id";
+    protected static final String APP_KEY = "app_key";
+    protected static final String APPLICATION_TEXT = "application_text";
     protected static final String ATTENDANCE_RECORD_ID = "attendance_record_id";
     protected static final String BIRTHDAY = "birthday";
     protected static final String CHECK_IN_DATE = "check_in_date";
@@ -22,15 +24,17 @@ public abstract class AbstractSqlGlobals {
     protected static final String CREATE = "create";
     protected static final String CUID = "cuid";
     protected static final String DELETE = "delete";
+    protected static final String DISPLAY_NAME = "display_name";
     protected static final String EMAIL = "email";
     protected static final String ENABLED = "enabled";
     protected static final String FEATURE_ID = "feature_id";
-    protected static final String APPLICATION_TEXT = "application_text";
+    protected static final String FEATURE_KEY = "feature_key";
     protected static final String FIRST_NAME = "first_name";
     protected static final String GURDIAN_ID = "gurdian_id";
     protected static final String ID = "id";
     protected static final String INSERT_DATE = "insert_date";
     protected static final String INSERT_USER_ID = "insert_user_id";
+    protected static final String KEY = "key";
     protected static final String LAST_LOGIN_DATE = "last_login_date";
     protected static final String LAST_NAME = "last_name";
     protected static final String NAME = "name";

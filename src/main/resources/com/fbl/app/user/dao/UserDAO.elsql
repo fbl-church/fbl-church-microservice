@@ -42,10 +42,10 @@
   @INCLUDE(getUsersBase)
 
 @NAME(getApplications)
-  SELECT a.name 
+  SELECT a.key 
   FROM user_roles ur
     INNER JOIN web_role_app_access wraa ON ur.web_role = wraa.web_role
-    INNER JOIN application a ON wraa.app_id = a.id
+    INNER JOIN applications a ON wraa.app_id = a.id
   @WHERE
     wraa.access = 1 AND a.enabled = 1
     @AND(:user_id)

@@ -17,8 +17,8 @@ import lombok.Getter;
 @Getter
 @Schema(description = "The feature search fields.")
 public enum FeatureSearchFields implements SearchField {
-    FEATURE_APP("fa.application_text"),
-    FEATURE_NAME("fa.name");
+    FEATURE_APP("a.display_name"),
+    FEATURE_NAME("f.key");
 
     private String column;
 

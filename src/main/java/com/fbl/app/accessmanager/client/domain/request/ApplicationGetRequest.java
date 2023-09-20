@@ -25,8 +25,8 @@ public class ApplicationGetRequest implements SearchParam, PageParam, SearchFiel
     @Schema(description = "Set of Id's of the applications")
     private Set<Integer> id;
 
-    @Schema(description = "Set of Names of the applications")
-    private Set<String> name;
+    @Schema(description = "Set of display names of the applications")
+    private Set<String> displayName;
 
     @Schema(description = "Search Param on search param fields.")
     private String search;

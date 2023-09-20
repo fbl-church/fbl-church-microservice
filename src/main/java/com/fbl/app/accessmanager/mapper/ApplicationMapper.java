@@ -21,7 +21,8 @@ public class ApplicationMapper extends AbstractMapper<Application> {
 	public Application mapRow(ResultSet rs, int rowNum) throws SQLException {
 		Application app = new Application();
 		app.setId(rs.getInt(ID));
-		app.setName(rs.getString(NAME));
+		app.setKey(rs.getString(KEY));
+		app.setDisplayName(rs.getString(DISPLAY_NAME));
 		app.setEnabled(rs.getBoolean(ENABLED));
 		return app;
 	}

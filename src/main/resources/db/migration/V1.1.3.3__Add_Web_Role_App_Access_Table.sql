@@ -11,15 +11,15 @@
 
 CREATE TABLE web_role_app_access (
   web_role VARCHAR(45)          NOT NULL,
-  app_id   INT         unsigned NOT NULL,
-  access   TINYINT(4)  unsigned NOT NULL DEFAULT 0,
+  app_id   INT         UNSIGNED NOT NULL,
+  access   BIT                  NOT NULL DEFAULT 0,
   PRIMARY KEY (web_role,app_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE INDEX IX_web_role_app_access__app_id ON web_role_app_access(app_id);
 
-ALTER TABLE web_role_app_access ADD CONSTRAINT FK1_web_role_app_access__application
-  FOREIGN KEY(app_id) REFERENCES application (id)
+ALTER TABLE web_role_app_access ADD CONSTRAINT FK1_web_role_app_access__applications
+  FOREIGN KEY(app_id) REFERENCES applications (id)
     ON DELETE CASCADE 
     ON UPDATE CASCADE;
 

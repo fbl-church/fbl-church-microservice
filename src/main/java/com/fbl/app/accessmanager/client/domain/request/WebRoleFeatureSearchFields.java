@@ -18,8 +18,8 @@ import lombok.Getter;
 @Schema(description = "The web role feature search fields.")
 public enum WebRoleFeatureSearchFields implements SearchField {
     WEB_ROLE("wrfa.web_role"),
-    FEATURE_APP("fa.application_text"),
-    FEATURE_NAME("fa.name");
+    FEATURE_APP("a.key"),
+    FEATURE_KEY("f.key");
 
     private String column;
 

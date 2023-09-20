@@ -23,7 +23,7 @@ public class WebRoleFeatureMapper extends AbstractMapper<WebRoleFeature> {
 		WebRoleFeature webRoleFeature = new WebRoleFeature();
 		webRoleFeature.setWebRole(WebRole.valueOf(rs.getString(WEB_ROLE)));
 		webRoleFeature.setFeatureId(rs.getInt(ID));
-		webRoleFeature.setApp(rs.getString(APPLICATION_TEXT));
+		webRoleFeature.setApp(rs.getString(APP_KEY));
 		webRoleFeature.setFeature(rs.getString(NAME));
 		webRoleFeature.setCreate(rs.getBoolean(CREATE));
 		webRoleFeature.setRead(rs.getBoolean(READ));
