@@ -19,8 +19,11 @@ import java.util.stream.Collectors;
 
 import javax.sql.DataSource;
 
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import com.fbl.app.accessmanager.client.domain.CRUD;
@@ -86,11 +89,28 @@ public class FeatureDAO extends BaseDao {
     }
 
     /**
+     * Updates the feature enabled flag
+     * 
+     * @param featureId The feaure id to update
+     * @param enabled   The flag to set on the feature
+     * @return The updated feature
+     */
+    @CacheEvict(cacheNames = "featureAccess", allEntries = true)
+    public void updateFeatureEnabledFlag(int featureId, boolean enabled) {
+        MapSqlParameterSource params = SqlParamBuilder.with().useAllParams()
+                .withParam(FEATURE_ID, featureId)
+                .withParam(ENABLED, enabled).build();
+
+        update("updateFeatureEnabledFlag", params);
+    }
+
+    /**
      * Updates the crud access for the given web role feature
      * 
      * @param webRoleFeature The web role feature update
      * @return The updated web role feature
      */
+    @CacheEvict(cacheNames = "featureAccess", allEntries = true)
     public void updateWebRoleFeatureAccess(int featureId, WebRole webRole, CRUD crud) {
         MapSqlParameterSource params = SqlParamBuilder.with().useAllParams()
                 .withParam(WEB_ROLE, webRole)
@@ -101,6 +121,51 @@ public class FeatureDAO extends BaseDao {
                 .withParam(DELETE, crud.getDelete()).build();
 
         update("updateWebRoleFeatureAccess", params);
+    }
+
+    /**
+     * Will assign a web role to a feature.
+     * 
+     * @param appId The feature id to assign the role too
+     * @param role  The role to be assigned
+     */
+    public void assignWebRoleToFeature(int featureId, WebRole role, boolean enabled) {
+        MapSqlParameterSource params = SqlParamBuilder.with().withParam(WEB_ROLE, role).withParam(FEATURE_ID, featureId)
+                .build();
+        post("assignWebRoleToFeaure", params);
+    }
+
+    /**
+     * Create a new feature
+     * 
+     * @param feature The feature to be created
+     * @return The created feature
+     */
+    public int createNewFeature(String key, int appId) {
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        MapSqlParameterSource params = SqlParamBuilder.with().withParam(KEY, key).withParam(APP_ID, appId)
+                .build();
+
+        post("createNewFeature", params, keyHolder);
+        return keyHolder.getKey().intValue();
+    }
+
+    /**
+     * Delete the roles from the feature
+     * 
+     * @param featureId The app id to remove role access from
+     */
+    public void deleteRolesFromFeature(int featureId) {
+        delete("deleteRolesFromFeature", parameterSource(FEATURE_ID, featureId));
+    }
+
+    /**
+     * Delete the roles from the feature
+     * 
+     * @param featureId The app id to remove role access from
+     */
+    public void deleteFeatureById(int featureId) {
+        delete("deleteFeatureById", parameterSource(FEATURE_ID, featureId));
     }
 
     /**

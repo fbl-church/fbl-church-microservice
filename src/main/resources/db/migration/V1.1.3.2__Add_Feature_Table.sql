@@ -13,7 +13,7 @@ CREATE TABLE features (
   id            INT          UNSIGNED NOT NULL AUTO_INCREMENT,
   app_id        INT          UNSIGNED NOT NULL,
   `key`         VARCHAR(128)          NOT NULL,
-  enabled       BIT                   NOT NULL,
+  enabled       BIT                   NOT NULL DEFAULT 0,
   insert_date   DATETIME              NOT NULL DEFAULT CURRENT_TIMESTAMP(),
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

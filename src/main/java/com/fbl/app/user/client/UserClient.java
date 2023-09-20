@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import com.fbl.app.children.client.domain.Child;
 import com.fbl.app.user.client.domain.User;
 import com.fbl.app.user.client.domain.request.UserGetRequest;
 import com.fbl.app.user.service.ManageUserService;
@@ -111,6 +112,20 @@ public class UserClient {
 	 */
 	public User updateUserById(int userId, User user) {
 		return manageUserService.updateUserById(userId, user);
+	}
+
+	/**
+	 * Updates the child information of a user. Will not update child user
+	 * roles they currently have.
+	 * 
+	 * @param userId The id of the user to be updated
+	 * @param child  what information on the child needs to be updated.
+	 * @return user associated to that id with the updated information
+	 */
+	public User updateChildUserById(int userId, Child child) {
+		User u = child;
+		u.setWebRole(getUserRolesById(userId));
+		return manageUserService.updateUserById(userId, u);
 	}
 
 	/**

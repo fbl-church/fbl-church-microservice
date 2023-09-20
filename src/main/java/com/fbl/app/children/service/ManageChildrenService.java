@@ -84,7 +84,7 @@ public class ManageChildrenService {
      * @return child associated to that id with the updated information
      */
     public Child updateChildById(int id, Child child) {
-        userClient.updateUserById(id, child);
+        userClient.updateChildUserById(id, child);
         dao.updateChildById(id, child);
         assignChildGroups(id, child.getChurchGroup());
         return childrenService.getChildById(id);

@@ -7,8 +7,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -87,6 +89,19 @@ public class FeatureController {
     }
 
     /**
+     * Updates the feature enabled flag
+     * 
+     * @param featureId The feaure id to update
+     * @param enabled   The flag to set on the feature
+     * @return The updated feature
+     */
+    @PutMapping("/{featureId}/enabled/{enabled}")
+    @HasAccess(WebRole.ADMINISTRATOR)
+    public Feature updateFeatureEnabledFlag(@PathVariable int featureId, @PathVariable boolean enabled) {
+        return service.updateFeatureEnabledFlag(featureId, enabled);
+    }
+
+    /**
      * Updates the crud access for the given web role feature
      * 
      * @param webRoleFeature The web role feature update
@@ -99,4 +114,26 @@ public class FeatureController {
         return service.updateWebRoleFeatureAccess(featureId, webRole, crud);
     }
 
+    /**
+     * Updates the crud access for the given web role feature
+     * 
+     * @param webRoleFeature The web role feature update
+     * @return The updated web role feature
+     */
+    @PostMapping("/app/{appId}")
+    @HasAccess(WebRole.ADMINISTRATOR)
+    public Feature createNewFeature(@PathVariable int appId, @RequestBody Feature feature) {
+        return service.createNewFeature(feature.getFeature(), appId);
+    }
+
+    /**
+     * Delete a feature
+     * 
+     * @param id The id of the feature to delete
+     */
+    @DeleteMapping("/{id}")
+    @HasAccess(WebRole.ADMINISTRATOR)
+    public void deleteFeatureById(@PathVariable int id) {
+        service.deleteFeatureById(id);
+    }
 }

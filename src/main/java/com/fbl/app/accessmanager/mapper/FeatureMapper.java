@@ -23,6 +23,7 @@ public class FeatureMapper extends AbstractMapper<Feature> {
 		feature.setId(rs.getInt(ID));
 		feature.setApp(rs.getString(APP_KEY));
 		feature.setFeature(rs.getString(FEATURE_KEY));
+		feature.setEnabled(rs.getBoolean(ENABLED));
 		feature.setInsertDate(parseDateTime(rs.getString(INSERT_DATE)));
 		return feature;
 	}

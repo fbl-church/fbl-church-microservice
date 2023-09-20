@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.fbl.app.accessmanager.client.domain.Application;
+import com.fbl.app.accessmanager.client.domain.WebRoleApp;
 import com.fbl.app.accessmanager.client.domain.request.ApplicationGetRequest;
+import com.fbl.app.accessmanager.client.domain.request.WebRoleAppGetRequest;
 import com.fbl.app.accessmanager.service.ApplicationService;
 import com.fbl.common.annotations.interfaces.HasAccess;
 import com.fbl.common.annotations.interfaces.RestApiController;
@@ -58,6 +60,18 @@ public class ApplicationController {
     }
 
     /**
+     * Get a page of web role app access
+     * 
+     * @param request The request to filter on.
+     * @return {@link Page} of the app access
+     */
+    @GetMapping("/{appId}/roles")
+    @HasAccess(WebRole.ADMINISTRATOR)
+    public Page<WebRoleApp> getPageOfWebRoleApps(@PathVariable int appId, WebRoleAppGetRequest request) {
+        return applicationService.getPageOfWebRoleApps(appId, request);
+    }
+
+    /**
      * Update the access of an application
      * 
      * @param application The application to update the status for
@@ -68,6 +82,21 @@ public class ApplicationController {
     @HasAccess(WebRole.ADMINISTRATOR)
     public Application updateApplicationEnabledFlag(@PathVariable int appId, @PathVariable boolean enabled) {
         return applicationService.updateApplicationEnabledFlag(appId, enabled);
+    }
+
+    /**
+     * Updates the app access for the web role
+     * 
+     * @param featureId The web role feature update
+     * @param webRole   The web role to update
+     * @param boolean   The access to give
+     * @return The updated web role app
+     */
+    @PutMapping("/{appId}/roles/{webRole}/access/{access}")
+    @HasAccess(WebRole.ADMINISTRATOR)
+    public WebRoleApp updateWebRoleAppAccess(@PathVariable int appId, @PathVariable WebRole webRole,
+            @PathVariable boolean access) {
+        return applicationService.updateWebRoleAppAccess(appId, webRole, access);
     }
 
     /**

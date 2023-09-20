@@ -3,14 +3,17 @@
  */
 package com.fbl.app.accessmanager.service;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 
 import com.fbl.app.accessmanager.client.domain.Application;
+import com.fbl.app.accessmanager.client.domain.WebRoleApp;
 import com.fbl.app.accessmanager.client.domain.request.ApplicationGetRequest;
+import com.fbl.app.accessmanager.client.domain.request.WebRoleAppGetRequest;
 import com.fbl.app.accessmanager.dao.ApplicationDAO;
 import com.fbl.common.enums.WebRole;
 import com.fbl.common.page.Page;
@@ -26,6 +29,7 @@ import com.google.common.collect.Sets;
  */
 @Service
 public class ApplicationService {
+    private static final List<WebRole> FILTERED_ROLES = List.of(WebRole.LEADER, WebRole.WORKER);
 
     @Autowired
     private ApplicationDAO dao;
@@ -58,17 +62,40 @@ public class ApplicationService {
     }
 
     /**
+     * Get a page of web role app access
+     * 
+     * @param request The request to filter on.
+     * @return {@link Page} of the app access
+     */
+    public Page<WebRoleApp> getPageOfWebRoleApps(int appId, WebRoleAppGetRequest request) {
+        return dao.getPageOfWebRoleApps(appId, request);
+    }
+
+    /**
      * Update the access of an application
      * 
      * @param application The application to update the status for
      * @param enabled     The status of the application to set.
      * @return The application that was updated
      */
-    @CacheEvict(cacheNames = "user.apps", allEntries = true)
     public Application updateApplicationEnabledFlag(int appId, boolean enabled) {
-        Application app = getApplicationById(appId);
-        dao.updateApplicationEnabledFlag(app.getId(), enabled);
-        return getApplicationById(app.getId());
+        dao.updateApplicationEnabledFlag(appId, enabled);
+        return getApplicationById(appId);
+    }
+
+    /**
+     * Updates the app access for the web role
+     * 
+     * @param appId   The web role feature update
+     * @param webRole The web role to update
+     * @param boolean The access to give
+     * @return The updated web role app
+     */
+    public WebRoleApp updateWebRoleAppAccess(int appId, WebRole webRole, boolean access) {
+        dao.updateWebRoleAppAccess(appId, webRole, access);
+        WebRoleAppGetRequest request = new WebRoleAppGetRequest();
+        request.setWebRole(Sets.newHashSet(webRole));
+        return getPageOfWebRoleApps(appId, request).getList().get(0);
     }
 
     /**
@@ -77,7 +104,6 @@ public class ApplicationService {
      * @param application The application to be created
      * @return The created application
      */
-    @CacheEvict(cacheNames = "user.apps", allEntries = true)
     public Application createNewApplication(Application app) {
         int createdId = dao.createNewApplication(app);
         resetApplicationRoles(createdId);
@@ -102,7 +128,8 @@ public class ApplicationService {
     private void resetApplicationRoles(int appId) {
         dao.deleteRolesFromApplication(appId);
 
-        for (WebRole r : WebRole.values()) {
+        List<WebRole> roles = Arrays.asList(WebRole.values());
+        for (WebRole r : roles.stream().filter(r -> !FILTERED_ROLES.contains(r)).collect(Collectors.toList())) {
             try {
                 dao.assignWebRoleToApplication(appId, r, false);
             } catch (Exception e) {

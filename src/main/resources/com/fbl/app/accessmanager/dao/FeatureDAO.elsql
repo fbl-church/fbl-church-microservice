@@ -2,6 +2,7 @@
   f.id,
   a.key AS app_key,
   f.key AS feature_key,
+  f.enabled,
   f.insert_date
 
 @NAME(webRoleFeatureFields)
@@ -16,6 +17,8 @@
     f.id = :feature_id
     @AND(:web_role)
       wrfa.web_role IN (:web_role)
+    @AND(:search = true)
+      @INCLUDE(search)
 
 @NAME(featureFilters)
   @WHERE
@@ -67,9 +70,15 @@
     INNER JOIN applications a ON f.app_id = a.id
     INNER JOIN web_role_feature_access wrfa ON f.id = wrfa.feature_id
   @WHERE
+    f.enabled = 1
     @AND(:web_role)
       wrfa.web_role IN (:web_role)
   GROUP BY id
+
+@NAME(updateFeatureEnabledFlag)
+  UPDATE features 
+  SET enabled = :enabled
+  WHERE id = :feature_id
 
 @NAME(updateWebRoleFeatureAccess)
   UPDATE web_role_feature_access
@@ -80,6 +89,18 @@
     `delete` = IFNULL(:delete, `delete`)
   WHERE web_role = :web_role
   AND feature_id = :feature_id
+
+@NAME(assignWebRoleToFeaure)
+  INSERT INTO web_role_feature_access (feature_id, web_role) VALUES (:feature_id, :web_role)
+
+@NAME(createNewFeature)
+  INSERT INTO features (app_id, `key`) VALUES (:app_id, :key)
+
+@NAME(deleteRolesFromFeature)
+  DELETE FROM web_role_feature_access WHERE feature_id = :feature_id
+
+@NAME(deleteFeatureById)
+  DELETE FROM features WHERE id = :feature_id
 
 @NAME(search)
   (@VALUE(:searchContent))

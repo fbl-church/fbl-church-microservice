@@ -4,8 +4,12 @@
 package com.fbl.app.user.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -14,6 +18,7 @@ import com.fbl.app.user.client.UserCredentialsClient;
 import com.fbl.app.user.client.UserStatusClient;
 import com.fbl.app.user.client.domain.User;
 import com.fbl.app.user.client.domain.UserStatus;
+import com.fbl.app.user.client.domain.request.UserGetRequest;
 import com.fbl.app.user.dao.UserDAO;
 import com.fbl.common.enums.AccountStatus;
 import com.fbl.common.enums.WebRole;
@@ -28,6 +33,8 @@ import com.fbl.jwt.utility.JwtHolder;
  */
 @Service
 public class ManageUserService {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(ManageUserService.class);
 
 	@Autowired
 	private JwtHolder jwtHolder;
@@ -129,6 +136,33 @@ public class ManageUserService {
 	}
 
 	/**
+	 * Add a web role to a list of users
+	 * 
+	 * @param webRole The web role to add to the users
+	 * @param userIds The list of user ids to udpate
+	 * @return The list of users that were updated
+	 */
+	public List<User> addWebRoleToUsers(WebRole webRole, List<Integer> userIds) {
+		UserGetRequest request = new UserGetRequest();
+
+		List<User> filteredUsers = Collections.emptyList();
+		if (!CollectionUtils.isEmpty(userIds)) {
+			request.setId(userIds.stream().collect(Collectors.toSet()));
+			filteredUsers = userService.getUsers(request).getList();
+		}
+
+		for (User u : filteredUsers) {
+			try {
+				dao.insertUserRole(u.getId(), webRole);
+			} catch (Exception e) {
+				LOGGER.error("User id '{}' already has web role '{}'", u.getId(), webRole);
+			}
+		}
+
+		return filteredUsers;
+	}
+
+	/**
 	 * Delete user by id
 	 * 
 	 * @param userId The user Id to be deleted
@@ -145,10 +179,7 @@ public class ManageUserService {
 	 */
 	private User updateUser(int userId, User user) {
 		dao.updateUser(userId, user);
-
-		if (!CollectionUtils.isEmpty(user.getWebRole())) {
-			assignUserRoles(userId, user.getWebRole());
-		}
+		assignUserRoles(userId, user.getWebRole());
 		return userService.getUserById(userId);
 	}
 

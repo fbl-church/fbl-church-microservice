@@ -3,8 +3,10 @@
  */
 package com.fbl.app.accessmanager.service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,7 +20,10 @@ import com.fbl.app.accessmanager.dao.FeatureDAO;
 import com.fbl.app.user.client.UserClient;
 import com.fbl.common.enums.WebRole;
 import com.fbl.common.page.Page;
+import com.fbl.exception.types.BaseException;
 import com.google.common.collect.Sets;
+
+import io.jsonwebtoken.lang.Assert;
 
 /**
  * Feature Access Service
@@ -28,6 +33,7 @@ import com.google.common.collect.Sets;
  */
 @Service
 public class FeatureService {
+    private static final List<WebRole> FILTERED_ROLES = List.of(WebRole.LEADER, WebRole.WORKER);
 
     @Autowired
     private FeatureDAO dao;
@@ -79,6 +85,18 @@ public class FeatureService {
     }
 
     /**
+     * Updates the feature enabled flag
+     * 
+     * @param featureId The feaure id to update
+     * @param enabled   The flag to set on the feature
+     * @return The updated feature
+     */
+    public Feature updateFeatureEnabledFlag(int featureId, boolean enabled) {
+        dao.updateFeatureEnabledFlag(featureId, enabled);
+        return getFeatureById(featureId);
+    }
+
+    /**
      * Updates the crud access for the given web role feature
      * 
      * @param webRoleFeature The web role feature update
@@ -89,5 +107,47 @@ public class FeatureService {
         WebRoleFeatureGetRequest request = new WebRoleFeatureGetRequest();
         request.setWebRole(Sets.newHashSet(webRole));
         return getPageOfWebRoleFeatures(featureId, request).getList().get(0);
+    }
+
+    /**
+     * Create a new feature
+     * 
+     * @param feature The feature to be created
+     * @return The created feature
+     */
+    public Feature createNewFeature(String key, int appId) {
+        Assert.notNull(key, "Feature Key can not be null");
+        int createdId = dao.createNewFeature(key, appId);
+        resetFeatureRoles(createdId);
+        return getFeatureById(createdId);
+    }
+
+    /**
+     * Delete a feature
+     * 
+     * @param id The id of the feature to delete
+     */
+    public void deleteFeatureById(int id) {
+        dao.deleteFeatureById(id);
+    }
+
+    /**
+     * Assign roles to the feature id. This will remove all existing roles on
+     * the application and insert the roles again with default access of false.
+     * 
+     * @param appId The feature id to assign the roles too.
+     */
+    private void resetFeatureRoles(int featureId) {
+        dao.deleteRolesFromFeature(featureId);
+
+        List<WebRole> roles = Arrays.asList(WebRole.values());
+        for (WebRole r : roles.stream().filter(r -> !FILTERED_ROLES.contains(r)).collect(Collectors.toList())) {
+            try {
+                dao.assignWebRoleToFeature(featureId, r, false);
+            } catch (Exception e) {
+                throw new BaseException(
+                        String.format("Unable to assign role %s to feature id '%i'", r.toString(), featureId));
+            }
+        }
     }
 }

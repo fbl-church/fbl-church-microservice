@@ -29,8 +29,11 @@ public class Feature {
     @Schema(description = "The feature key of the application.")
     private String feature;
 
-    @Schema(description = "Access the role has to the feature.")
+    @Schema(description = "Access the user has to the feature.")
     private String access;
+
+    @Schema(description = "If the feaure is enabled or not.")
+    private Boolean enabled;
 
     @Schema(description = "When the feature was created")
     private LocalDateTime insertDate;

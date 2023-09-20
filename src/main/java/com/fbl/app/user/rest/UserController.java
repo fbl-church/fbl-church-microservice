@@ -137,9 +137,22 @@ public class UserController {
 	 * @return The updated user information
 	 */
 	@Operation(summary = "Update User Roles", description = "Will update the given user roles by id.")
-	@PutMapping("/roles/{id}")
+	@PutMapping("/{id}/roles")
 	public User updateUserRoles(@PathVariable int id, @RequestBody List<WebRole> roles) {
 		return manageUserService.updateUserRoles(id, roles);
+	}
+
+	/**
+	 * Add a web role to a list of users
+	 * 
+	 * @param webRole The web role to add to the users
+	 * @param userIds The list of user ids to udpate
+	 * @return The list of users that were updated
+	 */
+	@Operation(summary = "Add Web Role to User List", description = "Will add the given web role to the list of users.")
+	@PutMapping("/roles/{webRole}")
+	public List<User> addWebRoleToUsers(@PathVariable WebRole webRole, @RequestBody List<Integer> userIds) {
+		return manageUserService.addWebRoleToUsers(webRole, userIds);
 	}
 
 	/**
