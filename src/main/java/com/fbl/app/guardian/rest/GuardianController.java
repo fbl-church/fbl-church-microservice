@@ -5,6 +5,8 @@ package com.fbl.app.guardian.rest;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -92,7 +94,7 @@ public class GuardianController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @HasAccess(WebRole.LEADER)
-    public Guardian insertGuardian(@RequestBody Guardian guardian) {
+    public Guardian insertGuardian(@RequestBody @Valid Guardian guardian) {
         return manageGuardianService.insertGuardian(guardian);
     }
 

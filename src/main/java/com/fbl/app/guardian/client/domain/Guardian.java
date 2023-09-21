@@ -3,7 +3,6 @@
  */
 package com.fbl.app.guardian.client.domain;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
@@ -39,7 +38,6 @@ public class Guardian extends User {
     private String address;
 
     @Schema(description = "Guardians city")
-    @NotBlank
     private String city;
 
     @Schema(description = "Guardians state")
