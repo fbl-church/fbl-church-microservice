@@ -2,8 +2,8 @@
 name: Bug Report
 about: Create a report to help us improve
 title: ''
-labels: Bug, Test
-assignees: ''
+labels: Bug
+assignees: sambutler1017,suvakpc
 
 ---
 
@@ -20,11 +20,5 @@ Steps to reproduce the behavior:
 ## **Expected Behavior**
 - A clear and concise description of what you expected to happen.
 
-## **Current Behavior**
-- A clear and concise description of what currently is happening.
-
 ### **Screenshots**
 - If applicable, add screenshots to help explain your problem.
-
-## **Dependencies**
-- Any dependent issues or pull request. Use the `#` to link an issue or pull request

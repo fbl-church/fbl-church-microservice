@@ -3,12 +3,12 @@ name: Hot Fix Report
 about: Immediate fix needed to production
 title: ''
 labels: Hot Fix
-assignees: ''
+assignees: sambutler1017,suvakpc
 
 ---
 
 ## **Describe the Production Issue**
-- A clear and concise description of what the issue is.
+- A clear and concise description of what the bug is.
 
 ## **Steps To Reproduce**
 Steps to reproduce the behavior:
@@ -23,10 +23,3 @@ Steps to reproduce the behavior:
 ### **Screenshots**
 - If applicable, add screenshots to help explain your problem.
 
-## **Dependencies**
-- Any dependent issues or pull request. Use the `#` to link an issue or pull request
-
-## **Appropriate Steps**
-- [ ] Has an admin been notified about the issue?
-- [ ] Is this fix needed before next release?
-- [ ] Is someone working on the fix?
