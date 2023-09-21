@@ -1,4 +1,4 @@
-@NAME(gurdianFields)
+@NAME(guardianFields)
   u.id,
   u.first_name,
   u.last_name,
@@ -10,7 +10,7 @@
   g.zip_code,
   u.insert_date
 
-@NAME(gurdianFilters)
+@NAME(guardianFilters)
   @WHERE
     @AND(:id)
       u.id IN (:id)
@@ -25,35 +25,35 @@
     @AND(:search = true)
       @INCLUDE(search)
 
-@NAME(getGurdiansBase)
+@NAME(getGuardiansBase)
   FROM users u
-  INNER JOIN gurdians g ON u.id = g.user_id
-  @INCLUDE(gurdianFilters)
+  INNER JOIN guardians g ON u.id = g.user_id
+  @INCLUDE(guardianFilters)
 
-@NAME(getGurdiansPage)
+@NAME(getGuardiansPage)
   @PAGING(:rowOffset, :pageSize)
-    SELECT @INCLUDE(gurdianFields) 
-    @INCLUDE(getGurdiansBase)
+    SELECT @INCLUDE(guardianFields) 
+    @INCLUDE(getGuardiansBase)
     GROUP BY u.id
     ORDER BY u.last_name ASC
 
-@NAME(getGurdiansPageTotalCount)
+@NAME(getGuardiansPageTotalCount)
   SELECT COUNT(*)
-  @INCLUDE(getGurdiansBase)
+  @INCLUDE(getGuardiansBase)
 
-@NAME(getChildGurdians)
-  SELECT @INCLUDE(gurdianFields), cg.relationship
+@NAME(getChildGuardians)
+  SELECT @INCLUDE(guardianFields), cg.relationship
   FROM users u
-  INNER JOIN gurdians g ON u.id = g.user_id
-  INNER JOIN children_gurdians cg ON g.user_id = cg.gurdian_id
+  INNER JOIN guardians g ON u.id = g.user_id
+  INNER JOIN children_guardians cg ON g.user_id = cg.guardian_id
   WHERE cg.child_id = :child_id
 
-@NAME(insertGurdian)
-  INSERT INTO gurdians (user_id, phone, address, city, state, zip_code)
+@NAME(insertGuardian)
+  INSERT INTO guardians (user_id, phone, address, city, state, zip_code)
   VALUES (:user_id, :phone, :address, :city, :state, :zip_code)
 
-@NAME(updateGurdian)
-  UPDATE gurdians 
+@NAME(updateGuardian)
+  UPDATE guardians 
   SET
     phone    = IFNULL(:phone, phone),
     address  = IFNULL(:address, address),
@@ -62,21 +62,21 @@
     zip_code = IFNULL(:zip_code, zip_code)
   WHERE user_id = :user_id
 
-@NAME(associateChildToGurdian)
-  INSERT INTO children_gurdians (child_id, gurdian_id, relationship)
-  VALUES(:child_id, :gurdian_id, :relationship)
+@NAME(associateChildToGuardian)
+  INSERT INTO children_guardians (child_id, guardian_id, relationship)
+  VALUES(:child_id, :guardian_id, :relationship)
 
-@NAME(unassociateChildGurdians)
-  DELETE FROM children_gurdians
+@NAME(unassociateChildGuardians)
+  DELETE FROM children_guardians
   WHERE child_id = :child_id
 
-@NAME(removeGurdianRoleFromUser)
+@NAME(removeGuardianRoleFromUser)
   DELETE FROM user_roles
   WHERE user_id = :user_id
-  AND web_role = 'GURDIAN'
+  AND web_role = 'GUARDIAN'
 
-@NAME(deleteGurdian)
-  DELETE FROM gurdians
+@NAME(deleteGuardian)
+  DELETE FROM guardians
   WHERE user_id = :user_id
 
 @NAME(search)

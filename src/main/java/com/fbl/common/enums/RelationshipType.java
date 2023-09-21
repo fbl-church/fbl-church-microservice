@@ -4,7 +4,7 @@
 package com.fbl.common.enums;
 
 /**
- * Enum to map for gurdian types to objects.
+ * Enum to map for guardian types to objects.
  * 
  * @author Sam Butler
  * @since July 31, 2021

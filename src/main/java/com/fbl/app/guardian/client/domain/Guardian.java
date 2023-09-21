@@ -1,7 +1,7 @@
 /**
  * Copyright of FBL Church App. All rights reserved.
  */
-package com.fbl.app.gurdian.client.domain;
+package com.fbl.app.guardian.client.domain;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -17,36 +17,36 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * Gurdian Object class
+ * Guardian Object class
  * 
  * @author Sam Butler
  * @since June 25, 2020
  */
 @Getter
 @Setter
-@Schema(description = "Gurdian object for holding gurdian details for a gurdian")
-public class Gurdian extends User {
+@Schema(description = "Guardian object for holding guardian details for a guardian")
+public class Guardian extends User {
 
-    @Schema(description = "Gurdian relation to the gurdian")
+    @Schema(description = "Guardian relation to the guardian")
     private RelationshipType relationship;
 
-    @Schema(description = "Gurdians phone number")
+    @Schema(description = "Guardians phone number")
     @NotNull(message = "Invalid phone: Can not be null")
     @Pattern(regexp = "\\(\\d{3}\\) \\d{3}-\\d{4}", message = "Invalid phone: Format must be '(123) 456-7890")
     private String phone;
 
-    @Schema(description = "Gurdians address")
+    @Schema(description = "Guardians address")
     private String address;
 
-    @Schema(description = "Gurdians city")
+    @Schema(description = "Guardians city")
     @NotBlank
     private String city;
 
-    @Schema(description = "Gurdians state")
+    @Schema(description = "Guardians state")
     @Length(min = 2, max = 2)
     private String state;
 
-    @Schema(description = "Gurdians zip code")
+    @Schema(description = "Guardians zip code")
     @Length(min = 5, max = 5)
     private String zipCode;
 }

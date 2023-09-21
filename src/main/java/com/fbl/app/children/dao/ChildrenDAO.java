@@ -48,14 +48,14 @@ public class ChildrenDAO extends BaseDao {
     }
 
     /**
-     * Gets gurdian children by gurdian id.
+     * Gets guardian children by guardian id.
      * 
-     * @param gurdianId The gurdian id
-     * @return The list of children associated to the gurdian
+     * @param guardianId The guardian id
+     * @return The list of children associated to the guardian
      */
-    public List<Child> getGurdianChildren(int gurdianId) {
-        MapSqlParameterSource params = SqlParamBuilder.with().withParam(GURDIAN_ID, gurdianId).build();
-        return getList("getGurdianChildren", params, CHILD_MAPPER);
+    public List<Child> getGuardianChildren(int guardianId) {
+        MapSqlParameterSource params = SqlParamBuilder.with().withParam(GUARDIAN_ID, guardianId).build();
+        return getList("getGuardianChildren", params, CHILD_MAPPER);
     }
 
     /**

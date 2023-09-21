@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import com.fbl.app.children.client.domain.Child;
 import com.fbl.app.children.client.domain.request.ChildGetRequest;
 import com.fbl.app.children.dao.ChildrenDAO;
-import com.fbl.app.gurdian.client.GurdianClient;
+import com.fbl.app.guardian.client.GuardianClient;
 import com.fbl.common.page.Page;
 
 /**
@@ -29,7 +29,7 @@ public class ChildrenService {
     private ChildrenDAO dao;
 
     @Autowired
-    private GurdianClient gurdianClient;
+    private GuardianClient guardianClient;
 
     /**
      * Gets a list of children based of the request filter
@@ -51,18 +51,18 @@ public class ChildrenService {
         ChildGetRequest request = new ChildGetRequest();
         request.setId(Set.of(id));
         Child c = getChildren(request).getList().get(0);
-        c.setGurdians(gurdianClient.getChildGurdians(id));
+        c.setGuardians(guardianClient.getChildGuardians(id));
         c.setChurchGroup(dao.getChildChurchGroupsById(id));
         return c;
     }
 
     /**
-     * Gets gurdian children by gurdian id.
+     * Gets guardian children by guardian id.
      * 
-     * @param gurdianId The gurdian id
-     * @return The list of children associated to the gurdian
+     * @param guardianId The guardian id
+     * @return The list of children associated to the guardian
      */
-    public List<Child> getGurdianChildren(int gurdianId) {
-        return dao.getGurdianChildren(gurdianId);
+    public List<Child> getGuardianChildren(int guardianId) {
+        return dao.getGuardianChildren(guardianId);
     }
 }

@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.fbl.app.children.client.domain.Child;
-import com.fbl.app.gurdian.client.domain.Gurdian;
+import com.fbl.app.guardian.client.domain.Guardian;
 import com.fbl.app.user.client.domain.User;
 import com.fbl.app.user.client.domain.request.UserGetRequest;
 import com.fbl.app.user.service.ManageUserService;
@@ -116,15 +116,15 @@ public class UserClient {
 	}
 
 	/**
-	 * Updates the gurdian information of a user. Will not update gurdian user
+	 * Updates the guardian information of a user. Will not update guardian user
 	 * roles they currently have.
 	 * 
-	 * @param userId  The id of the user to be updated
-	 * @param gurdian what information on the gurdian needs to be updated.
+	 * @param userId   The id of the user to be updated
+	 * @param guardian what information on the guardian needs to be updated.
 	 * @return user associated to that id with the updated information
 	 */
-	public User updateGurdianUserById(int userId, Gurdian gurdian) {
-		User u = gurdian;
+	public User updateGuardianUserById(int userId, Guardian guardian) {
+		User u = guardian;
 		u.setWebRole(getUserRolesById(userId));
 		return manageUserService.updateUserById(userId, u);
 	}

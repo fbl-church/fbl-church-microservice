@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.fbl.app.children.client.domain.Child;
 import com.fbl.app.children.dao.ChildrenDAO;
-import com.fbl.app.gurdian.client.GurdianClient;
+import com.fbl.app.guardian.client.GuardianClient;
 import com.fbl.app.user.client.UserClient;
 import com.fbl.app.user.client.domain.User;
 import com.fbl.common.enums.ChurchGroup;
@@ -40,7 +40,7 @@ public class ManageChildrenService {
     private UserClient userClient;
 
     @Autowired
-    private GurdianClient gurdianClient;
+    private GuardianClient guardianClient;
 
     /**
      * Creates a new child for the given user object.
@@ -49,7 +49,7 @@ public class ManageChildrenService {
      * @return {@link Child} that was created.
      */
     public Child insertChild(Child child) {
-        Assert.notEmpty(child.getGurdians(), "Child must be associated to at least one gurdian");
+        Assert.notEmpty(child.getGuardians(), "Child must be associated to at least one guardian");
         child.setPassword(CHILD_DEFAULT_PASSWORD);
 
         User createdUser = userClient.createUser(child);
@@ -72,7 +72,7 @@ public class ManageChildrenService {
         userClient.updateUserRoles(userId, child.getWebRole());
         dao.insertChild(userId, child);
         assignChildGroups(userId, child.getChurchGroup());
-        gurdianClient.associateChild(userId, child.getGurdians());
+        guardianClient.associateChild(userId, child.getGuardians());
         return childrenService.getChildById(userId);
     }
 

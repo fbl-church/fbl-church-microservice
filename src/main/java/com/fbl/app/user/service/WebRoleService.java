@@ -26,7 +26,7 @@ import com.fbl.jwt.utility.JwtHolder;
 public class WebRoleService {
 
     private static final List<WebRole> FILTERED_ROLES = List.of(WebRole.LEADER, WebRole.WORKER, WebRole.USER,
-            WebRole.GURDIAN);
+            WebRole.GUARDIAN);
 
     @Autowired
     private JwtHolder jwtHolder;

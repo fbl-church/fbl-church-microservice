@@ -72,15 +72,15 @@ public class ChildrenController {
     }
 
     /**
-     * Gets gurdian children by gurdian id.
+     * Gets guardian children by guardian id.
      * 
-     * @param gurdianId The gurdian id
-     * @return The list of children associated to the gurdian
+     * @param guardianId The guardian id
+     * @return The list of children associated to the guardian
      */
-    @Operation(summary = "Get list of gurdian children", description = "Given a gurdian id, it will get the list of children for that gurdian.")
-    @GetMapping("/gurdian/{gurdianId}")
-    public List<Child> getGurdianChildren(@PathVariable int gurdianId) {
-        return childrenService.getGurdianChildren(gurdianId);
+    @Operation(summary = "Get list of guardian children", description = "Given a guardian id, it will get the list of children for that guardian.")
+    @GetMapping("/guardian/{guardianId}")
+    public List<Child> getGuardianChildren(@PathVariable int guardianId) {
+        return childrenService.getGuardianChildren(guardianId);
     }
 
     /**

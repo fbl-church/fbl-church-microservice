@@ -8,7 +8,7 @@ import java.util.List;
 
 import javax.validation.constraints.NotEmpty;
 
-import com.fbl.app.gurdian.client.domain.Gurdian;
+import com.fbl.app.guardian.client.domain.Guardian;
 import com.fbl.app.user.client.domain.User;
 import com.fbl.common.enums.ChurchGroup;
 
@@ -43,5 +43,5 @@ public class Child extends User {
 
     @Schema(description = "Childs guardians")
     @NotEmpty
-    private List<Gurdian> gurdians;
+    private List<Guardian> guardians;
 }

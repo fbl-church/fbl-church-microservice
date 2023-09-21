@@ -30,7 +30,7 @@ public abstract class AbstractSqlGlobals {
     protected static final String FEATURE_ID = "feature_id";
     protected static final String FEATURE_KEY = "feature_key";
     protected static final String FIRST_NAME = "first_name";
-    protected static final String GURDIAN_ID = "gurdian_id";
+    protected static final String GUARDIAN_ID = "guardian_id";
     protected static final String ID = "id";
     protected static final String INSERT_DATE = "insert_date";
     protected static final String INSERT_USER_ID = "insert_user_id";

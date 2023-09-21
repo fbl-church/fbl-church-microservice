@@ -1,7 +1,7 @@
 /**
  * Copyright of FBL Church App. All rights reserved.
  */
-package com.fbl.app.gurdian.client.domain.request;
+package com.fbl.app.guardian.client.domain.request;
 
 import java.util.Arrays;
 import java.util.List;
@@ -26,22 +26,22 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-@Schema(description = "Gurdian get request object for filtering users.")
-public class GurdianGetRequest implements SearchParam, PageParam, SearchFieldParams<UserSearchFields> {
+@Schema(description = "Guardian get request object for filtering users.")
+public class GuardianGetRequest implements SearchParam, PageParam, SearchFieldParams<UserSearchFields> {
 
-    @Schema(description = "List of gurdian ids.")
+    @Schema(description = "List of guardian ids.")
     private Set<Integer> id;
 
-    @Schema(description = "List of gurdian first names.")
+    @Schema(description = "List of guardian first names.")
     private Set<String> firstName;
 
-    @Schema(description = "List of gurdian last names.")
+    @Schema(description = "List of guardian last names.")
     private Set<String> lastName;
 
-    @Schema(description = "List of gurdian emails.")
+    @Schema(description = "List of guardian emails.")
     private Set<String> email;
 
-    @Schema(description = "List of gurdian phones.")
+    @Schema(description = "List of guardian phones.")
     private Set<String> phone;
 
     @Schema(description = "Search Param on search param fields.")

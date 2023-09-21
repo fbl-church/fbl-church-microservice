@@ -38,12 +38,12 @@
   SELECT COUNT(*)
   @INCLUDE(getChildrenBase)
 
-@NAME(getGurdianChildren)
+@NAME(getGuardianChildren)
   SELECT @INCLUDE(childrenFields)
   FROM users u
   INNER JOIN children c ON u.id = c.user_id
-  INNER JOIN children_gurdians cg ON c.user_id = cg.child_id
-  WHERE cg.gurdian_id = :gurdian_id
+  INNER JOIN children_guardians cg ON c.user_id = cg.child_id
+  WHERE cg.guardian_id = :guardian_id
 
 @NAME(getChildChurchGroupsById)
   SELECT church_group
