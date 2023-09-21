@@ -28,7 +28,7 @@ public class ChildMapper extends AbstractMapper<Child> {
 		child.setAllergies(rs.getString(ALLERGIES));
 		child.setAdditionalInfo(rs.getString(ADDITIONAL_INFO));
 
-		child.setInsertDate(rs.getTimestamp(INSERT_DATE).toLocalDateTime());
+		child.setInsertDate(parseDateTime(rs.getString(INSERT_DATE)));
 		return child;
 	}
 }

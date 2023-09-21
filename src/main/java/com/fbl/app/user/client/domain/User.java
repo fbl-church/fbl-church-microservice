@@ -27,7 +27,7 @@ import lombok.Setter;
 public class User {
 
 	@Schema(description = "User identifier")
-	private int id;
+	private Integer id;
 
 	@Schema(description = "First name of the user.")
 	@NotBlank(message = "Invalid firstName: Can not be empty or null")

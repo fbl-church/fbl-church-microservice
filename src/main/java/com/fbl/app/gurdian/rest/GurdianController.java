@@ -111,6 +111,19 @@ public class GurdianController {
     }
 
     /**
+     * Update the gurdian's profile information. Only gurdian can update their own
+     * information
+     * 
+     * @param gurdian what information on the gurdian needs to be updated.
+     * @return gurdian associated to that id with the updated information
+     */
+    @Operation(summary = "Update Gurdian Profile Information", description = "Endpoint used for a gurdian updating their own information")
+    @PutMapping("/profile/{id}")
+    public Gurdian updateGurdianProfile(@PathVariable int id, @RequestBody Gurdian gurdian) {
+        return manageGurdianService.updateGurdianProfile(id, gurdian);
+    }
+
+    /**
      * Update the gurdian's information such as email, first name, and last name
      * 
      * @param gurdian what information on the gurdian needs to be updated.

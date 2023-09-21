@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import com.fbl.app.gurdian.client.domain.Gurdian;
 import com.fbl.app.gurdian.client.domain.request.GurdianGetRequest;
 import com.fbl.app.gurdian.dao.GurdianDAO;
+import com.fbl.app.user.client.UserClient;
+import com.fbl.app.user.client.domain.User;
 import com.fbl.common.page.Page;
 
 /**
@@ -25,6 +27,9 @@ public class GurdianService {
 
     @Autowired
     private GurdianDAO dao;
+
+    @Autowired
+    private UserClient userClient;
 
     /**
      * Gets a list of gurdians based of the request filter
@@ -43,9 +48,12 @@ public class GurdianService {
      * @return The found gurdian based on the id
      */
     public Gurdian getGurdianById(int id) {
+        User user = userClient.getUserById(id);
         GurdianGetRequest request = new GurdianGetRequest();
         request.setId(Set.of(id));
-        return getGurdians(request).getList().get(0);
+        Gurdian foundGurdian = getGurdians(request).getList().get(0);
+        foundGurdian.setWebRole(user.getWebRole());
+        return foundGurdian;
     }
 
     /**

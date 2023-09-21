@@ -111,7 +111,7 @@ public class ManageChildrenService {
         dao.deleteChild(childId);
 
         User u = userClient.getUserById(childId);
-        if (u.getWebRole().contains(WebRole.CHILD) && u.getWebRole().size() <= 2) {
+        if (u.getWebRole().contains(WebRole.CHILD) && u.getWebRole().size() == 1) {
             userClient.deleteUser(childId);
         } else {
             u.getWebRole().removeIf(r -> r.equals(WebRole.CHILD));

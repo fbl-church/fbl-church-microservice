@@ -15,6 +15,8 @@ import com.fbl.app.gurdian.dao.GurdianDAO;
 import com.fbl.app.user.client.UserClient;
 import com.fbl.app.user.client.domain.User;
 import com.fbl.common.enums.WebRole;
+import com.fbl.exception.types.InsufficientPermissionsException;
+import com.fbl.jwt.utility.JwtHolder;
 
 import io.jsonwebtoken.lang.Assert;
 
@@ -39,6 +41,9 @@ public class ManageGurdianService {
 
     @Autowired
     private UserClient userClient;
+
+    @Autowired
+    private JwtHolder jwtHolder;
 
     /**
      * Creates a new gurdian for the given user object.
@@ -71,13 +76,28 @@ public class ManageGurdianService {
     }
 
     /**
+     * Update the gurdian's profile information. Only gurdian can update their own
+     * information
+     * 
+     * @param gurdian what information on the gurdian needs to be updated.
+     * @return gurdian associated to that id with the updated information
+     */
+    public Gurdian updateGurdianProfile(int id, Gurdian gurdian) {
+        if (jwtHolder.getUserId() != id) {
+            throw new InsufficientPermissionsException(
+                    "Insufficient permission: Gurdians can only update their own profile information");
+        }
+        return updateGurdianById(id, gurdian);
+    }
+
+    /**
      * Update the gurdian's information such as email, first name, and last name
      * 
      * @param gurdian what information on the gurdian needs to be updated.
      * @return gurdian associated to that id with the updated information
      */
     public Gurdian updateGurdianById(int id, Gurdian gurdian) {
-        userClient.updateUserById(id, gurdian);
+        userClient.updateGurdianUserById(id, gurdian);
         dao.updateGurdianById(id, gurdian);
         return gurdianService.getGurdianById(id);
     }
@@ -105,11 +125,14 @@ public class ManageGurdianService {
         Assert.notEmpty(gurdians, "Can not associate child to list of empty gurdians.");
         for (Gurdian g : gurdians) {
             try {
+                if (g.getId() == null) {
+                    LOGGER.info("Gurdian id is null. Creating gurdian.");
+                    g.setId(insertGurdian(g).getId());
+                }
                 dao.associateChild(g.getId(), childId, g.getRelationship());
             } catch (Exception e) {
                 LOGGER.warn("Unable to associate child id '{}' to Gurdian id '{}'", childId, g.getId());
             }
-
         }
     }
 
@@ -129,7 +152,14 @@ public class ManageGurdianService {
      * @param userId The id of the gurdian
      */
     public void deleteGurdian(int userId) {
-        dao.removeGurdianRoleFromUser(userId);
         dao.deleteGurdian(userId);
+
+        User u = userClient.getUserById(userId);
+        if (u.getWebRole().contains(WebRole.GURDIAN) && u.getWebRole().size() == 1) {
+            userClient.deleteUser(userId);
+        } else {
+            u.getWebRole().removeIf(r -> r.equals(WebRole.GURDIAN));
+            userClient.updateUserRoles(userId, u.getWebRole());
+        }
     }
 }
