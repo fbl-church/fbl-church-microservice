@@ -5,6 +5,9 @@ package com.fbl.app.attendance.dao;
 
 import static com.fbl.app.attendance.mapper.ChildAttendanceMapper.*;
 
+import java.time.LocalDateTime;
+import java.util.Optional;
+
 import javax.sql.DataSource;
 
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -12,6 +15,7 @@ import org.springframework.stereotype.Repository;
 
 import com.fbl.app.attendance.client.domain.ChildAttendance;
 import com.fbl.app.attendance.client.domain.request.ChildAttendanceGetRequest;
+import com.fbl.common.date.TimeZoneUtil;
 import com.fbl.common.enums.ChurchGroup;
 import com.fbl.common.page.Page;
 import com.fbl.sql.abstracts.BaseDao;
@@ -45,6 +49,20 @@ public class ChildAttendanceDAO extends BaseDao {
     }
 
     /**
+     * Gets the child attendance for the given record id and child id.
+     * 
+     * @param recordId The attendance record id
+     * @param childId  The child id to check out
+     * @return The Child Attendance
+     */
+    public Optional<ChildAttendance> getChildAttendanceById(int recordId, int childId) {
+        MapSqlParameterSource params = SqlParamBuilder.with().useAllParams()
+                .withParam(ATTENDANCE_RECORD_ID, recordId).withParam(CHILD_ID, childId)
+                .build();
+        return getOptional("getChildAttendanceById", params, CHILD_ATTENDANCE_MAPPER);
+    }
+
+    /**
      * Assigns the given child id to the attendance record
      * 
      * @param recordId The attendance record id
@@ -67,6 +85,20 @@ public class ChildAttendanceDAO extends BaseDao {
     }
 
     /**
+     * Check out of the child on the given record id.
+     * 
+     * @param recordId The attendance record id
+     * @param childId  The child id to check out
+     * @return The updated child Attendance
+     */
+    public void checkOutChildFromAttendanceRecord(int recordId, int childId, int updatedUserId) {
+        MapSqlParameterSource params = SqlParamBuilder.with().withParam(ATTENDANCE_RECORD_ID, recordId)
+                .withParam(CHILD_ID, childId).withParam(UPDATE_USER_ID, updatedUserId)
+                .withParam(CHECK_OUT_DATE, LocalDateTime.now(TimeZoneUtil.SYSTEM_ZONE)).build();
+        update("checkOutChildFromAttendanceRecord", params);
+    }
+
+    /**
      * Remove the child from the attendance record by id
      * 
      * @param recordId The attendance record id
@@ -76,7 +108,6 @@ public class ChildAttendanceDAO extends BaseDao {
     public void removeChildFromAttendanceRecord(int recordId, int childId) {
         MapSqlParameterSource params = SqlParamBuilder.with().withParam(ATTENDANCE_RECORD_ID, recordId)
                 .withParam(CHILD_ID, childId).build();
-
         delete("removeChildFromAttendanceRecord", params);
     }
 

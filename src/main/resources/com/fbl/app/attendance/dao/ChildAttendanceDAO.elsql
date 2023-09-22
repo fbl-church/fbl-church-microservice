@@ -6,7 +6,8 @@
   ca.notes,
   ca.attendance_record_id,
   ca.updated_user_id,
-  ca.check_in_date
+  ca.check_in_date,
+  ca.check_out_date
 
 @NAME(childrenAttendanceFilters)
   @WHERE
@@ -16,6 +17,8 @@
       u.last_name IN (:last_name)
     @AND(:church_group)
       u.id IN (SELECT cg.child_id FROM children_groups cg WHERE cg.church_group = :church_group GROUP BY cg.child_id)
+    @AND(:child_id)
+      u.id = :child_id
     @AND(:present = 1)
       ca.attendance_record_id IS NOT NULL
     @AND(:present = 0)
@@ -39,6 +42,13 @@
   SELECT COUNT(*)
   @INCLUDE(getAttendanceRecordChildrenBase)
 
+@NAME(getChildAttendanceById)
+  SELECT @INCLUDE(childrenAttendanceFields)
+  FROM users u
+  INNER JOIN children c ON u.id = c.user_id
+  INNER JOIN children_attendance ca ON c.user_id = ca.child_id AND ca.attendance_record_id = :attendance_record_id
+  @INCLUDE(childrenAttendanceFilters)
+
 @NAME(assignChildToAttendanceRecord)
   INSERT INTO children_attendance (attendance_record_id, child_id, notes, updated_user_id) VALUES (:attendance_record_id, :child_id, :notes, :updated_user_id)
 
@@ -46,6 +56,14 @@
   UPDATE children_attendance
   SET
     notes = :notes,
+    updated_user_id = IFNULL(:updated_user_id,updated_user_id)
+  WHERE attendance_record_id = :attendance_record_id 
+  AND child_id = :child_id
+
+@NAME(checkOutChildFromAttendanceRecord)
+  UPDATE children_attendance
+  SET
+    check_out_date = IFNULL(:check_out_date,check_out_date),
     updated_user_id = IFNULL(:updated_user_id,updated_user_id)
   WHERE attendance_record_id = :attendance_record_id 
   AND child_id = :child_id

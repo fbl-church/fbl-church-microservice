@@ -52,6 +52,19 @@ public class ChildAttendanceController {
     }
 
     /**
+     * Gets the child attendance for the given record id and child id.
+     * 
+     * @param recordId The attendance record id
+     * @param childId  The child id to check out
+     * @return The Child Attendance
+     */
+    @Operation(summary = "Gets the child attendance", description = "Given a Attendance Record Id and child id, It will return the associated child attendance.")
+    @GetMapping("/{recordId}/children/{childId}")
+    public ChildAttendance getChildAttendanceById(@PathVariable int recordId, @PathVariable int childId) {
+        return childAttendanceService.getChildAttendanceById(recordId, childId);
+    }
+
+    /**
      * Assigns the child to the attendance record by id
      * 
      * @param id The attendance record id
@@ -61,23 +74,36 @@ public class ChildAttendanceController {
     @Operation(summary = "Assigns the child to the attendance record by id.", description = "Given a Attendance Record id and child id, it will assign them to the record.")
     @PostMapping("/{recordId}/children")
     @HasAccess(WebRole.JUNIOR_CHURCH_WORKER)
-    public AttendanceRecord assignChildToAttendanceRecord(@PathVariable int recordId, @RequestBody ChildAttendance ca) {
+    public ChildAttendance assignChildToAttendanceRecord(@PathVariable int recordId, @RequestBody ChildAttendance ca) {
         return childAttendanceService.assignChildToAttendanceRecord(recordId, ca);
     }
 
     /**
      * Updates the child notes on an attendance record
      * 
-     * @param id    The attendance record id
-     * @param child The child attendance to update
-     * @param notes The notes to be set on the child
+     * @param id The attendance record id
+     * @param ca The child attendance to update
      * @return The updated attendance record
      */
     @Operation(summary = "Updates the child notes on an attendance record.", description = "Given a Attendance Record id and child id, it will update the notes for the child attendance.")
     @PutMapping(value = "/{recordId}/children")
     @HasAccess(WebRole.JUNIOR_CHURCH_WORKER)
-    public AttendanceRecord updateChildNotes(@PathVariable int recordId, @RequestBody ChildAttendance ca) {
+    public ChildAttendance updateChildNotes(@PathVariable int recordId, @RequestBody ChildAttendance ca) {
         return childAttendanceService.updateChildNotes(recordId, ca);
+    }
+
+    /**
+     * Check out of the child on the given record id.
+     * 
+     * @param recordId The attendance record id
+     * @param childId  The child id to check out
+     * @return The updated child Attendance
+     */
+    @Operation(summary = "Will check out the child from the attendance record", description = "Given a Attendance Record id and child id, it will check out the child from the record.")
+    @PutMapping(value = "/{recordId}/children/{childId}")
+    @HasAccess(WebRole.JUNIOR_CHURCH_WORKER)
+    public ChildAttendance checkOutChildFromAttendanceRecord(@PathVariable int recordId, @PathVariable int childId) {
+        return childAttendanceService.checkOutChildFromAttendanceRecord(recordId, childId);
     }
 
     /**

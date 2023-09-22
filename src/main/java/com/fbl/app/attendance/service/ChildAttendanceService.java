@@ -13,6 +13,7 @@ import com.fbl.app.attendance.client.domain.ChildAttendance;
 import com.fbl.app.attendance.client.domain.request.ChildAttendanceGetRequest;
 import com.fbl.app.attendance.dao.ChildAttendanceDAO;
 import com.fbl.common.page.Page;
+import com.fbl.exception.types.NotFoundException;
 import com.fbl.jwt.utility.JwtHolder;
 
 /**
@@ -47,19 +48,32 @@ public class ChildAttendanceService {
     }
 
     /**
+     * Gets the child attendance for the given record id and child id.
+     * 
+     * @param recordId The attendance record id
+     * @param childId  The child id to check out
+     * @return The Child Attendance
+     */
+    public ChildAttendance getChildAttendanceById(int recordId, int childId) {
+        return dao.getChildAttendanceById(recordId, childId)
+                .orElseThrow(() -> new NotFoundException(
+                        String.format("Child id '%d' not found for attendance record id '%d'", childId, recordId)));
+    }
+
+    /**
      * Assigns the child to the attendance record by id
      * 
      * @param recordId The attendance record id
      * @param childId  The child id attendance to update
      * @return The updated attendance record
      */
-    public AttendanceRecord assignChildToAttendanceRecord(int recordId, ChildAttendance ca) {
+    public ChildAttendance assignChildToAttendanceRecord(int recordId, ChildAttendance ca) {
         try {
             dao.assignChildToAttendanceRecord(recordId, ca, jwtHolder.getUserId());
         } catch (Exception e) {
             LOGGER.error("Unable to assign child id '{}' to attendance record id '{}'.", ca.getId(), recordId, e);
         }
-        return attendanceService.getAttendanceRecordById(recordId);
+        return getChildAttendanceById(recordId, ca.getId());
     }
 
     /**
@@ -70,14 +84,26 @@ public class ChildAttendanceService {
      * @param notes The notes to be set on the child
      * @return The updated attendance record
      */
-    public AttendanceRecord updateChildNotes(int recordId, ChildAttendance ca) {
+    public ChildAttendance updateChildNotes(int recordId, ChildAttendance ca) {
         try {
             dao.updateChildNotes(recordId, ca, jwtHolder.getUserId());
         } catch (Exception e) {
             LOGGER.error("Unable to update notes for child id '{}' on attendance record id '{}'.", ca.getId(), recordId,
                     e);
         }
-        return attendanceService.getAttendanceRecordById(recordId);
+        return getChildAttendanceById(recordId, ca.getId());
+    }
+
+    /**
+     * Check out of the child on the given record id.
+     * 
+     * @param recordId The attendance record id
+     * @param childId  The child id to check out
+     * @return The updated child Attendance
+     */
+    public ChildAttendance checkOutChildFromAttendanceRecord(int recordId, int childId) {
+        dao.checkOutChildFromAttendanceRecord(recordId, childId, jwtHolder.getUserId());
+        return getChildAttendanceById(recordId, childId);
     }
 
     /**

@@ -46,4 +46,7 @@ public class ChildAttendance {
 
     @Schema(description = "The date the child was checked in")
     private LocalDateTime checkInDate;
+
+    @Schema(description = "The date the child was checked out")
+    private LocalDateTime checkOutDate;
 }

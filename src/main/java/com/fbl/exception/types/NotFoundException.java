@@ -11,6 +11,10 @@ package com.fbl.exception.types;
  */
 public class NotFoundException extends BaseException {
 
+    public NotFoundException(String message) {
+        super(message);
+    }
+
     public NotFoundException(String field, Object value) {
         super(String.format("%s not found for id: '%s'", field, value));
     }
