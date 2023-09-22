@@ -126,7 +126,7 @@ public class AttendanceDAO extends BaseDao {
     public void activateAttendanceRecord(int id, int startedByUserId) {
         MapSqlParameterSource params = SqlParamBuilder.with().withParam(STATUS, AttendanceStatus.ACTIVE)
                 .withParam(ID, id).withParam(STARTED_BY_USER_ID, startedByUserId).build();
-        update("updateAttendanceRecordStatus", params.addValue(CLOSED_BY_USER_ID, null));
+        update("updateAttendanceRecordStatus", params.addValue(CLOSED_BY_USER_ID, null).addValue(CLOSED_DATE, null));
     }
 
     /**
