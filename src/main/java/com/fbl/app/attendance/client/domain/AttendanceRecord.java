@@ -51,6 +51,12 @@ public class AttendanceRecord {
     @NotNull(message = "Invalid activeDate: Can not be null")
     private LocalDate activeDate;
 
+    @Schema(description = "Who started the attendance record")
+    private Integer startedByUserId;
+
+    @Schema(description = "Who closed the attendance record")
+    private Integer closedByUserId;
+
     @Schema(description = "The date time the attendance record was closed.")
     private LocalDateTime closedDate;
 

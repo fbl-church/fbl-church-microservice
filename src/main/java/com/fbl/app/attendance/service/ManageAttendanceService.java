@@ -20,6 +20,7 @@ import com.fbl.app.user.client.domain.User;
 import com.fbl.app.user.client.domain.request.UserGetRequest;
 import com.fbl.common.enums.AttendanceStatus;
 import com.fbl.exception.types.BaseException;
+import com.fbl.jwt.utility.JwtHolder;
 
 /**
  * Manage Attendance Service class that handles all service calls to the dao
@@ -40,6 +41,9 @@ public class ManageAttendanceService {
 
     @Autowired
     private UserClient userClient;
+
+    @Autowired
+    private JwtHolder jwtHolder;
 
     /**
      * Create a new attendance record
@@ -80,7 +84,9 @@ public class ManageAttendanceService {
         }
 
         if (AttendanceStatus.CLOSED.equals(status)) {
-            dao.closeAttendanceRecord(id);
+            dao.closeAttendanceRecord(id, jwtHolder.getUserId());
+        } else if (AttendanceStatus.ACTIVE.equals(status)) {
+            dao.activateAttendanceRecord(id, jwtHolder.getUserId());
         } else {
             dao.updateAttendanceRecordStatus(id, status);
         }

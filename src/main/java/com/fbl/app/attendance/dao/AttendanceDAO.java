@@ -107,13 +107,26 @@ public class AttendanceDAO extends BaseDao {
     /**
      * Closes the attendance record and sets the closed date time.
      * 
-     * @param id The attendance record id
+     * @param id             The attendance record id
+     * @param closedByUserId The id of who closed the record
      */
-    public void closeAttendanceRecord(int id) {
+    public void closeAttendanceRecord(int id, int closedByUserId) {
         MapSqlParameterSource params = SqlParamBuilder.with().withParam(STATUS, AttendanceStatus.CLOSED)
                 .withParam(CLOSED_DATE, LocalDateTime.now(TimeZoneUtil.SYSTEM_ZONE))
-                .withParam(ID, id).build();
-        update("updateAttendanceRecordClosedTime", params);
+                .withParam(ID, id).withParam(CLOSED_BY_USER_ID, closedByUserId).build();
+        update("updateAttendanceRecordStatus", params.addValue(STARTED_BY_USER_ID, null));
+    }
+
+    /**
+     * Activates the attendance record,
+     * 
+     * @param id              The attendance record id
+     * @param startedByUserId The id of who activated the record
+     */
+    public void activateAttendanceRecord(int id, int startedByUserId) {
+        MapSqlParameterSource params = SqlParamBuilder.with().withParam(STATUS, AttendanceStatus.ACTIVE)
+                .withParam(ID, id).withParam(STARTED_BY_USER_ID, startedByUserId).build();
+        update("updateAttendanceRecordStatus", params.addValue(CLOSED_BY_USER_ID, null));
     }
 
     /**

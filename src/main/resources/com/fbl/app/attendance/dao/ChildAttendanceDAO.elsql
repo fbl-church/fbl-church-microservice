@@ -36,7 +36,7 @@
   @PAGING(:rowOffset, :pageSize)
     SELECT @INCLUDE(childrenAttendanceFields) 
     @INCLUDE(getAttendanceRecordChildrenBase)
-    ORDER BY u.last_name ASC
+    ORDER BY ca.check_out_date ASC, u.last_name ASC, u.first_name ASC
 
 @NAME(getAttendanceRecordChildrenPageTotalCount)
   SELECT COUNT(*)

@@ -5,6 +5,8 @@
   ar.type,
   ar.active_date,
   ar.closed_date,
+  ar.started_by_user_id,
+  ar.closed_by_user_id,
   ar.insert_date
 
 @NAME(userFields)
@@ -78,14 +80,11 @@
 
 @NAME(updateAttendanceRecordStatus)
   UPDATE attendance_records 
-  SET status = IFNULL(:status, status)
-  WHERE id = :id
-
-@NAME(updateAttendanceRecordClosedTime)
-  UPDATE attendance_records 
-  SET
-    status      = IFNULL(:status, status),
-    closed_date = IFNULL(:closed_date, closed_date)
+  SET 
+    status             = IFNULL(:status, status),
+    closed_date        = IFNULL(:closed_date, closed_date),
+    started_by_user_id = IFNULL(:started_by_user_id, started_by_user_id),
+    closed_by_user_id  = IFNULL(:closed_by_user_id, closed_by_user_id)
   WHERE id = :id
 
 @NAME(deleteAttendanceRecordWorkers)

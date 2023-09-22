@@ -21,6 +21,7 @@ public abstract class AbstractSqlGlobals {
     protected static final String CHILD_ID = "child_id";
     protected static final String CHURCH_GROUP = "church_group";
     protected static final String CITY = "city";
+    protected static final String CLOSED_BY_USER_ID = "closed_by_user_id";
     protected static final String CLOSED_DATE = "closed_date";
     protected static final String CREATE = "create";
     protected static final String CUID = "cuid";
@@ -49,6 +50,7 @@ public abstract class AbstractSqlGlobals {
     protected static final String READ = "read";
     protected static final String RELATIONSHIP = "relationship";
     protected static final String REQUEST_ID = "request_id";
+    protected static final String STARTED_BY_USER_ID = "started_by_user_id";
     protected static final String STATE = "state";
     protected static final String STATUS = "status";
     protected static final String TEXT_ID = "text_id";
