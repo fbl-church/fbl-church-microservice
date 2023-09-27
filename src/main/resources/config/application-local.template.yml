@@ -10,3 +10,5 @@ spring:
 
 jwt:
   secret: "local-key"
+email:
+  sendgrid-key:

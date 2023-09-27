@@ -17,6 +17,9 @@ spring:
   profiles:
     default: "local"
 
+email:
+  sendgrid-key: ${SENDGRID_API_KEY}
+
 logging:
   level:
     "[org.springframework]": OFF

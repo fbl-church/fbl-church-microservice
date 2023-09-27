@@ -22,6 +22,9 @@ public class EnvironmentService {
     @Value("${jwt.secret:#{null}}")
     private String LOCAL_SIGNING_KEY;
 
+    @Value("${email.sendgrid-key}")
+    private String SENDGRID_API_KEY;
+
     /**
      * Gets the current active profile environment.
      *
@@ -39,5 +42,14 @@ public class EnvironmentService {
      */
     public String getSigningKey() {
         return LOCAL_SIGNING_KEY != null ? LOCAL_SIGNING_KEY : System.getenv(SIGNING_KEY);
+    }
+
+    /**
+     * Gets the signing key property for sending emails
+     * 
+     * @return {@link String} of the key
+     */
+    public String getSendGridSigningKey() {
+        return SENDGRID_API_KEY;
     }
 }
