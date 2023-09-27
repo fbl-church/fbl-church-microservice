@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import com.fbl.app.guardian.client.domain.Guardian;
 import com.fbl.app.guardian.dao.GuardianDAO;
@@ -17,8 +18,6 @@ import com.fbl.app.user.client.domain.User;
 import com.fbl.common.enums.WebRole;
 import com.fbl.exception.types.InsufficientPermissionsException;
 import com.fbl.jwt.utility.JwtHolder;
-
-import io.jsonwebtoken.lang.Assert;
 
 /**
  * Manage Guardian Service class that handles all service calls to the dao
@@ -122,7 +121,10 @@ public class ManageGuardianService {
      * @param guardians List of guardians to associate
      */
     public void associateChild(int childId, List<Guardian> guardians) {
-        Assert.notEmpty(guardians, "Can not associate child to list of empty guardians.");
+        if (CollectionUtils.isEmpty(guardians)) {
+            return;
+        }
+
         for (Guardian g : guardians) {
             try {
                 if (g.getId() == null) {

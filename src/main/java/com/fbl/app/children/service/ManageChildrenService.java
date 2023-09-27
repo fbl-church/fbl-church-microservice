@@ -17,8 +17,6 @@ import com.fbl.app.user.client.domain.User;
 import com.fbl.common.enums.ChurchGroup;
 import com.fbl.common.enums.WebRole;
 
-import io.jsonwebtoken.lang.Assert;
-
 /**
  * Manage Children Service class that handles all service calls to the dao
  * 
@@ -49,7 +47,6 @@ public class ManageChildrenService {
      * @return {@link Child} that was created.
      */
     public Child insertChild(Child child) {
-        Assert.notEmpty(child.getGuardians(), "Child must be associated to at least one guardian");
         child.setPassword(CHILD_DEFAULT_PASSWORD);
 
         User createdUser = userClient.createUser(child);

@@ -6,8 +6,6 @@ package com.fbl.app.children.client.domain;
 import java.time.LocalDate;
 import java.util.List;
 
-import javax.validation.constraints.NotEmpty;
-
 import com.fbl.app.guardian.client.domain.Guardian;
 import com.fbl.app.user.client.domain.User;
 import com.fbl.common.enums.ChurchGroup;
@@ -42,6 +40,5 @@ public class Child extends User {
     private String additionalInfo;
 
     @Schema(description = "Childs guardians")
-    @NotEmpty
     private List<Guardian> guardians;
 }
