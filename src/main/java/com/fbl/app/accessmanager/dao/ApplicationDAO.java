@@ -8,7 +8,6 @@ import static com.fbl.app.accessmanager.mapper.WebRoleAppMapper.*;
 
 import javax.sql.DataSource;
 
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -69,7 +68,6 @@ public class ApplicationDAO extends BaseDao {
      * @param enabled     The status of the application to set.
      * @return The application that was updated
      */
-    @CacheEvict(cacheNames = "user.apps", allEntries = true)
     public void updateApplicationEnabledFlag(int appId, boolean enabled) {
         update("updateApplicationEnabledFlag", parameterSource(ENABLED, enabled).addValue(APP_ID, appId));
     }
@@ -82,7 +80,6 @@ public class ApplicationDAO extends BaseDao {
      * @param boolean The access to give
      * @return The updated web role app
      */
-    @CacheEvict(cacheNames = "user.apps", allEntries = true)
     public void updateWebRoleAppAccess(int appId, WebRole webRole, boolean access) {
         MapSqlParameterSource params = SqlParamBuilder.with().useAllParams()
                 .withParam(WEB_ROLE, webRole)

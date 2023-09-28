@@ -19,8 +19,6 @@ import java.util.stream.Collectors;
 
 import javax.sql.DataSource;
 
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -82,7 +80,6 @@ public class FeatureDAO extends BaseDao {
      * @param roles The web roles to get the feature access for
      * @return {@link Map<String,String>} of the feature access
      */
-    @Cacheable(value = "featureAccess", key = "#roles")
     public Map<String, List<Map<String, String>>> getWebRoleFeatureAccess(List<WebRole> roles) {
         MapSqlParameterSource params = SqlParamBuilder.with().withParamTextEnumCollection(WEB_ROLE, roles).build();
         return mapSingleton(getList("getFeatureAccess", params, FEATURE_ACCESS_MAPPER));
@@ -95,7 +92,6 @@ public class FeatureDAO extends BaseDao {
      * @param enabled   The flag to set on the feature
      * @return The updated feature
      */
-    @CacheEvict(cacheNames = "featureAccess", allEntries = true)
     public void updateFeatureEnabledFlag(int featureId, boolean enabled) {
         MapSqlParameterSource params = SqlParamBuilder.with().useAllParams()
                 .withParam(FEATURE_ID, featureId)
@@ -110,7 +106,6 @@ public class FeatureDAO extends BaseDao {
      * @param webRoleFeature The web role feature update
      * @return The updated web role feature
      */
-    @CacheEvict(cacheNames = "featureAccess", allEntries = true)
     public void updateWebRoleFeatureAccess(int featureId, WebRole webRole, CRUD crud) {
         MapSqlParameterSource params = SqlParamBuilder.with().useAllParams()
                 .withParam(WEB_ROLE, webRole)
