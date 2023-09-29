@@ -40,12 +40,25 @@ public class ChildAttendanceDAO extends BaseDao {
      * @param id The attendance record id
      * @return Page of workers
      */
-    public Page<ChildAttendance> getAttendanceRecordChildrenById(int id, ChildAttendanceGetRequest request,
+    public Page<ChildAttendance> getChildrenAttendanceById(int id, ChildAttendanceGetRequest request,
             ChurchGroup group) {
         MapSqlParameterSource params = SqlParamBuilder.with(request).useAllParams()
                 .withParam(ATTENDANCE_RECORD_ID, id).withParam(PRESENT, request.getPresent())
                 .withParam(CHURCH_GROUP, group).build();
-        return getPage("getAttendanceRecordChildrenPage", params, CHILD_ATTENDANCE_MAPPER);
+        return getPage("getChildrenAttendancePage", params, CHILD_ATTENDANCE_MAPPER);
+    }
+
+    /**
+     * Gets a page of child attendance records for a child id
+     * 
+     * @param childId The child id
+     * @return The page of Child Attendances
+     */
+    public Page<ChildAttendance> getPageOfChildAttendanceByChildId(int childId, ChildAttendanceGetRequest request) {
+        MapSqlParameterSource params = SqlParamBuilder.with(request).useAllParams().withParam(CHILD_ID, childId)
+                .withParam(CHURCH_GROUP, request.getGroup())
+                .build();
+        return getPage("getChildAttendancePageByChildId", params, CHILD_ATTENDANCE_MAPPER);
     }
 
     /**

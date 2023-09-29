@@ -10,8 +10,6 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -46,7 +44,6 @@ public class UserDAO extends BaseDao {
 	 * 
 	 * @param request of the user
 	 * @return User object {@link User}
-	 * @throws Exception
 	 */
 	public Page<User> getUsers(UserGetRequest request) {
 		MapSqlParameterSource params = SqlParamBuilder.with(request).useAllParams().withParam(ID, request.getId())
@@ -64,7 +61,6 @@ public class UserDAO extends BaseDao {
 	 * @param id of the user
 	 * @return User object {@link User}
 	 */
-	@Cacheable(value = "user", key = "#id")
 	public User getUserById(int id) {
 		try {
 			UserGetRequest request = new UserGetRequest();
@@ -134,7 +130,6 @@ public class UserDAO extends BaseDao {
 	 * @param user   what information on the user needs to be updated.
 	 * @return user associated to that id with the updated information
 	 */
-	@CacheEvict(cacheNames = "user", key = "#userId")
 	public void updateUser(int userId, User user) {
 		MapSqlParameterSource params = SqlParamBuilder.with().withParam(FIRST_NAME, user.getFirstName())
 				.withParam(LAST_NAME, user.getLastName()).withParam(EMAIL, user.getEmail()).withParam(ID, userId)

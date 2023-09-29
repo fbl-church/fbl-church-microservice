@@ -42,9 +42,19 @@ public class ChildAttendanceService {
      * @param id The attendance record id
      * @return Page of workers
      */
-    public Page<ChildAttendance> getAttendanceRecordChildrenById(int id, ChildAttendanceGetRequest request) {
+    public Page<ChildAttendance> getChildrenAttendanceById(int id, ChildAttendanceGetRequest request) {
         AttendanceRecord record = attendanceService.getAttendanceRecordById(id);
-        return dao.getAttendanceRecordChildrenById(id, request, record.getType());
+        return dao.getChildrenAttendanceById(id, request, record.getType());
+    }
+
+    /**
+     * Gets a page of child attendance records for a child id
+     * 
+     * @param childId The child id
+     * @return The page of Child Attendances
+     */
+    public Page<ChildAttendance> getPageOfChildAttendanceByChildId(int childId, ChildAttendanceGetRequest request) {
+        return dao.getPageOfChildAttendanceByChildId(childId, request);
     }
 
     /**

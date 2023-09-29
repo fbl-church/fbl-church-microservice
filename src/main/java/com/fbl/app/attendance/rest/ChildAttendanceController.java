@@ -46,9 +46,22 @@ public class ChildAttendanceController {
      */
     @Operation(summary = "Get a Page of attendance Record children by Attendance Id", description = "Given a Attendance Record Id, it will return a Page of attendance record children that match the id.")
     @GetMapping("/{id}/children")
-    public Page<ChildAttendance> getAttendanceRecordChildrenById(ChildAttendanceGetRequest request,
+    public Page<ChildAttendance> getChildrenAttendanceById(ChildAttendanceGetRequest request,
             @PathVariable int id) {
-        return childAttendanceService.getAttendanceRecordChildrenById(id, request);
+        return childAttendanceService.getChildrenAttendanceById(id, request);
+    }
+
+    /**
+     * Gets a page of child attendance records for a child id
+     * 
+     * @param childId The child id
+     * @return The page of Child Attendances
+     */
+    @Operation(summary = "Gets the child attendance by child Id", description = "Given a child id, it will get the child attendance records for that child.")
+    @GetMapping("/children/{childId}")
+    public Page<ChildAttendance> getPageOfChildAttendanceByChildId(@PathVariable int childId,
+            ChildAttendanceGetRequest request) {
+        return childAttendanceService.getPageOfChildAttendanceByChildId(childId, request);
     }
 
     /**

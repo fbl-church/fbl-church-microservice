@@ -7,7 +7,12 @@
   ca.attendance_record_id,
   ca.updated_user_id,
   ca.check_in_date,
-  ca.check_out_date
+  ca.check_out_date,
+  ar.name,
+  ar.type,
+  ar.active_date
+
+---
 
 @NAME(childrenAttendanceFilters)
   @WHERE
@@ -26,21 +31,53 @@
     @AND(:search = true)
       @INCLUDE(search)
 
-@NAME(getAttendanceRecordChildrenBase)
+---
+
+@NAME(childAttendanceFilters)
+  @WHERE
+    @AND(:church_group)
+      ar.type = :church_group
+    @AND(:child_id)
+      u.id = :child_id
+---
+
+@NAME(getChildrenAttendancePage)
+  @PAGING(:rowOffset, :pageSize)
+    SELECT @INCLUDE(childrenAttendanceFields) 
+    @INCLUDE(getChildrenAttendancePageBase)
+    ORDER BY ca.check_out_date ASC, u.last_name ASC, u.first_name ASC
+
+@NAME(getChildrenAttendancePageBase)
   FROM users u
   INNER JOIN children c ON u.id = c.user_id
   LEFT JOIN children_attendance ca ON c.user_id = ca.child_id AND ca.attendance_record_id = :attendance_record_id
+  LEFT JOIN attendance_records ar ON ca.attendance_record_id = ar.id
   @INCLUDE(childrenAttendanceFilters)
 
-@NAME(getAttendanceRecordChildrenPage)
-  @PAGING(:rowOffset, :pageSize)
-    SELECT @INCLUDE(childrenAttendanceFields) 
-    @INCLUDE(getAttendanceRecordChildrenBase)
-    ORDER BY ca.check_out_date ASC, u.last_name ASC, u.first_name ASC
-
-@NAME(getAttendanceRecordChildrenPageTotalCount)
+@NAME(getChildrenAttendancePageTotalCount)
   SELECT COUNT(*)
-  @INCLUDE(getAttendanceRecordChildrenBase)
+  @INCLUDE(getChildrenAttendancePageBase)
+
+---
+
+@NAME(getChildAttendancePageByChildId)
+  @PAGING(:rowOffset, :pageSize)
+    SELECT @INCLUDE(childrenAttendanceFields)
+    @INCLUDE(getChildAttendancePageByChildIdBase)
+    ORDER BY ar.active_date DESC
+
+@NAME(getChildAttendancePageByChildIdBase)
+  FROM users u
+  INNER JOIN children c ON u.id = c.user_id
+  INNER JOIN children_attendance ca ON c.user_id = ca.child_id
+  INNER JOIN attendance_records ar ON ca.attendance_record_id = ar.id
+  @INCLUDE(childAttendanceFilters)
+
+@NAME(getChildAttendancePageByChildIdTotalCount)
+  SELECT COUNT(*)
+  @INCLUDE(getChildAttendancePageByChildIdBase)
+
+---
 
 @NAME(getChildAttendanceById)
   SELECT @INCLUDE(childrenAttendanceFields)
@@ -49,8 +86,12 @@
   INNER JOIN children_attendance ca ON c.user_id = ca.child_id AND ca.attendance_record_id = :attendance_record_id
   @INCLUDE(childrenAttendanceFilters)
 
+---
+
 @NAME(assignChildToAttendanceRecord)
   INSERT INTO children_attendance (attendance_record_id, child_id, notes, updated_user_id) VALUES (:attendance_record_id, :child_id, :notes, :updated_user_id)
+
+---
 
 @NAME(updateChildNotes)
   UPDATE children_attendance
@@ -60,6 +101,8 @@
   WHERE attendance_record_id = :attendance_record_id 
   AND child_id = :child_id
 
+---
+
 @NAME(checkOutChildFromAttendanceRecord)
   UPDATE children_attendance
   SET
@@ -68,8 +111,12 @@
   WHERE attendance_record_id = :attendance_record_id 
   AND child_id = :child_id
 
+---
+
 @NAME(removeChildFromAttendanceRecord)
   DELETE FROM children_attendance WHERE attendance_record_id = :attendance_record_id AND child_id = :child_id
+
+---
 
 @NAME(search)
   (@VALUE(:searchContent))

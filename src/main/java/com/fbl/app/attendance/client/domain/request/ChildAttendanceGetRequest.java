@@ -8,6 +8,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fbl.app.children.client.domain.request.ChildSearchFields;
+import com.fbl.common.enums.ChurchGroup;
 import com.fbl.common.page.domain.PageParam;
 import com.fbl.common.search.SearchField;
 import com.fbl.common.search.SearchFieldParams;
@@ -31,6 +32,9 @@ public class ChildAttendanceGetRequest
 
     @Schema(description = "Present flag for children")
     private Boolean present;
+
+    @Schema(description = "The group to filter children")
+    private ChurchGroup group;
 
     @Schema(description = "Search Param on search param fields.")
     private String search;

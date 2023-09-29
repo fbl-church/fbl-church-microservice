@@ -3,9 +3,12 @@
  */
 package com.fbl.app.attendance.client.domain;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import javax.validation.constraints.NotBlank;
+
+import com.fbl.common.enums.ChurchGroup;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
@@ -38,6 +41,12 @@ public class ChildAttendance {
     @Schema(description = "Any notes for the child attendance.")
     private String notes;
 
+    @Schema(description = "The name of the record")
+    private String recordName;
+
+    @Schema(description = "The church groupd record type")
+    private ChurchGroup recordType;
+
     @Schema(description = "The attendance record id")
     private Integer attendanceRecordId;
 
@@ -49,4 +58,7 @@ public class ChildAttendance {
 
     @Schema(description = "The date the child was checked out")
     private LocalDateTime checkOutDate;
+
+    @Schema(description = "The date the record started")
+    private LocalDate recordDate;
 }

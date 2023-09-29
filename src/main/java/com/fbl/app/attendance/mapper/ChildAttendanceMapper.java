@@ -8,6 +8,7 @@ import java.sql.SQLException;
 
 import com.fbl.app.attendance.client.domain.ChildAttendance;
 import com.fbl.app.children.client.domain.Child;
+import com.fbl.common.enums.ChurchGroup;
 import com.fbl.sql.abstracts.AbstractMapper;
 
 /**
@@ -30,6 +31,9 @@ public class ChildAttendanceMapper extends AbstractMapper<ChildAttendance> {
 		child.setUpdatedUserId(rs.getObject(UPDATE_USER_ID, Integer.class));
 		child.setCheckInDate(parseDateTime(rs.getString(CHECK_IN_DATE)));
 		child.setCheckOutDate(parseDateTime(rs.getString(CHECK_OUT_DATE)));
+		child.setRecordName(rs.getString(NAME));
+		child.setRecordType(rs.getString(TYPE) == null ? null : ChurchGroup.valueOf(rs.getString(TYPE)));
+		child.setRecordDate(parseDate(rs.getString(ACTIVE_DATE)));
 		return child;
 	}
 }
