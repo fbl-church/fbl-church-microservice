@@ -8,3 +8,5 @@ jwt:
   secret: "test-local-key"
 email:
   sendgrid-key:
+cloudinary:
+  url:

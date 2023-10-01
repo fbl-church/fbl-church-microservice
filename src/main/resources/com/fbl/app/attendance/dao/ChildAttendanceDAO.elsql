@@ -39,6 +39,9 @@
       ar.type = :church_group
     @AND(:child_id)
       u.id = :child_id
+    @AND(:attendance_record_id)
+      ar.id = :attendance_record_id
+
 ---
 
 @NAME(getChildrenAttendancePage)
@@ -47,6 +50,16 @@
     @INCLUDE(getChildrenAttendancePageBase)
     ORDER BY ca.check_out_date ASC, u.last_name ASC, u.first_name ASC
 
+---
+ 
+@NAME(getChildAttendancePageByChildId)
+  @PAGING(:rowOffset, :pageSize)
+    SELECT @INCLUDE(childrenAttendanceFields)
+    @INCLUDE(getChildAttendancePageByChildIdBase)
+    ORDER BY ar.active_date DESC
+
+---
+
 @NAME(getChildrenAttendancePageBase)
   FROM users u
   INNER JOIN children c ON u.id = c.user_id
@@ -54,17 +67,7 @@
   LEFT JOIN attendance_records ar ON ca.attendance_record_id = ar.id
   @INCLUDE(childrenAttendanceFilters)
 
-@NAME(getChildrenAttendancePageTotalCount)
-  SELECT COUNT(*)
-  @INCLUDE(getChildrenAttendancePageBase)
-
 ---
-
-@NAME(getChildAttendancePageByChildId)
-  @PAGING(:rowOffset, :pageSize)
-    SELECT @INCLUDE(childrenAttendanceFields)
-    @INCLUDE(getChildAttendancePageByChildIdBase)
-    ORDER BY ar.active_date DESC
 
 @NAME(getChildAttendancePageByChildIdBase)
   FROM users u
@@ -72,6 +75,14 @@
   INNER JOIN children_attendance ca ON c.user_id = ca.child_id
   INNER JOIN attendance_records ar ON ca.attendance_record_id = ar.id
   @INCLUDE(childAttendanceFilters)
+
+---
+
+@NAME(getChildrenAttendancePageTotalCount)
+  SELECT COUNT(*)
+  @INCLUDE(getChildrenAttendancePageBase)
+
+---
 
 @NAME(getChildAttendancePageByChildIdTotalCount)
   SELECT COUNT(*)
@@ -81,15 +92,13 @@
 
 @NAME(getChildAttendanceById)
   SELECT @INCLUDE(childrenAttendanceFields)
-  FROM users u
-  INNER JOIN children c ON u.id = c.user_id
-  INNER JOIN children_attendance ca ON c.user_id = ca.child_id AND ca.attendance_record_id = :attendance_record_id
-  @INCLUDE(childrenAttendanceFilters)
+  @INCLUDE(getChildAttendancePageByChildIdBase)
 
 ---
 
 @NAME(assignChildToAttendanceRecord)
-  INSERT INTO children_attendance (attendance_record_id, child_id, notes, updated_user_id) VALUES (:attendance_record_id, :child_id, :notes, :updated_user_id)
+  INSERT INTO children_attendance (attendance_record_id, child_id, notes, updated_user_id) 
+  VALUES (:attendance_record_id, :child_id, :notes, :updated_user_id)
 
 ---
 
@@ -114,7 +123,9 @@
 ---
 
 @NAME(removeChildFromAttendanceRecord)
-  DELETE FROM children_attendance WHERE attendance_record_id = :attendance_record_id AND child_id = :child_id
+  DELETE FROM children_attendance 
+  WHERE attendance_record_id = :attendance_record_id 
+  AND child_id = :child_id
 
 ---
 

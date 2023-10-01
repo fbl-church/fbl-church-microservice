@@ -19,6 +19,8 @@ spring:
 
 email:
   sendgrid-key: ${SENDGRID_API_KEY}
+cloudinary:
+  url: ${CLOUDINARY_URL}
 
 logging:
   level:
