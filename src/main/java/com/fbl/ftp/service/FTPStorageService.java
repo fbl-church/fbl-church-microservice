@@ -23,12 +23,9 @@ public class FTPStorageService {
 
     public void upload(MultipartFile file) {
         try {
-            ftpStorageClient.open();
             ftpStorageClient.upload(file.getInputStream(), file.getOriginalFilename());
         } catch (Exception e) {
             LOGGER.error("Unable to read mulipart file: {}", file.getName(), e);
-        } finally {
-            ftpStorageClient.close();
         }
     }
 }
