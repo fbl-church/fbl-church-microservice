@@ -20,8 +20,6 @@ CREATE TABLE attendance_records (
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE UNIQUE INDEX UX_attendance_records__type_active_date ON attendance_records(type,active_date);
-
 -- ---------------------------------------------------------------------------------
 -- END
 -- ---------------------------------------------------------------------------------
