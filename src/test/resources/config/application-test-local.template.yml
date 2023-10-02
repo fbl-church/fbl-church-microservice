@@ -4,6 +4,13 @@ spring:
     password:
     url: jdbc:mysql://localhost:3306
 
+ftp:
+  server: fake-ftp-url
+  port: 21
+  environment: DEV
+  username: test
+  password: password
+
 jwt:
   secret: "test-local-key"
 email:

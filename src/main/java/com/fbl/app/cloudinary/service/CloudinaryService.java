@@ -5,6 +5,7 @@ package com.fbl.app.cloudinary.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.api.ApiResponse;
@@ -27,6 +28,11 @@ public class CloudinaryService {
         Cloudinary cloud = new Cloudinary(environmentService.getCloudinaryUrl());
         ApiResponse res = cloud.api().resource("cld-sample-5", ObjectUtils.emptyMap());
         int test = 1;
+    }
+
+    public void store(MultipartFile file) throws Exception {
+        FTPConnector t = new FTPConnector();
+        t.connect(file);
     }
 
 }

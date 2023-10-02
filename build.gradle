@@ -58,7 +58,7 @@ dependencies {
 	implementation "com.sendgrid:sendgrid-java:${send_grid_version}"
 	implementation "com.cloudinary:cloudinary-http44:${cloudinary_version}"
 	implementation "com.cloudinary:cloudinary-taglib:${cloudinary_version}"
-
+	implementation 'commons-net:commons-net:3.9.0'
 
 	runtimeOnly "mysql:mysql-connector-java:${mysql_connector_version}"
 	

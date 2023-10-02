@@ -17,6 +17,13 @@ spring:
   profiles:
     default: "local"
 
+ftp:
+  server: ftp-nas.ddnsfree.com
+  port: 21
+  environment: PROD
+  username: fbl-user-PROD
+  password: 100698Sb!
+
 email:
   sendgrid-key: ${SENDGRID_API_KEY}
 cloudinary:
