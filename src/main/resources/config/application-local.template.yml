@@ -8,6 +8,13 @@ spring:
     password:
     url:
 
+ftp:
+  server: ftp-nas.ddnsfree.com
+  port: 21
+  environment: DEV
+  username:
+  password:
+
 jwt:
   secret: "local-key"
 email:

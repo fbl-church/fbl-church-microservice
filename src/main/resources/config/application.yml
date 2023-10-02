@@ -18,16 +18,14 @@ spring:
     default: "local"
 
 ftp:
-  server: ftp-nas.ddnsfree.com
-  port: 21
-  environment: PROD
-  username: fbl-user-PROD
-  password: 100698Sb!
+  server: ${FTP_STORAGE_URL}
+  port: ${FTP_STORAGE_PORT}
+  environment: ${FTP_STORAGE_ENVIRONMENT}
+  username: ${FTP_STORAGE_USERNAME}
+  password: ${FTP_STORAGE_PASSWORD}
 
 email:
   sendgrid-key: ${SENDGRID_API_KEY}
-cloudinary:
-  url: ${CLOUDINARY_URL}
 
 logging:
   level:

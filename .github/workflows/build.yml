@@ -36,7 +36,6 @@ jobs:
           MYSQL_TEST_URL: ${{ secrets.MYSQL_TEST_URL }}
           JWT_SIGNING_KEY: ${{ secrets.JWT_SIGNING_KEY }}
           SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
-          CLOUDINARY_URL: ${{ secrets.CLOUDINARY_URL }}
           FTP_TEST_STORAGE_URL: ${{ secrets.FTP_TEST_STORAGE_URL }}
           FTP_TEST_STORAGE_PORT: ${{ secrets.FTP_TEST_STORAGE_PORT }}
           FTP_TEST_STORAGE_ENVIRONMENT: ${{ secrets.FTP_TEST_STORAGE_ENVIRONMENT }}

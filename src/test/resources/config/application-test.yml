@@ -16,5 +16,3 @@ jwt:
   secret: ${JWT_SIGNING_KEY}
 email:
   sendgrid-key: ${SENDGRID_API_KEY}
-cloudinary:
-  url: ${CLOUDINARY_URL}

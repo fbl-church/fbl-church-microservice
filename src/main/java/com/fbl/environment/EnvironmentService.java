@@ -25,9 +25,6 @@ public class EnvironmentService {
     @Value("${email.sendgrid-key}")
     private String SENDGRID_API_KEY;
 
-    @Value("${cloudinary.url}")
-    private String CLOUDINARY_URL;
-
     /**
      * Gets the current active profile environment.
      *
@@ -54,9 +51,5 @@ public class EnvironmentService {
      */
     public String getSendGridSigningKey() {
         return SENDGRID_API_KEY;
-    }
-
-    public String getCloudinaryUrl() {
-        return CLOUDINARY_URL;
     }
 }
