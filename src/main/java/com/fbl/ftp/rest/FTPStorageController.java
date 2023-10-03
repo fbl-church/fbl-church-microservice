@@ -2,7 +2,11 @@ package com.fbl.ftp.rest;
 
 import static org.springframework.http.MediaType.*;
 
+import java.util.List;
+
+import org.apache.commons.net.ftp.FTPFile;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,6 +25,17 @@ public class FTPStorageController {
 
     @Autowired
     private FTPStorageService service;
+
+    /**
+     * Gets a list of files in the base directory
+     * 
+     * @return list of files
+     */
+    @Operation(summary = "Upload a file to FTP Storage", description = "Given a a file and name. It will upload the file to the FTP Storage.")
+    @GetMapping("/files")
+    public List<FTPFile> getFiles() {
+        return service.getFiles();
+    }
 
     /**
      * Gets a list of users based of the request filter

@@ -57,7 +57,6 @@ public class FTPStorageClient {
             }
 
             ftp.enterLocalPassiveMode();
-            LOGGER.info("Successfully connected to FTP Storage!");
         } catch (Exception e) {
             throw new BaseException("Unable to connect to FTP Storage");
         }
@@ -107,7 +106,7 @@ public class FTPStorageClient {
     public List<FTPFile> getFiles() {
         open();
         try {
-            return Arrays.asList(ftp.listFiles(this.BASE_PATH));
+            return Arrays.asList(ftp.listFiles(this.BASE_PATH, (ftpFile) -> !ftpFile.isDirectory()));
         } catch (Exception e) {
             LOGGER.error("Unable to list files from FTP Storage!", e);
             return List.of();
@@ -139,7 +138,6 @@ public class FTPStorageClient {
     public void close() {
         try {
             ftp.disconnect();
-            LOGGER.info("Successfully closed connection to FTP Storage!");
         } catch (Exception e) {
             throw new BaseException("Unable to close connection to FTP Storage!");
         }
