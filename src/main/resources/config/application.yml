@@ -16,6 +16,10 @@ spring:
     allow-circular-references: true
   profiles:
     default: "local"
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
 
 ftp:
   server: ${FTP_STORAGE_URL}
