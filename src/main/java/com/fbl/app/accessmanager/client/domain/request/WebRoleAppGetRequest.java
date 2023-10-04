@@ -21,7 +21,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Schema(description = "Web Role App get request object for filtering features.")
-public class WebRoleAppGetRequest implements SearchParam, PageParam, SearchFieldParams<WebRoleAppSearchFields> {
+public class WebRoleAppGetRequest implements SearchParam, PageParam, SearchFieldParams {
 
     @Schema(description = "Set of roles to filter on")
     private Set<WebRole> webRole;

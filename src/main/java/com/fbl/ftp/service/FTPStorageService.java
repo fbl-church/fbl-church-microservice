@@ -1,6 +1,7 @@
+/**
+ * Copyright of FBL Church App. All rights reserved.
+ */
 package com.fbl.ftp.service;
-
-import java.util.List;
 
 import org.apache.commons.net.ftp.FTPFile;
 import org.slf4j.Logger;
@@ -9,8 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fbl.common.page.Page;
+import com.fbl.common.util.CommonUtil;
 import com.fbl.exception.types.BaseException;
 import com.fbl.ftp.client.FTPStorageClient;
+import com.fbl.ftp.client.domain.filters.FileSearchSpecification;
+import com.fbl.ftp.client.domain.request.FileGetRequest;
 
 /**
  * FTP Storage Service class
@@ -25,9 +30,9 @@ public class FTPStorageService {
     @Autowired
     private FTPStorageClient ftpStorageClient;
 
-    public void upload(MultipartFile file) {
+    public void upload(MultipartFile file, String path) {
         try {
-            ftpStorageClient.upload(file.getInputStream(), file.getOriginalFilename());
+            ftpStorageClient.upload(file.getInputStream(), path, file.getOriginalFilename());
         } catch (Exception e) {
             LOGGER.error("Unable to read mulipart file: {}", file.getOriginalFilename(), e);
             throw new BaseException("Unable to read mulipart file: " + file.getOriginalFilename());
@@ -39,7 +44,8 @@ public class FTPStorageService {
      * 
      * @return list of files
      */
-    public List<FTPFile> getFiles() {
-        return ftpStorageClient.getFiles();
+    public Page<FTPFile> getFiles(FileGetRequest request) {
+        FileSearchSpecification searchFilter = new FileSearchSpecification(request.getSearch());
+        return CommonUtil.listToPage(ftpStorageClient.getFiles(request.getPath(), searchFilter), request);
     }
 }

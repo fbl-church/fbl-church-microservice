@@ -1,26 +1,25 @@
 /**
  * Copyright of FBL Church App. All rights reserved.
  */
-package com.fbl.app.attendance.client.domain.request;
+package com.fbl.ftp.client.domain.request;
 
 import com.fbl.common.search.SearchField;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
- * Defines search fields for a child attendance.
+ * Defines search fields for a file.
  * 
  * @author Sam Butler
  * @since February 2, 2022
  */
-@Schema(description = "The child attendance search fields.")
-public enum ChildAttendanceSearchFields implements SearchField {
-    FIRST_NAME("u.first_name"),
-    LAST_NAME("u.last_name");
+@Schema(description = "The file search fields.")
+public enum FileSearchFields implements SearchField {
+    NAME("name");
 
     private String column;
 
-    ChildAttendanceSearchFields(String column) {
+    FileSearchFields(String column) {
         this.column = column;
     }
 

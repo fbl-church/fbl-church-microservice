@@ -200,7 +200,7 @@ public class SqlParamBuilder {
             return this;
         }
 
-        SearchFieldParams<? extends SearchField> searchFieldParams = (SearchFieldParams<?>) commonParam;
+        SearchFieldParams searchFieldParams = (SearchFieldParams) commonParam;
         Parameters.searchField(sqlParams, searchFieldParams.getSearchFields());
         return this;
     }

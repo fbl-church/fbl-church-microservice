@@ -27,7 +27,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Schema(description = "Guardian get request object for filtering users.")
-public class GuardianGetRequest implements SearchParam, PageParam, SearchFieldParams<UserSearchFields> {
+public class GuardianGetRequest implements SearchParam, PageParam, SearchFieldParams {
 
     @Schema(description = "List of guardian ids.")
     private Set<Integer> id;

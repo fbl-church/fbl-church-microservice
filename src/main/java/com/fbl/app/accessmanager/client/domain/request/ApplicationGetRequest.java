@@ -20,7 +20,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Schema(description = "Application get request object for filtering applications.")
-public class ApplicationGetRequest implements SearchParam, PageParam, SearchFieldParams<ApplicationSearchFields> {
+public class ApplicationGetRequest implements SearchParam, PageParam, SearchFieldParams {
 
     @Schema(description = "Set of Id's of the applications")
     private Set<Integer> id;

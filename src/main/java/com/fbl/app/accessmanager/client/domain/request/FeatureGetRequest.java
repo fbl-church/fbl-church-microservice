@@ -20,7 +20,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Schema(description = "Feature get request object for filtering features.")
-public class FeatureGetRequest implements SearchParam, PageParam, SearchFieldParams<FeatureSearchFields> {
+public class FeatureGetRequest implements SearchParam, PageParam, SearchFieldParams {
 
     @Schema(description = "Set of feature ids to filter on")
     private Set<Integer> id;

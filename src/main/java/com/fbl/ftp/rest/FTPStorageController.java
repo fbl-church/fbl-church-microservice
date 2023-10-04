@@ -1,8 +1,9 @@
+/**
+ * Copyright of FBL Church App. All rights reserved.
+ */
 package com.fbl.ftp.rest;
 
 import static org.springframework.http.MediaType.*;
-
-import java.util.List;
 
 import org.apache.commons.net.ftp.FTPFile;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.fbl.app.user.openapi.TagUser;
+import com.fbl.common.page.Page;
+import com.fbl.ftp.client.domain.request.FileGetRequest;
 import com.fbl.ftp.service.FTPStorageService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -32,9 +35,9 @@ public class FTPStorageController {
      * @return list of files
      */
     @Operation(summary = "Upload a file to FTP Storage", description = "Given a a file and name. It will upload the file to the FTP Storage.")
-    @GetMapping("/files")
-    public List<FTPFile> getFiles() {
-        return service.getFiles();
+    @GetMapping
+    public Page<FTPFile> getFiles(FileGetRequest request) {
+        return service.getFiles(request);
     }
 
     /**
@@ -45,8 +48,8 @@ public class FTPStorageController {
      */
     @Operation(summary = "Upload a file to FTP Storage", description = "Given a a file and name. It will upload the file to the FTP Storage.")
     @PostMapping(produces = APPLICATION_JSON_VALUE)
-    public void upload(@RequestParam("file") MultipartFile file) {
-        service.upload(file);
+    public void upload(@RequestParam("file") MultipartFile file, @RequestParam("path") String path) {
+        service.upload(file, path);
     }
 
 }

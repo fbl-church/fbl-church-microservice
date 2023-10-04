@@ -7,10 +7,12 @@ import java.lang.reflect.AnnotatedElement;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.net.ftp.FTPClient;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.core.annotation.AnnotatedElementUtils;
@@ -43,6 +45,9 @@ public abstract class BaseControllerTest extends RequestTestUtil {
 
     @Autowired
     private EnvironmentService environmentService;
+
+    @MockBean
+    private FTPClient ftpClient;
 
     private HttpHeaders headers;
 

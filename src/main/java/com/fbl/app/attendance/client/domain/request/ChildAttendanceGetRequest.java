@@ -28,7 +28,7 @@ import lombok.Setter;
 @Setter
 @Schema(description = "Child Attendance get request object.")
 public class ChildAttendanceGetRequest
-        implements SearchParam, PageParam, SearchFieldParams<ChildAttendanceSearchFields> {
+        implements SearchParam, PageParam, SearchFieldParams {
 
     @Schema(description = "Present flag for children")
     private Boolean present;

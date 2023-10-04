@@ -27,7 +27,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Schema(description = "User get request object for filtering users.")
-public class UserGetRequest implements SearchParam, PageParam, SearchFieldParams<UserSearchFields> {
+public class UserGetRequest implements SearchParam, PageParam, SearchFieldParams {
 
     @Schema(description = "List of user ids.")
     private Set<Integer> id;

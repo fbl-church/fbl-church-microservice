@@ -62,6 +62,17 @@ public class CommonUtil {
             }
         }
 
+        return listToPage(list, request);
+    }
+
+    /**
+     * Converts a list into a page based on the given page param.
+     * 
+     * @param list    The list of enum values
+     * @param request The page request param
+     * @return The page Request.
+     */
+    public static <T> Page<T> listToPage(List<T> list, PageParam request) {
         int totalCount = list.size();
         if (request.getPageSize() > 0 && totalCount > request.getPageSize()) {
             int startSlice = (int) request.getRowOffset();

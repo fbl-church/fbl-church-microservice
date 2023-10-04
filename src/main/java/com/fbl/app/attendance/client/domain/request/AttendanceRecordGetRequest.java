@@ -29,7 +29,7 @@ import lombok.Setter;
 @Setter
 @Schema(description = "Attendance Record get request object for filtering attendance records.")
 public class AttendanceRecordGetRequest
-        implements PageParam, SearchParam, SearchFieldParams<AttendanceRecordSearchFields> {
+        implements PageParam, SearchParam, SearchFieldParams {
 
     @Schema(description = "List of attendance record ids.")
     private Set<Integer> id;
