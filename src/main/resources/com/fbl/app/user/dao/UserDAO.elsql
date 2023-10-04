@@ -73,7 +73,7 @@
 @NAME(updateUser)
   UPDATE users 
   SET
-    email       = IFNULL(:email, email),
+    email       = :email,
     first_name  = IFNULL(:first_name, first_name),
     last_name   = IFNULL(:last_name, last_name)
   WHERE id = :id
