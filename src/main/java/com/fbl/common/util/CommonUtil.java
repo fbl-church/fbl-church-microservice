@@ -18,7 +18,7 @@ import com.fbl.common.search.SearchParam;
  * Class for storing common methods for use accross the application.
  * 
  * @author Sam Butler
- * @since April 21, 2022
+ * @since April 21, 2023
  */
 public class CommonUtil {
 
