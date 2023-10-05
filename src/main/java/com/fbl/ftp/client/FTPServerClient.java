@@ -69,18 +69,16 @@ public class FTPServerClient extends FTPClient {
      * Close method to logout and disconnect the active session to the FTP server.
      */
     public void close() {
-        if (!super.isConnected()) {
-            LOGGER.info("FTP Connection Successfully Closed!");
-            return;
-        }
+        if (super.isConnected()) {
+            try {
+                super.logout();
+                super.disconnect();
 
-        try {
-            super.logout();
-            super.disconnect();
-            LOGGER.info("FTP Connection Successfully Closed!");
-        } catch (Exception e) {
-            LOGGER.warn("Unable to close connection to FTP Server!", e);
+            } catch (Exception e) {
+                LOGGER.warn("Unable to close connection to FTP Server!", e);
+            }
         }
+        LOGGER.info("FTP Connection Successfully Closed!");
     }
 
     /**
