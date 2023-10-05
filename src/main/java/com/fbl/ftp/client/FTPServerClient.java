@@ -68,6 +68,11 @@ public class FTPServerClient extends FTPClient {
      * Close method to logout and disconnect the active session to the FTP server.
      */
     public void close() {
+        if (!super.isConnected()) {
+            LOGGER.info("FTP Connection Successfully Closed!");
+            return;
+        }
+
         try {
             super.logout();
             super.disconnect();
@@ -130,6 +135,7 @@ public class FTPServerClient extends FTPClient {
      * @return if the directory change was successful
      */
     public boolean changeDirectory(String path) {
+        this.checkConnection();
         try {
             return super.changeWorkingDirectory(path);
         } catch (Exception e) {
