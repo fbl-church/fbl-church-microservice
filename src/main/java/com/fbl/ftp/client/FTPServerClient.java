@@ -70,13 +70,16 @@ public class FTPServerClient extends FTPClient {
      */
     public void close() {
         if (super.isConnected()) {
-            try {
-                super.logout();
-                super.disconnect();
+            if (this.isServerActive()) {
+                try {
+                    super.logout();
+                    super.disconnect();
 
-            } catch (Exception e) {
-                LOGGER.warn("Unable to close connection to FTP Server!", e);
+                } catch (Exception e) {
+                    LOGGER.warn("Unable to close connection to FTP Server!", e);
+                }
             }
+
             LOGGER.info("FTP Connection Successfully Closed!");
         }
     }
@@ -168,19 +171,26 @@ public class FTPServerClient extends FTPClient {
      */
     private void checkConnection() {
         if (super.isConnected()) {
-            boolean serverActive = true;
-            try {
-                serverActive = super.sendNoOp();
-            } catch (IOException e) {
-                serverActive = false;
-            }
-            if (!serverActive) {
+            if (!this.isServerActive()) {
                 LOGGER.info("FTP Server not Connected. Attempting Reconnect...");
                 connect();
             }
         } else {
             LOGGER.info("FTP not Connected. Attempting Reconnect...");
             connect();
+        }
+    }
+
+    /**
+     * Checks to see if the current FTP Connection is active on the server
+     * 
+     * @return True if the server is active, otherwise false.
+     */
+    private boolean isServerActive() {
+        try {
+            return super.sendNoOp();
+        } catch (IOException e) {
+            return false;
         }
     }
 
