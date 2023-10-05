@@ -7,6 +7,7 @@ import static org.springframework.http.MediaType.*;
 
 import org.apache.commons.net.ftp.FTPFile;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -50,6 +51,17 @@ public class FTPStorageController {
     @PostMapping(produces = APPLICATION_JSON_VALUE)
     public void upload(@RequestParam("file") MultipartFile file, @RequestParam("path") String path) {
         service.upload(file, path);
+    }
+
+    /**
+     * Delete the given file
+     * 
+     * @param file The file to delete
+     */
+    @Operation(summary = "Delete a file from the FTP Storage", description = "Given a a file path, it will delete that file.")
+    @DeleteMapping
+    public void deleteFile(@RequestParam("file") String file) {
+        service.deleteFile(file);
     }
 
 }

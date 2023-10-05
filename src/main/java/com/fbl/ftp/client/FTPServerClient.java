@@ -77,8 +77,8 @@ public class FTPServerClient extends FTPClient {
             } catch (Exception e) {
                 LOGGER.warn("Unable to close connection to FTP Server!", e);
             }
+            LOGGER.info("FTP Connection Successfully Closed!");
         }
-        LOGGER.info("FTP Connection Successfully Closed!");
     }
 
     /**
@@ -92,7 +92,8 @@ public class FTPServerClient extends FTPClient {
     public List<FTPFile> get(String path, FTPFileFilter filter) {
         this.checkConnection();
         try {
-            return Arrays.asList(super.listFiles(path, filter));
+            this.changeDirectory(path);
+            return Arrays.asList(super.listFiles("", filter));
         } catch (Exception e) {
             LOGGER.error("Unable to list files from FTP Server!", e);
             return List.of();
@@ -116,13 +117,31 @@ public class FTPServerClient extends FTPClient {
                 createDirectory(path);
             }
 
-            super.changeWorkingDirectory(path);
             boolean created = super.storeFile(fileName, is);
             is.close();
             LOGGER.info("File Uploaded: '{}'", String.format("%s/%s", path, fileName));
             return created;
         } catch (IOException e) {
             LOGGER.warn("Unable to create file: '{}'", String.format("%s/%s", path, fileName), e);
+            return false;
+        }
+    }
+
+    /**
+     * Deletes a file on the FTP server.
+     * 
+     * @param filePath The path to delete the file from
+     * @return Boolean if the file was deleteds or not.
+     */
+    @Override
+    public boolean deleteFile(String filePath) {
+        this.checkConnection();
+        try {
+            boolean deleted = super.deleteFile(filePath);
+            LOGGER.info("File Deleted: '{}'", filePath);
+            return deleted;
+        } catch (IOException e) {
+            LOGGER.warn("Unable to Delete File: '{}'", filePath, e);
             return false;
         }
     }
@@ -148,8 +167,19 @@ public class FTPServerClient extends FTPClient {
      * a reconnection.
      */
     private void checkConnection() {
-        if (!super.isConnected()) {
-            close();
+        if (super.isConnected()) {
+            boolean serverActive = true;
+            try {
+                serverActive = super.sendNoOp();
+            } catch (IOException e) {
+                serverActive = false;
+            }
+            if (!serverActive) {
+                LOGGER.info("FTP Server not Connected. Attempting Reconnect...");
+                connect();
+            }
+        } else {
+            LOGGER.info("FTP not Connected. Attempting Reconnect...");
             connect();
         }
     }
@@ -162,7 +192,7 @@ public class FTPServerClient extends FTPClient {
     private void createDirectory(String path) {
         if (super.isConnected()) {
             try {
-                super.changeWorkingDirectory("/");
+                this.changeDirectory("/");
                 this.makeDirectories(path);
                 LOGGER.info("Directory Created: {}", path);
             } catch (IOException e) {
@@ -185,8 +215,8 @@ public class FTPServerClient extends FTPClient {
 
         if (!Collections.isEmpty(pathElements)) {
             for (String singleDir : pathElements) {
-                boolean existed = super.changeWorkingDirectory(singleDir);
-                if (!existed) {
+                boolean exists = super.changeWorkingDirectory(singleDir);
+                if (!exists) {
                     boolean created = super.makeDirectory(singleDir);
                     if (created) {
                         super.changeWorkingDirectory(singleDir);

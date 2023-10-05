@@ -47,6 +47,16 @@ public class FTPStorageClient {
     }
 
     /**
+     * Delete a file
+     * 
+     * @param filePath The file location to be deleted.
+     */
+    public void deleteFile(String filePath) {
+        ftp.changeDirectory(this.getBasePath());
+        ftp.deleteFile(String.format("%s/%s", this.getBasePath(), filePath));
+    }
+
+    /**
      * Get a list of files and directories in the base path directory.
      * 
      * @return A list of {@link FTPFile}
