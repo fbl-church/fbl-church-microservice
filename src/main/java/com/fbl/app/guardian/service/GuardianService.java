@@ -15,6 +15,7 @@ import com.fbl.app.guardian.dao.GuardianDAO;
 import com.fbl.app.user.client.UserClient;
 import com.fbl.app.user.client.domain.User;
 import com.fbl.common.page.Page;
+import com.google.common.collect.Sets;
 
 /**
  * Guardian Service class that handles all service calls to the dao
@@ -64,5 +65,19 @@ public class GuardianService {
      */
     public List<Guardian> getChildGuardians(int childId) {
         return dao.getChildGuardians(childId);
+    }
+
+    /**
+     * Checks to see if the guardian already exists for the given information
+     * 
+     * @param c The guardian to check
+     * @return The list of guardian that match the given child
+     */
+    public Guardian doesGuardianExist(Guardian g) {
+        GuardianGetRequest request = new GuardianGetRequest();
+        request.setFirstName(Sets.newHashSet(g.getFirstName()));
+        request.setLastName(Sets.newHashSet(g.getLastName()));
+        List<Guardian> matchingGuardians = getGuardians(request).getList();
+        return matchingGuardians.size() > 0 ? matchingGuardians.get(0) : null;
     }
 }

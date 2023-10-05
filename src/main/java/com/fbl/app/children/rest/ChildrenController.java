@@ -84,6 +84,18 @@ public class ChildrenController {
     }
 
     /**
+     * Checks to see if the child already exists for the given information
+     * 
+     * @param c The child to check
+     * @return The list of children that match the given child
+     */
+    @Operation(summary = "Checks to see if child exists", description = "Given a child, It will check if there are any users that already exist")
+    @GetMapping("/exists")
+    public Child doesChildExist(Child c) {
+        return childrenService.doesChildExist(c);
+    }
+
+    /**
      * Creates a new child for the given object.
      * 
      * @param child The child to create.

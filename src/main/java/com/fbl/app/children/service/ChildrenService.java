@@ -14,6 +14,7 @@ import com.fbl.app.children.client.domain.request.ChildGetRequest;
 import com.fbl.app.children.dao.ChildrenDAO;
 import com.fbl.app.guardian.client.GuardianClient;
 import com.fbl.common.page.Page;
+import com.google.common.collect.Sets;
 
 /**
  * Children Service class that handles all service calls to the dao
@@ -64,5 +65,19 @@ public class ChildrenService {
      */
     public List<Child> getGuardianChildren(int guardianId) {
         return dao.getGuardianChildren(guardianId);
+    }
+
+    /**
+     * Checks to see if the child already exists for the given information
+     * 
+     * @param c The child to check
+     * @return The list of children that match the given child
+     */
+    public Child doesChildExist(Child c) {
+        ChildGetRequest request = new ChildGetRequest();
+        request.setFirstName(Sets.newHashSet(c.getFirstName()));
+        request.setLastName(Sets.newHashSet(c.getLastName()));
+        List<Child> matchingChildren = getChildren(request).getList();
+        return matchingChildren.size() > 0 ? matchingChildren.get(0) : null;
     }
 }

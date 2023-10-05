@@ -15,6 +15,10 @@
   @WHERE
     @AND(:id)
       u.id IN (:id)
+    @AND(:first_name)
+      u.first_name IN (:first_name)
+    @AND(:last_name)
+      u.last_name IN (:last_name)
     @AND(:email)
       u.email IN (:email)
     @AND(:web_role)

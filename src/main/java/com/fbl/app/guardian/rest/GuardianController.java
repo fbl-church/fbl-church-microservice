@@ -85,6 +85,18 @@ public class GuardianController {
     }
 
     /**
+     * Checks to see if the guardian already exists for the given information
+     * 
+     * @param c The guardian to check
+     * @return The list of guardian that match the given child
+     */
+    @Operation(summary = "Checks to see if guardian exists", description = "Given a guardian, It will check if there are any guardian that already exist")
+    @GetMapping("/exists")
+    public Guardian doesGuardianExist(Guardian g) {
+        return guardianService.doesGuardianExist(g);
+    }
+
+    /**
      * Creates a new guardian for the given user object.
      * 
      * @param guardian The guardian to create.
