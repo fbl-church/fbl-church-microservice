@@ -46,6 +46,6 @@ public class FTPStorageService {
      */
     public Page<FTPFile> getFiles(FileGetRequest request) {
         FileSearchSpecification searchFilter = new FileSearchSpecification(request.getSearch());
-        return CommonUtil.listToPage(ftpStorageClient.getFiles(request.getPath(), searchFilter), request);
+        return CommonUtil.listToPage(ftpStorageClient.get(request.getPath(), searchFilter), request);
     }
 }

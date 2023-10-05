@@ -7,7 +7,6 @@ import java.lang.reflect.AnnotatedElement;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.net.ftp.FTPClient;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestInfo;
@@ -23,6 +22,7 @@ import org.springframework.http.ResponseEntity;
 
 import com.fbl.common.annotations.interfaces.ControllerJwt;
 import com.fbl.environment.EnvironmentService;
+import com.fbl.ftp.client.FTPServerClient;
 import com.fbl.jwt.domain.JwtClaims;
 import com.fbl.jwt.utility.JwtTokenUtil;
 
@@ -47,7 +47,7 @@ public abstract class BaseControllerTest extends RequestTestUtil {
     private EnvironmentService environmentService;
 
     @MockBean
-    private FTPClient ftpClient;
+    private FTPServerClient ftpServerClient;
 
     private HttpHeaders headers;
 
