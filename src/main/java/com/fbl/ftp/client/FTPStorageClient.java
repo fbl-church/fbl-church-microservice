@@ -66,6 +66,16 @@ public class FTPStorageClient {
     }
 
     /**
+     * Download a file input stream
+     * 
+     * @param path The path to the file
+     * @return The input stream of file if found, otherwise a null stream
+     */
+    public InputStream download(String path) {
+        return ftp.download(String.format("%s/%s", this.getBasePath(), path));
+    }
+
+    /**
      * Get the base ftp session directory for the application
      * 
      * @return String of the application ftp path

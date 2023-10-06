@@ -3,8 +3,11 @@
  */
 package com.fbl.ftp.service;
 
+import java.io.InputStream;
+
 import org.apache.commons.net.ftp.FTPFile;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -35,6 +38,19 @@ public class FTPStorageService {
     public Page<FTPFile> getFiles(FileGetRequest request) {
         FileSearchSpecification searchFilter = new FileSearchSpecification(request.getSearch());
         return CommonUtil.listToPage(ftpStorageClient.get(request.getPath(), searchFilter), request);
+    }
+
+    /**
+     * Download a file
+     * 
+     * @return The file input stream
+     */
+    public InputStreamResource downloadFile(String filePath) {
+        InputStream is = ftpStorageClient.download(filePath);
+        if(is == null) {
+            return null;
+        }
+        return new InputStreamResource(is);
     }
 
     /**

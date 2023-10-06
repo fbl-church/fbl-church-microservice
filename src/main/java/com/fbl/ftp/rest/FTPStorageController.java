@@ -7,6 +7,7 @@ import static org.springframework.http.MediaType.*;
 
 import org.apache.commons.net.ftp.FTPFile;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -39,6 +40,17 @@ public class FTPStorageController {
     @GetMapping
     public Page<FTPFile> getFiles(FileGetRequest request) {
         return service.getFiles(request);
+    }
+
+    /**
+     * Download a file
+     * 
+     * @return The file input stream
+     */
+    @Operation(summary = "Download a file from FTP Storage", description = "Givena  file path, it will download the input stream of that file.")
+    @GetMapping("/download")
+    public InputStreamResource downloadFile(@RequestParam("file") String filePath) {
+        return service.downloadFile(filePath);
     }
 
     /**

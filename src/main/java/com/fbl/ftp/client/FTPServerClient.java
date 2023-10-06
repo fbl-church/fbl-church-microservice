@@ -1,5 +1,7 @@
 package com.fbl.ftp.client;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
@@ -78,9 +80,8 @@ public class FTPServerClient extends FTPClient {
                 } catch (Exception e) {
                     LOGGER.warn("Unable to close connection to FTP Server!", e);
                 }
+                LOGGER.info("FTP Connection Successfully Closed!");
             }
-
-            LOGGER.info("FTP Connection Successfully Closed!");
         }
     }
 
@@ -146,6 +147,36 @@ public class FTPServerClient extends FTPClient {
         } catch (IOException e) {
             LOGGER.warn("Unable to Delete File: '{}'", filePath, e);
             return false;
+        }
+    }
+
+    /**
+     * Returns an InputStream from which a named file from the server can be read.
+     * If the current file type is ASCII, the returned InputStream will convert line
+     * separators in the file to the local representation. You must close the
+     * InputStream when you finish reading from it. The InputStream itself will take
+     * care of closing the parent data connection socket upon being closed.
+     *
+     * @param path The path to the file
+     * @return The input stream of file if found, otherwise a null stream
+     */
+    public InputStream download(String path) {
+        this.checkConnection();
+        try {
+            ByteArrayOutputStream byteOutStream = new ByteArrayOutputStream();
+            boolean fileCopied = super.retrieveFile(path, byteOutStream);
+
+            if (fileCopied) {
+                LOGGER.info("File Downloaded: {}", path);
+                return new ByteArrayInputStream(byteOutStream.toByteArray());
+            } else {
+                LOGGER.error("Unable to get file input stream: {}", path);
+                return null;
+            }
+
+        } catch (Exception e) {
+            LOGGER.error("Unable to get file input stream: {}", path, e);
+            return null;
         }
     }
 
