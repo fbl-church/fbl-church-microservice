@@ -6,8 +6,6 @@ package com.fbl.gateway.domain.abstracts;
 import java.util.Date;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Component;
@@ -19,6 +17,8 @@ import com.fbl.exception.types.JwtTokenException;
 import com.fbl.gateway.domain.interfaces.BaseRequestValidator;
 import com.fbl.jwt.domain.JwtPair;
 import com.fbl.jwt.utility.JwtHolder;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * Common abstract validator for tokens.

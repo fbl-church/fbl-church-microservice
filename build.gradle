@@ -2,31 +2,38 @@ buildscript {
     ext {
         google_guava_version = '31.1-jre'
         mysql_connector_version = '8.0.25'
-        springboot_version = '2.7.16'
+        springboot_version = '3.1.4'
         swagger_version = '2.2.0'
 		spring_doc_openapi_version = '1.6.9'
-		json_web_token_version = '0.2'
+		json_web_token_version = '0.11.5'
 		aspect_tools_version = '1.9.7'
 		elsql_version = '1.2'
 		google_bugs_version = '3.0.2'
-		apache_http_version = '4.5.13'
+		apache_http5_version = '5.2.1'
 		apache_common_version = '3.9.0'
 		lombok_version = '1.18.28'
 		send_grid_version = '4.0.1'
+		jakarta_xml_version =  '2.3.2'
+		test_junit_version = '5.9.2'
     }
 }
 
 plugins {
 	id "org.springframework.boot" version "${springboot_version}"
-	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+	id 'io.spring.dependency-management'  version '1.1.1'
 	id "java"
 }
 
 group = 'com.fbl'
 
+java {
+  toolchain {
+    languageVersion.set(JavaLanguageVersion.of(17))
+  }
+}
+
 repositories {
 	mavenCentral()
-	maven { url 'https://jitpack.io' }
 }
 
 tasks.named('processTestResources') {
@@ -38,6 +45,10 @@ tasks.named('test') {
 }
 
 dependencies {
+	configurations.all {
+	    exclude group: "commons-logging", module: "commons-logging"
+	}
+
 	implementation "org.springframework.boot:spring-boot-starter"
 	implementation "org.springframework.boot:spring-boot-starter-jdbc"
 	implementation "org.springframework.boot:spring-boot-starter-web"
@@ -47,23 +58,30 @@ dependencies {
 	implementation "org.springframework.boot:spring-boot-starter-websocket"
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 
-	implementation "io.jsonwebtoken:jjwt:${json_web_token_version}"
+	implementation "io.jsonwebtoken:jjwt-api:${json_web_token_version}"
 	implementation "com.google.code.findbugs:jsr305:${google_bugs_version}"
 	implementation "com.opengamma:elsql:${elsql_version}"
 	implementation "com.google.guava:guava:${google_guava_version}"
 	implementation "org.aspectj:aspectjtools:${aspect_tools_version}"
 	implementation "io.swagger.core.v3:swagger-annotations:${swagger_version}"
 	implementation "org.springdoc:springdoc-openapi-ui:${spring_doc_openapi_version}"
-	implementation "org.apache.httpcomponents:httpclient:${apache_http_version}"
+	implementation "org.apache.httpcomponents.client5:httpclient5:${apache_http5_version}"
 	implementation "com.sendgrid:sendgrid-java:${send_grid_version}"
 	implementation "commons-net:commons-net:${apache_common_version}"
+	implementation "jakarta.xml.bind:jakarta.xml.bind-api:${jakarta_xml_version}"
+    // implementation "org.glassfish.jaxb:jaxb-runtime:${jakarta_xml_version}"
 
 	runtimeOnly "mysql:mysql-connector-java:${mysql_connector_version}"
-	
+	runtimeOnly "io.jsonwebtoken:jjwt-impl:${json_web_token_version}"
+	runtimeOnly "io.jsonwebtoken:jjwt-jackson:${json_web_token_version}"
+
 	compileOnly "org.projectlombok:lombok:${lombok_version}"
     annotationProcessor "org.projectlombok:lombok:${lombok_version}"
 
 	testImplementation "org.springframework.boot:spring-boot-starter-test"
+	testImplementation "org.junit.jupiter:junit-jupiter:${test_junit_version}"
+	
+	testRuntimeOnly "org.junit.platform:junit-platform-launcher"	
 }
 
 sourceSets.test.resources.srcDir "src/test/resources"

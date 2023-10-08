@@ -3,15 +3,14 @@
  */
 package com.fbl.app.guardian.client.domain;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-
 import org.hibernate.validator.constraints.Length;
 
 import com.fbl.app.user.client.domain.User;
 import com.fbl.common.enums.RelationshipType;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.Setter;
 

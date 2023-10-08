@@ -3,12 +3,12 @@
  */
 package com.fbl.gateway.validator;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.stereotype.Component;
 
 import com.fbl.exception.types.JwtTokenException;
 import com.fbl.gateway.domain.abstracts.CommonTokenValidator;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * Subscription token validator for confirming a token on a request header.

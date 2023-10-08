@@ -6,14 +6,14 @@ package com.fbl.gateway.validator;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Component;
 
 import com.fbl.exception.types.JwtTokenException;
 import com.fbl.gateway.domain.abstracts.CommonTokenValidator;
 import com.google.common.net.HttpHeaders;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * JWT token validator for confirming a token on a request header.

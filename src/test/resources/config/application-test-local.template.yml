@@ -12,6 +12,6 @@ ftp:
   password: password
 
 jwt:
-  secret: "test-local-key"
+  secret: yfjtUX1PHn4ypdjvkzmCBY4b731bmkIhx3OY1sd4utUY55FvH80c9M3VGxKQ540a
 email:
-  sendgrid-key:
+  sendgrid-key: email-key

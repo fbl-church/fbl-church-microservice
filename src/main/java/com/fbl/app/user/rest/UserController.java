@@ -5,8 +5,6 @@ package com.fbl.app.user.rest;
 
 import java.util.List;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,6 +26,7 @@ import com.fbl.common.enums.WebRole;
 import com.fbl.common.page.Page;
 
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
 
 @RequestMapping("/api/users")
 @RestController

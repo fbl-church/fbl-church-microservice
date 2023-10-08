@@ -3,7 +3,7 @@
  */
 package com.fbl.gateway.domain.interfaces;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * Base interface for request validators.

@@ -11,7 +11,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.annotation.PreDestroy;
 import javax.sql.DataSource;
 
 import org.slf4j.Logger;
@@ -32,6 +31,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import com.fbl.sql.builder.DatabaseConnectionBuilder;
 import com.fbl.test.factory.globals.GlobalsTest;
+
+import jakarta.annotation.PreDestroy;
 
 /**
  * Datasouce config for the test environment.

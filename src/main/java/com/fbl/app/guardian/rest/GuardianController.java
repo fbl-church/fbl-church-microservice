@@ -5,8 +5,6 @@ package com.fbl.app.guardian.rest;
 
 import java.util.List;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -29,6 +27,7 @@ import com.fbl.common.enums.WebRole;
 import com.fbl.common.page.Page;
 
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
 
 /**
  * Guardian Controller for managing endpoints

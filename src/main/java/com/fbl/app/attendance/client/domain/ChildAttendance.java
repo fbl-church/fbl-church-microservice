@@ -6,11 +6,10 @@ package com.fbl.app.attendance.client.domain;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import javax.validation.constraints.NotBlank;
-
 import com.fbl.common.enums.ChurchGroup;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 

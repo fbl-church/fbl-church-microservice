@@ -48,6 +48,7 @@ public class AuthenticationControllerTest extends BaseControllerTest {
 
     @Test
     public void testReAuthenticateNoToken() {
+        when(service.reauthenticate()).thenReturn(new AuthToken());
         check(post("/api/reauthenticate"), error(HttpStatus.UNAUTHORIZED, "Missing JWT Token."));
     }
 }

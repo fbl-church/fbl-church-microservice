@@ -6,12 +6,11 @@ package com.fbl.app.user.client.domain;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import javax.validation.constraints.NotBlank;
-
 import com.fbl.common.enums.AccountStatus;
 import com.fbl.common.enums.WebRole;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 

@@ -7,6 +7,8 @@ import java.lang.reflect.AnnotatedElement;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestInfo;
@@ -19,6 +21,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 
 import com.fbl.common.annotations.interfaces.ControllerJwt;
 import com.fbl.environment.EnvironmentService;
@@ -53,6 +56,7 @@ public abstract class BaseControllerTest extends RequestTestUtil {
 
     @BeforeEach
     public void setup(TestInfo info) {
+        setupRequestFactory();
         headers = new HttpHeaders();
         checkControllerJwtAnnotation(info);
     }
@@ -268,5 +272,13 @@ public abstract class BaseControllerTest extends RequestTestUtil {
      */
     private ControllerJwt getJwtControllerAnnotation(AnnotatedElement elementType) {
         return AnnotatedElementUtils.findMergedAnnotation(elementType, ControllerJwt.class);
+    }
+
+    /**
+     * Sets up the request factory for Apache
+     */
+    private void setupRequestFactory() {
+        CloseableHttpClient httpClient = HttpClientBuilder.create().disableAutomaticRetries().build();
+        testRestTemplate.getRestTemplate().setRequestFactory(new HttpComponentsClientHttpRequestFactory(httpClient));
     }
 }
