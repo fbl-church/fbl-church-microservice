@@ -4,7 +4,6 @@
 package com.fbl.jwt.utility;
 
 import java.io.Serializable;
-import java.security.Key;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
@@ -21,8 +20,6 @@ import com.fbl.jwt.domain.JwtClaims;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.io.Decoders;
-import io.jsonwebtoken.security.Keys;
 
 /**
  * Token util to create and manage jwt tokens.
@@ -69,7 +66,8 @@ public class JwtTokenUtil implements Serializable {
      * @return Claims object is returned
      */
     public Claims getAllClaimsFromToken(String token) {
-        return Jwts.parserBuilder().setSigningKey(getSigningKey()).build().parseClaimsJws(token).getBody();
+        return Jwts.parserBuilder().setSigningKey(environmentService.getSigningKey()).build().parseClaimsJws(token)
+                .getBody();
     }
 
     /**
@@ -111,16 +109,6 @@ public class JwtTokenUtil implements Serializable {
     public String buildTokenClaims(Map<String, Object> claims, long validity) {
         return Jwts.builder().setClaims(claims).setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + validity))
-                .signWith(getSigningKey()).compact();
-    }
-
-    /**
-     * Generate security key from the given signing key
-     * 
-     * @return A generated Security key
-     */
-    private Key getSigningKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(environmentService.getSigningKey());
-        return Keys.hmacShaKeyFor(keyBytes);
+                .signWith(environmentService.getSigningKey()).compact();
     }
 }

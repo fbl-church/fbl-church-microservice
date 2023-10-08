@@ -22,7 +22,7 @@ public final class JwtPair {
 
     public JwtPair(String token, EnvironmentService environmentService) {
         this.token = token;
-        this.claimSet = (Claims) Jwts.parser().setSigningKey(environmentService.getSigningKey()).parse(token)
-                .getBody();
+        this.claimSet = Jwts.parserBuilder().setSigningKey(environmentService.getSigningKey()).build()
+                .parseClaimsJws(token).getBody();
     }
 }

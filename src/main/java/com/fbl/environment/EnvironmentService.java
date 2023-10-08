@@ -3,10 +3,15 @@
  */
 package com.fbl.environment;
 
+import java.security.Key;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.fbl.common.enums.Environment;
+
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
 
 /**
  * Information about the application environment.
@@ -40,8 +45,10 @@ public class EnvironmentService {
      * 
      * @return String of the signing key to use.
      */
-    public String getSigningKey() {
-        return LOCAL_SIGNING_KEY != null ? LOCAL_SIGNING_KEY : System.getenv(SIGNING_KEY);
+    public Key getSigningKey() {
+        String signingKey = LOCAL_SIGNING_KEY != null ? LOCAL_SIGNING_KEY : System.getenv(SIGNING_KEY);
+        byte[] keyBytes = Decoders.BASE64.decode(signingKey);
+        return Keys.hmacShaKeyFor(keyBytes);
     }
 
     /**
