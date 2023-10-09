@@ -4,18 +4,18 @@ server:
 
 spring:
   datasource:
-    hikari:
-      maxLifetime: "1800000"
-      connectionTimeout: "30000"
-      idleTimeout: "600000"
     username: ${MYSQL_USERNAME}
     password: ${MYSQL_PASSWORD}
     url: ${MYSQL_URL}
     driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maxLifetime: 1800000
+      connectionTimeout: 30000
+      idleTimeout: 600000
   main:
     allow-circular-references: true
   profiles:
-    default: "local"
+    default: local
   servlet:
     multipart:
       max-file-size: 10MB
@@ -28,6 +28,8 @@ ftp:
   username: ${FTP_STORAGE_USERNAME}
   password: ${FTP_STORAGE_PASSWORD}
 
+jwt:
+  secret: ${JWT_SIGNING_KEY}
 email:
   sendgrid-key: ${SENDGRID_API_KEY}
 

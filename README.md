@@ -4,10 +4,7 @@
 
 ## About The Project
 
-- Explain what the goal of doing this project is
-- How to contribute
-- Guidlines to follow
-  - Standards, pull request, commit messages, etc.
+- Used for Managing user directory and information for First Baptist Church of LaGrange, Ohio.
 
 ## Commit Message Guide:
 
@@ -18,9 +15,9 @@
 
 ### Built With
 
-- Java
-- Gradle
-- Spring Boot framework
+- Java 17
+- Gradle 8.4
+- Spring Boot 3.1.4
 
 <!-- GETTING STARTED -->
 
@@ -31,9 +28,9 @@ To get a local copy up and running follow these simple steps.
 ### Prerequisites
 
 1. First you will need an IDE, you can either use Vscode or Eclipse for this (It does not matter, both work the same)
-2. Then you will need a jdk installed in your computer of 11 or higher. You can go to the following link to do this.
+2. Then you will need a jdk installed in your computer of 17. You can go to the following link to do this.
    ```sh
-   https://jdk.java.net/java-se-ri/14
+   https://adoptium.net/temurin/releases/?version=17&package=jdk
    ```
 
 ### Installation
@@ -79,7 +76,7 @@ To get a local copy up and running follow these simple steps.
    ```sh
    gradle bootrun
    ```
-5. If it stood up successfully you should be able to hit the endpoints in the project at the route of `localhost:8080`
+5. If it stood up successfully you should be able to hit the endpoints in the project at the route of `localhost:8000`
 
 <!-- CONTACT -->
 
