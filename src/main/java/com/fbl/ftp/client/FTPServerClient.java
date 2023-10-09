@@ -62,8 +62,7 @@ public class FTPServerClient extends FTPClient {
             super.setFileType(FTP.BINARY_FILE_TYPE, FTP.BINARY_FILE_TYPE);
             LOGGER.info("FTP Connected to Server!");
         } catch (Exception e) {
-            LOGGER.error("Unable to connect to FTP Server!", e);
-            throw new BaseException("Unable to connect to FTP Server!");
+            LOGGER.error("Unable to establish FTP Connection!", e);
         }
     }
 

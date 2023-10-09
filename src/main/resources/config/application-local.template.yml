@@ -9,7 +9,7 @@ spring:
     url:
 
 ftp:
-  server: ftp-nas.ddnsfree.com
+  server:
   port: 21
   environment: DEV
   username:
