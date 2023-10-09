@@ -50,7 +50,7 @@ public class EnvironmentService {
      * @return String of the signing key to use.
      */
     public Key getSigningKey() {
-        LOGGER.info("LOCAL KEY HAS TEXT: ", StringUtils.hasText(LOCAL_SIGNING_KEY));
+        LOGGER.info("LOCAL KEY HAS TEXT: {}", StringUtils.hasText(LOCAL_SIGNING_KEY));
         String signingKey = StringUtils.hasText(LOCAL_SIGNING_KEY) ? LOCAL_SIGNING_KEY : System.getenv(SIGNING_KEY);
         byte[] keyBytes = Decoders.BASE64.decode(signingKey);
         return Keys.hmacShaKeyFor(keyBytes);
