@@ -5,11 +5,8 @@ package com.fbl.environment;
 
 import java.security.Key;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import com.fbl.common.enums.Environment;
 
@@ -24,12 +21,9 @@ import io.jsonwebtoken.security.Keys;
  */
 @Service
 public class EnvironmentService {
-    private static final Logger LOGGER = LoggerFactory.getLogger(EnvironmentService.class);
-    private static final String ACTIVE_PROFILE = "APP_ENVIRONMENT";
-    private static final String SIGNING_KEY = "JWT_SIGNING_KEY";
 
     @Value("${jwt.secret:#{null}}")
-    private String LOCAL_SIGNING_KEY;
+    private String JWT_SIGNING_KEY;
 
     @Value("${email.sendgrid-key}")
     private String SENDGRID_API_KEY;
@@ -40,7 +34,7 @@ public class EnvironmentService {
      * @return string of the environment currently running
      */
     public Environment getEnvironment() {
-        String env = System.getenv(ACTIVE_PROFILE);
+        String env = System.getenv("APP_ENVIRONMENT");
         return env != null ? Environment.valueOf(env) : Environment.LOCAL;
     }
 
@@ -50,10 +44,7 @@ public class EnvironmentService {
      * @return String of the signing key to use.
      */
     public Key getSigningKey() {
-        LOGGER.info("LOCAL KEY HAS TEXT: {}", StringUtils.hasText(LOCAL_SIGNING_KEY));
-        String signingKey = StringUtils.hasText(LOCAL_SIGNING_KEY) ? LOCAL_SIGNING_KEY : System.getenv(SIGNING_KEY);
-        byte[] keyBytes = Decoders.BASE64.decode(signingKey);
-        return Keys.hmacShaKeyFor(keyBytes);
+        return Keys.hmacShaKeyFor(Decoders.BASE64.decode(JWT_SIGNING_KEY));
     }
 
     /**
