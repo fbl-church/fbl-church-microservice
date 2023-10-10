@@ -14,6 +14,7 @@ buildscript {
 		send_grid_version = '4.0.1'
 		jakarta_xml_version =  '2.3.2'
 		test_junit_version = '5.9.2'
+		test_mock_ftp_version = '2.7.1'
     }
 }
 
@@ -71,6 +72,7 @@ dependencies {
 
 	testImplementation "org.springframework.boot:spring-boot-starter-test"
 	testImplementation "org.junit.jupiter:junit-jupiter:${test_junit_version}"
+	testImplementation "org.mockftpserver:MockFtpServer:${test_mock_ftp_version}"
 	
 	testRuntimeOnly "org.junit.platform:junit-platform-launcher"	
 }

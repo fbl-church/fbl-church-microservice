@@ -21,7 +21,6 @@ import com.fbl.common.annotations.interfaces.Client;
 import com.fbl.exception.types.BaseException;
 
 import io.jsonwebtoken.lang.Collections;
-import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 /**
@@ -31,7 +30,6 @@ import lombok.NoArgsConstructor;
  * @since April 27, 2022
  */
 @Client
-@AllArgsConstructor
 @NoArgsConstructor
 public class FTPServerClient extends FTPClient {
     private static final Logger LOGGER = LoggerFactory.getLogger(FTPServerClient.class);
@@ -40,6 +38,14 @@ public class FTPServerClient extends FTPClient {
     private int port;
     private String username;
     private String password;
+
+    public FTPServerClient(String server, int port, String username, String password) {
+        super();
+        this.server = server;
+        this.port = port;
+        this.username = username;
+        this.password = password;
+    }
 
     /**
      * Base Connection and login with the constructed server, port, username and
@@ -96,7 +102,8 @@ public class FTPServerClient extends FTPClient {
         this.checkConnection();
         try {
             this.changeDirectory(path);
-            return Arrays.asList(super.listFiles("", filter));
+            FTPFile[] files = filter == null ? super.listFiles("") : super.listFiles("", filter);
+            return Arrays.asList(files);
         } catch (Exception e) {
             LOGGER.error("Unable to list files from FTP Server!", e);
             return List.of();
