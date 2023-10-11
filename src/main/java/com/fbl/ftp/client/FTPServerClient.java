@@ -21,6 +21,7 @@ import com.fbl.common.annotations.interfaces.Client;
 import com.fbl.exception.types.BaseException;
 
 import io.jsonwebtoken.lang.Collections;
+import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 /**
@@ -30,6 +31,7 @@ import lombok.NoArgsConstructor;
  * @since April 27, 2022
  */
 @Client
+@AllArgsConstructor
 @NoArgsConstructor
 public class FTPServerClient extends FTPClient {
     private static final Logger LOGGER = LoggerFactory.getLogger(FTPServerClient.class);
@@ -38,14 +40,6 @@ public class FTPServerClient extends FTPClient {
     private int port;
     private String username;
     private String password;
-
-    public FTPServerClient(String server, int port, String username, String password) {
-        super();
-        this.server = server;
-        this.port = port;
-        this.username = username;
-        this.password = password;
-    }
 
     /**
      * Base Connection and login with the constructed server, port, username and
@@ -157,6 +151,24 @@ public class FTPServerClient extends FTPClient {
     }
 
     /**
+     * Deletes a directory on the FTP server.
+     * 
+     * @param path The path to the directory to delete
+     * @return Boolean if the directory was deleted or not.
+     */
+    public boolean deleteDirectory(String path) {
+        this.checkConnection();
+        try {
+            boolean deleted = super.removeDirectory(path);
+            LOGGER.info("Directory Deleted: '{}'", path);
+            return deleted;
+        } catch (IOException e) {
+            LOGGER.warn("Unable to Delete Directory: '{}'", path, e);
+            return false;
+        }
+    }
+
+    /**
      * Returns an InputStream from which a named file from the server can be read.
      * If the current file type is ASCII, the returned InputStream will convert line
      * separators in the file to the local representation. You must close the
@@ -237,16 +249,13 @@ public class FTPServerClient extends FTPClient {
      * @param path The directory path to be created.
      */
     private void createDirectory(String path) {
-        if (super.isConnected()) {
-            try {
-                this.changeDirectory("/");
-                this.makeDirectories(path);
-                LOGGER.info("Directory Created: {}", path);
-            } catch (IOException e) {
-                LOGGER.error("Unable to Create Directory '{}'", path, e);
-            }
-        } else {
-            LOGGER.warn("Unable to Create Directory '{}'. Connection is not open.", path);
+        this.checkConnection();
+        try {
+            this.changeDirectory("/");
+            this.makeDirectories(path);
+            LOGGER.info("Directory Created: {}", path);
+        } catch (IOException e) {
+            LOGGER.error("Unable to Create Directory '{}'", path, e);
         }
     }
 

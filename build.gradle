@@ -14,7 +14,7 @@ buildscript {
 		send_grid_version = '4.0.1'
 		jakarta_xml_version =  '2.3.2'
 		test_junit_version = '5.9.2'
-		test_mock_ftp_version = '2.7.1'
+		test_mock_ftp_version = '3.1.0'
     }
 }
 
