@@ -6,6 +6,7 @@
   c.birthday,
   c.allergies,
   c.additional_info,
+  c.release_of_liability,
   u.insert_date
 
 @NAME(childrenFilters)
@@ -54,8 +55,8 @@
   ORDER BY church_group
 
 @NAME(insertChild)
-  INSERT INTO children (user_id, cuid, birthday, allergies, additional_info)
-  VALUES (:user_id, :cuid, :birthday, :allergies, :additional_info)
+  INSERT INTO children (user_id, cuid, birthday, allergies, additional_info, release_of_liability)
+  VALUES (:user_id, :cuid, :birthday, :allergies, :additional_info, :release_of_liability)
 
 @NAME(insertChildGroup)
   INSERT INTO children_groups (child_id, church_group)
@@ -66,7 +67,8 @@
   SET
     birthday        = IFNULL(:birthday, birthday),
     allergies       = :allergies,
-    additional_info = :additional_info
+    additional_info = :additional_info,
+    release_of_liability = IFNULL(:release_of_liability, release_of_liability)
   WHERE user_id = :user_id
 
 @NAME(deleteChild)

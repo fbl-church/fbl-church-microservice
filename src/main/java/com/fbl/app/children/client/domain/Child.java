@@ -41,4 +41,7 @@ public class Child extends User {
 
     @Schema(description = "Childs guardians")
     private List<Guardian> guardians;
+
+    @Schema(description = "Childs release of liability agreement")
+    private boolean releaseOfLiability;
 }

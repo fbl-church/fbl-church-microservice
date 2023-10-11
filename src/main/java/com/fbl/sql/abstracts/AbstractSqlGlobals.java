@@ -49,6 +49,7 @@ public abstract class AbstractSqlGlobals {
     protected static final String PRESENT = "present";
     protected static final String READ = "read";
     protected static final String RELATIONSHIP = "relationship";
+    protected static final String RELEASE_OF_LIABILITY = "release_of_liability";
     protected static final String REQUEST_ID = "request_id";
     protected static final String STARTED_BY_USER_ID = "started_by_user_id";
     protected static final String STATE = "state";

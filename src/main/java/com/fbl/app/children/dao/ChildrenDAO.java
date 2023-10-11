@@ -79,7 +79,8 @@ public class ChildrenDAO extends BaseDao {
         MapSqlParameterSource params = SqlParamBuilder.with().withParam(USER_ID, userId)
                 .withParam(CUID, child.getCuid())
                 .withParam(BIRTHDAY, child.getBirthday()).withParam(ALLERGIES, child.getAllergies())
-                .withParam(ADDITIONAL_INFO, child.getAdditionalInfo()).build();
+                .withParam(ADDITIONAL_INFO, child.getAdditionalInfo())
+                .withParam(RELEASE_OF_LIABILITY, child.isReleaseOfLiability()).build();
 
         post("insertChild", params);
     }
@@ -107,7 +108,8 @@ public class ChildrenDAO extends BaseDao {
     public void updateChildById(int id, Child child) {
         MapSqlParameterSource params = SqlParamBuilder.with().withParam(CHURCH_GROUP, child.getChurchGroup())
                 .withParam(BIRTHDAY, child.getBirthday()).withParam(ALLERGIES, child.getAllergies())
-                .withParam(ADDITIONAL_INFO, child.getAdditionalInfo()).withParam(USER_ID, id).build();
+                .withParam(ADDITIONAL_INFO, child.getAdditionalInfo()).withParam(USER_ID, id)
+                .withParam(RELEASE_OF_LIABILITY, child.isReleaseOfLiability()).build();
 
         post("updateChildById", params);
     }

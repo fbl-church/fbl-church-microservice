@@ -12,9 +12,10 @@
 CREATE TABLE children (
   user_id         INT         unsigned NOT NULL,
   cuid            VARCHAR(12)          NOT NULL,
-  birthday        VARCHAR(45)          DEFAULT NULL,
-  allergies       LONGTEXT             DEFAULT NULL,
-  additional_info LONGTEXT             DEFAULT NULL,
+  birthday        VARCHAR(45)                   DEFAULT NULL,
+  allergies       LONGTEXT                      DEFAULT NULL,
+  additional_info LONGTEXT                      DEFAULT NULL,
+  release_of_liability BIT             NOT NULL DEFAULT 0,
   PRIMARY KEY (user_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
