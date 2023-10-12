@@ -18,7 +18,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
 import com.fbl.common.annotations.interfaces.Client;
-import com.fbl.exception.types.BaseException;
+import com.fbl.exception.types.ServiceException;
 
 import io.jsonwebtoken.lang.Collections;
 import lombok.AllArgsConstructor;
@@ -50,12 +50,12 @@ public class FTPServerClient extends FTPClient {
             super.connect(server, port);
             if (!FTPReply.isPositiveCompletion(super.getReplyCode())) {
                 super.disconnect();
-                throw new BaseException("Connection Reply failed to FTP Server");
+                throw new ServiceException("Connection Reply failed to FTP Server");
             }
 
             boolean loginSuccess = super.login(username, password);
             if (!loginSuccess) {
-                throw new BaseException("FTP Authentication Failed!");
+                throw new ServiceException("FTP Authentication Failed!");
             }
 
             super.enterLocalPassiveMode();

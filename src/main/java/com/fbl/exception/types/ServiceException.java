@@ -7,14 +7,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
- * Exception thrown when exception occurs for jwt.
+ * Base Exception class. Will omit stack trace and only display exception.
  * 
  * @author Sam Butler
  * @since July 31, 2021
  */
-@ResponseStatus(HttpStatus.UNAUTHORIZED)
-public class JwtTokenException extends ServiceException {
-    public JwtTokenException(String msg) {
-        super(msg);
+@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+public class ServiceException extends RuntimeException {
+
+    public ServiceException(String message) {
+        super(message);
     }
 }

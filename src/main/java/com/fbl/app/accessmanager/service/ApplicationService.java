@@ -17,8 +17,8 @@ import com.fbl.app.accessmanager.client.domain.request.WebRoleAppGetRequest;
 import com.fbl.app.accessmanager.dao.ApplicationDAO;
 import com.fbl.common.enums.WebRole;
 import com.fbl.common.page.Page;
-import com.fbl.exception.types.BaseException;
 import com.fbl.exception.types.NotFoundException;
+import com.fbl.exception.types.ServiceException;
 import com.google.common.collect.Sets;
 
 /**
@@ -133,7 +133,7 @@ public class ApplicationService {
             try {
                 dao.assignWebRoleToApplication(appId, r, false);
             } catch (Exception e) {
-                throw new BaseException(
+                throw new ServiceException(
                         String.format("Unable to assign role %s to application id '%i'", r.toString(), appId));
             }
         }

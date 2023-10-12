@@ -19,12 +19,11 @@ import com.fbl.common.enums.ErrorCode;
 import com.fbl.exception.domain.DataValidationExceptionError;
 import com.fbl.exception.domain.ExceptionError;
 import com.fbl.exception.domain.FieldValidationError;
-import com.fbl.exception.types.BaseException;
 import com.fbl.exception.types.InsufficientPermissionsException;
 import com.fbl.exception.types.InvalidCredentialsException;
 import com.fbl.exception.types.JwtTokenException;
 import com.fbl.exception.types.NotFoundException;
-import com.fbl.exception.types.UserNotFoundException;
+import com.fbl.exception.types.ServiceException;
 
 /**
  * Exception Helper class for returning response entitys of the errored objects.
@@ -39,14 +38,14 @@ public class BaseExceptionHandlerController {
     @ExceptionHandler(InvalidCredentialsException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public ExceptionError handleInvalidCredentialsException(Exception ex) {
-        LOGGER.error(ex.getMessage());
+        LOGGER.error("Caught Invalid Credentials Exception, returning 401", ex);
         return new ExceptionError(ex.getMessage(), HttpStatus.UNAUTHORIZED);
     }
 
-    @ExceptionHandler({ NotFoundException.class, UserNotFoundException.class })
+    @ExceptionHandler(NotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ExceptionError handleNotFoundException(Exception ex) {
-        LOGGER.error(ex.getMessage());
+        LOGGER.error("Caught Not Found Exception, returning 404", ex);
         return new ExceptionError(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 
@@ -63,28 +62,28 @@ public class BaseExceptionHandlerController {
     @ExceptionHandler(JwtTokenException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public Object handleJwtTokenException(Exception ex) {
-        LOGGER.error(ex.getMessage());
+        LOGGER.error("Caught JWT Token Exception, returning 401", ex);
         return new ExceptionError(ex.getMessage(), HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(InsufficientPermissionsException.class)
     @ResponseStatus(HttpStatus.FORBIDDEN)
     public ExceptionError handleInsufficientPermissionsException(Exception ex) {
-        LOGGER.error(ex.getMessage());
+        LOGGER.error("Caught Insufficient Permissions Exception, returning 403", ex);
         return new ExceptionError(ex.getMessage(), HttpStatus.FORBIDDEN);
     }
 
-    @ExceptionHandler(BaseException.class)
+    @ExceptionHandler(ServiceException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ExceptionError handleBaseException(Exception ex) {
-        LOGGER.error(ex.getMessage());
+        LOGGER.error("Caught Service Exception, returning 500", ex);
         return new ExceptionError(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ExceptionError handleException(Exception ex) {
-        LOGGER.error(ex.getMessage(), ex);
+        LOGGER.error("An unhandled exception was thrown, returning 500", ex);
         return new ExceptionError(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 

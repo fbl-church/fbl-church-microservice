@@ -17,7 +17,7 @@ import com.fbl.app.user.client.domain.User;
 import com.fbl.app.user.client.domain.request.UserGetRequest;
 import com.fbl.common.date.TimeZoneUtil;
 import com.fbl.exception.types.InvalidCredentialsException;
-import com.fbl.exception.types.UserNotFoundException;
+import com.fbl.exception.types.NotFoundException;
 import com.fbl.jwt.utility.JwtHolder;
 import com.fbl.jwt.utility.JwtTokenUtil;
 import com.google.common.collect.Sets;
@@ -81,7 +81,7 @@ public class AuthenticationService {
      * @param password Password entered at login.
      */
     public User verifyUser(String email, String password) {
-        String hashedPassword = dao.getUserAuthPassword(email).orElseThrow(() -> new UserNotFoundException(String
+        String hashedPassword = dao.getUserAuthPassword(email).orElseThrow(() -> new NotFoundException(String
                 .format("User not found or does not have access for email: '%s'", email)));
 
         if (BCrypt.checkpw(password, hashedPassword)) {

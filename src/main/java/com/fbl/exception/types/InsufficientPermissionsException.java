@@ -5,6 +5,9 @@ package com.fbl.exception.types;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
+
 import com.fbl.common.enums.WebRole;
 
 /**
@@ -14,7 +17,8 @@ import com.fbl.common.enums.WebRole;
  * @author Sam Butler
  * @since July 31, 2021
  */
-public class InsufficientPermissionsException extends BaseException {
+@ResponseStatus(HttpStatus.FORBIDDEN)
+public class InsufficientPermissionsException extends ServiceException {
 
     /**
      * Base Constructor for adding a custom message on a

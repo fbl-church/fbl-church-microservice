@@ -20,7 +20,7 @@ import com.fbl.app.accessmanager.dao.FeatureDAO;
 import com.fbl.app.user.client.UserClient;
 import com.fbl.common.enums.WebRole;
 import com.fbl.common.page.Page;
-import com.fbl.exception.types.BaseException;
+import com.fbl.exception.types.ServiceException;
 import com.google.common.collect.Sets;
 
 import io.jsonwebtoken.lang.Assert;
@@ -145,7 +145,7 @@ public class FeatureService {
             try {
                 dao.assignWebRoleToFeature(featureId, r, false);
             } catch (Exception e) {
-                throw new BaseException(
+                throw new ServiceException(
                         String.format("Unable to assign role %s to feature id '%i'", r.toString(), featureId));
             }
         }

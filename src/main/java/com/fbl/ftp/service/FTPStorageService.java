@@ -13,7 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.fbl.common.page.Page;
 import com.fbl.common.util.CommonUtil;
-import com.fbl.exception.types.BaseException;
+import com.fbl.exception.types.ServiceException;
 import com.fbl.ftp.client.FTPStorageClient;
 import com.fbl.ftp.client.domain.filters.FileSearchSpecification;
 import com.fbl.ftp.client.domain.request.FileGetRequest;
@@ -47,7 +47,7 @@ public class FTPStorageService {
      */
     public InputStreamResource downloadFile(String filePath) {
         InputStream is = ftpStorageClient.download(filePath);
-        if(is == null) {
+        if (is == null) {
             return null;
         }
         return new InputStreamResource(is);
@@ -63,7 +63,7 @@ public class FTPStorageService {
         try {
             ftpStorageClient.upload(file.getInputStream(), path, file.getOriginalFilename());
         } catch (Exception e) {
-            throw new BaseException("Unable to upload mulipart file: " + file.getOriginalFilename());
+            throw new ServiceException("Unable to upload mulipart file: " + file.getOriginalFilename());
         }
     }
 

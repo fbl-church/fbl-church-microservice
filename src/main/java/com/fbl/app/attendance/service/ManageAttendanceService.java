@@ -19,7 +19,7 @@ import com.fbl.app.user.client.UserClient;
 import com.fbl.app.user.client.domain.User;
 import com.fbl.app.user.client.domain.request.UserGetRequest;
 import com.fbl.common.enums.AttendanceStatus;
-import com.fbl.exception.types.BaseException;
+import com.fbl.exception.types.ServiceException;
 import com.fbl.jwt.utility.JwtHolder;
 
 /**
@@ -80,7 +80,7 @@ public class ManageAttendanceService {
     public AttendanceRecord updateAttendanceRecordStatus(int id, AttendanceStatus status) {
         AttendanceRecord currentRecord = attendanceService.getAttendanceRecordById(id);
         if (AttendanceStatus.CLOSED.equals(currentRecord.getStatus())) {
-            throw new BaseException("Cannot update status of record that is already closed.");
+            throw new ServiceException("Cannot update status of record that is already closed.");
         }
 
         if (AttendanceStatus.CLOSED.equals(status)) {
