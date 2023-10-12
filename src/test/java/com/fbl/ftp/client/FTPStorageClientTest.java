@@ -1,7 +1,8 @@
 package com.fbl.ftp.client;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.verify;
 
 import java.io.IOException;
 import java.util.List;
@@ -79,5 +80,18 @@ public class FTPStorageClientTest {
         List<FTPFile> directoryFiles = ftpServerClient.get("/disk1/fbl-cloud-TEST/folder/newFiles", (f) -> f.isFile());
         assertTrue(directoryFiles.size() == 1, "Should be 1 file");
         assertEquals(directoryFiles.get(0).getName(), "NEW_FILE.txt", "New file name");
+    }
+
+    @Test
+    void testFileDelete() throws IOException {
+        FileEntry newFile = new FileEntry();
+        newFile.setContents("NEW FILE DATA");
+        ftpServerClient.storeFile("/disk1/fbl-cloud-TEST/folder/newFiles", "NEW_FILE.txt", newFile.createInputStream());
+
+        assertEquals(ftpServerClient.printWorkingDirectory(), "/disk1/fbl-cloud-TEST/folder/newFiles",
+                "Working directory should be changed");
+
+        boolean fileDeleted = ftpServerClient.deleteFile("/disk1/fbl-cloud-TEST/folder/newFiles/NEW_FILE.txt");
+        assertTrue(fileDeleted, "File deleted");
     }
 }
