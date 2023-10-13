@@ -7,7 +7,7 @@ spring:
 ftp:
   server: fake-ftp-url
   port: 21
-  environment: DEV
+  environment: TEST
   username: test
   password: password
 

@@ -61,8 +61,8 @@ public class FTPStorageController {
      */
     @Operation(summary = "Upload a file to FTP Storage", description = "Given a a file and name. It will upload the file to the FTP Storage.")
     @PostMapping(produces = APPLICATION_JSON_VALUE)
-    public void upload(@RequestParam("file") MultipartFile file, @RequestParam("path") String path) {
-        service.upload(file, path);
+    public void upload(@RequestParam("path") String path, @RequestParam("file") MultipartFile file) {
+        service.upload(path, file);
     }
 
     /**

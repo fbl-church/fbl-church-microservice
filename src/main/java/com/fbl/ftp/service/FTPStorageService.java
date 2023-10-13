@@ -59,9 +59,9 @@ public class FTPStorageService {
      * @param file The file to be uploaded
      * @param path Where to store the file.
      */
-    public void upload(MultipartFile file, String path) {
+    public void upload(String path, MultipartFile file) {
         try {
-            ftpStorageClient.upload(file.getInputStream(), path, file.getOriginalFilename());
+            ftpStorageClient.upload(path, file.getOriginalFilename(), file.getInputStream());
         } catch (Exception e) {
             throw new ServiceException("Unable to upload mulipart file: " + file.getOriginalFilename());
         }

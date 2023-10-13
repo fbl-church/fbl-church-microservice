@@ -29,8 +29,8 @@ public class FTPStorageClient {
      * @param is       The file to be stored.
      * @param fileName The name to store the file under.
      */
-    public void upload(InputStream is, String fileName) {
-        upload(is, "", fileName);
+    public void upload(String fileName, InputStream is) {
+        upload(null, fileName, is);
     }
 
     /**
@@ -40,7 +40,7 @@ public class FTPStorageClient {
      * @param path     The location to store the file
      * @param fileName The name to store the file under.
      */
-    public void upload(InputStream is, String path, String fileName) {
+    public void upload(String path, String fileName, InputStream is) {
         String directoryPath = this.getBasePath();
         if (StringUtils.hasText(path)) {
             directoryPath = String.format("%s/%s", this.getBasePath(), path);
