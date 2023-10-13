@@ -1,12 +1,12 @@
 package com.fbl.ftp.client;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.verify;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 import java.io.IOException;
 import java.util.List;
 
+import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPFile;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -47,6 +47,7 @@ public class FTPStorageClientTest {
                 .spy(new FTPServerClient(FAKE_FTP_HOST, fakeFtpServer.getServerControlPort(), FAKE_FTP_USERNAME,
                         FAKE_FTP_PASSWORD));
         ftpServerClient.connect();
+        Mockito.clearInvocations(ftpServerClient);
     }
 
     @AfterEach
@@ -93,5 +94,82 @@ public class FTPStorageClientTest {
 
         boolean fileDeleted = ftpServerClient.deleteFile("/disk1/fbl-cloud-TEST/folder/newFiles/NEW_FILE.txt");
         assertTrue(fileDeleted, "File deleted");
+    }
+
+    @Test
+    void testDirectoryDelete() {
+        FileEntry newFile = new FileEntry();
+        newFile.setContents("NEW FILE DATA");
+        ftpServerClient.storeFile("/disk1/fbl-cloud-TEST", "NEW_FILE.txt", newFile.createInputStream());
+        ftpServerClient.createDirectory("/disk1/fbl-cloud-TEST/DELETE_DIRECTORY");
+
+        // Confirm Test Data was created
+        List<FTPFile> files = ftpServerClient.get("/disk1/fbl-cloud-TEST");
+        FTPFile directory = files.stream().filter(f -> f.isDirectory()).findAny().get();
+        assertTrue(files.size() == 2, "Single Directory and One File");
+        assertEquals(directory.getName(), "DELETE_DIRECTORY", "Directory Name");
+
+        // Perform directory delete
+        ftpServerClient.deleteDirectory("/disk1/fbl-cloud-TEST/DELETE_DIRECTORY");
+
+        // Confirm directory deletion only
+        files = ftpServerClient.get("/disk1/fbl-cloud-TEST");
+        assertTrue(files.size() == 1, "Single File");
+        assertTrue(files.stream().filter(f -> f.isDirectory()).findAny().isEmpty(), "Directory should be deleted");
+    }
+
+    @Test
+    void testGetFileByName() throws IOException {
+        FileEntry newFile = new FileEntry();
+        newFile.setContents("NEW FILE DATA");
+        ftpServerClient.storeFile("/disk1/fbl-cloud-TEST", "NEW_FILE.txt", newFile.createInputStream());
+
+        assertTrue(ftpServerClient.getFile("/disk1/fbl-cloud-TEST", "NEW_FILE.txt").isPresent(), "File Found");
+        assertTrue(ftpServerClient.getFile("/disk1/fbl-cloud-TEST", "NOT_REAL.png").isEmpty(), "File NOT Found");
+    }
+
+    @Test
+    void testCheckConnectionServerConnectedAndActive() {
+        ftpServerClient.checkConnection();
+        verify(ftpServerClient).isActive();
+        verify(ftpServerClient, never()).connect();
+    }
+
+    @Test
+    void testCheckConnectionServerConnectedAndNotActive() throws IOException {
+        when(ftpServerClient.sendNoOp()).thenReturn(false);
+
+        ftpServerClient.checkConnection();
+        verify(ftpServerClient).isActive();
+        verify(ftpServerClient).connect();
+    }
+
+    @Test
+    void testCheckConnectionServerNotConnected() throws IOException {
+        ftpServerClient.close();
+        ftpServerClient.checkConnection();
+        verify(ftpServerClient, times(2)).isActive();
+        verify(ftpServerClient).connect();
+        assertTrue(ftpServerClient.isActive(), "Server should be active again");
+    }
+
+    @Test
+    void testConnectionToFTPServer() throws IOException {
+        ftpServerClient.close();
+        assertFalse(ftpServerClient.isActive(), "Server should be disconnected");
+
+        ftpServerClient.connect();
+        verify(ftpServerClient).getReplyCode();
+        verify(ftpServerClient).login("test", "password");
+        verify(ftpServerClient).enterLocalPassiveMode();
+        verify(ftpServerClient).setFileType(FTP.BINARY_FILE_TYPE, FTP.BINARY_FILE_TYPE);
+    }
+
+    @Test
+    void testCloseConnection() throws IOException {
+        ftpServerClient.close();
+        verify(ftpServerClient).logout();
+        verify(ftpServerClient).disconnect();
+        assertFalse(ftpServerClient.isActive(), "Server should be disconnected");
     }
 }

@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.apache.commons.net.ftp.FTP;
@@ -54,6 +55,7 @@ public class FTPServerClient extends FTPClient {
             }
 
             boolean loginSuccess = super.login(username, password);
+            LOGGER.info("Login Status: {}", loginSuccess);
             if (!loginSuccess) {
                 throw new ServiceException("FTP Authentication Failed!");
             }
@@ -70,18 +72,38 @@ public class FTPServerClient extends FTPClient {
      * Close method to logout and disconnect the active session to the FTP server.
      */
     public void close() {
-        if (super.isConnected()) {
-            if (this.isServerActive()) {
-                try {
-                    super.logout();
-                    super.disconnect();
+        if (this.isActive()) {
+            try {
+                super.logout();
+                super.disconnect();
 
-                } catch (Exception e) {
-                    LOGGER.warn("Unable to close connection to FTP Server!", e);
-                }
-                LOGGER.info("FTP Connection Successfully Closed!");
+            } catch (Exception e) {
+                LOGGER.warn("Unable to close connection to FTP Server!", e);
             }
+            LOGGER.info("FTP Connection Successfully Closed!");
         }
+    }
+
+    /**
+     * Perform a get on the FTP server. It will return a list of information based
+     * on the path name.
+     * 
+     * @param path The path to pull the information from
+     * @return List of {@link FTPFile}
+     */
+    public List<FTPFile> get(String path) {
+        return get(path, null);
+    }
+
+    /**
+     * Will get the file by the given path and name
+     * 
+     * @param path The path to pull the information from
+     * @return {@link FTPFile}
+     */
+    public Optional<FTPFile> getFile(String path, String fileName) {
+        List<FTPFile> files = get(path, f -> f.isFile());
+        return files.stream().filter(f -> f.getName().equals(fileName)).findAny();
     }
 
     /**
@@ -218,26 +240,23 @@ public class FTPServerClient extends FTPClient {
      * Checks the FTP connection that it is still connected. If not it will attempt
      * a reconnection.
      */
-    private void checkConnection() {
-        if (super.isConnected()) {
-            if (!this.isServerActive()) {
-                LOGGER.info("FTP Server not Connected. Attempting Reconnect...");
-                connect();
-            }
-        } else {
-            LOGGER.info("FTP not Connected. Attempting Reconnect...");
+    public void checkConnection() {
+        if (!this.isActive()) {
+            LOGGER.info("FTP Server not Connected. Attempting Reconnect...");
             connect();
         }
     }
 
     /**
-     * Checks to see if the current FTP Connection is active on the server
+     * Checks to see if the current FTP Connection is active on the server. Will
+     * first check if the FTP is connected, if is connected then it will send a NOOP
+     * command to confirm it is active.
      * 
      * @return True if the server is active, otherwise false.
      */
-    private boolean isServerActive() {
+    public boolean isActive() {
         try {
-            return super.sendNoOp();
+            return super.isConnected() ? super.sendNoOp() : false;
         } catch (IOException e) {
             return false;
         }
@@ -248,7 +267,7 @@ public class FTPServerClient extends FTPClient {
      * 
      * @param path The directory path to be created.
      */
-    private void createDirectory(String path) {
+    public void createDirectory(String path) {
         this.checkConnection();
         try {
             this.changeDirectory("/");
