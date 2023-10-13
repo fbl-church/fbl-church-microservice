@@ -1,3 +1,6 @@
+/**
+ * Copyright of FBL Church App. All rights reserved.
+ */
 package com.fbl.ftp.client.domain.filters;
 
 import org.apache.commons.net.ftp.FTPFile;
