@@ -1,6 +1,6 @@
 ---
 name: Database Request
-about: Changes dealing with the database
+about: Changes dealing with the database.
 title: ''
 labels: Database
 assignees: sambutler1017,suvakpc
