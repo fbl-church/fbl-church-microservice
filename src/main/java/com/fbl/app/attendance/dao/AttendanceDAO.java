@@ -3,8 +3,8 @@
  */
 package com.fbl.app.attendance.dao;
 
-import static com.fbl.app.attendance.mapper.AttendanceRecordMapper.*;
-import static com.fbl.app.user.mapper.UserMapper.*;
+import static com.fbl.app.attendance.mapper.AttendanceRecordMapper.ATTENDANCE_RECORD_MAPPER;
+import static com.fbl.app.user.mapper.UserMapper.USER_MAPPER;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -115,6 +115,18 @@ public class AttendanceDAO extends BaseDao {
                 .withParam(CLOSED_DATE, LocalDateTime.now(TimeZoneUtil.SYSTEM_ZONE))
                 .withParam(ID, id).withParam(CLOSED_BY_USER_ID, closedByUserId).build();
         update("updateAttendanceRecordStatus", params.addValue(STARTED_BY_USER_ID, null));
+    }
+
+    /**
+     * Will check out all the children on the attendance record if they are not
+     * already checked out.
+     * 
+     * @param id The attendance record id
+     */
+    public void checkoutChildrenFromRecord(int id) {
+        MapSqlParameterSource params = SqlParamBuilder.with().withParam(ID, id)
+                .withParam(CHECK_OUT_DATE, LocalDateTime.now(TimeZoneUtil.SYSTEM_ZONE)).build();
+        update("checkoutChildrenFromRecord", params);
     }
 
     /**

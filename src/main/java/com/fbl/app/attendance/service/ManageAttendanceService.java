@@ -85,6 +85,7 @@ public class ManageAttendanceService {
 
         if (AttendanceStatus.CLOSED.equals(status)) {
             dao.closeAttendanceRecord(id, jwtHolder.getUserId());
+            dao.checkoutChildrenFromRecord(id);
         } else if (AttendanceStatus.ACTIVE.equals(status)) {
             dao.activateAttendanceRecord(id, jwtHolder.getUserId());
         } else {
