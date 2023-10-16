@@ -63,7 +63,7 @@ public class ManageUserService {
 	 * @param user The user object to be created.
 	 * @return The new user that was created.
 	 */
-	public User createUser(User user) {
+	public User createUser(User user, boolean sendEmail) {
 		if (!WebRole.hasPermission(jwtHolder.getWebRole(), user.getWebRole())) {
 			throw new InsufficientPermissionsException(String
 					.format("Insufficient permission to create a user of role '%s'", jwtHolder.getWebRole(),
@@ -75,7 +75,9 @@ public class ManageUserService {
 		userCredentialsClient.insertUserPassword(newUserId, String.valueOf(CommonUtil.generateRandomNumber()));
 		UserStatusClient.insertUserStatus(new UserStatus(newUserId, AccountStatus.APPROVED, true, null));
 		User createdUser = userService.getUserById(newUserId);
-		emailClient.sendNewUserEmail(createdUser);
+		if (sendEmail) {
+			emailClient.sendNewUserEmail(createdUser);
+		}
 		return createdUser;
 	}
 

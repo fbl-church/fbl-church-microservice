@@ -100,7 +100,7 @@ public class UserController {
 	@PostMapping("/create")
 	@HasAccess(WebRole.SITE_ADMINISTRATOR)
 	public User createUser(@RequestBody @Valid User user) {
-		return manageUserService.createUser(user);
+		return manageUserService.createUser(user, true);
 	}
 
 	/**

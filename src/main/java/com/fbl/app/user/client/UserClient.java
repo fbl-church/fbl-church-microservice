@@ -90,7 +90,7 @@ public class UserClient {
 	 * @return The new user that was created.
 	 */
 	public User createUser(User user) {
-		return manageUserService.createUser(user);
+		return manageUserService.createUser(user, false);
 	}
 
 	/**
