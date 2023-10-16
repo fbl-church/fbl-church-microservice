@@ -56,4 +56,17 @@ public class UserCredentialsController {
     public User updateUserPasswordById(@PathVariable int id, @RequestBody PasswordUpdate passUpdate) {
         return service.updateUserPasswordById(id, passUpdate);
     }
+
+    /**
+     * This will get called when a user has forgotten their password. This will
+     * allow them to reset it.
+     * 
+     * @param passUpdate Object the holds the current password and new user password
+     *                   to change it too.
+     * @return {@link User} object of the user that was updated.
+     */
+    @PutMapping("/password/reset")
+    public User resetUserPassword(@RequestBody PasswordUpdate passUpdate) throws Exception {
+        return service.resetUserPassword(passUpdate.getNewPassword());
+    }
 }

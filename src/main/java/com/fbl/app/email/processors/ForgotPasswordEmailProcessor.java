@@ -14,6 +14,7 @@ import com.fbl.app.email.client.domain.UserEmail;
 import com.fbl.app.user.client.UserClient;
 import com.fbl.app.user.client.domain.User;
 import com.fbl.app.user.client.domain.request.UserGetRequest;
+import com.fbl.environment.EnvironmentService;
 import com.fbl.jwt.utility.JwtTokenUtil;
 import com.google.common.collect.Sets;
 
@@ -26,13 +27,15 @@ import com.google.common.collect.Sets;
 @Service
 public class ForgotPasswordEmailProcessor extends EmailProcessor<String> {
     private static final Logger LOGGER = LoggerFactory.getLogger(ForgotPasswordEmailProcessor.class);
-    private final String RESET_LINK = "https://fbl-app.herokuapp.com/login/reset-password/";
 
     @Autowired
     private UserClient userClient;
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
+
+    @Autowired
+    private EnvironmentService environmentService;
 
     private String email;
 
@@ -71,7 +74,11 @@ public class ForgotPasswordEmailProcessor extends EmailProcessor<String> {
         if (users.size() < 1)
             return "";
         else
-            return emailContent.replace("::FORGOT_PASSWORD_LINK::",
-                    RESET_LINK + jwtTokenUtil.generateToken(users.get(0)));
+            return emailContent.replace("::FORGOT_PASSWORD_LINK::", this.getResetPath(users.get(0)));
+    }
+
+    private String getResetPath(User u) {
+        String base = environmentService.getEnvironment().getUrl();
+        return String.format("%s/reset-password/%s", base, jwtTokenUtil.generateToken(u, true));
     }
 }

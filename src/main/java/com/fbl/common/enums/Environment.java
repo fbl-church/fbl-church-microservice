@@ -14,20 +14,26 @@ import org.springframework.util.Assert;
  * @since July 31, 2021
  */
 public enum Environment implements TextEnum {
-    PRODUCTION("P"),
-    DEVELOPMENT("D"),
-    TEST("T"),
-    LOCAL("L");
+    PRODUCTION("P", "https://www.fbl-church.com"),
+    DEVELOPMENT("D", "http://localhost:4200"),
+    TEST("T", "http://localhost:4200"),
+    LOCAL("L", "http://localhost:4200");
 
     private String textId;
+    private String url;
 
-    private Environment(String textId) {
+    private Environment(String textId, String url) {
         this.textId = textId;
+        this.url = url;
     }
 
     @Override
     public String getTextId() {
         return textId;
+    }
+
+    public String getUrl() {
+        return url;
     }
 
     /**

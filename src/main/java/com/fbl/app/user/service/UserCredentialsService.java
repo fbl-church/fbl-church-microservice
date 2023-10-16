@@ -88,6 +88,22 @@ public class UserCredentialsService {
     }
 
     /**
+     * This will get called when a user has forgotten their password. This will
+     * allow them to reset it.
+     * 
+     * @param passUpdate Object the holds the current password and new user password
+     *                   to change it too.
+     * @return {@link User} object of the user that was updated.
+     */
+    public User resetUserPassword(String pass) throws Exception {
+        if (!jwtHolder.getResetPassword()) {
+            throw new Exception("Invalid token for reset password!");
+        }
+
+        return passwordUpdate(jwtHolder.getUserId(), pass);
+    }
+
+    /**
      * Update the users credentials.
      * 
      * @param userId   Id of the user wanting to update their password.

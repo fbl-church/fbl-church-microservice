@@ -89,6 +89,18 @@ public class JwtTokenUtil implements Serializable {
      * @return String of the new JWT token
      */
     public String generateToken(User user) {
+        return generateToken(user, false);
+    }
+
+    /**
+     * Generate user web token. Token is used to gain access to the web application
+     * and to the exposed API's
+     * 
+     * @param user  User info to be added to the token
+     * @param reset The reset password status of the token.
+     * @return String of the new JWT token
+     */
+    public String generateToken(User user, boolean reset) {
         Map<String, Object> claims = new HashMap<>();
         claims.put(JwtClaims.USER_ID, user.getId());
         claims.put(JwtClaims.FIRST_NAME, user.getFirstName());
@@ -96,6 +108,7 @@ public class JwtTokenUtil implements Serializable {
         claims.put(JwtClaims.EMAIL, user.getEmail());
         claims.put(JwtClaims.WEB_ROLE, user.getWebRole());
         claims.put(JwtClaims.ENVIRONMENT, environmentService.getEnvironment());
+        claims.put(JwtClaims.PASSWORD_RESET, reset);
         return buildTokenClaims(claims, JWT_TOKEN_USER_VALIDITY);
     }
 
