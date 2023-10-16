@@ -14,7 +14,6 @@ import com.fbl.app.email.processors.ContactAdminEmailProcessor;
 import com.fbl.app.email.processors.EmailProcessor;
 import com.fbl.app.email.processors.ForgotPasswordEmailProcessor;
 import com.fbl.app.email.processors.NewUserEmailProcessor;
-import com.fbl.app.email.processors.UserAccountStatusUpadteEmailProcessor;
 import com.fbl.app.user.client.domain.User;
 
 /**
@@ -34,9 +33,6 @@ public class EmailService {
 
     @Autowired
     private NewUserEmailProcessor newUserEmailProcessor;
-
-    @Autowired
-    private UserAccountStatusUpadteEmailProcessor userAccountStatusUpadteEmailProcessor;
 
     /**
      * Sends the user email for the given email processor.
@@ -75,16 +71,6 @@ public class EmailService {
     public List<UserEmail> sendNewUserEmail(User newUser) {
         newUserEmailProcessor.setParams(newUser);
         return sendEmail(newUserEmailProcessor);
-    }
-
-    /**
-     * Email endpoint to send status update of a users account
-     * 
-     * @param userId The id of the user to send an email update too.
-     */
-    public List<UserEmail> sendUserAccountUpdateStatusEmail(int userId) {
-        userAccountStatusUpadteEmailProcessor.setParams(userId);
-        return sendEmail(userAccountStatusUpadteEmailProcessor);
     }
 
     /**

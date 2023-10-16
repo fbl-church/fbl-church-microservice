@@ -48,9 +48,6 @@ public class User {
 	@Schema(description = "The user account status.")
 	private AccountStatus accountStatus;
 
-	@Schema(description = "The users password")
-	private String password;
-
 	@Schema(description = "The date the user has last authenticated.")
 	private LocalDateTime lastLoginDate;
 

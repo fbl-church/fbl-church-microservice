@@ -26,8 +26,6 @@ import com.fbl.common.enums.WebRole;
 @Service
 public class ManageChildrenService {
 
-    private static final String CHILD_DEFAULT_PASSWORD = "FBL-CHILD";
-
     @Autowired
     private ChildrenDAO dao;
 
@@ -47,8 +45,6 @@ public class ManageChildrenService {
      * @return {@link Child} that was created.
      */
     public Child insertChild(Child child) {
-        child.setPassword(CHILD_DEFAULT_PASSWORD);
-
         User createdUser = userClient.createUser(child);
         return assignChildRoleToExistingUser(createdUser.getId(), child);
     }

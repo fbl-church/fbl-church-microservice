@@ -6,7 +6,6 @@ package com.fbl.app.email.rest;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -50,16 +49,6 @@ public class EmailController {
     @PostMapping("/new-user")
     public List<UserEmail> sendNewUserEmail(User newUser) {
         return service.sendNewUserEmail(newUser);
-    }
-
-    /**
-     * Email endpoint to send status update of a users account
-     * 
-     * @param userId The user to send the email too.
-     */
-    @PostMapping("/{id}/user/account-update")
-    public List<UserEmail> sendUserAccountUpdateStatusEmail(@PathVariable int userId) {
-        return service.sendUserAccountUpdateStatusEmail(userId);
     }
 
     /**

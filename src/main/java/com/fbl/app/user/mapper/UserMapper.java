@@ -27,13 +27,6 @@ public class UserMapper extends AbstractMapper<User> {
 		user.setEmail(rs.getString(EMAIL));
 		user.setAccountStatus(AccountStatus.valueOf(rs.getString(ACCOUNT_STATUS)));
 		user.setAppAccess(rs.getBoolean(APP_ACCESS));
-
-		try {
-			user.setPassword(rs.getString(PASSWORD));
-		} catch (Exception e) {
-			user.setPassword(null);
-		}
-
 		user.setLastLoginDate(parseDateTime(rs.getString(LAST_LOGIN_DATE)));
 		user.setInsertDate(parseDateTime(rs.getString(INSERT_DATE)));
 		return user;

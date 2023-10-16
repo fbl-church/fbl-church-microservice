@@ -30,7 +30,6 @@ import com.fbl.jwt.utility.JwtHolder;
 public class ManageGuardianService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ManageGuardianService.class);
-    private static final String GUARDIAN_DEFAULT_PASSWORD = "FBL-GUARDIAN";
 
     @Autowired
     private GuardianDAO dao;
@@ -52,8 +51,6 @@ public class ManageGuardianService {
      * @return {@link Guardian} that was created.
      */
     public Guardian insertGuardian(Guardian guardian) {
-        guardian.setPassword(GUARDIAN_DEFAULT_PASSWORD);
-
         User createdUser = userClient.createUser(guardian);
         return assignGuardianToExistingUser(createdUser.getId(), guardian);
     }

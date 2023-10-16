@@ -42,13 +42,4 @@ public class EmailClient {
     public void sendNewUserEmail(User newUser) {
         service.sendNewUserEmail(newUser);
     }
-
-    /**
-     * Email endpoint to send status update of a users account
-     * 
-     * @param userId The id of the user to send an email update too.
-     */
-    public void sendUserAccountUpdateStatusEmail(int userId) {
-        service.sendUserAccountUpdateStatusEmail(userId);
-    }
 }

@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import com.fbl.app.email.client.EmailClient;
 import com.fbl.app.user.client.UserCredentialsClient;
 import com.fbl.app.user.client.UserStatusClient;
 import com.fbl.app.user.client.domain.User;
@@ -22,6 +23,7 @@ import com.fbl.app.user.client.domain.request.UserGetRequest;
 import com.fbl.app.user.dao.UserDAO;
 import com.fbl.common.enums.AccountStatus;
 import com.fbl.common.enums.WebRole;
+import com.fbl.common.util.CommonUtil;
 import com.fbl.exception.types.InsufficientPermissionsException;
 import com.fbl.jwt.utility.JwtHolder;
 
@@ -51,6 +53,9 @@ public class ManageUserService {
 	@Autowired
 	private UserStatusClient UserStatusClient;
 
+	@Autowired
+	private EmailClient emailClient;
+
 	/**
 	 * Create a new user. This is an account created by someone other the user
 	 * accessing the account.
@@ -64,11 +69,14 @@ public class ManageUserService {
 					.format("Insufficient permission to create a user of role '%s'", jwtHolder.getWebRole(),
 							user.getWebRole()));
 		}
+
 		int newUserId = dao.insertUser(user);
 		assignUserRoles(newUserId, user.getWebRole());
-		userCredentialsClient.insertUserPassword(newUserId, user.getPassword());
+		userCredentialsClient.insertUserPassword(newUserId, String.valueOf(CommonUtil.generateRandomNumber()));
 		UserStatusClient.insertUserStatus(new UserStatus(newUserId, AccountStatus.APPROVED, true, null));
-		return userService.getUserById(newUserId);
+		User createdUser = userService.getUserById(newUserId);
+		emailClient.sendNewUserEmail(createdUser);
+		return createdUser;
 	}
 
 	/**
@@ -80,9 +88,11 @@ public class ManageUserService {
 	 */
 	public User registerUser(User user) {
 		int newUserId = dao.insertUser(user);
-		userCredentialsClient.insertUserPassword(newUserId, user.getPassword());
+		userCredentialsClient.insertUserPassword(newUserId, String.valueOf(CommonUtil.generateRandomNumber()));
 		UserStatusClient.insertUserStatus(new UserStatus(newUserId, AccountStatus.PENDING, false, null));
-		return userService.getUserById(newUserId);
+		User createdUser = userService.getUserById(newUserId);
+		emailClient.sendNewUserEmail(createdUser);
+		return createdUser;
 	}
 
 	/**
