@@ -27,7 +27,7 @@ public class WebRoleAppGetRequest implements SearchParam, PageParam, SearchField
     private Set<WebRole> webRole;
 
     @Schema(description = "Search Param on search param fields.")
-    private String search;
+    private Set<String> search;
 
     @Schema(description = "Row Offset for pagenation.")
     private int rowOffset;

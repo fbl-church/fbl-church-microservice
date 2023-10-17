@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fbl.app.user.client.domain.request.UserSearchFields;
 import com.fbl.common.page.domain.PageParam;
 import com.fbl.common.search.SearchField;
 import com.fbl.common.search.SearchFieldParams;
@@ -45,7 +44,7 @@ public class GuardianGetRequest implements SearchParam, PageParam, SearchFieldPa
     private Set<String> phone;
 
     @Schema(description = "Search Param on search param fields.")
-    private String search;
+    private Set<String> search;
 
     @Schema(description = "Row Offset for pagenation.")
     private int rowOffset;
@@ -56,6 +55,6 @@ public class GuardianGetRequest implements SearchParam, PageParam, SearchFieldPa
     @JsonIgnore
     @Override
     public List<SearchField> getSearchFields() {
-        return Arrays.asList(UserSearchFields.values());
+        return Arrays.asList(GuardianSearchFields.values());
     }
 }

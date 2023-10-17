@@ -6,6 +6,8 @@
  */
 package com.fbl.common.search;
 
+import java.util.Set;
+
 /**
  * Search param for setting a value to search for.
  * 
@@ -13,7 +15,7 @@ package com.fbl.common.search;
  * @since February 2, 2022
  */
 public interface SearchParam extends CommonParam {
-    String getSearch();
+    Set<String> getSearch();
 
-    void setSearch(String search);
+    void setSearch(Set<String> search);
 }

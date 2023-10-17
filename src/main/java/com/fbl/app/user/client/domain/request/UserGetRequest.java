@@ -48,7 +48,7 @@ public class UserGetRequest implements SearchParam, PageParam, SearchFieldParams
     private Set<WebRole> notWebRole;
 
     @Schema(description = "Search Param on search param fields.")
-    private String search;
+    private Set<String> search;
 
     @Schema(description = "Row Offset for pagenation.")
     private int rowOffset;

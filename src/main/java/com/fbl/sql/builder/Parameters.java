@@ -3,10 +3,14 @@
  */
 package com.fbl.sql.builder;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 
 import com.fbl.common.search.SearchField;
 
@@ -18,25 +22,30 @@ import com.fbl.common.search.SearchField;
  */
 public class Parameters {
     private static final String SEARCH = "search";
+    private static final String SEARCH_VALUE = "searchValue";
     private static final String SEARCH_SIZE = "searchSize";
 
-    public static MapSqlParameterSource search(MapSqlParameterSource params, String search) {
+    public static MapSqlParameterSource search(MapSqlParameterSource params, Set<String> searchValues) {
         Assert.notNull(params, "MapSqlParameterSource must not be null");
 
         int count = 0;
+        int subCount = 0;
 
-        if (search != null) {
-            for (String searchName : search.split(" ")) {
-                // filter out any whitespace searches
-                if (searchName.trim().length() > 0) {
-                    String paramName = SEARCH + count;
+        if (searchValues != null && searchValues.size() > 0) {
+            Set<String> filteredSearch = searchValues.stream().map(String::trim).filter(StringUtils::hasText)
+                    .collect(Collectors.toSet());
+            for (String value : filteredSearch) {
+                String[] nestedValues = value.split(" ");
+                for (String searchName : nestedValues) {
+                    String paramName = String.format("%s%d_%d", SEARCH_VALUE, count, subCount);
                     params.addValue(paramName, "%" + searchName + "%");
-                    count++;
-                } else {
-                    continue;
+                    subCount++;
                 }
+                count++;
+                subCount = 0;
             }
-            params.addValue(SEARCH, count != 0).addValue(SEARCH_SIZE, count);
+
+            params.addValue(SEARCH, count != 0);
         }
         params.addValue(SEARCH_SIZE, count);
         return params;
@@ -46,16 +55,40 @@ public class Parameters {
         Assert.notNull(params, "MapSqlParameterSource must not be null");
 
         int searchSize = Integer.valueOf(params.getValue(SEARCH_SIZE).toString());
-        String searchFieldSql = searchSize > 0 ? "(" : "";
+        List<String> searchValueNames = Arrays.asList(params.getParameterNames()).stream()
+                .filter(s -> s.startsWith(SEARCH_VALUE)).collect(Collectors.toList());
+
+        String searchFieldSql = searchSize > 0 ? "\n(" : "";
         for (int i = 0; i < searchSize; i++) {
-            for (int j = 0; j < fields.size(); j++) {
-                searchFieldSql += String.format("%s LIKE :search%d", fields.get(j).getColumn(), i);
-                searchFieldSql += j == fields.size() - 1 ? "" : " OR ";
+            List<String> nestedSearchValues = getSubSearchValues(searchValueNames, i);
+            for (int j = 0; j < nestedSearchValues.size(); j++) {
+                searchFieldSql += buildSearchFieldSection(fields, nestedSearchValues, j);
+                searchFieldSql += closeFieldSection(nestedSearchValues, j);
             }
-            searchFieldSql += i == searchSize - 1 ? ")" : ") AND (";
+            searchFieldSql += i == searchSize - 1 ? "" : " OR\n(";
         }
 
         params.addValue("searchContent", searchFieldSql.trim());
     }
 
+    private static List<String> getSubSearchValues(List<String> searchValues, int index) {
+        return searchValues.stream().filter(s -> s.startsWith(String.format("%s%d", SEARCH_VALUE, index)))
+                .collect(Collectors.toList());
+    }
+
+    private static String buildSearchFieldSection(List<? extends SearchField> fields, List<String> values, int index) {
+        String statement = values.size() > 1 ? "\n\t(" : "";
+        for (int k = 0; k < fields.size(); k++) {
+            statement += String.format("%s LIKE :%s", fields.get(k).getColumn(), values.get(index));
+            statement += k == fields.size() - 1 ? ")" : " OR ";
+        }
+        return statement;
+    }
+
+    private static String closeFieldSection(List<String> values, int index) {
+        if (values.size() > 1) {
+            return index == values.size() - 1 ? "\n)\n" : "\n\tAND";
+        }
+        return "\n";
+    }
 }

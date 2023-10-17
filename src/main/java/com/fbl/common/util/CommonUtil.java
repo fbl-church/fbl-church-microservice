@@ -4,10 +4,10 @@
 package com.fbl.common.util;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.util.Assert;
-import org.springframework.util.StringUtils;
 
 import com.fbl.common.enums.TextEnum;
 import com.fbl.common.page.Page;
@@ -57,7 +57,7 @@ public class CommonUtil {
     public static <T extends TextEnum> Page<T> enumListToPage(List<T> list, PageParam request) {
         if (request instanceof SearchParam) {
             SearchParam searchParam = (SearchParam) request;
-            if (StringUtils.hasText(searchParam.getSearch())) {
+            if (searchParam.getSearch() != null && searchParam.getSearch().size() > 0) {
                 list = filterPredicate(list, searchParam.getSearch());
             }
         }
@@ -89,9 +89,9 @@ public class CommonUtil {
      * @param search The search to filter the list on
      * @return Filtered list
      */
-    private static <T extends TextEnum> List<T> filterPredicate(List<T> list, String search) {
+    private static <T extends TextEnum> List<T> filterPredicate(List<T> list, Set<String> search) {
         return list.stream()
-                .filter(r -> r.getTextId().contains(search.toUpperCase()))
+                .filter(r -> search.stream().filter(s -> r.getTextId().contains(s.toUpperCase())).findAny().isPresent())
                 .collect(Collectors.toList());
     }
 }

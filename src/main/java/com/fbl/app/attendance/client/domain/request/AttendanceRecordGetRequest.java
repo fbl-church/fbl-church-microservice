@@ -44,7 +44,7 @@ public class AttendanceRecordGetRequest
     private Set<ChurchGroup> type;
 
     @Schema(description = "Search Param on search param fields.")
-    private String search;
+    private Set<String> search;
 
     @Schema(description = "Row Offset for pagenation.")
     private int rowOffset;

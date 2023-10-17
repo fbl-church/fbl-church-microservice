@@ -58,7 +58,6 @@ public class FTPServerClient extends FTPClient {
             }
 
             boolean loginSuccess = super.login(username, password);
-            LOGGER.info("Login Status: {}", loginSuccess);
             if (!loginSuccess) {
                 throw new ServiceException("FTP Authentication Failed!");
             }

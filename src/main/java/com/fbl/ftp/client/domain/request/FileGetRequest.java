@@ -5,6 +5,7 @@ package com.fbl.ftp.client.domain.request;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fbl.common.page.domain.PageParam;
@@ -30,7 +31,7 @@ public class FileGetRequest implements SearchParam, PageParam, SearchFieldParams
     private String path;
 
     @Schema(description = "Search Param on search param fields.")
-    private String search;
+    private Set<String> search;
 
     @Schema(description = "Row Offset for pagenation.")
     private int rowOffset;

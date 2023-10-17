@@ -26,7 +26,7 @@ public class FeatureGetRequest implements SearchParam, PageParam, SearchFieldPar
     private Set<Integer> id;
 
     @Schema(description = "Search Param on search param fields.")
-    private String search;
+    private Set<String> search;
 
     @Schema(description = "Row Offset for pagenation.")
     private int rowOffset;

@@ -3,6 +3,8 @@
  */
 package com.fbl.app.children.client.domain.request;
 
+import java.util.Set;
+
 import com.fbl.common.page.domain.PageParam;
 import com.fbl.common.search.SearchParam;
 
@@ -22,7 +24,7 @@ import lombok.Setter;
 public class ChurchGroupGetRequest implements SearchParam, PageParam {
 
     @Schema(description = "Search Param on search param fields.")
-    private String search;
+    private Set<String> search;
 
     @Schema(description = "Row Offset for pagenation.")
     private int rowOffset;
