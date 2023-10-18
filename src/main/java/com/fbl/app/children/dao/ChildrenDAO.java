@@ -16,6 +16,7 @@ import com.fbl.app.children.client.domain.Child;
 import com.fbl.app.children.client.domain.request.ChildGetRequest;
 import com.fbl.common.enums.ChurchGroup;
 import com.fbl.common.page.Page;
+import com.fbl.common.util.CommonUtil;
 import com.fbl.sql.abstracts.BaseDao;
 import com.fbl.sql.builder.SqlParamBuilder;
 
@@ -78,7 +79,8 @@ public class ChildrenDAO extends BaseDao {
     public void insertChild(int userId, Child child) {
         MapSqlParameterSource params = SqlParamBuilder.with().withParam(USER_ID, userId)
                 .withParam(CUID, child.getCuid())
-                .withParam(BIRTHDAY, child.getBirthday()).withParam(ALLERGIES, child.getAllergies())
+                .withParam(BIRTHDAY, child.getBirthday())
+                .withParam(ALLERGIES, CommonUtil.serializeStringList(child.getAllergies(), ","))
                 .withParam(ADDITIONAL_INFO, child.getAdditionalInfo())
                 .withParam(RELEASE_OF_LIABILITY, child.isReleaseOfLiability()).build();
 
@@ -107,7 +109,8 @@ public class ChildrenDAO extends BaseDao {
      */
     public void updateChildById(int id, Child child) {
         MapSqlParameterSource params = SqlParamBuilder.with().withParam(CHURCH_GROUP, child.getChurchGroup())
-                .withParam(BIRTHDAY, child.getBirthday()).withParam(ALLERGIES, child.getAllergies())
+                .withParam(BIRTHDAY, child.getBirthday())
+                .withParam(ALLERGIES, CommonUtil.serializeStringList(child.getAllergies(), ","))
                 .withParam(ADDITIONAL_INFO, child.getAdditionalInfo()).withParam(USER_ID, id)
                 .withParam(RELEASE_OF_LIABILITY, child.isReleaseOfLiability()).build();
 

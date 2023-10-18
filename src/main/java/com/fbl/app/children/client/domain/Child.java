@@ -31,7 +31,7 @@ public class Child extends User {
     private List<ChurchGroup> churchGroup;
 
     @Schema(description = "Childs Allergies, can be null")
-    private String allergies;
+    private List<String> allergies;
 
     @Schema(description = "Childs Birthday")
     private LocalDate birthday;

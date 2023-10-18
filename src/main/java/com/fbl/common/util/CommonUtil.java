@@ -83,6 +83,20 @@ public class CommonUtil {
     }
 
     /**
+     * Convert a string list into a comma seperated list of values.
+     * 
+     * @param values    The list of values
+     * @param seperator The seperator
+     * @return String of values
+     */
+    public static String serializeStringList(List<String> values, String seperator) {
+        if (values == null || values.isEmpty()) {
+            return "";
+        }
+        return String.join(seperator, values);
+    }
+
+    /**
      * Filters out base enums and will perform search on enum list.
      * 
      * @param list   The list to fitler

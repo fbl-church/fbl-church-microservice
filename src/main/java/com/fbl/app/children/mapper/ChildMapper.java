@@ -5,6 +5,8 @@ package com.fbl.app.children.mapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.Collections;
 
 import com.fbl.app.children.client.domain.Child;
 import com.fbl.sql.abstracts.AbstractMapper;
@@ -25,9 +27,15 @@ public class ChildMapper extends AbstractMapper<Child> {
 		child.setFirstName(rs.getString(FIRST_NAME));
 		child.setLastName(rs.getString(LAST_NAME));
 		child.setBirthday(parseDate(rs.getString(BIRTHDAY)));
-		child.setAllergies(rs.getString(ALLERGIES));
+
 		child.setAdditionalInfo(rs.getString(ADDITIONAL_INFO));
 		child.setReleaseOfLiability(rs.getBoolean(RELEASE_OF_LIABILITY));
+
+		try {
+			child.setAllergies(Arrays.asList(rs.getString(ALLERGIES).split(",")));
+		} catch (Exception e) {
+			child.setAllergies(Collections.emptyList());
+		}
 
 		child.setInsertDate(parseDateTime(rs.getString(INSERT_DATE)));
 		return child;
