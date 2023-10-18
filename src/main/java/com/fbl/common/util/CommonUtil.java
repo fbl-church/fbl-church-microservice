@@ -91,7 +91,7 @@ public class CommonUtil {
      */
     public static String serializeStringList(List<String> values, String seperator) {
         if (values == null || values.isEmpty()) {
-            return "";
+            return null;
         }
         return String.join(seperator, values);
     }
