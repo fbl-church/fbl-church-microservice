@@ -36,7 +36,7 @@
 @NAME(childAttendanceFilters)
   @WHERE
     @AND(:church_group)
-      ar.type = :church_group
+      ar.type IN (:church_group)
     @AND(:child_id)
       u.id = :child_id
     @AND(:attendance_record_id)
