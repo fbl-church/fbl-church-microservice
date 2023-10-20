@@ -67,7 +67,7 @@ public class FTPServerClientTest {
 
         List<FTPFile> directoryFiles = ftpServerClient.get("/disk1/fbl-cloud-TEST", (f) -> f.isFile());
         assertTrue(directoryFiles.size() == 1, "Should be 1 file");
-        assertEquals(directoryFiles.get(0).getName(), "NEW_FILE.txt", "New file name");
+        assertEquals("NEW_FILE.txt", directoryFiles.get(0).getName(), "New file name");
     }
 
     @Test
@@ -78,12 +78,12 @@ public class FTPServerClientTest {
 
         verify(ftpServerClient).makeDirectory("folder");
         verify(ftpServerClient).makeDirectory("newFiles");
-        assertEquals(ftpServerClient.printWorkingDirectory(), "/disk1/fbl-cloud-TEST/folder/newFiles",
+        assertEquals("/disk1/fbl-cloud-TEST/folder/newFiles", ftpServerClient.printWorkingDirectory(),
                 "Working directory should be changed");
 
         List<FTPFile> directoryFiles = ftpServerClient.get("/disk1/fbl-cloud-TEST/folder/newFiles", (f) -> f.isFile());
         assertTrue(directoryFiles.size() == 1, "Should be 1 file");
-        assertEquals(directoryFiles.get(0).getName(), "NEW_FILE.txt", "New file name");
+        assertEquals("NEW_FILE.txt", directoryFiles.get(0).getName(), "New file name");
     }
 
     @Test
@@ -92,7 +92,7 @@ public class FTPServerClientTest {
         newFile.setContents("NEW FILE DATA");
         ftpServerClient.storeFile("/disk1/fbl-cloud-TEST/folder/newFiles", "NEW_FILE.txt", newFile.createInputStream());
 
-        assertEquals(ftpServerClient.printWorkingDirectory(), "/disk1/fbl-cloud-TEST/folder/newFiles",
+        assertEquals("/disk1/fbl-cloud-TEST/folder/newFiles", ftpServerClient.printWorkingDirectory(),
                 "Working directory should be changed");
 
         boolean fileDeleted = ftpServerClient.deleteFile("/disk1/fbl-cloud-TEST/folder/newFiles/NEW_FILE.txt");
@@ -110,7 +110,7 @@ public class FTPServerClientTest {
         List<FTPFile> files = ftpServerClient.get("/disk1/fbl-cloud-TEST");
         FTPFile directory = files.stream().filter(f -> f.isDirectory()).findAny().get();
         assertTrue(files.size() == 2, "Single Directory and One File");
-        assertEquals(directory.getName(), "DELETE_DIRECTORY", "Directory Name");
+        assertEquals("DELETE_DIRECTORY", directory.getName(), "Directory Name");
 
         // Perform directory delete
         ftpServerClient.deleteDirectory("/disk1/fbl-cloud-TEST/DELETE_DIRECTORY");

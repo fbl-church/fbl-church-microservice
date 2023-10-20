@@ -13,7 +13,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.ContextConfiguration;
 
@@ -45,9 +44,6 @@ public class UsersControllerTest extends BaseControllerTest {
 
     @Captor
     private ArgumentCaptor<UserGetRequest> getUsersCaptor;
-
-    ParameterizedTypeReference<Page<User>> pageRef = new ParameterizedTypeReference<Page<User>>() {
-    };
 
     @Test
     public void testGetListOfUsers() throws Exception {
