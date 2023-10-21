@@ -6,7 +6,6 @@ package com.fbl.gateway.validator;
 import org.springframework.stereotype.Component;
 
 import com.fbl.exception.types.JwtTokenException;
-import com.fbl.gateway.domain.abstracts.CommonTokenValidator;
 
 import jakarta.servlet.http.HttpServletRequest;
 

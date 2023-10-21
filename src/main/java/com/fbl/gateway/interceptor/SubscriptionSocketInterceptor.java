@@ -7,7 +7,6 @@ import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.fbl.gateway.domain.abstracts.CommonInterceptor;
 import com.fbl.gateway.validator.SubscriptionSocketValidator;
 
 import jakarta.servlet.FilterChain;

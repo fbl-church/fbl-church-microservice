@@ -29,6 +29,7 @@ import com.fbl.common.annotations.interfaces.ControllerJwt;
 import com.fbl.environment.EnvironmentService;
 import com.fbl.ftp.client.FTPServerClient;
 import com.fbl.jwt.domain.JwtClaims;
+import com.fbl.jwt.domain.JwtPair;
 import com.fbl.jwt.utility.JwtTokenUtil;
 
 /**
@@ -56,16 +57,19 @@ public abstract class BaseControllerTest extends RequestTestUtil {
 
     private HttpHeaders headers;
 
+    private JwtPair testJwtPair;
+
     @BeforeEach
     public void setup(TestInfo info) {
-        setupRequestFactory();
         headers = new HttpHeaders();
+        setupRequestFactory();
         checkControllerJwtAnnotation(info);
     }
 
     @AfterEach
-    public void clearHeaders() {
+    public void clearTestData() {
         headers = new HttpHeaders();
+        testJwtPair = null;
     }
 
     /**
@@ -277,6 +281,16 @@ public abstract class BaseControllerTest extends RequestTestUtil {
     }
 
     /**
+     * Gets the test JWT Pair for the test. If the test being run does not have a
+     * {@link ControllerJwt} annotation, then the pair will be null.
+     * 
+     * @return {@link JwtPair} information
+     */
+    protected JwtPair getJwtPair() {
+        return testJwtPair;
+    }
+
+    /**
      * Build out the absolute path for the api. Rest endpoint test creates own local
      * web server to run. Therefore the default host name is localhost and a random
      * port number.
@@ -303,8 +317,8 @@ public abstract class BaseControllerTest extends RequestTestUtil {
         claims.put(JwtClaims.ENVIRONMENT, environmentService.getEnvironment());
         claims.put(JwtClaims.PASSWORD_RESET, false);
 
-        String token = jwtTokenUtil.buildTokenClaims(claims, 3600000);
-        headers.setBearerAuth(token);
+        testJwtPair = new JwtPair(jwtTokenUtil.buildTokenClaims(claims, 600000), environmentService);
+        headers.setBearerAuth(testJwtPair.getToken());
     }
 
     /**

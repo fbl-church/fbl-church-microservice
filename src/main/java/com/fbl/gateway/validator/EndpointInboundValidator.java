@@ -6,11 +6,11 @@ package com.fbl.gateway.validator;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.http.HttpMethod;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Component;
 
 import com.fbl.exception.types.JwtTokenException;
-import com.fbl.gateway.domain.abstracts.CommonTokenValidator;
 import com.google.common.net.HttpHeaders;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -34,13 +34,11 @@ public class EndpointInboundValidator extends CommonTokenValidator {
      * @throws JwtTokenException If the jwt token is not valid.
      */
     public void validateRequest(HttpServletRequest request) throws JwtTokenException {
-        if (shouldNotFilter(request, excludedMatchers())) {
-            return;
+        if (shouldFilterRequest(request, excludedMatchers())) {
+            final String token = request.getHeader(HttpHeaders.AUTHORIZATION);
+            runTokenValidation(token, true);
+            storeToken(token);
         }
-
-        final String token = request.getHeader(HttpHeaders.AUTHORIZATION);
-        runTokenValidation(token, true);
-        storeToken(token);
     }
 
     /**
@@ -50,11 +48,11 @@ public class EndpointInboundValidator extends CommonTokenValidator {
      */
     private List<AntPathRequestMatcher> excludedMatchers() {
         List<AntPathRequestMatcher> matchers = new ArrayList<>();
-        matchers.add(new AntPathRequestMatcher("/api/authenticate", "POST"));
-        matchers.add(new AntPathRequestMatcher("/api/users/check-email", "GET"));
-        matchers.add(new AntPathRequestMatcher("/api/users/register", "POST"));
-        matchers.add(new AntPathRequestMatcher("/api/mail/forgot-password", "POST"));
-        matchers.add(new AntPathRequestMatcher("/**", "OPTIONS"));
+        matchers.add(new AntPathRequestMatcher("/api/authenticate", HttpMethod.POST.name()));
+        matchers.add(new AntPathRequestMatcher("/api/users/check-email", HttpMethod.GET.name()));
+        matchers.add(new AntPathRequestMatcher("/api/users/register", HttpMethod.POST.name()));
+        matchers.add(new AntPathRequestMatcher("/api/mail/forgot-password", HttpMethod.POST.name()));
+        matchers.add(new AntPathRequestMatcher("/**", HttpMethod.OPTIONS.name()));
         return matchers;
     }
 }

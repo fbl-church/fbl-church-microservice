@@ -1,7 +1,7 @@
 /**
  * Copyright of FBL Church App. All rights reserved.
  */
-package com.fbl.gateway.domain.abstracts;
+package com.fbl.gateway.validator;
 
 import java.util.Date;
 import java.util.List;
@@ -62,10 +62,10 @@ public abstract class CommonTokenValidator implements BaseRequestValidator {
      * 
      * @param request  The request to validate
      * @param matchers The matchers to check against.
-     * @return {@link Boolean} of the filter status.
+     * @return true if the request should be filtered out, false otherwise.
      */
-    protected boolean shouldNotFilter(HttpServletRequest request, List<AntPathRequestMatcher> matchers) {
-        return matchers.stream().anyMatch(matcher -> matcher.matches(request));
+    protected boolean shouldFilterRequest(HttpServletRequest request, List<AntPathRequestMatcher> matchers) {
+        return !matchers.stream().anyMatch(matcher -> matcher.matches(request));
     }
 
     /**
@@ -106,7 +106,7 @@ public abstract class CommonTokenValidator implements BaseRequestValidator {
         Environment environment = Environment.valueOf(pair.getClaimSet().get("env").toString());
 
         if (!environmentService.getEnvironment().equals(environment)) {
-            throw new JwtTokenException("JWT token doesn't match accessing environment!");
+            throw new JwtTokenException("JWT token does not match accessing environment");
         }
     }
 
@@ -119,7 +119,7 @@ public abstract class CommonTokenValidator implements BaseRequestValidator {
      */
     protected void checkTokenExpiration(JwtPair pair) {
         if (pair.getClaimSet().getExpiration().before(new Date())) {
-            throw new JwtTokenException("JWT Token is expired! Please re-authenticate.");
+            throw new JwtTokenException("JWT Token is expired! Please re-authenticate");
         }
     }
 
@@ -133,7 +133,7 @@ public abstract class CommonTokenValidator implements BaseRequestValidator {
      * @return The token value.
      */
     protected String extractToken(String tokenHeader) {
-        return tokenHeader.replace(TOKEN_PREFIX, "").trim();
+        return StringUtils.hasText(tokenHeader) ? tokenHeader.replace(TOKEN_PREFIX, "").trim() : null;
     }
 
     /**
