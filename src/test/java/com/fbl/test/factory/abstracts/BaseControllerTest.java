@@ -20,8 +20,10 @@ import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.util.MultiValueMap;
 
 import com.fbl.common.annotations.interfaces.ControllerJwt;
 import com.fbl.environment.EnvironmentService;
@@ -141,7 +143,8 @@ public abstract class BaseControllerTest extends RequestTestUtil {
      * @return Response entity of the returned data.
      */
     protected <T> ResponseEntity<T> post(String api, Class<T> responseType) {
-        return post(api, null, responseType);
+        HttpEntity<Object> requestEntity = new HttpEntity<Object>(null, headers);
+        return exchange(api, HttpMethod.POST, requestEntity, responseType);
     }
 
     /**
@@ -156,6 +159,32 @@ public abstract class BaseControllerTest extends RequestTestUtil {
     protected <T> ResponseEntity<T> post(String api, Object request, Class<T> responseType) {
         HttpEntity<Object> requestEntity = new HttpEntity<Object>(request, headers);
         return exchange(api, HttpMethod.POST, requestEntity, responseType);
+    }
+
+    /**
+     * Perform a POST call on the given api with form data.
+     * 
+     * @param <T>          The response type of the call.
+     * @param api          The endpoint to consume.
+     * @param body         The form data
+     * @param responseType What the object return should be cast as.
+     * @return Response entity of the returned data.
+     */
+    protected <T> ResponseEntity<T> post(String api, MultiValueMap<String, Object> body, Class<T> responseType) {
+        HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
+        return exchange(api, HttpMethod.POST, requestEntity, responseType, MediaType.MULTIPART_FORM_DATA);
+    }
+
+    /**
+     * Perform a POST call on the given api with form data.
+     * 
+     * @param <T>  The response type of the call.
+     * @param api  The endpoint to consume.
+     * @param body The form data
+     * @return Response entity of the returned data.
+     */
+    protected ResponseEntity<Object> post(String api, MultiValueMap<String, Object> body) {
+        return post(api, body, Object.class);
     }
 
     /**
@@ -227,6 +256,23 @@ public abstract class BaseControllerTest extends RequestTestUtil {
      * @return Response entity of the returned data.
      */
     protected <T> ResponseEntity<T> exchange(String api, HttpMethod method, HttpEntity<?> entity, Class<T> clazz) {
+        return exchange(api, method, entity, clazz, MediaType.APPLICATION_JSON);
+    }
+
+    /**
+     * Make an exchange call through the rest template.
+     * 
+     * @param <T>         Typed parameter of the response type.
+     * @param api         The api to hit.
+     * @param method      The method to perform on the endpoint.
+     * @param entity      The entity instance to pass.
+     * @param clazz       The class to return the response as.
+     * @param contentType The content type of the request
+     * @return Response entity of the returned data.
+     */
+    protected <T> ResponseEntity<T> exchange(String api, HttpMethod method, HttpEntity<?> entity, Class<T> clazz,
+            MediaType type) {
+        headers.setContentType(type);
         return testRestTemplate.exchange(buildUrl(api), method, entity, clazz);
     }
 
@@ -258,8 +304,7 @@ public abstract class BaseControllerTest extends RequestTestUtil {
         claims.put(JwtClaims.PASSWORD_RESET, false);
 
         String token = jwtTokenUtil.buildTokenClaims(claims, 3600000);
-        headers.set("Authorization", "Bearer " + token);
-        headers.set("Content-Type", "application/json");
+        headers.setBearerAuth(token);
     }
 
     /**

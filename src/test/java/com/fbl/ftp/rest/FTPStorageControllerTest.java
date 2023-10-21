@@ -15,11 +15,17 @@ import org.mockito.Captor;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.fbl.FBLChurchApplication;
 import com.fbl.common.annotations.interfaces.ControllerJwt;
 import com.fbl.common.page.Page;
+import com.fbl.exception.types.ServiceException;
 import com.fbl.ftp.client.domain.request.FileGetRequest;
 import com.fbl.ftp.service.FTPStorageService;
 import com.fbl.test.factory.abstracts.BaseControllerTest;
@@ -41,6 +47,9 @@ public class FTPStorageControllerTest extends BaseControllerTest {
     @Captor
     private ArgumentCaptor<String> stringCaptor;
 
+    @Captor
+    private ArgumentCaptor<MultipartFile> multipartFileCaptor;
+
     @Test
     public void testGetFiles() throws Exception {
         FTPFile f = new FTPFile();
@@ -56,7 +65,7 @@ public class FTPStorageControllerTest extends BaseControllerTest {
     }
 
     @Test
-    public void testDownloadFile() throws Exception {
+    public void testDownloadFile() {
         InputStream testStream = new ByteArrayInputStream("test data".getBytes());
         when(service.downloadFile(anyString())).thenReturn(new InputStreamResource(testStream));
         check(get(BASE_PATH + "/download?file=base/path/fileDownload.txt", InputStreamResource.class),
@@ -64,5 +73,50 @@ public class FTPStorageControllerTest extends BaseControllerTest {
 
         verify(service).downloadFile(stringCaptor.capture());
         assertEquals("base/path/fileDownload.txt", stringCaptor.getValue(), "Path Value");
+    }
+
+    @Test
+    public void testUploadFile() {
+        MockMultipartFile file = new MockMultipartFile(
+                "file",
+                "hello.txt",
+                MediaType.TEXT_PLAIN_VALUE,
+                "Hello, World!".getBytes());
+        doNothing().when(service).upload(anyString(), any(MultipartFile.class));
+
+        MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
+        body.add("file", file.getResource());
+        body.add("path", "upload/path");
+
+        check(post(BASE_PATH, body, Void.class), httpStatusEquals(HttpStatus.OK));
+
+        verify(service).upload(stringCaptor.capture(), multipartFileCaptor.capture());
+        assertEquals("upload/path", stringCaptor.getValue(), "Path Value");
+        assertEquals("hello.txt", multipartFileCaptor.getValue().getOriginalFilename(), "Path Value");
+    }
+
+    @Test
+    public void testUploadFileFailed() {
+        MockMultipartFile file = new MockMultipartFile(
+                "file",
+                "hello.txt",
+                MediaType.TEXT_PLAIN_VALUE,
+                "Hello, World!".getBytes());
+        doThrow(new ServiceException("Upload Error")).when(service).upload(anyString(), any(MultipartFile.class));
+
+        MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
+        body.add("file", file.getResource());
+        body.add("path", "upload/path");
+
+        check(post(BASE_PATH, body), error(HttpStatus.INTERNAL_SERVER_ERROR, "Upload Error"));
+    }
+
+    @Test
+    public void testDeleteFile() {
+        doNothing().when(service).deleteFile(anyString());
+        check(delete(BASE_PATH + "?file=file/path/delete.txt"), httpStatusEquals(HttpStatus.OK));
+
+        verify(service).deleteFile(stringCaptor.capture());
+        assertEquals("file/path/delete.txt", stringCaptor.getValue(), "Path Value");
     }
 }

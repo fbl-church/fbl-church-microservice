@@ -3,8 +3,6 @@
  */
 package com.fbl.ftp.rest;
 
-import static org.springframework.http.MediaType.*;
-
 import org.apache.commons.net.ftp.FTPFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
@@ -60,7 +58,7 @@ public class FTPStorageController {
      * @return list of user objects
      */
     @Operation(summary = "Upload a file to FTP Storage", description = "Given a a file and name. It will upload the file to the FTP Storage.")
-    @PostMapping(produces = APPLICATION_JSON_VALUE)
+    @PostMapping
     public void upload(@RequestParam("path") String path, @RequestParam("file") MultipartFile file) {
         service.upload(path, file);
     }
