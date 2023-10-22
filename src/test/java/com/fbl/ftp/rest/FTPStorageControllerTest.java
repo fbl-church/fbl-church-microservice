@@ -77,15 +77,10 @@ public class FTPStorageControllerTest extends BaseControllerTest {
 
     @Test
     public void testUploadFile() {
-        MockMultipartFile file = new MockMultipartFile(
-                "file",
-                "hello.txt",
-                MediaType.TEXT_PLAIN_VALUE,
-                "Hello, World!".getBytes());
         doNothing().when(service).upload(anyString(), any(MultipartFile.class));
 
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
-        body.add("file", file.getResource());
+        body.add("file", getTestMultipartFile().getResource());
         body.add("path", "upload/path");
 
         check(post(BASE_PATH, body, Void.class), httpStatusEquals(HttpStatus.OK));
@@ -97,15 +92,10 @@ public class FTPStorageControllerTest extends BaseControllerTest {
 
     @Test
     public void testUploadFileFailed() {
-        MockMultipartFile file = new MockMultipartFile(
-                "file",
-                "hello.txt",
-                MediaType.TEXT_PLAIN_VALUE,
-                "Hello, World!".getBytes());
         doThrow(new ServiceException("Upload Error")).when(service).upload(anyString(), any(MultipartFile.class));
 
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
-        body.add("file", file.getResource());
+        body.add("file", getTestMultipartFile().getResource());
         body.add("path", "upload/path");
 
         check(post(BASE_PATH, body), error(HttpStatus.INTERNAL_SERVER_ERROR, "Upload Error"));
@@ -118,5 +108,14 @@ public class FTPStorageControllerTest extends BaseControllerTest {
 
         verify(service).deleteFile(stringCaptor.capture());
         assertEquals("file/path/delete.txt", stringCaptor.getValue(), "Path Value");
+    }
+
+    private MockMultipartFile getTestMultipartFile() {
+        MockMultipartFile file = new MockMultipartFile(
+                "file",
+                "hello.txt",
+                MediaType.TEXT_PLAIN_VALUE,
+                "Hello, World!".getBytes());
+        return file;
     }
 }
