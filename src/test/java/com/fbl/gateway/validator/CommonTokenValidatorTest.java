@@ -54,7 +54,7 @@ public class CommonTokenValidatorTest {
     }
 
     @Test
-    void testRunTokenValidationVALID() {
+    void testRunTokenValidation() {
         when(environmentService.getEnvironment()).thenReturn(Environment.TEST);
         when(environmentService.getSigningKey()).thenReturn(JwtTestFactoryData.testSigningKey());
 
@@ -126,7 +126,7 @@ public class CommonTokenValidatorTest {
     void testCheckValidTokenEmptyNullINVALID(String token) {
         JwtTokenException ex = assertThrows(JwtTokenException.class,
                 () -> commonTokenValidator.checkValidToken(token, true));
-        assertEquals("Missing JWT Token.", ex.getMessage(), "Exception Message");
+        assertEquals("Missing JWT Token", ex.getMessage(), "Exception Message");
     }
 
     @ParameterizedTest(name = "[{index}] token = {0}")

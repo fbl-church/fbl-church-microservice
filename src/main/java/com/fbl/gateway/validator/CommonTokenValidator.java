@@ -88,7 +88,7 @@ public abstract class CommonTokenValidator implements BaseRequestValidator {
      */
     protected void checkValidToken(String token, boolean prefixCheck) {
         if (!StringUtils.hasText(token)) {
-            throw new JwtTokenException("Missing JWT Token.");
+            throw new JwtTokenException("Missing JWT Token");
         } else if (prefixCheck && !containsBearerPrefix(token)) {
             throw new JwtTokenException("JWT Token does not begin with 'Bearer'");
         }
