@@ -3,28 +3,30 @@
  */
 package com.fbl.test.factory.abstracts;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import java.lang.reflect.AnnotatedElement;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
-import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.core.annotation.AnnotatedElementUtils;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
-import org.springframework.util.MultiValueMap;
+import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fbl.common.annotations.interfaces.ControllerJwt;
 import com.fbl.environment.EnvironmentService;
 import com.fbl.ftp.client.FTPServerClient;
@@ -38,13 +40,14 @@ import com.fbl.jwt.utility.JwtTokenUtil;
  * @author Sam Butler
  * @since July 27, 2021
  */
-public abstract class BaseControllerTest extends RequestTestUtil {
-
-    @LocalServerPort
-    protected int randomServerPort;
+@AutoConfigureMockMvc
+public abstract class BaseControllerTest {
 
     @Autowired
-    protected TestRestTemplate testRestTemplate;
+    protected MockMvc mockMvc;
+
+    @Autowired
+    protected ObjectMapper objectMapper;
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
@@ -62,7 +65,6 @@ public abstract class BaseControllerTest extends RequestTestUtil {
     @BeforeEach
     public void setup(TestInfo info) {
         headers = new HttpHeaders();
-        setupRequestFactory();
         checkControllerJwtAnnotation(info);
     }
 
@@ -93,191 +95,141 @@ public abstract class BaseControllerTest extends RequestTestUtil {
     }
 
     /**
-     * Perform a GET call on the given api and expect an error.
+     * Parse response from the result action.
      * 
-     * @param <T>          The response type of the call.
-     * @param api          The endpoint to consume.
-     * @param responseType What the object return should be cast as.
-     * @return Response entity of the returned data.
+     * @param <T>          The generic class type
+     * @param ra           The result action
+     * @param responseType The type to cast the result too
+     * @return The resposne data
      */
-    protected ResponseEntity<Object> get(String api) {
-        return get(api, Object.class);
+    protected <T> T parseResultActionResponse(ResultActions ra, Class<T> responseType) {
+        try {
+            MvcResult result = mockMvc.perform(get("/api/users")).andReturn();
+            String contentAsString = result.getResponse().getContentAsString();
+            return objectMapper.readValue(contentAsString, responseType);
+        } catch (Exception e) {
+            fail("Unable to parse response body", e);
+        }
+        return null;
     }
 
     /**
      * Perform a GET call on the given api.
      * 
+     * @param <T> The response type of the call.
+     * @param api The endpoint to consume.
+     * @return The request builder
+     */
+    protected MockHttpServletRequestBuilder get(String api) {
+        return get(api, null);
+    }
+
+    /**
+     * Perform a GET call on the given api.
+     *
      * @param <T>          The response type of the call.
      * @param api          The endpoint to consume.
      * @param responseType What the object return should be cast as.
-     * @return Response entity of the returned data.
+     * @return The request builder
      */
-    protected <T> ResponseEntity<T> get(String api, Class<T> responseType) {
-        HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
-        return exchange(api, HttpMethod.GET, requestEntity, responseType);
+    protected <T> MockHttpServletRequestBuilder get(String api, T params) {
+        MockHttpServletRequestBuilder requestBuilder = addBody(MockMvcRequestBuilders.get(api), params);
+        return complete(requestBuilder, MediaType.APPLICATION_JSON);
     }
 
     /**
      * Perform a POST call on the given api.
-     * 
+     *
      * @param api The endpoint to consume.
-     * @return Response entity of the returned data.
+     * @return The request builder
      */
-    protected ResponseEntity<Object> post(String api) {
-        return post(api, Object.class);
+    protected MockHttpServletRequestBuilder post(String api) {
+        return post(api, null);
     }
 
     /**
      * Perform a POST call on the given api.
-     * 
+     *
      * @param api     The endpoint to consume.
      * @param request The request to send with the post.
-     * @return Response entity of the returned data.
+     * @return The request builder
      */
-    protected ResponseEntity<Object> post(String api, Object request) {
-        return post(api, request, Object.class);
-    }
-
-    /**
-     * Perform a POST call on the given api.
-     * 
-     * @param <T>          The response type of the call.
-     * @param api          The endpoint to consume.
-     * @param responseType What the object return should be cast as.
-     * @return Response entity of the returned data.
-     */
-    protected <T> ResponseEntity<T> post(String api, Class<T> responseType) {
-        HttpEntity<Object> requestEntity = new HttpEntity<Object>(null, headers);
-        return exchange(api, HttpMethod.POST, requestEntity, responseType);
-    }
-
-    /**
-     * Perform a POST call on the given api.
-     * 
-     * @param <T>          The response type of the call.
-     * @param api          The endpoint to consume.
-     * @param request      The request to send with the post.
-     * @param responseType What the object return should be cast as.
-     * @return Response entity of the returned data.
-     */
-    protected <T> ResponseEntity<T> post(String api, Object request, Class<T> responseType) {
-        HttpEntity<Object> requestEntity = new HttpEntity<Object>(request, headers);
-        return exchange(api, HttpMethod.POST, requestEntity, responseType);
-    }
-
-    /**
-     * Perform a POST call on the given api with form data.
-     * 
-     * @param <T>          The response type of the call.
-     * @param api          The endpoint to consume.
-     * @param body         The form data
-     * @param responseType What the object return should be cast as.
-     * @return Response entity of the returned data.
-     */
-    protected <T> ResponseEntity<T> post(String api, MultiValueMap<String, Object> body, Class<T> responseType) {
-        HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
-        return exchange(api, HttpMethod.POST, requestEntity, responseType, MediaType.MULTIPART_FORM_DATA);
-    }
-
-    /**
-     * Perform a POST call on the given api with form data.
-     * 
-     * @param <T>  The response type of the call.
-     * @param api  The endpoint to consume.
-     * @param body The form data
-     * @return Response entity of the returned data.
-     */
-    protected ResponseEntity<Object> post(String api, MultiValueMap<String, Object> body) {
-        return post(api, body, Object.class);
+    protected <T> MockHttpServletRequestBuilder post(String api, T body) {
+        MockHttpServletRequestBuilder requestBuilder = addBody(MockMvcRequestBuilders.post(api), body);
+        return complete(requestBuilder, MediaType.APPLICATION_JSON);
     }
 
     /**
      * Perform a PUT call on the given api.
-     * 
+     *
      * @param api The endpoint to consume.
-     * @return Response entity of the returned data.
+     * @return The request builder
      */
-    protected ResponseEntity<Object> put(String api) {
-        return put(api, Object.class);
+    protected MockHttpServletRequestBuilder put(String api) {
+        return post(api, null);
     }
 
     /**
-     * Perform a PUT call on the given api.
-     * 
+     * Perform a POST call on the given api.
+     *
      * @param api     The endpoint to consume.
      * @param request The request to send with the post.
-     * @return Response entity of the returned data.
+     * @return The request builder
      */
-    protected ResponseEntity<Object> put(String api, Object request) {
-        return put(api, request, Object.class);
-    }
-
-    /**
-     * Perform a PUT call on the given api.
-     * 
-     * @param <T>          The response type of the call.
-     * @param api          The endpoint to consume.
-     * @param responseType What the object return should be cast as.
-     * @return Response entity of the returned data.
-     */
-    protected <T> ResponseEntity<T> put(String api, Class<T> responseType) {
-        return put(api, null, responseType);
-    }
-
-    /**
-     * Perform a PUT call on the given api.
-     * 
-     * @param <T>          The response type of the call.
-     * @param api          The endpoint to consume.
-     * @param request      The request to send with the post.
-     * @param responseType What the object return should be cast as.
-     * @return Response entity of the returned data.
-     */
-    protected <T> ResponseEntity<T> put(String api, Object request, Class<T> responseType) {
-        HttpEntity<Object> requestEntity = new HttpEntity<Object>(request, headers);
-        return exchange(api, HttpMethod.PUT, requestEntity, responseType);
+    protected <T> MockHttpServletRequestBuilder put(String api, T body) {
+        MockHttpServletRequestBuilder requestBuilder = addBody(MockMvcRequestBuilders.put(api), body);
+        return complete(requestBuilder, MediaType.APPLICATION_JSON);
     }
 
     /**
      * Perform a DELETE call on the given api.
-     * 
+     *
      * @param api The endpoint to consume.
-     * @return Response entity of the returned data.
+     * @return The request builder
      */
-    protected ResponseEntity<Object> delete(String api) {
-        HttpEntity<Object> requestEntity = new HttpEntity<Object>(headers);
-        return exchange(api, HttpMethod.DELETE, requestEntity, Object.class);
+    protected MockHttpServletRequestBuilder delete(String api) {
+        return complete(MockMvcRequestBuilders.delete(api), MediaType.APPLICATION_JSON);
     }
 
     /**
-     * Make an exchange call through the rest template.
-     * 
-     * @param <T>    Typed parameter of the response type.
-     * @param api    The api to hit.
-     * @param method The method to perform on the endpoint.
-     * @param entity The entity instance to pass.
-     * @param clazz  The class to return the response as.
-     * @return Response entity of the returned data.
+     * Perform a MULTIPART call on the given api.
+     *
+     * @param <T>  The response type of the call.
+     * @param api  The endpoint to consume.
+     * @param file The mock multipart file to send
+     * @return The request builder
      */
-    protected <T> ResponseEntity<T> exchange(String api, HttpMethod method, HttpEntity<?> entity, Class<T> clazz) {
-        return exchange(api, method, entity, clazz, MediaType.APPLICATION_JSON);
+    protected <T> MockHttpServletRequestBuilder multipart(String api, MockMultipartFile file) {
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.multipart(api).file(file);
+        return complete(requestBuilder, MediaType.MULTIPART_FORM_DATA);
     }
 
     /**
-     * Make an exchange call through the rest template.
+     * Complete the request by adding the content type and headers to the request.
      * 
-     * @param <T>         Typed parameter of the response type.
-     * @param api         The api to hit.
-     * @param method      The method to perform on the endpoint.
-     * @param entity      The entity instance to pass.
-     * @param clazz       The class to return the response as.
-     * @param contentType The content type of the request
-     * @return Response entity of the returned data.
+     * @param b           The builder to append too
+     * @param contentType The content type to set
+     * @return The new http request builder.
      */
-    protected <T> ResponseEntity<T> exchange(String api, HttpMethod method, HttpEntity<?> entity, Class<T> clazz,
-            MediaType type) {
-        headers.setContentType(type);
-        return testRestTemplate.exchange(buildUrl(api), method, entity, clazz);
+    protected MockHttpServletRequestBuilder complete(MockHttpServletRequestBuilder b, MediaType contentType) {
+        return b.contentType(contentType).headers(headers);
+    }
+
+    /**
+     * Add the body to the request.
+     * 
+     * @param <T>  The generic body type
+     * @param b    The builder to append too
+     * @param body The body to be sent with the request
+     * @return The updated http request builder.
+     */
+    private <T> MockHttpServletRequestBuilder addBody(MockHttpServletRequestBuilder b, T body) {
+        try {
+            return b.content(objectMapper.writeValueAsString(body));
+        } catch (JsonProcessingException e) {
+            fail("Unable to write object as a string", e);
+        }
+        return null;
     }
 
     /**
@@ -288,18 +240,6 @@ public abstract class BaseControllerTest extends RequestTestUtil {
      */
     protected JwtPair getJwtPair() {
         return testJwtPair;
-    }
-
-    /**
-     * Build out the absolute path for the api. Rest endpoint test creates own local
-     * web server to run. Therefore the default host name is localhost and a random
-     * port number.
-     * 
-     * @param api The api to build.
-     * @return Completed url with the attached api.
-     */
-    private String buildUrl(String api) {
-        return String.format("http://localhost:%d%s", randomServerPort, api);
     }
 
     /**
@@ -331,13 +271,5 @@ public abstract class BaseControllerTest extends RequestTestUtil {
      */
     private ControllerJwt getJwtControllerAnnotation(AnnotatedElement elementType) {
         return AnnotatedElementUtils.findMergedAnnotation(elementType, ControllerJwt.class);
-    }
-
-    /**
-     * Sets up the request factory for Apache
-     */
-    private void setupRequestFactory() {
-        CloseableHttpClient httpClient = HttpClientBuilder.create().disableAutomaticRetries().build();
-        testRestTemplate.getRestTemplate().setRequestFactory(new HttpComponentsClientHttpRequestFactory(httpClient));
     }
 }

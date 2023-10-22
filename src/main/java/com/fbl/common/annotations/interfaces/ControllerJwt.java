@@ -6,8 +6,6 @@ package com.fbl.common.annotations.interfaces;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-import org.springframework.stereotype.Component;
-
 import com.fbl.common.enums.WebRole;
 import com.fbl.jwt.utility.JwtTokenUtil;
 
@@ -21,7 +19,6 @@ import com.fbl.jwt.utility.JwtTokenUtil;
  * @since July 31, 2021
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Component
 public @interface ControllerJwt {
     int userId() default 1;
 

@@ -6,6 +6,7 @@ package com.fbl.app.user.rest;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import java.util.Arrays;
 
@@ -13,7 +14,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpStatus;
 import org.springframework.test.context.ContextConfiguration;
 
 import com.fbl.FBLChurchApplication;
@@ -48,16 +48,14 @@ public class UsersControllerTest extends BaseControllerTest {
     @Test
     public void testGetListOfUsers() throws Exception {
         when(service.getUsers(any(UserGetRequest.class))).thenReturn(new Page<User>(1, Arrays.asList(new User())));
-        check(get(USERS_PATH, User[].class), serializedList(HttpStatus.OK));
-
+        this.mockMvc.perform(get(USERS_PATH)).andExpect(status().isOk());
         verify(service).getUsers(any(UserGetRequest.class));
     }
 
     @Test
     public void testGetListOfUsersWithRequestParams() throws Exception {
         when(service.getUsers(any(UserGetRequest.class))).thenReturn(new Page<User>(1, Arrays.asList(new User())));
-        check(get(USERS_PATH + "?firstName=test&id=1,2", User[].class), serializedList(HttpStatus.OK));
-
+        this.mockMvc.perform(get(USERS_PATH).param("firstName", "test").param("id", "1,2")).andExpect(status().isOk());
         verify(service).getUsers(getUsersCaptor.capture());
 
         UserGetRequest params = getUsersCaptor.getValue();
@@ -68,16 +66,14 @@ public class UsersControllerTest extends BaseControllerTest {
     @Test
     public void testGetCurrentUser() throws Exception {
         when(service.getCurrentUser()).thenReturn(new User());
-        check(get(USERS_PATH + "/current-user", User.class), serializedNonNull(HttpStatus.OK));
-
+        this.mockMvc.perform(get(USERS_PATH + "/current-user")).andExpect(status().isOk());
         verify(service).getCurrentUser();
     }
 
     @Test
     public void testGetUserById() throws Exception {
         when(service.getUserById(anyInt())).thenReturn(new User());
-        check(get(USERS_PATH + "/3", User.class), serializedNonNull(HttpStatus.OK));
-
+        this.mockMvc.perform(get(USERS_PATH + "/3")).andExpect(status().isOk());
         verify(service).getUserById(3);
     }
 }

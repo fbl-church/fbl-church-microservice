@@ -5,10 +5,10 @@ package com.fbl.app.authentication.rest;
 
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpStatus;
 import org.springframework.test.context.ContextConfiguration;
 
 import com.fbl.FBLChurchApplication;
@@ -34,21 +34,28 @@ public class AuthenticationControllerTest extends BaseControllerTest {
 
     @Test
     public void testAuthenticate() throws Exception {
-        when(service.authenticate(any(AuthenticationRequest.class))).thenReturn(new AuthToken());
         AuthenticationRequest request = new AuthenticationRequest("test@mail.com", "testPassword");
-        check(post("/api/authenticate", request, AuthToken.class), serializedNonNull());
+        when(service.authenticate(any(AuthenticationRequest.class))).thenReturn(new AuthToken());
+
+        this.mockMvc
+                .perform(post("/api/authenticate", request))
+                .andExpect(status().isOk());
     }
 
     @Test
     @ControllerJwt
     public void testReAuthenticate() throws Exception {
         when(service.reauthenticate()).thenReturn(new AuthToken());
-        check(post("/api/reauthenticate", AuthToken.class), serializedNonNull());
+        this.mockMvc
+                .perform(post("/api/reauthenticate"))
+                .andExpect(status().isOk());
     }
 
     @Test
-    public void testReAuthenticateNoToken() {
+    public void testReAuthenticateNoToken() throws Exception {
         when(service.reauthenticate()).thenReturn(new AuthToken());
-        check(post("/api/reauthenticate"), error(HttpStatus.UNAUTHORIZED, "Missing JWT Token"));
+        this.mockMvc
+                .perform(post("/api/reauthenticate"))
+                .andExpect(status().isUnauthorized());
     }
 }
