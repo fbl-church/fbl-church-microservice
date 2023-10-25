@@ -79,7 +79,7 @@ public class CommonUtil {
             int endSlice = (int) (request.getRowOffset() + request.getPageSize());
             list = list.subList(startSlice, endSlice > totalCount ? totalCount : endSlice);
         }
-        return new Page<>(totalCount, list);
+        return Page.of(totalCount, list);
     }
 
     /**

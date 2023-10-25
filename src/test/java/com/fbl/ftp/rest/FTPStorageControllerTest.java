@@ -1,9 +1,13 @@
 package com.fbl.ftp.rest;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.List;
 
@@ -46,7 +50,7 @@ public class FTPStorageControllerTest extends BaseControllerTest {
 
     @Test
     public void testGetFiles() throws Exception {
-        when(service.getFiles(any(FileGetRequest.class))).thenReturn(new Page<>(1, List.of()));
+        when(service.getFiles(any(FileGetRequest.class))).thenReturn(Page.of(1, List.of()));
         this.mockMvc
                 .perform(get(BASE_PATH).param("path", "base/path").param("search",
                         "fileSearch"))

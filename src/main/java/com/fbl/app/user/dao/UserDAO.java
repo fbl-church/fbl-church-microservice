@@ -3,7 +3,7 @@
  */
 package com.fbl.app.user.dao;
 
-import static com.fbl.app.user.mapper.UserMapper.*;
+import static com.fbl.app.user.mapper.UserMapper.USER_MAPPER;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -21,10 +21,8 @@ import com.fbl.app.user.client.domain.request.UserGetRequest;
 import com.fbl.common.date.TimeZoneUtil;
 import com.fbl.common.enums.WebRole;
 import com.fbl.common.page.Page;
-import com.fbl.exception.types.NotFoundException;
 import com.fbl.sql.abstracts.BaseDao;
 import com.fbl.sql.builder.SqlParamBuilder;
-import com.google.common.collect.Sets;
 
 /**
  * Class that handles all the dao calls to the database for users
@@ -53,22 +51,6 @@ public class UserDAO extends BaseDao {
 				.build();
 
 		return getPage("getUsersPage", params, USER_MAPPER);
-	}
-
-	/**
-	 * This method returns a user object containing type information about the user
-	 * 
-	 * @param id of the user
-	 * @return User object {@link User}
-	 */
-	public User getUserById(int id) {
-		try {
-			UserGetRequest request = new UserGetRequest();
-			request.setId(Sets.newHashSet(id));
-			return getUsers(request).getList().get(0);
-		} catch (Exception e) {
-			throw new NotFoundException("User", id);
-		}
 	}
 
 	/**

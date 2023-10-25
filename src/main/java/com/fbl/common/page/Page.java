@@ -6,8 +6,10 @@
  */
 package com.fbl.common.page;
 
+import java.util.Collections;
 import java.util.List;
 
+import io.jsonwebtoken.lang.Assert;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -33,4 +35,40 @@ public class Page<T> {
 
     @Schema(description = "The list of generic objects.")
     private List<T> list;
+
+    /**
+     * Create a new page instance with the given list. It will populate the total
+     * count based on the size of the list.
+     * 
+     * @param <T>  The generic type of the list
+     * @param list The list of elements to put on the page
+     * @return The new page instance
+     */
+    public static <T> Page<T> of(List<T> list) {
+        Assert.notNull(list, "List can not be null for page");
+        return new Page<T>(list.size(), list);
+    }
+
+    /**
+     * Create a new page instance with the given list.
+     * 
+     * @param <T>        The generic type of the list
+     * @param totalCount The total amount of elements
+     * @param list       The list of elements to put on the page
+     * @return The new page instance
+     */
+    public static <T> Page<T> of(long totalCount, List<T> list) {
+        Assert.notNull(list, "List can not be null for page");
+        return new Page<T>(totalCount, list);
+    }
+
+    /**
+     * Generate an empty page.
+     * 
+     * @param <T> The generic type of the list
+     * @return An empty page instance
+     */
+    public static <T> Page<T> empty() {
+        return new Page<T>(0, Collections.emptyList());
+    }
 }

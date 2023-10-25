@@ -253,7 +253,7 @@ public abstract class AbstractSqlDao extends AbstractSqlGlobals {
     protected <T> Page<T> getPage(String total, String fragment, RowMapper<T> mapper) {
         int totalCount = get(total, new MapSqlParameterSource(), Integer.class);
         List<T> list = getList(fragment, new MapSqlParameterSource(), mapper);
-        return new Page<T>(totalCount, list);
+        return Page.of(totalCount, list);
     }
 
     /**
@@ -270,7 +270,7 @@ public abstract class AbstractSqlDao extends AbstractSqlGlobals {
     protected <T> Page<T> getPage(String total, String fragment, MapSqlParameterSource params, RowMapper<T> mapper) {
         int totalCount = get(total, params, Integer.class);
         List<T> list = getList(fragment, params, mapper);
-        return new Page<T>(totalCount, list);
+        return Page.of(totalCount, list);
     }
 
     /**

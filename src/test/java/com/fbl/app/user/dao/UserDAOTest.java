@@ -3,7 +3,9 @@
  */
 package com.fbl.app.user.dao;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 
@@ -17,7 +19,6 @@ import com.fbl.app.user.client.domain.User;
 import com.fbl.app.user.client.domain.request.UserGetRequest;
 import com.fbl.common.enums.WebRole;
 import com.fbl.common.page.Page;
-import com.fbl.exception.types.NotFoundException;
 import com.fbl.test.factory.annotations.InsiteDaoTest;
 import com.fbl.utility.InsiteDAOTestConfig;
 import com.google.common.collect.Sets;
@@ -66,21 +67,6 @@ public class UserDAOTest {
     }
 
     @Test
-    public void testGetUserById() throws Exception {
-        User user = dao.getUserById(1);
-
-        assertEquals("Test", user.getFirstName(), "First name");
-        assertEquals("User", user.getLastName(), "Last name");
-        assertEquals("test@mail.com", user.getEmail(), "Email");
-    }
-
-    @Test
-    public void testGetUserByIdNotFound() throws Exception {
-        NotFoundException e = assertThrows(NotFoundException.class, () -> dao.getUserById(12));
-        assertEquals("User not found for id: '12'", e.getMessage(), "Message should match");
-    }
-
-    @Test
     public void testInsertUser() throws Exception {
         List<User> beforeInsertList = dao.getUsers(new UserGetRequest()).getList();
 
@@ -94,16 +80,6 @@ public class UserDAOTest {
 
         int newUserId = dao.insertUser(user);
         assertEquals(4, newUserId, "New user Id should be 4");
-    }
-
-    @Test
-    public void testUpdateUserValues() throws Exception {
-        User user = new User();
-        assertEquals("Test", dao.getUserById(1).getFirstName());
-        user.setFirstName("Randy");
-        user.setWebRole(List.of(WebRole.USER));
-
-        dao.updateUser(1, user);
     }
 
     @Test

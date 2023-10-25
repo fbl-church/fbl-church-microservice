@@ -3,10 +3,13 @@
  */
 package com.fbl.app.user.rest;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.Arrays;
 
@@ -47,15 +50,18 @@ public class UsersControllerTest extends BaseControllerTest {
 
     @Test
     public void testGetListOfUsers() throws Exception {
-        when(service.getUsers(any(UserGetRequest.class))).thenReturn(new Page<User>(1, Arrays.asList(new User())));
-        this.mockMvc.perform(get(USERS_PATH)).andExpect(status().isOk());
+        when(service.getUsers(any(UserGetRequest.class))).thenReturn(Page.of(1, Arrays.asList(new User())));
+        this.mockMvc.perform(get(USERS_PATH)).andExpect(status().isOk())
+                .andExpect(header().longValue("total-count", 1));
         verify(service).getUsers(any(UserGetRequest.class));
     }
 
     @Test
     public void testGetListOfUsersWithRequestParams() throws Exception {
-        when(service.getUsers(any(UserGetRequest.class))).thenReturn(new Page<User>(1, Arrays.asList(new User())));
-        this.mockMvc.perform(get(USERS_PATH).param("firstName", "test").param("id", "1,2")).andExpect(status().isOk());
+        when(service.getUsers(any(UserGetRequest.class))).thenReturn(Page.of(1, Arrays.asList(new User())));
+        this.mockMvc.perform(get(USERS_PATH).param("firstName", "test").param("id", "1,2"))
+                .andExpect(status().isOk())
+                .andExpect(header().longValue("total-count", 1));
         verify(service).getUsers(getUsersCaptor.capture());
 
         UserGetRequest params = getUsersCaptor.getValue();

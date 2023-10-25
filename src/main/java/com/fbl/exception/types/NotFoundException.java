@@ -22,4 +22,8 @@ public class NotFoundException extends ServiceException {
     public NotFoundException(String field, Object value) {
         super(String.format("%s not found for id: '%s'", field, value));
     }
+
+    public NotFoundException(String field, Object value, Throwable cause) {
+        super(String.format("%s not found for id: '%s'", field, value), cause);
+    }
 }
