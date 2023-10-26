@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.fbl.app.user.client.domain.UserAccess;
+import com.fbl.app.user.openapi.TagUser;
 import com.fbl.app.user.service.UserAccessService;
 import com.fbl.common.annotations.interfaces.RestApiController;
 
@@ -21,6 +22,7 @@ import io.swagger.v3.oas.annotations.Operation;
  */
 @RequestMapping("/api/users/access")
 @RestApiController
+@TagUser
 public class UserAccessController {
 
     @Autowired

@@ -36,6 +36,7 @@ email:
 logging:
   level:
     "[org.springframework]": OFF
+    "[org.springdoc.api]": OFF
     "[org.apache]": OFF
     "[org.apache.coyote.http11.Http11NioProtocol]": OFF
 

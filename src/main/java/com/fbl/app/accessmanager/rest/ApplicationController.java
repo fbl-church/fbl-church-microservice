@@ -16,6 +16,7 @@ import com.fbl.app.accessmanager.client.domain.Application;
 import com.fbl.app.accessmanager.client.domain.WebRoleApp;
 import com.fbl.app.accessmanager.client.domain.request.ApplicationGetRequest;
 import com.fbl.app.accessmanager.client.domain.request.WebRoleAppGetRequest;
+import com.fbl.app.accessmanager.openapi.TagApplication;
 import com.fbl.app.accessmanager.service.ApplicationService;
 import com.fbl.common.annotations.interfaces.HasAccess;
 import com.fbl.common.annotations.interfaces.RestApiController;
@@ -30,6 +31,7 @@ import com.fbl.common.page.Page;
  */
 @RequestMapping("/api/applications")
 @RestApiController
+@TagApplication
 public class ApplicationController {
 
     @Autowired

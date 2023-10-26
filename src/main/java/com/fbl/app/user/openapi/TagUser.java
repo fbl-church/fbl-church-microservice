@@ -3,10 +3,8 @@
  */
 package com.fbl.app.user.openapi;
 
-import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
-import static java.lang.annotation.ElementType.METHOD;
-import static java.lang.annotation.ElementType.TYPE;
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
+import static java.lang.annotation.ElementType.*;
+import static java.lang.annotation.RetentionPolicy.*;
 
 import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
@@ -23,6 +21,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Retention(RUNTIME)
 @Target({ TYPE, METHOD, ANNOTATION_TYPE })
 @Inherited
-@Tag(name = "User")
+@Tag(name = "User Controller")
 public @interface TagUser {
 }

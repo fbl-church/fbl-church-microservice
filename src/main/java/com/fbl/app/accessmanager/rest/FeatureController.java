@@ -20,6 +20,7 @@ import com.fbl.app.accessmanager.client.domain.Feature;
 import com.fbl.app.accessmanager.client.domain.WebRoleFeature;
 import com.fbl.app.accessmanager.client.domain.request.FeatureGetRequest;
 import com.fbl.app.accessmanager.client.domain.request.WebRoleFeatureGetRequest;
+import com.fbl.app.accessmanager.openapi.TagFeature;
 import com.fbl.app.accessmanager.service.FeatureService;
 import com.fbl.common.annotations.interfaces.HasAccess;
 import com.fbl.common.annotations.interfaces.RestApiController;
@@ -34,6 +35,7 @@ import com.fbl.common.page.Page;
  */
 @RequestMapping("/api/features")
 @RestApiController
+@TagFeature
 public class FeatureController {
 
     @Autowired

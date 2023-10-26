@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.fbl.app.email.client.domain.UserEmail;
+import com.fbl.app.email.openapi.TagEmail;
 import com.fbl.app.email.service.EmailService;
 import com.fbl.app.user.client.domain.User;
 import com.fbl.common.annotations.interfaces.RestApiController;
@@ -23,6 +24,7 @@ import com.fbl.common.annotations.interfaces.RestApiController;
  */
 @RequestMapping("/api/mail")
 @RestApiController
+@TagEmail
 public class EmailController {
     @Autowired
     private EmailService service;
@@ -31,7 +33,7 @@ public class EmailController {
      * This will send a forgot password link to the given user. If the email exists
      * in the database then the link will be sent.
      * 
-     * @param email Email to search for and send an email too.
+     * @param email Email to search for and send an email too
      */
     @PostMapping("/forgot-password")
     public List<UserEmail> sendForgotPasswordEmail(@RequestBody String email) {

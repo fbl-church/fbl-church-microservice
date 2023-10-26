@@ -21,6 +21,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Retention(RUNTIME)
 @Target({ TYPE, METHOD, ANNOTATION_TYPE })
 @Inherited
-@Tag(name = "Children")
+@Tag(name = "Children Controller")
 public @interface TagChildren {
 }
