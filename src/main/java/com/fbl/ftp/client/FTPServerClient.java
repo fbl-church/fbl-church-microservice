@@ -78,11 +78,10 @@ public class FTPServerClient extends FTPClient {
             try {
                 super.logout();
                 super.disconnect();
-
+                LOGGER.info("FTP Connection Successfully Closed!");
             } catch (Exception e) {
                 LOGGER.warn("Unable to close connection to FTP Server!", e);
             }
-            LOGGER.info("FTP Connection Successfully Closed!");
         }
     }
 
