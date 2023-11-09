@@ -6,7 +6,7 @@ package com.fbl.jwt.domain;
 import java.security.Key;
 import java.time.LocalDateTime;
 
-import com.fbl.common.date.LocalDateFormatter;
+import com.fbl.common.date.LocalDateUtils;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -30,10 +30,10 @@ public final class JwtPair {
     }
 
     public LocalDateTime getIssuedAt() {
-        return LocalDateFormatter.toLocalDateTime(this.claimSet.getIssuedAt());
+        return LocalDateUtils.toLocalDateTime(this.claimSet.getIssuedAt());
     }
 
     public LocalDateTime getExpiration() {
-        return LocalDateFormatter.toLocalDateTime(this.claimSet.getExpiration());
+        return LocalDateUtils.toLocalDateTime(this.claimSet.getExpiration());
     }
 }

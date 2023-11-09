@@ -19,7 +19,7 @@ import java.util.Date;
  * @author Sam Butler
  * @since January 3, 2023
  */
-public class LocalDateFormatter {
+public class LocalDateUtils {
 
     /**
      * Formats a given {@link Date} object.
