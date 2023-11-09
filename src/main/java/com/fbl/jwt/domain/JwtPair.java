@@ -3,7 +3,10 @@
  */
 package com.fbl.jwt.domain;
 
-import com.fbl.environment.EnvironmentService;
+import java.security.Key;
+import java.time.LocalDateTime;
+
+import com.fbl.common.date.LocalDateFormatter;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -20,9 +23,17 @@ public final class JwtPair {
     private final String token;
     private final Claims claimSet;
 
-    public JwtPair(String token, EnvironmentService environmentService) {
+    public JwtPair(String token, Key signingKey) {
         this.token = token;
-        this.claimSet = Jwts.parserBuilder().setSigningKey(environmentService.getSigningKey()).build()
+        this.claimSet = Jwts.parserBuilder().setSigningKey(signingKey).build()
                 .parseClaimsJws(token).getBody();
+    }
+
+    public LocalDateTime getIssuedAt() {
+        return LocalDateFormatter.toLocalDateTime(this.claimSet.getIssuedAt());
+    }
+
+    public LocalDateTime getExpiration() {
+        return LocalDateFormatter.toLocalDateTime(this.claimSet.getExpiration());
     }
 }

@@ -3,9 +3,15 @@
  */
 package com.fbl.app.authentication.service;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 import java.util.Optional;
@@ -25,6 +31,7 @@ import com.fbl.exception.types.NotFoundException;
 import com.fbl.jwt.utility.JwtHolder;
 import com.fbl.jwt.utility.JwtTokenUtil;
 import com.fbl.test.factory.annotations.InsiteServiceTest;
+import com.fbl.test.factory.data.JwtTestFactoryData;
 
 /**
  * Test class for the Authenticate Service.
@@ -59,6 +66,7 @@ public class AuthenticationServiceTest {
         authRequest.setEmail("fake@mail.com");
         authRequest.setPassword("testPassword");
 
+        when(jwtTokenUtil.generateToken(any(User.class))).thenReturn(JwtTestFactoryData.testJwtPair());
         when(authenticationDAO.getUserAuthPassword(anyString()))
                 .thenReturn(Optional.of("$2a$10$KusdNWjdceySzNAG3EH8a.5HuIOMWH4hl4Ke64Daqaeqivy1y0Rd."));
         when(userClient.getUsers(any(UserGetRequest.class))).thenReturn(Arrays.asList(userLoggingIn));
@@ -98,6 +106,7 @@ public class AuthenticationServiceTest {
         User userLoggingIn = new User();
         userLoggingIn.setId(1);
 
+        when(jwtTokenUtil.generateToken(any(User.class))).thenReturn(JwtTestFactoryData.testJwtPair());
         when(userClient.getUserById(anyInt())).thenReturn(userLoggingIn);
         when(jwtHolder.getUserId()).thenReturn(1);
 

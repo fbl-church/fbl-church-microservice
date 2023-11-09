@@ -3,7 +3,6 @@
  */
 package com.fbl.gateway.validator;
 
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,9 +50,8 @@ public abstract class CommonTokenValidator implements BaseRequestValidator {
     protected void runTokenValidation(String token, boolean prefixCheck) {
         checkValidToken(token, prefixCheck);
 
-        JwtPair pair = new JwtPair(extractToken(token), environmentService);
+        JwtPair pair = new JwtPair(extractToken(token), environmentService.getSigningKey());
         checkCorrectEnvironment(pair);
-        checkTokenExpiration(pair);
     }
 
     /**
@@ -107,19 +105,6 @@ public abstract class CommonTokenValidator implements BaseRequestValidator {
 
         if (!environmentService.getEnvironment().equals(environment)) {
             throw new JwtTokenException("JWT token does not match accessing environment");
-        }
-    }
-
-    /**
-     * Checks to see if the users token is expired. If the token is no longer valid
-     * and is passed the expiration time, it will throw an exception.
-     * 
-     * @param token The token to validate.
-     * @throws JwtTokenException If the token is expired.
-     */
-    protected void checkTokenExpiration(JwtPair pair) {
-        if (pair.getClaimSet().getExpiration().before(new Date())) {
-            throw new JwtTokenException("JWT Token is expired! Please re-authenticate");
         }
     }
 

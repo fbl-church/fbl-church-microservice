@@ -18,6 +18,7 @@ import com.fbl.app.user.client.domain.request.UserGetRequest;
 import com.fbl.common.date.TimeZoneUtil;
 import com.fbl.exception.types.InvalidCredentialsException;
 import com.fbl.exception.types.NotFoundException;
+import com.fbl.jwt.domain.JwtPair;
 import com.fbl.jwt.utility.JwtHolder;
 import com.fbl.jwt.utility.JwtTokenUtil;
 import com.google.common.collect.Sets;
@@ -54,9 +55,9 @@ public class AuthenticationService {
     public AuthToken authenticate(AuthenticationRequest request) {
         User user = verifyUser(request.getEmail(), request.getPassword());
 
-        String token = jwtTokenUtil.generateToken(user);
-        return new AuthToken(token, LocalDateTime.now(TimeZoneUtil.SYSTEM_ZONE),
-                jwtTokenUtil.getExpirationDateFromToken(token), user);
+        JwtPair pair = jwtTokenUtil.generateToken(user);
+        return new AuthToken(pair.getToken(), LocalDateTime.now(TimeZoneUtil.SYSTEM_ZONE),
+                pair.getExpiration(), user);
     }
 
     /**
@@ -66,12 +67,12 @@ public class AuthenticationService {
      * @return {@link AuthToken} from the token.
      */
     public AuthToken reauthenticate() {
-        User u = userClient.getUserById(jwtHolder.getUserId());
-        userClient.updateUserLastLoginToNow(u.getId());
+        User user = userClient.getUserById(jwtHolder.getUserId());
+        userClient.updateUserLastLoginToNow(user.getId());
 
-        String token = jwtTokenUtil.generateToken(u);
-        return new AuthToken(token, LocalDateTime.now(TimeZoneUtil.SYSTEM_ZONE),
-                jwtTokenUtil.getExpirationDateFromToken(token), u);
+        JwtPair pair = jwtTokenUtil.generateToken(user);
+        return new AuthToken(pair.getToken(), LocalDateTime.now(TimeZoneUtil.SYSTEM_ZONE),
+                pair.getExpiration(), user);
     }
 
     /**

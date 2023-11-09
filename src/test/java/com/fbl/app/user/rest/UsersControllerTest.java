@@ -17,9 +17,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.ContextConfiguration;
 
-import com.fbl.FBLChurchApplication;
 import com.fbl.app.user.client.domain.User;
 import com.fbl.app.user.client.domain.request.UserGetRequest;
 import com.fbl.app.user.service.UserService;
@@ -35,7 +33,6 @@ import com.google.common.collect.Sets;
  * @author Sam Butler
  * @since August 23, 2022
  */
-@ContextConfiguration(classes = FBLChurchApplication.class)
 @InsiteRestTest
 @ControllerJwt
 public class UsersControllerTest extends BaseControllerTest {

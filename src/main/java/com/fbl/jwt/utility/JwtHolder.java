@@ -40,7 +40,7 @@ public class JwtHolder {
 	 * @param token The token to store.
 	 */
 	public void setToken(String token) {
-		JwtPair pair = new JwtPair(token, environmentService);
+		JwtPair pair = new JwtPair(token, environmentService.getSigningKey());
 		TOKEN.set(pair);
 	}
 

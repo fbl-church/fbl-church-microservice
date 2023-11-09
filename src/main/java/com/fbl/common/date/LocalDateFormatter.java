@@ -63,7 +63,10 @@ public class LocalDateFormatter {
      * @param d The date to be converted.
      * @return The new local date time object.
      */
-    public static LocalDateTime convertDateToLocalDateTime(Date d) {
+    public static LocalDateTime toLocalDateTime(Date d) {
+        if (d == null) {
+            return null;
+        }
         return d.toInstant().atZone(TimeZoneUtil.SYSTEM_ZONE).toLocalDateTime();
     }
 }

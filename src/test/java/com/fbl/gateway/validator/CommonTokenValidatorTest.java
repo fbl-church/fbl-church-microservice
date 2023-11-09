@@ -1,8 +1,14 @@
 package com.fbl.gateway.validator;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -147,40 +153,30 @@ public class CommonTokenValidatorTest {
     @EnumSource(Environment.class)
     void testCheckEnvironmentVALID(Environment env) {
         when(environmentService.getEnvironment()).thenReturn(env);
-        when(environmentService.getSigningKey()).thenReturn(JwtTestFactoryData.testSigningKey());
 
         Map<String, Object> testClaims = JwtTestFactoryData.testClaims();
         testClaims.put(JwtClaims.ENVIRONMENT, env);
 
-        JwtPair pair = new JwtPair(JwtTestFactoryData.testToken(testClaims), environmentService);
+        JwtPair pair = new JwtPair(JwtTestFactoryData.testToken(testClaims), JwtTestFactoryData.testSigningKey());
         commonTokenValidator.checkCorrectEnvironment(pair);
     }
 
     @Test
     void testCheckEnvironmentINVALID() {
         when(environmentService.getEnvironment()).thenReturn(Environment.PRODUCTION);
-        when(environmentService.getSigningKey()).thenReturn(JwtTestFactoryData.testSigningKey());
-
+  
         Map<String, Object> testClaims = JwtTestFactoryData.testClaims();
         testClaims.put(JwtClaims.ENVIRONMENT, Environment.DEVELOPMENT);
 
-        JwtPair pair = new JwtPair(JwtTestFactoryData.testToken(testClaims), environmentService);
+        JwtPair pair = new JwtPair(JwtTestFactoryData.testToken(testClaims), JwtTestFactoryData.testSigningKey());
         JwtTokenException ex = assertThrows(JwtTokenException.class, () -> commonTokenValidator.checkCorrectEnvironment(pair));
         assertEquals("JWT token does not match accessing environment", ex.getMessage(), "Exception Message");
     }
 
     @Test
-    void testCheckTokenExpirationVALID() {
-        when(environmentService.getSigningKey()).thenReturn(JwtTestFactoryData.testSigningKey());
-
-        JwtPair pair = new JwtPair(JwtTestFactoryData.testToken(), environmentService);
-        commonTokenValidator.checkTokenExpiration(pair);
-    }
-
-    @Test
     void testCheckTokenExpirationINVALID() {
-        when(environmentService.getSigningKey()).thenReturn(JwtTestFactoryData.testSigningKey());
-        assertThrows(ExpiredJwtException.class, () -> new JwtPair(JwtTestFactoryData.testToken(-600000L), environmentService));
+        assertThrows(ExpiredJwtException.class,
+                () -> new JwtPair(JwtTestFactoryData.testToken(-600000L), JwtTestFactoryData.testSigningKey()));
     }
 
     @ParameterizedTest

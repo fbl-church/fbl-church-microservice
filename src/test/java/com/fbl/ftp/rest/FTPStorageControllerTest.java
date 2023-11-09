@@ -17,10 +17,8 @@ import org.mockito.Captor;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.fbl.FBLChurchApplication;
 import com.fbl.common.annotations.interfaces.ControllerJwt;
 import com.fbl.common.page.Page;
 import com.fbl.exception.types.ServiceException;
@@ -30,7 +28,6 @@ import com.fbl.test.factory.abstracts.BaseControllerTest;
 import com.fbl.test.factory.annotations.InsiteRestTest;
 import com.google.common.collect.Sets;
 
-@ContextConfiguration(classes = FBLChurchApplication.class)
 @InsiteRestTest
 @ControllerJwt
 public class FTPStorageControllerTest extends BaseControllerTest {

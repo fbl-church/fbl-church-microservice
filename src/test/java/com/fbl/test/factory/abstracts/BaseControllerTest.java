@@ -3,7 +3,7 @@
  */
 package com.fbl.test.factory.abstracts;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.lang.reflect.AnnotatedElement;
 import java.util.HashMap;
@@ -257,7 +257,7 @@ public abstract class BaseControllerTest {
         claims.put(JwtClaims.ENVIRONMENT, environmentService.getEnvironment());
         claims.put(JwtClaims.PASSWORD_RESET, false);
 
-        testJwtPair = new JwtPair(jwtTokenUtil.buildTokenClaims(claims, 600000), environmentService);
+        testJwtPair = new JwtPair(jwtTokenUtil.buildTokenClaims(claims, 600000), environmentService.getSigningKey());
         headers.setBearerAuth(testJwtPair.getToken());
     }
 

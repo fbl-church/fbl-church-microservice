@@ -8,6 +8,7 @@ import java.util.Map;
 import com.fbl.common.enums.Environment;
 import com.fbl.common.enums.WebRole;
 import com.fbl.jwt.domain.JwtClaims;
+import com.fbl.jwt.domain.JwtPair;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
@@ -30,6 +31,15 @@ public class JwtTestFactoryData {
      */
     public static String testToken() {
         return testToken(testClaims());
+    }
+
+    /**
+     * Generate a test JWT Pair,
+     * 
+     * @return String of the generated JWT Pair
+     */
+    public static JwtPair testJwtPair() {
+        return new JwtPair(testToken(), testSigningKey());
     }
 
     /**

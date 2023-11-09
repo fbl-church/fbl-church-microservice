@@ -3,15 +3,13 @@
  */
 package com.fbl.app.authentication.rest;
 
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.ContextConfiguration;
 
-import com.fbl.FBLChurchApplication;
 import com.fbl.app.authentication.client.domain.AuthToken;
 import com.fbl.app.authentication.client.domain.request.AuthenticationRequest;
 import com.fbl.app.authentication.service.AuthenticationService;
@@ -25,7 +23,6 @@ import com.fbl.test.factory.annotations.InsiteRestTest;
  * @author Sam Butler
  * @since August 23, 2022
  */
-@ContextConfiguration(classes = FBLChurchApplication.class)
 @InsiteRestTest
 public class AuthenticationControllerTest extends BaseControllerTest {
 
