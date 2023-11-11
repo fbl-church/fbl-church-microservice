@@ -79,6 +79,6 @@ public class ForgotPasswordEmailProcessor extends EmailProcessor<String> {
 
     private String getResetPath(User u) {
         String base = environmentService.getEnvironment().getUrl();
-        return String.format("%s/reset-password/%s", base, jwtTokenUtil.generateToken(u, true));
+        return String.format("%s/reset-password/%s", base, jwtTokenUtil.generateToken(u, true).getToken());
     }
 }

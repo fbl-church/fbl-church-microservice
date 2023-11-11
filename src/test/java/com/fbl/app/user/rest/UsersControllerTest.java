@@ -3,15 +3,13 @@
  */
 package com.fbl.app.user.rest;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import java.util.Arrays;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -22,6 +20,7 @@ import com.fbl.app.user.client.domain.User;
 import com.fbl.app.user.client.domain.request.UserGetRequest;
 import com.fbl.app.user.service.UserService;
 import com.fbl.common.annotations.interfaces.ControllerJwt;
+import com.fbl.common.enums.WebRole;
 import com.fbl.common.page.Page;
 import com.fbl.test.factory.abstracts.BaseControllerTest;
 import com.fbl.test.factory.annotations.InsiteRestTest;
@@ -78,5 +77,19 @@ public class UsersControllerTest extends BaseControllerTest {
         when(service.getUserById(anyInt())).thenReturn(new User());
         this.mockMvc.perform(get(USERS_PATH + "/3")).andExpect(status().isOk());
         verify(service).getUserById(3);
+    }
+
+    @Test
+    public void testGetUserAppsById() throws Exception {
+        when(service.getUserAppsById(anyInt())).thenReturn(List.of("users"));
+        this.mockMvc.perform(get(USERS_PATH + "/3/applications")).andExpect(status().isOk());
+        verify(service).getUserAppsById(3);
+    }
+
+    @Test
+    @ControllerJwt(webRole = WebRole.USER)
+    public void testGetUserAppsById_InsufficientWebRole() throws Exception {
+        this.mockMvc.perform(get(USERS_PATH + "/3/applications")).andExpect(status().isForbidden());
+        verify(service, never()).getUserAppsById(anyInt());
     }
 }

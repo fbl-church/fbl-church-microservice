@@ -41,7 +41,7 @@ public class NewUserEmailProcessor extends EmailProcessor<User> {
 
     private String getPasswordUpdatePath(User u) {
         String base = environmentService.getEnvironment().getUrl();
-        return String.format("%s/reset-password/%s", base, jwtTokenUtil.generateToken(u, true));
+        return String.format("%s/reset-password/%s", base, jwtTokenUtil.generateToken(u, true).getToken());
     }
 
     @Override

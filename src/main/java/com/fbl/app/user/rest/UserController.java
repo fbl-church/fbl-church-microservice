@@ -98,7 +98,7 @@ public class UserController {
 	 */
 	@Operation(summary = "Add a new user", description = "Add a new user. Called for someone creating an account for someone else.")
 	@PostMapping("/create")
-	@HasAccess(WebRole.SITE_ADMINISTRATOR)
+	@HasAccess(WebRole.MODERATOR)
 	public User createUser(@RequestBody @Valid User user) {
 		return manageUserService.createUser(user, true);
 	}
@@ -163,7 +163,7 @@ public class UserController {
 	 */
 	@Operation(summary = "Update User Information By Id", description = "Will update the given user information for the provided user id.")
 	@PutMapping("/{id}")
-	@HasAccess(WebRole.SITE_ADMINISTRATOR)
+	@HasAccess(WebRole.MODERATOR)
 	public User updateUserById(@PathVariable int id, @RequestBody User user) {
 		return manageUserService.updateUserById(id, user);
 	}
