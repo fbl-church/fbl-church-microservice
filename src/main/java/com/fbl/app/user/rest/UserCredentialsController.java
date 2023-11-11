@@ -52,7 +52,7 @@ public class UserCredentialsController {
      */
     @Operation(summary = "Update a users password by id.", description = "Update a users password given there user id and password update request.")
     @PutMapping("/password/{id}")
-    @HasAccess(WebRole.SITE_ADMINISTRATOR)
+    @HasAccess(WebRole.MODERATOR)
     public User updateUserPasswordById(@PathVariable int id, @RequestBody PasswordUpdate passUpdate) {
         return service.updateUserPasswordById(id, passUpdate);
     }

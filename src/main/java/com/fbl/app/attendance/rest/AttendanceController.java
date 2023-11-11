@@ -131,7 +131,7 @@ public class AttendanceController {
      */
     @Operation(summary = "Update the workers on an attendance record", description = "Given a Attendance Record id and a list of user ids, it will update the workers on the attendance record.")
     @PutMapping("/{id}/workers")
-    @HasAccess(WebRole.SITE_ADMINISTRATOR)
+    @HasAccess(WebRole.MODERATOR)
     public List<User> updateAttendanceRecordWorkers(@PathVariable int id, @RequestBody List<User> workers) {
         return manageAttendanceService.assignWorkersToAttendanceRecord(id, workers);
     }
