@@ -52,7 +52,7 @@ public class UserServiceTest {
     private ArgumentCaptor<List<WebRole>> webroleListCaptor;
 
     @Test
-    public void testGetUsers() {
+    public void testGetUsers_whenCalledWithRequest_returnsListOfUsers() {
         User user1 = UserFactoryData.userData();
         User user2 = new User();
         user2.setId(2);
@@ -67,7 +67,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void testGetCurrentUser() {
+    public void testGetCurrentUser_whenCalled_returnsTheCurrentUser() {
         when(jwtHolder.getUserId()).thenReturn(100);
         when(userDAO.getUserById(anyInt())).thenReturn(Optional.of(new User()));
 
@@ -80,7 +80,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void testGetUserById() {
+    public void testGetUserById_whenCalledWithExistingUserId_returnsTheFoundUserId() {
         when(userDAO.getUserById(anyInt())).thenReturn(Optional.of(new User()));
 
         User user = service.getUserById(10);
@@ -92,7 +92,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void testGetUserByIdNotFound() {
+    public void testGetUserById_whenCalledWithInvalidUserId_thenThrowsNotFoundException() {
         when(userDAO.getUserById(anyInt())).thenReturn(Optional.empty());
 
         NotFoundException ex = assertThrows(NotFoundException.class, () -> service.getUserById(10));
@@ -102,23 +102,48 @@ public class UserServiceTest {
     }
 
     @Test
-    public void testGetUserAppsById() {
+    public void testGetUserAppsById_whenCalledWithRealUserId_returnsTheUserAppsForThatId() {
+        when(userDAO.getUserById(anyInt())).thenReturn(Optional.of(new User()));
         when(userDAO.getUserApps(anyInt())).thenReturn(List.of("Users"));
 
         List<String> userApps = service.getUserAppsById(10);
 
+        verify(userDAO).getUserById(10);
         verify(userDAO).getUserApps(10);
         assertEquals(List.of("Users"), userApps, "App List Matches");
     }
 
     @Test
-    public void testGetUserRolesById() {
+    public void testGetUserAppsById_whenCalledWithInvalidId_returnsTheUserAppsForThatId() {
+        when(userDAO.getUserById(anyInt())).thenReturn(Optional.empty());
+
+        NotFoundException ex = assertThrows(NotFoundException.class, () -> service.getUserAppsById(10));
+
+        verify(userDAO).getUserById(10);
+        verify(userDAO, never()).getUserApps(anyInt());
+        assertEquals("User not found for id: '10'", ex.getMessage(), "Exception Message");
+    }
+
+    @Test
+    public void testGetUserRolesById_whenCalledWithRealUserId_returnsUserRoleForThatId() {
+        when(userDAO.getUserById(anyInt())).thenReturn(Optional.of(new User()));
         when(userDAO.getUserRolesById(anyInt(), any())).thenReturn(List.of(WebRole.AWANA_LEADER));
 
         List<WebRole> roles = service.getUserRolesById(10);
 
         verify(userDAO).getUserRolesById(10, null);
         assertEquals(List.of(WebRole.AWANA_LEADER), roles, "Roles match");
+    }
+
+    @Test
+    public void testGetUserRolesById_whenCalledWithInvalidId_returnsUserRoleForThatId() {
+        when(userDAO.getUserById(anyInt())).thenReturn(Optional.empty());
+
+        NotFoundException ex = assertThrows(NotFoundException.class, () -> service.getUserRolesById(10));
+
+        verify(userDAO).getUserById(10);
+        verify(userDAO, never()).getUserRolesById(anyInt(), any());
+        assertEquals("User not found for id: '10'", ex.getMessage(), "Exception Message");
     }
 
 }

@@ -69,6 +69,7 @@ public class UserService {
 	 * @return List of Applications
 	 */
 	public List<String> getUserAppsById(int id) {
+		getUserById(id);
 		return dao.getUserApps(id);
 	}
 
@@ -79,6 +80,7 @@ public class UserService {
 	 * @return List of Web Roles
 	 */
 	public List<WebRole> getUserRolesById(int id) {
+		getUserById(id);
 		return dao.getUserRolesById(id, null);
 	}
 }
