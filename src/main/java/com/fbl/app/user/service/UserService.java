@@ -15,7 +15,6 @@ import com.fbl.common.enums.WebRole;
 import com.fbl.common.page.Page;
 import com.fbl.exception.types.NotFoundException;
 import com.fbl.jwt.utility.JwtHolder;
-import com.google.common.collect.Sets;
 
 /**
  * User Service class that handles all service calls to the dao
@@ -58,14 +57,9 @@ public class UserService {
 	 * @return User object {@link User}
 	 */
 	public User getUserById(int id) {
-		try {
-			UserGetRequest request = UserGetRequest.builder().id(Sets.newHashSet(id)).build();
-			User u = getUsers(request).getList().get(0);
-			u.setWebRole(dao.getUserRolesById(id, List.of(WebRole.USER)));
-			return u;
-		} catch (Exception e) {
-			throw new NotFoundException("User", id);
-		}
+		User foundUser = dao.getUserById(id).orElseThrow(() -> new NotFoundException("User", id));
+		foundUser.setWebRole(dao.getUserRolesById(id, List.of(WebRole.USER)));
+		return foundUser;
 	}
 
 	/**

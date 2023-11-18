@@ -6,10 +6,14 @@
   u.insert_date,
   u.last_login_date
 
+---
+
 @NAME(userStatusFields)
   us.app_access, 
   us.account_status, 
   us.updated_user_id
+
+---
 
 @NAME(userFilters)
   @WHERE
@@ -28,11 +32,15 @@
     @AND(:search = true)
       @INCLUDE(search)
 
+---
+
 @NAME(getUsersBase)
   FROM users u
   INNER JOIN user_status us ON u.id = us.user_id
   INNER JOIN user_roles ur ON u.id = ur.user_id
   @INCLUDE(userFilters)
+
+---
 
 @NAME(getUsersPage)
   @PAGING(:rowOffset, :pageSize)
@@ -41,9 +49,21 @@
     GROUP BY id
     ORDER BY u.last_name ASC, u.first_name ASC
 
+---
+
 @NAME(getUsersPageTotalCount)
   SELECT COUNT(DISTINCT id)
   @INCLUDE(getUsersBase)
+
+---
+
+@NAME(getUserById)
+  SELECT @INCLUDE(userFields), @INCLUDE(userStatusFields)
+  FROM users u
+  INNER JOIN user_status us ON u.id = us.user_id
+  WHERE u.id = :id
+
+---
 
 @NAME(getApplications)
   SELECT a.key 
@@ -56,6 +76,8 @@
       ur.user_id = :user_id
   GROUP BY a.id
 
+---
+
 @NAME(getUserRoles)
   SELECT ur.web_role
   FROM user_roles ur
@@ -66,13 +88,19 @@
       ur.user_id = :user_id
   ORDER BY ur.web_role
 
+---
+
 @NAME(insertUser)
   INSERT INTO users (first_name, last_name, email)
   VALUES (:first_name, :last_name, :email)
 
+---
+
 @NAME(insertUserRole)
   INSERT INTO user_roles (user_id, web_role)
   VALUES (:user_id, :web_role)
+
+---
 
 @NAME(updateUser)
   UPDATE users 
@@ -82,18 +110,26 @@
     last_name   = IFNULL(:last_name, last_name)
   WHERE id = :id
 
+---
+
 @NAME(updateUserLastLoginToNow)
   UPDATE users 
   SET last_login_date = :last_login_date
   WHERE id = :id
 
+---
+
 @NAME(deleteUser)
   DELETE FROM users
   WHERE id = :id
 
+---
+
 @NAME(deleteUserRoles)
   DELETE FROM user_roles
   WHERE user_id = :user_id
+
+---
 
 @NAME(search)
   (@VALUE(:searchContent))

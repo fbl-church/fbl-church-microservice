@@ -10,6 +10,8 @@
   g.zip_code,
   u.insert_date
 
+---
+
 @NAME(guardianFilters)
   @WHERE
     @AND(:id)
@@ -25,10 +27,14 @@
     @AND(:search = true)
       @INCLUDE(search)
 
+---
+
 @NAME(getGuardiansBase)
   FROM users u
   INNER JOIN guardians g ON u.id = g.user_id
   @INCLUDE(guardianFilters)
+
+---
 
 @NAME(getGuardiansPage)
   @PAGING(:rowOffset, :pageSize)
@@ -37,9 +43,21 @@
     GROUP BY u.id
     ORDER BY u.last_name ASC
 
+---
+
 @NAME(getGuardiansPageTotalCount)
   SELECT COUNT(*)
   @INCLUDE(getGuardiansBase)
+
+---
+
+@NAME(getGuardianById)
+  SELECT @INCLUDE(guardianFields)
+  FROM users u
+  INNER JOIN guardians g ON u.id = g.user_id
+  WHERE u.id = :id
+
+---
 
 @NAME(getChildGuardians)
   SELECT @INCLUDE(guardianFields), cg.relationship
@@ -48,36 +66,50 @@
   INNER JOIN children_guardians cg ON g.user_id = cg.guardian_id
   WHERE cg.child_id = :child_id
 
+---
+
 @NAME(insertGuardian)
   INSERT INTO guardians (user_id, phone, address, city, state, zip_code)
   VALUES (:user_id, :phone, :address, :city, :state, :zip_code)
+
+---
 
 @NAME(updateGuardian)
   UPDATE guardians 
   SET
     phone    = IFNULL(:phone, phone),
-    address  = IFNULL(:address, address),
-    city     = IFNULL(:city, city),
-    state    = IFNULL(:state, state),
-    zip_code = IFNULL(:zip_code, zip_code)
+    address  = :address,
+    city     = :city,
+    state    = :state,
+    zip_code = :zip_code
   WHERE user_id = :user_id
+
+---
 
 @NAME(associateChildToGuardian)
   INSERT INTO children_guardians (child_id, guardian_id, relationship)
   VALUES(:child_id, :guardian_id, :relationship)
 
+---
+
 @NAME(unassociateChildGuardians)
   DELETE FROM children_guardians
   WHERE child_id = :child_id
+
+---
 
 @NAME(removeGuardianRoleFromUser)
   DELETE FROM user_roles
   WHERE user_id = :user_id
   AND web_role = 'GUARDIAN'
 
+---
+
 @NAME(deleteGuardian)
   DELETE FROM guardians
   WHERE user_id = :user_id
+
+---
 
 @NAME(search)
   (@VALUE(:searchContent))

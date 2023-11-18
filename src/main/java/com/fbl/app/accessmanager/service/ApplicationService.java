@@ -51,14 +51,7 @@ public class ApplicationService {
      * @return The found application
      */
     public Application getApplicationById(int id) {
-        ApplicationGetRequest request = new ApplicationGetRequest();
-        request.setId(Sets.newHashSet(id));
-        List<Application> apps = getApplications(request).getList();
-
-        if (apps.isEmpty()) {
-            throw new NotFoundException("Application", id);
-        }
-        return apps.get(0);
+        return dao.getApplicationById(id).orElseThrow(() -> new NotFoundException("Application", id));
     }
 
     /**

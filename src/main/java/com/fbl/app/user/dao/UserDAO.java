@@ -3,10 +3,11 @@
  */
 package com.fbl.app.user.dao;
 
-import static com.fbl.app.user.mapper.UserMapper.USER_MAPPER;
+import static com.fbl.app.user.mapper.UserMapper.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import javax.sql.DataSource;
 
@@ -54,14 +55,23 @@ public class UserDAO extends BaseDao {
 	}
 
 	/**
+	 * Get user by id
+	 * 
+	 * @param userId of the user
+	 * @return Optional User object {@link User}
+	 */
+	public Optional<User> getUserById(int userId) {
+		return getOptional("getUserById", parameterSource(ID, userId), USER_MAPPER);
+	}
+
+	/**
 	 * End point to a get a list of users apps that they have access too
 	 * 
 	 * @param userId The user id to get the apps for.
 	 * @return List of Application objects {@link Application}
 	 */
 	public List<String> getUserApps(int userId) {
-		MapSqlParameterSource params = parameterSource(USER_ID, userId);
-		return getList("getApplications", params, String.class);
+		return getList("getApplications", parameterSource(USER_ID, userId), String.class);
 	}
 
 	/**

@@ -49,8 +49,8 @@ public class FeatureController {
      */
     @GetMapping
     @HasAccess(WebRole.ADMINISTRATOR)
-    public Page<Feature> getPageOfFeatures(FeatureGetRequest request) {
-        return service.getPageOfFeatures(request);
+    public Page<Feature> getFeatures(FeatureGetRequest request) {
+        return service.getFeatures(request);
     }
 
     /**

@@ -122,7 +122,7 @@ public abstract class AbstractSqlDao extends AbstractSqlGlobals {
      */
     protected <T> Optional<T> getOptional(String fragment, MapSqlParameterSource params, Class<T> clazz) {
         try {
-            return Optional.of(get(fragment, params, clazz));
+            return Optional.ofNullable(get(fragment, params, clazz));
         } catch (Exception e) {
             return Optional.empty();
         }
@@ -140,7 +140,7 @@ public abstract class AbstractSqlDao extends AbstractSqlGlobals {
      */
     protected <T> Optional<T> getOptional(String fragment, Class<T> clazz) {
         try {
-            return Optional.of(get(fragment, clazz));
+            return Optional.ofNullable(get(fragment, clazz));
         } catch (Exception e) {
             return Optional.empty();
         }
@@ -159,7 +159,7 @@ public abstract class AbstractSqlDao extends AbstractSqlGlobals {
      */
     protected <T> Optional<T> getOptional(String fragment, MapSqlParameterSource params, RowMapper<T> mapper) {
         try {
-            return Optional.of(get(fragment, params, mapper));
+            return Optional.ofNullable(get(fragment, params, mapper));
         } catch (Exception e) {
             return Optional.empty();
         }
@@ -177,7 +177,7 @@ public abstract class AbstractSqlDao extends AbstractSqlGlobals {
      */
     protected <T> Optional<T> getOptional(String fragment, RowMapper<T> mapper) {
         try {
-            return Optional.of(get(fragment, mapper));
+            return Optional.ofNullable(get(fragment, mapper));
         } catch (Exception e) {
             return Optional.empty();
         }

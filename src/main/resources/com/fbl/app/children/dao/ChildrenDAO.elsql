@@ -9,6 +9,8 @@
   c.release_of_liability,
   u.insert_date
 
+---
+
 @NAME(childrenFilters)
   @WHERE
     @AND(:id)
@@ -24,10 +26,14 @@
     @AND(:search = true)
       @INCLUDE(search)
 
+---
+
 @NAME(getChildrenBase)
   FROM users u
   INNER JOIN children c ON u.id = c.user_id
   @INCLUDE(childrenFilters)
+
+---
 
 @NAME(getChildrenPage)
   @PAGING(:rowOffset, :pageSize)
@@ -35,9 +41,21 @@
     @INCLUDE(getChildrenBase)
     ORDER BY u.last_name ASC, u.first_name ASC
 
+---
+
 @NAME(getChildrenPageTotalCount)
   SELECT COUNT(*)
   @INCLUDE(getChildrenBase)
+
+---
+
+@NAME(getChildById)
+  SELECT @INCLUDE(childrenFields)
+  FROM users u
+  INNER JOIN children c ON u.id = c.user_id
+  WHERE u.id = :id
+
+---
 
 @NAME(getGuardianChildren)
   SELECT @INCLUDE(childrenFields)
@@ -45,6 +63,8 @@
   INNER JOIN children c ON u.id = c.user_id
   INNER JOIN children_guardians cg ON c.user_id = cg.child_id
   WHERE cg.guardian_id = :guardian_id
+
+---
 
 @NAME(getChildChurchGroupsById)
   SELECT church_group
@@ -54,13 +74,19 @@
       cg.child_id = :child_id
   ORDER BY church_group
 
+---
+
 @NAME(insertChild)
   INSERT INTO children (user_id, cuid, birthday, allergies, additional_info, release_of_liability)
   VALUES (:user_id, :cuid, :birthday, :allergies, :additional_info, :release_of_liability)
 
+---
+
 @NAME(insertChildGroup)
   INSERT INTO children_groups (child_id, church_group)
   VALUES (:child_id, :church_group)
+
+---
 
 @NAME(updateChildById)
   UPDATE children 
@@ -71,13 +97,19 @@
     release_of_liability = IFNULL(:release_of_liability, release_of_liability)
   WHERE user_id = :user_id
 
+---
+
 @NAME(deleteChild)
   DELETE FROM children
   WHERE user_id = :user_id
 
+---
+
 @NAME(deleteChildGroups)
   DELETE FROM children_groups
   WHERE child_id = :child_id
+
+---
 
 @NAME(search)
   (@VALUE(:searchContent))

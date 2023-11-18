@@ -9,6 +9,8 @@
   ar.closed_by_user_id,
   ar.insert_date
 
+---
+
 @NAME(userFields)
   u.id,
   u.first_name,
@@ -17,10 +19,14 @@
   u.insert_date,
   u.last_login_date
 
+---
+
 @NAME(userStatusFields)
   us.app_access, 
   us.account_status, 
   us.updated_user_id
+
+---
 
 @NAME(attendanceRecordFilters)
   @WHERE
@@ -35,14 +41,20 @@
     @AND(:search = true)
       @INCLUDE(search)
 
+---
+
 @NAME(attendanceRecordWorkersFilters)
   @WHERE
     @AND(:attendance_record_id)
       arw.attendance_record_id IN (:attendance_record_id)
 
+---
+
 @NAME(getAttendanceRecordsBase)
   FROM attendance_records ar
   @INCLUDE(attendanceRecordFilters)
+
+---
 
 @NAME(getAttendanceRecordsPage)
   @PAGING(:rowOffset, :pageSize)
@@ -50,11 +62,22 @@
     @INCLUDE(getAttendanceRecordsBase)
     ORDER BY ar.active_date DESC
 
+---
+
 @NAME(getAttendanceRecordsPageTotalCount)
   SELECT COUNT(DISTINCT ar.id)
   @INCLUDE(getAttendanceRecordsBase)
 
-@NAME(getAttendanceRecordWorkersPage)
+---
+
+@NAME(getAttendanceRecordById)
+  SELECT @INCLUDE(attendanceRecordFields)
+  FROM attendance_records ar
+  WHERE ar.id = :id
+
+---
+
+@NAME(getAttendanceRecordWorkersById)
   SELECT @INCLUDE(userFields), @INCLUDE(userStatusFields)
   FROM attendance_record_workers arw
   INNER JOIN users u ON arw.user_id = u.id
@@ -62,14 +85,17 @@
   WHERE arw.attendance_record_id = :attendance_record_id
   ORDER BY u.last_name ASC, u.first_name ASC
 
-@NAME(search)
-  (@VALUE(:searchContent))
+---
 
 @NAME(insertAttendanceRecord)
   INSERT INTO attendance_records (name, type, active_date) VALUES (:name, :type, :active_date)
 
+---
+
 @NAME(assignWorkerToAttendanceRecord)
   INSERT INTO attendance_record_workers (attendance_record_id, user_id) VALUES (:attendance_record_id, :user_id)
+
+---
 
 @NAME(updateAttendanceRecord)
   UPDATE attendance_records 
@@ -77,6 +103,8 @@
     name = IFNULL(:name, name),
     active_date = IFNULL(:active_date, active_date)
   WHERE id = :id
+
+---
 
 @NAME(updateAttendanceRecordStatus)
   UPDATE attendance_records 
@@ -87,14 +115,25 @@
     closed_by_user_id  = IFNULL(:closed_by_user_id, closed_by_user_id)
   WHERE id = :id
 
+---
+
 @NAME(checkoutChildrenFromRecord)
   UPDATE children_attendance
   SET check_out_date = :check_out_date
   WHERE attendance_record_id = :id
   AND check_out_date IS NULL
 
+---
+
 @NAME(deleteAttendanceRecordWorkers)
   DELETE FROM attendance_record_workers WHERE attendance_record_id = :attendance_record_id
 
+---
+
 @NAME(deleteAttendanceRecordById)
   DELETE FROM attendance_records WHERE id = :id
+
+---
+
+@NAME(search)
+  (@VALUE(:searchContent))

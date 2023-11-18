@@ -6,6 +6,7 @@ package com.fbl.app.guardian.dao;
 import static com.fbl.app.guardian.mapper.GuardianMapper.*;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.sql.DataSource;
 
@@ -44,6 +45,16 @@ public class GuardianDAO extends BaseDao {
                 .withParam(EMAIL, request.getEmail()).withParam(PHONE, request.getPhone()).build();
 
         return getPage("getGuardiansPage", params, GUARDIAN_MAPPER);
+    }
+
+    /**
+     * Gets a guardian by id
+     * 
+     * @param id The guardian id
+     * @return The optional guardian
+     */
+    public Optional<Guardian> getGuardianById(int id) {
+        return getOptional("getGuardianById", parameterSource(ID, id), GUARDIAN_MAPPER);
     }
 
     /**

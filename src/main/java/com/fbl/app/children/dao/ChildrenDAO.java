@@ -6,6 +6,7 @@ package com.fbl.app.children.dao;
 import static com.fbl.app.children.mapper.ChildMapper.*;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.sql.DataSource;
 
@@ -46,6 +47,16 @@ public class ChildrenDAO extends BaseDao {
                 .withParamTextEnumCollection(NOT_CHURCH_GROUP, request.getNotChurchGroup()).build();
 
         return getPage("getChildrenPage", params, CHILD_MAPPER);
+    }
+
+    /**
+     * Gets a child by id
+     * 
+     * @param id The child id
+     * @return The optional child found
+     */
+    public Optional<Child> getChildById(int id) {
+        return getOptional("getChildById", parameterSource(ID, id), CHILD_MAPPER);
     }
 
     /**

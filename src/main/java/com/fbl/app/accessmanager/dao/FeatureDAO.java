@@ -15,6 +15,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.sql.DataSource;
@@ -53,10 +54,20 @@ public class FeatureDAO extends BaseDao {
      * @param request The request to filter on.
      * @return {@link Page} of the features
      */
-    public Page<Feature> getPageOfFeatures(FeatureGetRequest request) {
+    public Page<Feature> getFeatures(FeatureGetRequest request) {
         MapSqlParameterSource params = SqlParamBuilder.with(request).useAllParams().withParam(ID, request.getId())
                 .build();
         return getPage("getFeaturesPage", params, FEATURE_MAPPER);
+    }
+
+    /**
+     * Get feature by id
+     * 
+     * @param id The id of the feature to get
+     * @return The optional feature
+     */
+    public Optional<Feature> getFeatureById(int id) {
+        return getOptional("getFeatureById", parameterSource(ID, id), FEATURE_MAPPER);
     }
 
     /**

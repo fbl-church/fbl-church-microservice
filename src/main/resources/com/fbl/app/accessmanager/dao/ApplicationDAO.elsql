@@ -4,10 +4,14 @@
   a.display_name,
   a.enabled
 
+---
+
 @NAME(webRoleAppAccessFields)
   wraa.web_role,
   wraa.app_id,
   wraa.access
+
+---
 
 @NAME(webRoleAppFilters)
   @WHERE
@@ -16,6 +20,8 @@
       wraa.web_role IN (:web_role)
     @AND(:search = true)
       @INCLUDE(search)
+
+---
 
 @NAME(applicationFilters)
   @WHERE
@@ -28,9 +34,13 @@
     @AND(:search = true)
       @INCLUDE(search)
 
+---
+
 @NAME(getApplicationBase)
   FROM applications a
   @INCLUDE(applicationFilters)
+
+---
 
 @NAME(getApplicationsPage)
   @PAGING(:rowOffset, :pageSize)
@@ -38,14 +48,27 @@
     @INCLUDE(getApplicationBase)
     ORDER BY a.display_name ASC
 
+---
+
 @NAME(getApplicationsPageTotalCount)
   SELECT COUNT(1)
   @INCLUDE(getApplicationBase)
+
+---
+
+@NAME(getApplicationById)
+  SELECT @INCLUDE(applicationFields)
+  FROM applications a
+  WHERE a.id = :id
+
+---
 
 @NAME(getWebRoleAppsBase)
   FROM web_role_app_access wraa
   INNER JOIN applications a ON wraa.app_id = a.id
   @INCLUDE(webRoleAppFilters)
+
+---
 
 @NAME(getWebRoleAppsPage)
   @PAGING(:rowOffset, :pageSize)
@@ -53,17 +76,20 @@
     @INCLUDE(getWebRoleAppsBase)
     ORDER BY wraa.web_role ASC
 
+---
+
 @NAME(getWebRoleAppsPageTotalCount)
   SELECT COUNT(DISTINCT wraa.web_role)
   @INCLUDE(getWebRoleAppsBase)
 
-@NAME(search)
-  (@VALUE(:searchContent))
+---
 
 @NAME(updateApplicationEnabledFlag)
   UPDATE applications 
   SET enabled = :enabled
   WHERE id = :app_id
+
+---
 
 @NAME(updateWebRoleAppAccess)
   UPDATE web_role_app_access
@@ -71,14 +97,27 @@
   WHERE web_role = :web_role
   AND app_id = :app_id
 
+---
+
 @NAME(createNewApplication)
   INSERT INTO applications (`key`, display_name) VALUES (:key, :display_name)
+
+---
 
 @NAME(assignWebRoleToApplication)
   INSERT INTO web_role_app_access (web_role, app_id, access) VALUES (:web_role, :app_id, :access)
 
+---
+
 @NAME(deleteRolesFromApplication)
   DELETE FROM web_role_app_access WHERE app_id = :app_id
 
+---
+
 @NAME(deleteApplicationById)
   DELETE FROM applications WHERE id = :app_id
+
+---
+
+@NAME(search)
+  (@VALUE(:searchContent))

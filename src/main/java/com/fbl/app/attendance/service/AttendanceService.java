@@ -7,14 +7,13 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import com.fbl.app.attendance.client.domain.AttendanceRecord;
 import com.fbl.app.attendance.client.domain.request.AttendanceRecordGetRequest;
 import com.fbl.app.attendance.dao.AttendanceDAO;
 import com.fbl.app.user.client.domain.User;
 import com.fbl.common.page.Page;
-import com.google.common.collect.Sets;
+import com.fbl.exception.types.NotFoundException;
 
 /**
  * Attendance Service class that handles all service calls to the dao
@@ -27,7 +26,7 @@ import com.google.common.collect.Sets;
 public class AttendanceService {
 
     @Autowired
-    private AttendanceDAO attendanceDAO;
+    private AttendanceDAO dao;
 
     /**
      * Get attendance records based on given request filter
@@ -36,7 +35,7 @@ public class AttendanceService {
      * @return Page of {@link AttendanceRecord}
      */
     public Page<AttendanceRecord> getAttendanceRecords(AttendanceRecordGetRequest request) {
-        return attendanceDAO.getAttendanceRecords(request);
+        return dao.getAttendanceRecords(request);
     }
 
     /**
@@ -45,12 +44,10 @@ public class AttendanceService {
      * @param id The attendance record id
      * @return The Attendance Record that matches that id
      */
-    public AttendanceRecord getAttendanceRecordById(@PathVariable int id) {
-        AttendanceRecordGetRequest request = new AttendanceRecordGetRequest();
-        request.setId(Sets.newHashSet(id));
-        AttendanceRecord record = getAttendanceRecords(request).getList().get(0);
-        record.setWorkers(getAttendanceRecordWorkersById(id));
-        return record;
+    public AttendanceRecord getAttendanceRecordById(int id) {
+        AttendanceRecord r = dao.getAttendanceRecordById(id).orElseThrow(() -> new NotFoundException("Attendance", id));
+        r.setWorkers(getAttendanceRecordWorkersById(id));
+        return r;
     }
 
     /**
@@ -60,6 +57,6 @@ public class AttendanceService {
      * @return List of workers
      */
     public List<User> getAttendanceRecordWorkersById(int id) {
-        return attendanceDAO.getAttendanceRecordWorkersById(id);
+        return dao.getAttendanceRecordWorkersById(id);
     }
 }

@@ -3,11 +3,12 @@
  */
 package com.fbl.app.attendance.dao;
 
-import static com.fbl.app.attendance.mapper.AttendanceRecordMapper.ATTENDANCE_RECORD_MAPPER;
-import static com.fbl.app.user.mapper.UserMapper.USER_MAPPER;
+import static com.fbl.app.attendance.mapper.AttendanceRecordMapper.*;
+import static com.fbl.app.user.mapper.UserMapper.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import javax.sql.DataSource;
 
@@ -55,6 +56,16 @@ public class AttendanceDAO extends BaseDao {
     }
 
     /**
+     * Gets the Attendance Record based on the given id
+     * 
+     * @param id The attendance record id
+     * @return The Optional Attendance Record
+     */
+    public Optional<AttendanceRecord> getAttendanceRecordById(int id) {
+        return getOptional("getAttendanceRecordById", parameterSource(ID, id), ATTENDANCE_RECORD_MAPPER);
+    }
+
+    /**
      * Gets a list of workers that are the on the attendance record by id
      * 
      * @param id The attendance record id
@@ -62,7 +73,7 @@ public class AttendanceDAO extends BaseDao {
      */
     public List<User> getAttendanceRecordWorkersById(int id) {
         MapSqlParameterSource params = parameterSource(ATTENDANCE_RECORD_ID, id);
-        return getList("getAttendanceRecordWorkersPage", params, USER_MAPPER);
+        return getList("getAttendanceRecordWorkersById", params, USER_MAPPER);
     }
 
     /**

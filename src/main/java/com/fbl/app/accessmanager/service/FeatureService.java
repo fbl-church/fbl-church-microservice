@@ -20,6 +20,7 @@ import com.fbl.app.accessmanager.dao.FeatureDAO;
 import com.fbl.app.user.client.UserClient;
 import com.fbl.common.enums.WebRole;
 import com.fbl.common.page.Page;
+import com.fbl.exception.types.NotFoundException;
 import com.fbl.exception.types.ServiceException;
 import com.google.common.collect.Sets;
 
@@ -47,20 +48,18 @@ public class FeatureService {
      * @param request The request to filter on.
      * @return {@link Page} of the features
      */
-    public Page<Feature> getPageOfFeatures(FeatureGetRequest request) {
-        return dao.getPageOfFeatures(request);
+    public Page<Feature> getFeatures(FeatureGetRequest request) {
+        return dao.getFeatures(request);
     }
 
     /**
      * Get feature by id
      * 
      * @param id The id of the feature to get
-     * @return {@link Page} of the features
+     * @return The found feature
      */
     public Feature getFeatureById(int id) {
-        FeatureGetRequest request = new FeatureGetRequest();
-        request.setId(Sets.newHashSet(id));
-        return getPageOfFeatures(request).getList().get(0);
+        return dao.getFeatureById(id).orElseThrow(() -> new NotFoundException("Feature", id));
     }
 
     /**

@@ -3,18 +3,13 @@
  */
 package com.fbl.app.user.service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -31,7 +26,6 @@ import com.fbl.exception.types.NotFoundException;
 import com.fbl.jwt.utility.JwtHolder;
 import com.fbl.test.factory.annotations.InsiteServiceTest;
 import com.fbl.test.factory.data.UserFactoryData;
-import com.google.common.collect.Sets;
 
 /**
  * Test class for the User Service.
@@ -75,37 +69,35 @@ public class UserServiceTest {
     @Test
     public void testGetCurrentUser() {
         when(jwtHolder.getUserId()).thenReturn(100);
-        when(userDAO.getUsers(any(UserGetRequest.class))).thenReturn(Page.of(List.of(new User())));
+        when(userDAO.getUserById(anyInt())).thenReturn(Optional.of(new User()));
 
         User currentUser = service.getCurrentUser();
 
         assertNotNull(currentUser, "Current user not null");
-        verify(userDAO).getUsers(userGetRequestCaptor.capture());
+        verify(userDAO).getUserById(100);
         verify(userDAO).getUserRolesById(eq(100), webroleListCaptor.capture());
-        assertEquals(Sets.newHashSet(100),userGetRequestCaptor.getValue().getId(), "User id");
         assertEquals(List.of(WebRole.USER), webroleListCaptor.getValue(), "Web Role Exclude");
     }
 
     @Test
     public void testGetUserById() {
-        when(userDAO.getUsers(any(UserGetRequest.class))).thenReturn(Page.of(List.of(new User())));
+        when(userDAO.getUserById(anyInt())).thenReturn(Optional.of(new User()));
 
         User user = service.getUserById(10);
 
         assertNotNull(user, "User not null");
-        verify(userDAO).getUsers(userGetRequestCaptor.capture());
+        verify(userDAO).getUserById(10);
         verify(userDAO).getUserRolesById(eq(10), webroleListCaptor.capture());
-        assertEquals(Sets.newHashSet(10),userGetRequestCaptor.getValue().getId(), "User id");
         assertEquals(List.of(WebRole.USER), webroleListCaptor.getValue(), "Web Role Exclude");
     }
 
     @Test
     public void testGetUserByIdNotFound() {
-        when(userDAO.getUsers(any(UserGetRequest.class))).thenReturn(Page.of(Collections.emptyList()));
+        when(userDAO.getUserById(anyInt())).thenReturn(Optional.empty());
 
         NotFoundException ex = assertThrows(NotFoundException.class, () -> service.getUserById(10));
 
-        verify(userDAO).getUsers(userGetRequestCaptor.capture());
+        verify(userDAO).getUserById(10);
         assertEquals("User not found for id: '10'", ex.getMessage(), "Exception Message");
     }
 

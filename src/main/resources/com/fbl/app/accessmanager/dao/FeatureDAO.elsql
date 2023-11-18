@@ -5,12 +5,16 @@
   f.enabled,
   f.insert_date
 
+---
+
 @NAME(webRoleFeatureFields)
   wrfa.web_role,
   wrfa.create,
   wrfa.read,
   wrfa.update,
   wrfa.delete
+
+---
 
 @NAME(webRoleFeatureFilters)
   @WHERE
@@ -20,6 +24,8 @@
     @AND(:search = true)
       @INCLUDE(search)
 
+---
+
 @NAME(featureFilters)
   @WHERE
     @AND(:id)
@@ -27,10 +33,14 @@
     @AND(:search = true)
       @INCLUDE(search)
 
+---
+
 @NAME(getFeatureBase)
   FROM features f
   INNER JOIN applications a ON f.app_id = a.id
   @INCLUDE(featureFilters)
+
+---
 
 @NAME(getFeaturesPage)
   @PAGING(:rowOffset, :pageSize)
@@ -38,9 +48,21 @@
     @INCLUDE(getFeatureBase)
     ORDER BY a.key ASC, f.key ASC
 
+---
+
 @NAME(getFeaturesPageTotalCount)
   SELECT COUNT(1)
   @INCLUDE(getFeatureBase)
+
+---
+
+@NAME(getFeatureById)
+  SELECT @INCLUDE(featureFields)
+  FROM features f
+  INNER JOIN applications a ON f.app_id = a.id
+  WHERE f.id = :id
+
+---
 
 @NAME(getWebRoleFeatureBase)
   FROM web_role_feature_access wrfa
@@ -48,15 +70,21 @@
   INNER JOIN applications a ON f.app_id = a.id
   @INCLUDE(webRoleFeatureFilters)
 
+---
+
 @NAME(getWebRoleFeaturesPage)
   @PAGING(:rowOffset, :pageSize)
     SELECT @INCLUDE(featureFields), @INCLUDE(webRoleFeatureFields)
     @INCLUDE(getWebRoleFeatureBase)
     ORDER BY wrfa.web_role ASC
 
+---
+
 @NAME(getWebRoleFeaturesPageTotalCount)
   SELECT COUNT(DISTINCT wrfa.web_role)
   @INCLUDE(getWebRoleFeatureBase)
+
+---
 
 @NAME(getFeatureAccess)
   SELECT f.id, a.key AS app_key, f.key AS feature_key, GROUP_CONCAT(
@@ -75,10 +103,14 @@
       wrfa.web_role IN (:web_role)
   GROUP BY id
 
+---
+
 @NAME(updateFeatureEnabledFlag)
   UPDATE features 
   SET enabled = :enabled
   WHERE id = :feature_id
+
+---
 
 @NAME(updateWebRoleFeatureAccess)
   UPDATE web_role_feature_access
@@ -90,17 +122,27 @@
   WHERE web_role = :web_role
   AND feature_id = :feature_id
 
+---
+
 @NAME(assignWebRoleToFeaure)
   INSERT INTO web_role_feature_access (feature_id, web_role) VALUES (:feature_id, :web_role)
+
+---
 
 @NAME(createNewFeature)
   INSERT INTO features (app_id, `key`) VALUES (:app_id, :key)
 
+---
+
 @NAME(deleteRolesFromFeature)
   DELETE FROM web_role_feature_access WHERE feature_id = :feature_id
 
+---
+
 @NAME(deleteFeatureById)
   DELETE FROM features WHERE id = :feature_id
+
+---
 
 @NAME(search)
   (@VALUE(:searchContent))

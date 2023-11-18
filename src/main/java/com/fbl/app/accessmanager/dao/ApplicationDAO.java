@@ -6,6 +6,8 @@ package com.fbl.app.accessmanager.dao;
 import static com.fbl.app.accessmanager.mapper.ApplicationMapper.*;
 import static com.fbl.app.accessmanager.mapper.WebRoleAppMapper.*;
 
+import java.util.Optional;
+
 import javax.sql.DataSource;
 
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -45,6 +47,16 @@ public class ApplicationDAO extends BaseDao {
         MapSqlParameterSource params = SqlParamBuilder.with(request).useAllParams().withParam(APP_ID, request.getId())
                 .withParam(DISPLAY_NAME, request.getDisplayName()).build();
         return getPage("getApplicationsPage", params, APPLICATION_MAPPER);
+    }
+
+    /**
+     * Gets an application by id.
+     * 
+     * @param id The id of the application
+     * @return The optional application
+     */
+    public Optional<Application> getApplicationById(int id) {
+        return getOptional("getApplicationById", parameterSource(ID, id), APPLICATION_MAPPER);
     }
 
     /**
