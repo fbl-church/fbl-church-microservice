@@ -73,7 +73,7 @@ public class ManageUserService {
 		int newUserId = dao.insertUser(user);
 		assignUserRoles(newUserId, user.getWebRole());
 		userCredentialsClient.insertUserPassword(newUserId, String.valueOf(CommonUtil.generateRandomNumber()));
-		UserStatusClient.insertUserStatus(new UserStatus(newUserId, AccountStatus.APPROVED, true, null));
+		UserStatusClient.insertUserStatus(new UserStatus(newUserId, AccountStatus.ACTIVE, true, null));
 		User createdUser = userService.getUserById(newUserId);
 		if (sendEmail) {
 			emailClient.sendNewUserEmail(createdUser);

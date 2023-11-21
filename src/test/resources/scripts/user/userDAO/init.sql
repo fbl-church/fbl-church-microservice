@@ -17,9 +17,9 @@ VALUES
 
 INSERT INTO user_status (user_id, account_status, app_access, updated_user_id)
 VALUES 
-(1, 'APPROVED', 1, 1),
-(2, 'APPROVED', 1, 1),
-(3, 'APPROVED', 1, 1);
+(1, 'ACTIVE', 1, 1),
+(2, 'ACTIVE', 1, 1),
+(3, 'ACTIVE', 1, 1);
 
 INSERT INTO user_roles (user_id, web_role)
 VALUES

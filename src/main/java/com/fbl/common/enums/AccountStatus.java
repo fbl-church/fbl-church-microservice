@@ -11,9 +11,9 @@ package com.fbl.common.enums;
  */
 public enum AccountStatus implements TextEnum {
     PENDING("PENDING"),
-    APPROVED("APPROVED"),
+    ACTIVE("ACTIVE"),
     DENIED("DENIED"),
-    DELETED("DELETED");
+    INACTIVE("INACTIVE");
 
     private String textId;
 
