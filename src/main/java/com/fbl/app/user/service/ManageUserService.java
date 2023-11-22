@@ -51,7 +51,7 @@ public class ManageUserService {
 	private UserCredentialsClient userCredentialsClient;
 
 	@Autowired
-	private UserStatusClient UserStatusClient;
+	private UserStatusClient userStatusClient;
 
 	@Autowired
 	private EmailClient emailClient;
@@ -73,7 +73,7 @@ public class ManageUserService {
 		int newUserId = dao.insertUser(user);
 		assignUserRoles(newUserId, user.getWebRole());
 		userCredentialsClient.insertUserPassword(newUserId, String.valueOf(CommonUtil.generateRandomNumber()));
-		UserStatusClient.insertUserStatus(new UserStatus(newUserId, AccountStatus.ACTIVE, true, null));
+		userStatusClient.insertUserStatus(new UserStatus(newUserId, AccountStatus.ACTIVE, true, null));
 		User createdUser = userService.getUserById(newUserId);
 		if (sendEmail) {
 			emailClient.sendNewUserEmail(createdUser);
@@ -91,7 +91,7 @@ public class ManageUserService {
 	public User registerUser(User user) {
 		int newUserId = dao.insertUser(user);
 		userCredentialsClient.insertUserPassword(newUserId, String.valueOf(CommonUtil.generateRandomNumber()));
-		UserStatusClient.insertUserStatus(new UserStatus(newUserId, AccountStatus.PENDING, false, null));
+		userStatusClient.insertUserStatus(new UserStatus(newUserId, AccountStatus.PENDING, false, null));
 		User createdUser = userService.getUserById(newUserId);
 		emailClient.sendNewUserEmail(createdUser);
 		return createdUser;

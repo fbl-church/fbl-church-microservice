@@ -32,13 +32,12 @@ public class ManageUserStatusService {
      * Inserts the given user status object into the db. Will check that the passed
      * in user id is exists first.
      * 
-     * @param userStatus     Object to be inserted.
-     * @param updatingUserId The user id that is inserting the user status.
+     * @param userStatus Object to be inserted.
      * @return {@link UserStatus} object
      */
     public UserStatus insertUserStatus(UserStatus userStatus) {
-        Integer insertUserId = jwtHolder.isTokenAvaiable() ? jwtHolder.getUserId() : null;
-        dao.insertUserStatus(userStatus, insertUserId);
+        Integer updatingUserId = jwtHolder.isTokenAvaiable() ? jwtHolder.getUserId() : null;
+        dao.insertUserStatus(userStatus, updatingUserId);
         return userStatusService.getUserStatusById(userStatus.getUserId());
     }
 

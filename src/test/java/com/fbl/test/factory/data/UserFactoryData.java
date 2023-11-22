@@ -4,7 +4,8 @@
 package com.fbl.test.factory.data;
 
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import com.fbl.app.user.client.domain.User;
 import com.fbl.common.enums.WebRole;
@@ -28,7 +29,7 @@ public class UserFactoryData {
         u.setFirstName("Test");
         u.setLastName("User");
         u.setEmail("test@user.com");
-        u.setWebRole(List.of(WebRole.SITE_ADMINISTRATOR));
+        u.setWebRole(new ArrayList<WebRole>(Arrays.asList(WebRole.SITE_ADMINISTRATOR)));
         u.setLastLoginDate(LocalDateTime.now());
         return u;
     }

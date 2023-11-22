@@ -23,7 +23,7 @@ import com.fbl.common.search.SearchParam;
 public class CommonUtil {
 
     /**
-     * Method that will simply generate a random 8 digit number based on the local
+     * Method that will simply generate a random 10 digit number based on the local
      * time.
      * 
      * @return {@link Long} of the random number.
