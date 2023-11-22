@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import com.fbl.app.email.client.EmailClient;
+import com.fbl.app.user.client.UserClient;
 import com.fbl.app.user.client.UserCredentialsClient;
 import com.fbl.app.user.client.UserStatusClient;
 import com.fbl.app.user.client.domain.User;
@@ -45,7 +46,7 @@ public class ManageUserService {
 	private UserDAO dao;
 
 	@Autowired
-	private UserService userService;
+	private UserClient userClient;
 
 	@Autowired
 	private UserCredentialsClient userCredentialsClient;
@@ -74,7 +75,7 @@ public class ManageUserService {
 		assignUserRoles(newUserId, user.getWebRole());
 		userCredentialsClient.insertUserPassword(newUserId, String.valueOf(CommonUtil.generateRandomNumber()));
 		userStatusClient.insertUserStatus(new UserStatus(newUserId, AccountStatus.ACTIVE, true, null));
-		User createdUser = userService.getUserById(newUserId);
+		User createdUser = userClient.getUserById(newUserId);
 		if (sendEmail) {
 			emailClient.sendNewUserEmail(createdUser);
 		}
@@ -92,7 +93,7 @@ public class ManageUserService {
 		int newUserId = dao.insertUser(user);
 		userCredentialsClient.insertUserPassword(newUserId, String.valueOf(CommonUtil.generateRandomNumber()));
 		userStatusClient.insertUserStatus(new UserStatus(newUserId, AccountStatus.PENDING, false, null));
-		User createdUser = userService.getUserById(newUserId);
+		User createdUser = userClient.getUserById(newUserId);
 		emailClient.sendNewUserEmail(createdUser);
 		return createdUser;
 	}
@@ -114,7 +115,7 @@ public class ManageUserService {
 	 * @return user associated to that id with the updated information.
 	 */
 	public User updateUserById(int id, User user) {
-		User updatingUser = userService.getUserById(id);
+		User updatingUser = userClient.getUserById(id);
 		if (id != updatingUser.getId() && !WebRole.hasPermission(jwtHolder.getWebRole(), updatingUser.getWebRole())) {
 			throw new InsufficientPermissionsException(String
 					.format("Insufficient permission to update a user of role '%s'", jwtHolder.getWebRole(),
@@ -132,7 +133,7 @@ public class ManageUserService {
 	 */
 	public User updateUserLastLoginToNow(int userId) {
 		dao.updateUserLastLoginToNow(userId);
-		return userService.getUserById(userId);
+		return userClient.getUserById(userId);
 	}
 
 	/**
@@ -144,7 +145,7 @@ public class ManageUserService {
 	 */
 	public User updateUserRoles(int id, List<WebRole> roles) {
 		assignUserRoles(id, roles);
-		return userService.getUserById(id);
+		return userClient.getUserById(id);
 	}
 
 	/**
@@ -160,7 +161,7 @@ public class ManageUserService {
 		List<User> filteredUsers = Collections.emptyList();
 		if (!CollectionUtils.isEmpty(userIds)) {
 			request.setId(userIds.stream().collect(Collectors.toSet()));
-			filteredUsers = userService.getUsers(request).getList();
+			filteredUsers = userClient.getUsers(request);
 		}
 
 		for (User u : filteredUsers) {
@@ -192,7 +193,7 @@ public class ManageUserService {
 	private User updateUser(int userId, User user) {
 		dao.updateUser(userId, user);
 		assignUserRoles(userId, user.getWebRole());
-		return userService.getUserById(userId);
+		return userClient.getUserById(userId);
 	}
 
 	/**

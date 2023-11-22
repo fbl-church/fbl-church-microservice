@@ -16,6 +16,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
 import com.fbl.app.email.client.EmailClient;
+import com.fbl.app.user.client.UserClient;
 import com.fbl.app.user.client.UserCredentialsClient;
 import com.fbl.app.user.client.UserStatusClient;
 import com.fbl.app.user.client.domain.User;
@@ -46,7 +47,7 @@ public class ManageUserServiceTest {
     private UserDAO dao;
 
     @Mock
-    private UserService userService;
+    private UserClient userClient;
 
     @Mock
     private UserCredentialsClient userCredentialsClient;
@@ -67,7 +68,7 @@ public class ManageUserServiceTest {
     void testCreateUser_whenCalled_willCreateTheNewUserAndSendEmail() {
         when(jwtHolder.getWebRole()).thenReturn(List.of(WebRole.ADMINISTRATOR));
         when(dao.insertUser(any(User.class))).thenReturn(12);
-        when(userService.getUserById(anyInt())).thenReturn(UserFactoryData.userData());
+        when(userClient.getUserById(anyInt())).thenReturn(UserFactoryData.userData());
 
         User createdUser = service.createUser(UserFactoryData.userData(), true);
 
@@ -76,7 +77,7 @@ public class ManageUserServiceTest {
         verify(dao, times(2)).insertUserRole(eq(12), webRoleCaptor.capture());
         verify(userCredentialsClient).insertUserPassword(eq(12), anyString());
         verify(userStatusClient).insertUserStatus(userStatusCaptor.capture());
-        verify(userService).getUserById(12);
+        verify(userClient).getUserById(12);
         verify(emailClient).sendNewUserEmail(any(User.class));
 
         assertNotNull(createdUser, "Created User is not null");
