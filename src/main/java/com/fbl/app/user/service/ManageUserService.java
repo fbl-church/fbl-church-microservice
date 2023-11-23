@@ -61,25 +61,19 @@ public class ManageUserService {
 	 * Create a new user. This is an account created by someone other the user
 	 * accessing the account.
 	 * 
-	 * @param user The user object to be created.
+	 * @param user      The user object to be created.
+	 * @param sendEmail To determine if it should send an email to the new user
 	 * @return The new user that was created.
 	 */
 	public User createUser(User user, boolean sendEmail) {
 		if (!WebRole.hasPermission(jwtHolder.getWebRole(), user.getWebRole())) {
-			throw new InsufficientPermissionsException(String
-					.format("Insufficient permission to create a user of role '%s'", jwtHolder.getWebRole(),
-							user.getWebRole()));
+			throw new InsufficientPermissionsException(
+					String.format("Insufficient permission for user '%d' to create a user of role '%s'",
+							jwtHolder.getUserId(),
+							WebRole.highestRoleRank(user.getWebRole())));
 		}
 
-		int newUserId = dao.insertUser(user);
-		assignUserRoles(newUserId, user.getWebRole());
-		userCredentialsClient.insertUserPassword(newUserId, String.valueOf(CommonUtil.generateRandomNumber()));
-		userStatusClient.insertUserStatus(new UserStatus(newUserId, AccountStatus.ACTIVE, true, null));
-		User createdUser = userClient.getUserById(newUserId);
-		if (sendEmail) {
-			emailClient.sendNewUserEmail(createdUser);
-		}
-		return createdUser;
+		return createUser(user, UserStatus.builder().accountStatus(AccountStatus.ACTIVE).appAccess(true), sendEmail);
 	}
 
 	/**
@@ -90,12 +84,7 @@ public class ManageUserService {
 	 * @return The new user that was created.
 	 */
 	public User registerUser(User user) {
-		int newUserId = dao.insertUser(user);
-		userCredentialsClient.insertUserPassword(newUserId, String.valueOf(CommonUtil.generateRandomNumber()));
-		userStatusClient.insertUserStatus(new UserStatus(newUserId, AccountStatus.PENDING, false, null));
-		User createdUser = userClient.getUserById(newUserId);
-		emailClient.sendNewUserEmail(createdUser);
-		return createdUser;
+		return createUser(user, UserStatus.builder().accountStatus(AccountStatus.PENDING).appAccess(false), true);
 	}
 
 	/**
@@ -182,6 +171,26 @@ public class ManageUserService {
 	 */
 	public void deleteUser(int userId) {
 		dao.deleteUser(userId);
+	}
+
+	/**
+	 * Base create user method.
+	 * 
+	 * @param user       The user to be created
+	 * @param userStatus The status to set for the user
+	 * @param sendEmail  If it should send the user an email or not
+	 * @return The created User
+	 */
+	private User createUser(User user, UserStatus.UserStatusBuilder userStatusBuilder, boolean sendEmail) {
+		int newUserId = dao.insertUser(user);
+		assignUserRoles(newUserId, user.getWebRole());
+		userCredentialsClient.insertUserPassword(newUserId, CommonUtil.generateRandomString(32));
+		userStatusClient.insertUserStatus(userStatusBuilder.userId(newUserId).build());
+		User createdUser = userClient.getUserById(newUserId);
+		if (sendEmail) {
+			emailClient.sendNewUserEmail(createdUser);
+		}
+		return createdUser;
 	}
 
 	/**

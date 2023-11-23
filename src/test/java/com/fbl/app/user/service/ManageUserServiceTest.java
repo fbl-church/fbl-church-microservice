@@ -24,6 +24,7 @@ import com.fbl.app.user.client.domain.UserStatus;
 import com.fbl.app.user.dao.UserDAO;
 import com.fbl.common.enums.AccountStatus;
 import com.fbl.common.enums.WebRole;
+import com.fbl.exception.types.InsufficientPermissionsException;
 import com.fbl.jwt.utility.JwtHolder;
 import com.fbl.test.factory.annotations.InsiteServiceTest;
 import com.fbl.test.factory.data.UserFactoryData;
@@ -75,7 +76,7 @@ public class ManageUserServiceTest {
         verify(dao).insertUser(any(User.class));
         verify(dao).deleteUserRoles(12);
         verify(dao, times(2)).insertUserRole(eq(12), webRoleCaptor.capture());
-        verify(userCredentialsClient).insertUserPassword(eq(12), anyString());
+        verify(userCredentialsClient).insertUserPassword(eq(12), argThat(s -> s.toString().length() == 32));
         verify(userStatusClient).insertUserStatus(userStatusCaptor.capture());
         verify(userClient).getUserById(12);
         verify(emailClient).sendNewUserEmail(any(User.class));
@@ -91,5 +92,46 @@ public class ManageUserServiceTest {
         assertTrue(webRoleCaptor.getAllValues().containsAll(List.of(WebRole.SITE_ADMINISTRATOR, WebRole.USER)),
                 "User Roles");
 
+    }
+
+    @Test
+    void testCreateUser_whenCalledWithSendEmailFalse_willCreateTheNewUserAndNotSendEmail() {
+        when(jwtHolder.getWebRole()).thenReturn(List.of(WebRole.ADMINISTRATOR));
+        when(dao.insertUser(any(User.class))).thenReturn(12);
+        when(userClient.getUserById(anyInt())).thenReturn(UserFactoryData.userData());
+
+        User createdUser = service.createUser(UserFactoryData.userData(), false);
+
+        verify(dao).insertUser(any(User.class));
+        verify(dao).deleteUserRoles(12);
+        verify(dao, times(2)).insertUserRole(eq(12), webRoleCaptor.capture());
+        verify(userCredentialsClient).insertUserPassword(eq(12), anyString());
+        verify(userStatusClient).insertUserStatus(userStatusCaptor.capture());
+        verify(userClient).getUserById(12);
+        verify(emailClient, never()).sendNewUserEmail(any());
+
+        assertNotNull(createdUser, "Created User is not null");
+        assertEquals(12, createdUser.getId(), "User Id");
+
+        UserStatus userStatus = userStatusCaptor.getValue();
+        assertEquals(12, userStatus.getUserId(), "User Id");
+        assertEquals(AccountStatus.ACTIVE, userStatus.getAccountStatus(), "Account Status");
+        assertTrue(userStatus.getAppAccess(), "App Access");
+        assertNull(userStatus.getUpdatedUserId(), "Updated User Id");
+        assertTrue(webRoleCaptor.getAllValues().containsAll(List.of(WebRole.SITE_ADMINISTRATOR, WebRole.USER)),
+                "User Roles");
+
+    }
+
+    @Test
+    void testCreateUser_whenCalledWithInsufficientPermissions_willNotCreateTheUser() {
+        when(jwtHolder.getUserId()).thenReturn(10);
+        when(jwtHolder.getWebRole()).thenReturn(List.of(WebRole.USER));
+
+        InsufficientPermissionsException e = assertThrows(InsufficientPermissionsException.class,
+                () -> service.createUser(UserFactoryData.userData(), false));
+
+        assertEquals("Insufficient permission for user '10' to create a user of role 'SITE_ADMINISTRATOR'",
+                e.getMessage(), "Exception Message");
     }
 }

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.util.Assert;
 
 import com.fbl.common.enums.TextEnum;
@@ -30,6 +31,16 @@ public class CommonUtil {
      */
     public static long generateRandomNumber() {
         return generateRandomNumber(10);
+    }
+
+    /**
+     * Generates a random string value
+     * 
+     * @param length The size of the random string
+     * @return the random string
+     */
+    public static String generateRandomString(int length) {
+        return RandomStringUtils.random(length, 48, 122, true, true);
     }
 
     /**
