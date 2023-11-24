@@ -88,22 +88,25 @@ public class ManageUserService {
 	}
 
 	/**
-	 * Update the user for the given user object.
+	 * Update the user for the given user object. This is only called when a user is
+	 * updating their own personal information from the profile page.
 	 * 
 	 * @param user what information on the user needs to be updated.
 	 * @return user associated to that id with the updated information.
 	 */
 	public User updateUser(User user) {
-		return updateUser(jwtHolder.getUserId(), user);
+		return updateUser(jwtHolder.getUserId(), user, false);
 	}
 
 	/**
 	 * Updates a user for the given id.
 	 * 
-	 * @param id of the user
+	 * @param id          of the user
+	 * @param user        The user object to update with
+	 * @param updateRoles Boolean if it should update the user roles or not.
 	 * @return user associated to that id with the updated information.
 	 */
-	public User updateUserById(int id, User user) {
+	public User updateUserById(int id, User user, boolean updateRoles) {
 		User updatingUser = userClient.getUserById(id);
 		if (id != updatingUser.getId() && !WebRole.hasPermission(jwtHolder.getWebRole(), updatingUser.getWebRole())) {
 			throw new InsufficientPermissionsException(String
@@ -111,7 +114,7 @@ public class ManageUserService {
 							updatingUser.getWebRole()));
 		}
 
-		return updateUser(id, user);
+		return updateUser(id, user, updateRoles);
 	}
 
 	/**
@@ -196,12 +199,17 @@ public class ManageUserService {
 	/**
 	 * Update the user for the given user object.
 	 * 
-	 * @param user what information on the user needs to be updated.
+	 * @param userId      The id of the user to be updated
+	 * @param user        what information on the user needs to be updated.
+	 * @param updateRoles Boolean if it should update the user roles or not.
 	 * @return user associated to that id with the updated information.
 	 */
-	private User updateUser(int userId, User user) {
+	private User updateUser(int userId, User user, boolean updateRoles) {
 		dao.updateUser(userId, user);
-		assignUserRoles(userId, user.getWebRole());
+		if (updateRoles) {
+			assignUserRoles(userId, user.getWebRole());
+		}
+
 		return userClient.getUserById(userId);
 	}
 

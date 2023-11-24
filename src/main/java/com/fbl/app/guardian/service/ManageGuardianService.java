@@ -93,7 +93,7 @@ public class ManageGuardianService {
      * @return guardian associated to that id with the updated information
      */
     public Guardian updateGuardianById(int id, Guardian guardian) {
-        userClient.updateGuardianUserById(id, guardian);
+        userClient.updateUserById(id, guardian, false);
         dao.updateGuardianById(id, guardian);
         return guardianService.getGuardianById(id);
     }

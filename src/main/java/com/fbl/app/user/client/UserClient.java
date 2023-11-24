@@ -8,8 +8,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import com.fbl.app.children.client.domain.Child;
-import com.fbl.app.guardian.client.domain.Guardian;
 import com.fbl.app.user.client.domain.User;
 import com.fbl.app.user.client.domain.request.UserGetRequest;
 import com.fbl.app.user.service.ManageUserService;
@@ -107,40 +105,13 @@ public class UserClient {
 	 * Update the user's information such as email, first name, and last name by
 	 * user id.
 	 * 
-	 * @param userId The id of the user to be updated
-	 * @param user   what information on the user needs to be updated.
+	 * @param userId      The id of the user to be updated
+	 * @param user        what information on the user needs to be updated.
+	 * @param updateRoles Boolean if it should update the user roles or not.
 	 * @return user associated to that id with the updated information
 	 */
-	public User updateUserById(int userId, User user) {
-		return manageUserService.updateUserById(userId, user);
-	}
-
-	/**
-	 * Updates the guardian information of a user. Will not update guardian user
-	 * roles they currently have.
-	 * 
-	 * @param userId   The id of the user to be updated
-	 * @param guardian what information on the guardian needs to be updated.
-	 * @return user associated to that id with the updated information
-	 */
-	public User updateGuardianUserById(int userId, Guardian guardian) {
-		User u = guardian;
-		u.setWebRole(getUserRolesById(userId));
-		return manageUserService.updateUserById(userId, u);
-	}
-
-	/**
-	 * Updates the child information of a user. Will not update child user
-	 * roles they currently have.
-	 * 
-	 * @param userId The id of the user to be updated
-	 * @param child  what information on the child needs to be updated.
-	 * @return user associated to that id with the updated information
-	 */
-	public User updateChildUserById(int userId, Child child) {
-		User u = child;
-		u.setWebRole(getUserRolesById(userId));
-		return manageUserService.updateUserById(userId, u);
+	public User updateUserById(int userId, User user, boolean updateRoles) {
+		return manageUserService.updateUserById(userId, user, updateRoles);
 	}
 
 	/**

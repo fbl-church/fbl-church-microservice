@@ -165,7 +165,7 @@ public class UserController {
 	@PutMapping("/{id}")
 	@HasAccess(WebRole.MODERATOR)
 	public User updateUserById(@PathVariable int id, @RequestBody User user) {
-		return manageUserService.updateUserById(id, user);
+		return manageUserService.updateUserById(id, user, true);
 	}
 
 	/**
