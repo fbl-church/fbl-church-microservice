@@ -8,8 +8,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -28,6 +26,8 @@ import com.fbl.common.util.CommonUtil;
 import com.fbl.exception.types.InsufficientPermissionsException;
 import com.fbl.jwt.utility.JwtHolder;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * User Service class that handles all service calls to the dao
  * 
@@ -35,9 +35,8 @@ import com.fbl.jwt.utility.JwtHolder;
  * @since June 25, 2020
  */
 @Service
+@Slf4j
 public class ManageUserService {
-
-	private static final Logger LOGGER = LoggerFactory.getLogger(ManageUserService.class);
 
 	@Autowired
 	private JwtHolder jwtHolder;
@@ -110,8 +109,9 @@ public class ManageUserService {
 		User updatingUser = userClient.getUserById(id);
 		if (!WebRole.hasPermission(jwtHolder.getWebRole(), updatingUser.getWebRole())) {
 			throw new InsufficientPermissionsException(String
-					.format("Insufficient permission to update a user of role '%s'", jwtHolder.getWebRole(),
-							updatingUser.getWebRole()));
+					.format("Insufficient permission for user '%d' to update a user of role '%s'",
+							jwtHolder.getUserId(),
+							WebRole.highestRoleRank(updatingUser.getWebRole())));
 		}
 
 		return updateUser(id, user, updateRoles);
@@ -160,7 +160,7 @@ public class ManageUserService {
 			try {
 				dao.insertUserRole(u.getId(), webRole);
 			} catch (Exception e) {
-				LOGGER.error("User id '{}' already has web role '{}'", u.getId(), webRole);
+				log.warn("User id '{}' already has web role '{}'", u.getId(), webRole);
 			}
 		}
 
