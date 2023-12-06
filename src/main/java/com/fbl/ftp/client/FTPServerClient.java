@@ -17,8 +17,6 @@ import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.net.ftp.FTPFileFilter;
 import org.apache.commons.net.ftp.FTPReply;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
 import com.fbl.common.annotations.interfaces.Client;
@@ -27,6 +25,7 @@ import com.fbl.exception.types.ServiceException;
 import io.jsonwebtoken.lang.Collections;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * FTP Server Client wrapper for {@link FTPClient}.
@@ -34,11 +33,11 @@ import lombok.NoArgsConstructor;
  * @author Sam Butler
  * @since April 27, 2022
  */
+@Slf4j
 @Client
 @AllArgsConstructor
 @NoArgsConstructor
 public class FTPServerClient extends FTPClient {
-    private static final Logger LOGGER = LoggerFactory.getLogger(FTPServerClient.class);
 
     private String server;
     private int port;
@@ -64,9 +63,9 @@ public class FTPServerClient extends FTPClient {
 
             super.enterLocalPassiveMode();
             super.setFileType(FTP.BINARY_FILE_TYPE, FTP.BINARY_FILE_TYPE);
-            LOGGER.info("FTP Connected to Server!");
+            log.info("FTP Connected to Server!");
         } catch (Exception e) {
-            LOGGER.error("Unable to establish FTP Connection!", e);
+            log.error("Unable to establish FTP Connection!", e);
         }
     }
 
@@ -78,9 +77,9 @@ public class FTPServerClient extends FTPClient {
             try {
                 super.logout();
                 super.disconnect();
-                LOGGER.info("FTP Connection Successfully Closed!");
+                log.info("FTP Connection Successfully Closed!");
             } catch (Exception e) {
-                LOGGER.warn("Unable to close connection to FTP Server!", e);
+                log.warn("Unable to close connection to FTP Server!", e);
             }
         }
     }
@@ -122,7 +121,7 @@ public class FTPServerClient extends FTPClient {
             FTPFile[] files = filter == null ? super.listFiles("") : super.listFiles("", filter);
             return Arrays.asList(files);
         } catch (Exception e) {
-            LOGGER.error("Unable to list files from FTP Server!", e);
+            log.error("Unable to list files from FTP Server!", e);
             return List.of();
         }
     }
@@ -146,10 +145,10 @@ public class FTPServerClient extends FTPClient {
 
             boolean created = super.storeFile(fileName, is);
             is.close();
-            LOGGER.info("File Uploaded: '{}'", String.format("%s/%s", path, fileName));
+            log.info("File Uploaded: '{}'", String.format("%s/%s", path, fileName));
             return created;
         } catch (IOException e) {
-            LOGGER.warn("Unable to create file: '{}'", String.format("%s/%s", path, fileName), e);
+            log.warn("Unable to create file: '{}'", String.format("%s/%s", path, fileName), e);
             return false;
         }
     }
@@ -165,10 +164,10 @@ public class FTPServerClient extends FTPClient {
         this.checkConnection();
         try {
             boolean deleted = super.deleteFile(filePath);
-            LOGGER.info("File Deleted: '{}'", filePath);
+            log.info("File Deleted: '{}'", filePath);
             return deleted;
         } catch (IOException e) {
-            LOGGER.warn("Unable to Delete File: '{}'", filePath, e);
+            log.warn("Unable to Delete File: '{}'", filePath, e);
             return false;
         }
     }
@@ -183,10 +182,10 @@ public class FTPServerClient extends FTPClient {
         this.checkConnection();
         try {
             boolean deleted = super.removeDirectory(path);
-            LOGGER.info("Directory Deleted: '{}'", path);
+            log.info("Directory Deleted: '{}'", path);
             return deleted;
         } catch (IOException e) {
-            LOGGER.warn("Unable to Delete Directory: '{}'", path, e);
+            log.warn("Unable to Delete Directory: '{}'", path, e);
             return false;
         }
     }
@@ -208,15 +207,15 @@ public class FTPServerClient extends FTPClient {
             boolean fileCopied = super.retrieveFile(path, byteOutStream);
 
             if (fileCopied) {
-                LOGGER.info("File Downloaded: {}", path);
+                log.info("File Downloaded: {}", path);
                 return new ByteArrayInputStream(byteOutStream.toByteArray());
             } else {
-                LOGGER.error("Unable to get file input stream: {}", path);
+                log.error("Unable to get file input stream: {}", path);
                 return null;
             }
 
         } catch (Exception e) {
-            LOGGER.error("Unable to get file input stream: {}", path, e);
+            log.error("Unable to get file input stream: {}", path, e);
             return null;
         }
     }
@@ -232,7 +231,7 @@ public class FTPServerClient extends FTPClient {
         try {
             return super.changeWorkingDirectory(path);
         } catch (Exception e) {
-            LOGGER.error("Unable to change to base directory", e);
+            log.error("Unable to change to base directory", e);
             return false;
         }
     }
@@ -243,7 +242,7 @@ public class FTPServerClient extends FTPClient {
      */
     public void checkConnection() {
         if (!this.isActive()) {
-            LOGGER.info("FTP Server not Connected. Attempting Reconnect...");
+            log.info("FTP Server not Connected. Attempting Reconnect...");
             connect();
         }
     }
@@ -273,9 +272,9 @@ public class FTPServerClient extends FTPClient {
         try {
             this.changeDirectory("/");
             this.makeDirectories(path);
-            LOGGER.info("Directory Created: {}", path);
+            log.info("Directory Created: {}", path);
         } catch (IOException e) {
-            LOGGER.error("Unable to Create Directory '{}'", path, e);
+            log.error("Unable to Create Directory '{}'", path, e);
         }
     }
 

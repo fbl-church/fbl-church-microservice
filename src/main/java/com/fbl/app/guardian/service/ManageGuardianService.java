@@ -5,8 +5,6 @@ package com.fbl.app.guardian.service;
 
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -19,17 +17,17 @@ import com.fbl.common.enums.WebRole;
 import com.fbl.exception.types.InsufficientPermissionsException;
 import com.fbl.jwt.utility.JwtHolder;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * Manage Guardian Service class that handles all service calls to the dao
  * 
  * @author Sam Butler
  * @since June 25, 2022
  */
+@Slf4j
 @Service
-
 public class ManageGuardianService {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(ManageGuardianService.class);
 
     @Autowired
     private GuardianDAO dao;
@@ -125,12 +123,12 @@ public class ManageGuardianService {
         for (Guardian g : guardians) {
             try {
                 if (g.getId() == null) {
-                    LOGGER.info("Guardian id is null. Creating guardian.");
+                    log.info("Guardian id is null. Creating guardian.");
                     g.setId(insertGuardian(g).getId());
                 }
                 dao.associateChild(g.getId(), childId, g.getRelationship());
             } catch (Exception e) {
-                LOGGER.warn("Unable to associate child id '{}' to Guardian id '{}'", childId, g.getId());
+                log.warn("Unable to associate child id '{}' to Guardian id '{}'", childId, g.getId());
             }
         }
     }

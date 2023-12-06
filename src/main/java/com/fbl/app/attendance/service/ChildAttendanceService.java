@@ -3,8 +3,6 @@
  */
 package com.fbl.app.attendance.service;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,16 +14,17 @@ import com.fbl.common.page.Page;
 import com.fbl.exception.types.NotFoundException;
 import com.fbl.jwt.utility.JwtHolder;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * Manage Attendance Service class that handles all service calls to the dao
  * 
  * @author Sam Butler
  * @since August 21, 2023
  */
+@Slf4j
 @Service
 public class ChildAttendanceService {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(ManageAttendanceService.class);
 
     @Autowired
     private ChildAttendanceDAO dao;
@@ -81,7 +80,7 @@ public class ChildAttendanceService {
         try {
             dao.assignChildToAttendanceRecord(recordId, ca, jwtHolder.getUserId());
         } catch (Exception e) {
-            LOGGER.error("Unable to assign child id '{}' to attendance record id '{}'.", ca.getId(), recordId, e);
+            log.error("Unable to assign child id '{}' to attendance record id '{}'.", ca.getId(), recordId, e);
         }
         return getChildAttendanceById(recordId, ca.getId());
     }
@@ -98,7 +97,7 @@ public class ChildAttendanceService {
         try {
             dao.updateChildNotes(recordId, ca, jwtHolder.getUserId());
         } catch (Exception e) {
-            LOGGER.error("Unable to update notes for child id '{}' on attendance record id '{}'.", ca.getId(), recordId,
+            log.error("Unable to update notes for child id '{}' on attendance record id '{}'.", ca.getId(), recordId,
                     e);
         }
         return getChildAttendanceById(recordId, ca.getId());
@@ -127,7 +126,7 @@ public class ChildAttendanceService {
         try {
             dao.removeChildFromAttendanceRecord(recordId, childId);
         } catch (Exception e) {
-            LOGGER.error("Unable to remove child id '{}' from attendance record id '{}'.", childId, recordId, e);
+            log.error("Unable to remove child id '{}' from attendance record id '{}'.", childId, recordId, e);
         }
         return attendanceService.getAttendanceRecordById(recordId);
     }

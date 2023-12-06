@@ -10,8 +10,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.fbl.app.email.client.domain.UserEmail;
@@ -25,17 +23,18 @@ import com.sendgrid.Request;
 import com.sendgrid.Response;
 import com.sendgrid.SendGrid;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * Base Email processor
  * 
  * @author Sam Butler
  * @since December 20, 2022
  */
+@Slf4j
 public abstract class EmailProcessor<T> {
     protected final String FBL_CHURCH_FROM = "fbl-church@outlook.com";
     protected final String BASE_HTML_PATH = "src/main/java/com/fbl/app/email/client/domain/HTMLTemplates";
-
-    protected final static Logger LOGGER = LoggerFactory.getLogger(EmailProcessor.class);
 
     @Autowired
     private EnvironmentService environmentService;
@@ -85,10 +84,10 @@ public abstract class EmailProcessor<T> {
             request.setBody(mail.build());
 
             Response res = sg.api(request);
-            LOGGER.info("Email sent to '{}' with status code: {}", userEmail.getRecipient().getEmail(),
+            log.info("Email sent to '{}' with status code: {}", userEmail.getRecipient().getEmail(),
                     res.getStatusCode());
         } catch (IOException e) {
-            LOGGER.info("Email could not be sent. Error processing Email");
+            log.info("Email could not be sent. Error processing Email");
         }
 
         userEmail.setSentDate(LocalDateTime.now(TimeZoneUtil.SYSTEM_ZONE));
@@ -126,7 +125,7 @@ public abstract class EmailProcessor<T> {
         try (final BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             emailContent = br.lines().collect(Collectors.joining(" "));
         } catch (IOException e) {
-            LOGGER.warn("Could not process email template: '{}'", fileName);
+            log.warn("Could not process email template: '{}'", fileName);
         }
 
         return emailContent;

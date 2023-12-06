@@ -1,15 +1,14 @@
 package com.fbl.gateway.interceptor;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.web.servlet.HandlerExceptionResolver;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import com.fbl.gateway.validator.EndpointInboundValidator;
 import com.fbl.jwt.utility.JwtHolder;
@@ -54,9 +53,11 @@ public class EndpointInboundInterceptorTest extends BaseControllerTest {
 
     @Test
     void testInterceptorNotCalledWithoutApiPrefix() throws Exception {
-        this.mockMvc.perform(get("/invalid"));
+        NoResourceFoundException ex = assertThrows(NoResourceFoundException.class,
+                () -> this.mockMvc.perform(get("/invalid")));
 
         verify(validator, never()).validateRequest(any(HttpServletRequest.class));
         verify(jwtHolder, never()).clearToken();
+        assertEquals("No static resource invalid.", ex.getMessage(), "Exception Message");
     }
 }

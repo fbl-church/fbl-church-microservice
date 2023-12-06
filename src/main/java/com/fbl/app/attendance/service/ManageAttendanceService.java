@@ -7,8 +7,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -22,16 +20,17 @@ import com.fbl.common.enums.AttendanceStatus;
 import com.fbl.exception.types.ServiceException;
 import com.fbl.jwt.utility.JwtHolder;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * Manage Attendance Service class that handles all service calls to the dao
  * 
  * @author Sam Butler
  * @since August 21, 2023
  */
+@Slf4j
 @Service
 public class ManageAttendanceService {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(ManageAttendanceService.class);
 
     @Autowired
     private AttendanceDAO dao;
@@ -119,7 +118,7 @@ public class ManageAttendanceService {
             try {
                 dao.assignWorkerToAttendanceRecord(recordId, u.getId());
             } catch (Exception e) {
-                LOGGER.error("Unable to assign user id '{}' to attendance record.", u.getId(), e);
+                log.error("Unable to assign user id '{}' to attendance record.", u.getId(), e);
             }
         }
 

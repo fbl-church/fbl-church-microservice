@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.fbl.app.user.openapi.TagUser;
+import com.fbl.common.annotations.interfaces.RestApiController;
 import com.fbl.common.page.Page;
 import com.fbl.ftp.client.domain.request.FileGetRequest;
 import com.fbl.ftp.service.FTPStorageService;
@@ -22,7 +22,7 @@ import com.fbl.ftp.service.FTPStorageService;
 import io.swagger.v3.oas.annotations.Operation;
 
 @RequestMapping("/api/ftp-storage")
-@RestController
+@RestApiController
 @TagUser
 public class FTPStorageController {
 

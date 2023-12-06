@@ -5,8 +5,6 @@ package com.fbl.app.email.processors;
 
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,15 +16,17 @@ import com.fbl.environment.EnvironmentService;
 import com.fbl.jwt.utility.JwtTokenUtil;
 import com.google.common.collect.Sets;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * Forgot Password email processor
  * 
  * @author Sam Butler
  * @since December 20, 2022
  */
+@Slf4j
 @Service
 public class ForgotPasswordEmailProcessor extends EmailProcessor<String> {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ForgotPasswordEmailProcessor.class);
 
     @Autowired
     private UserClient userClient;
@@ -46,7 +46,7 @@ public class ForgotPasswordEmailProcessor extends EmailProcessor<String> {
         if (!"".equals(content)) {
             return List.of(send(buildUserEmail(email, "Forgot Password", content)));
         } else {
-            LOGGER.warn("Email could not be processed. No user found for email '{}'", email);
+            log.warn("Email could not be processed. No user found for email '{}'", email);
         }
         return null;
     }
