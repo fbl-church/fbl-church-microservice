@@ -166,6 +166,18 @@ public class UserController {
 	}
 
 	/**
+	 * Restore deleted user by id
+	 * 
+	 * @param userId The user Id to be deleted
+	 */
+	@Operation(summary = "Restore deleted user", description = "Restore deleted user for the given id.")
+	@PutMapping("/{userId}/restore")
+	@HasAccess(WebRole.SITE_ADMINISTRATOR)
+	public void restoreUser(@PathVariable int userId) {
+		manageUserService.restoreUser(userId);
+	}
+
+	/**
 	 * Delete user by id
 	 * 
 	 * @param userId The user Id to be deleted
@@ -175,5 +187,17 @@ public class UserController {
 	@HasAccess(WebRole.SITE_ADMINISTRATOR)
 	public void deleteUser(@PathVariable int userId) {
 		manageUserService.deleteUser(userId);
+	}
+
+	/**
+	 * Will Permanently delete user by id
+	 * 
+	 * @param userId The user Id to be deleted
+	 */
+	@Operation(summary = "Permanently Delete a user", description = "Permanently Delete a user for the given id.")
+	@DeleteMapping("/{userId}/permanent")
+	@HasAccess(WebRole.SITE_ADMINISTRATOR)
+	public void permanentDelete(@PathVariable int userId) {
+		manageUserService.permanentDelete(userId);
 	}
 }

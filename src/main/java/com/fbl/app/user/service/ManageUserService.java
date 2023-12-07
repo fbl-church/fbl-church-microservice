@@ -24,6 +24,7 @@ import com.fbl.common.enums.AccountStatus;
 import com.fbl.common.enums.WebRole;
 import com.fbl.common.util.CommonUtil;
 import com.fbl.exception.types.InsufficientPermissionsException;
+import com.fbl.exception.types.ServiceException;
 import com.fbl.jwt.utility.JwtHolder;
 
 import lombok.extern.slf4j.Slf4j;
@@ -168,6 +169,18 @@ public class ManageUserService {
 	}
 
 	/**
+	 * Restore deleted user by id
+	 * 
+	 * @param userId The user Id to be deleted
+	 */
+	public void restoreUser(int userId) {
+		UserStatus restoreStatus = new UserStatus();
+		restoreStatus.setAccountStatus(AccountStatus.ACTIVE);
+		restoreStatus.setAppAccess(true);
+		userStatusClient.updateUserStatusByUserId(userId, restoreStatus);
+	}
+
+	/**
 	 * Delete user by id
 	 * 
 	 * @param userId The user Id to be deleted
@@ -177,6 +190,19 @@ public class ManageUserService {
 		deleteStatus.setAccountStatus(AccountStatus.INACTIVE);
 		deleteStatus.setAppAccess(false);
 		userStatusClient.updateUserStatusByUserId(userId, deleteStatus);
+	}
+
+	/**
+	 * Will Permanently delete user by id
+	 * 
+	 * @param userId The user Id to be deleted
+	 */
+	public void permanentDelete(int userId) {
+		User u = userClient.getUserById(userId);
+		if (!AccountStatus.INACTIVE.equals(u.getAccountStatus())) {
+			throw new ServiceException(String.format("Unable to delete user '%d'. Account is not INACTIVE!", userId));
+		}
+		dao.deleteUser(userId);
 	}
 
 	/**
