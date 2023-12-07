@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +39,7 @@ public class UserDAOTest {
     private UserDAO dao;
 
     @Test
-    public void testGetUserList() {
+    void testGetUsers_whenCalled_willReturnListOfUsers() {
         Page<User> user = dao.getUsers(new UserGetRequest());
 
         assertEquals(3, user.getTotalCount(), "User Size should be 3");
@@ -48,7 +49,7 @@ public class UserDAOTest {
     }
 
     @Test
-    public void testGetUserListWithFilter() {
+    void testGetUsers_whenCalledWithRequest_willFilterTheUsersReturned() {
         UserGetRequest request = new UserGetRequest();
         request.setWebRole(Sets.newHashSet(WebRole.USER));
         List<User> user = dao.getUsers(request).getList();
@@ -59,7 +60,7 @@ public class UserDAOTest {
     }
 
     @Test
-    public void testGetUserListNoResults() {
+    void testGetUsers_whenCalledWithNoMatching_willReturnEmptyList() {
         UserGetRequest request = new UserGetRequest();
         request.setEmail(Sets.newHashSet("noUser@mail.com"));
 
@@ -67,7 +68,17 @@ public class UserDAOTest {
     }
 
     @Test
-    public void testInsertUser() throws Exception {
+    void testGetUserById_whenCalled_willReturnTheUserWithThatId() {
+        Optional<User> foundUser = dao.getUserById(1);
+
+        assertTrue(foundUser.isPresent(), "User exists");
+        assertEquals(1, foundUser.get().getId(), "User Id");
+        assertEquals("Test", foundUser.get().getFirstName(), "User First Name");
+        assertEquals("User", foundUser.get().getLastName(), "User Last Name");
+    }
+
+    @Test
+    void testInsertUser_whenCalled_willCreateTheNewUser() throws Exception {
         List<User> beforeInsertList = dao.getUsers(new UserGetRequest()).getList();
 
         assertEquals(3, beforeInsertList.size(), "Size should be 3");
@@ -83,7 +94,7 @@ public class UserDAOTest {
     }
 
     @Test
-    public void testUpdateUniqueEmail() {
+    void testUpdateUser_whenCalledWithDuplicateEmail_willThrowException() {
         User user = new User();
         user.setEmail("Fake123@mail.com");
         DataIntegrityViolationException e = assertThrows(DataIntegrityViolationException.class,

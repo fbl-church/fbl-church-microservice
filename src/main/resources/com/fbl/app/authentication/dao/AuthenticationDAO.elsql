@@ -4,4 +4,5 @@
   JOIN user_credentials uc ON u.id = uc.user_id
   INNER JOIN user_status us ON u.id = us.user_id
   WHERE u.email = :email
+  AND us.account_status = 'ACTIVE'
   AND us.app_access = 1

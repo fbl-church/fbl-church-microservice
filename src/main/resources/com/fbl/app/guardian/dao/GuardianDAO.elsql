@@ -31,6 +31,7 @@
 
 @NAME(getGuardiansBase)
   FROM users u
+  INNER JOIN user_status us ON u.id = us.user_id AND us.account_status = 'ACTIVE'
   INNER JOIN guardians g ON u.id = g.user_id
   @INCLUDE(guardianFilters)
 

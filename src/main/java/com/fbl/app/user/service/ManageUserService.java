@@ -173,7 +173,10 @@ public class ManageUserService {
 	 * @param userId The user Id to be deleted
 	 */
 	public void deleteUser(int userId) {
-		dao.deleteUser(userId);
+		UserStatus deleteStatus = new UserStatus();
+		deleteStatus.setAccountStatus(AccountStatus.INACTIVE);
+		deleteStatus.setAppAccess(false);
+		userStatusClient.updateUserStatusByUserId(userId, deleteStatus);
 	}
 
 	/**
