@@ -10,6 +10,7 @@ package com.fbl.common.enums;
  * @since September 6, 2021
  */
 public enum ChurchGroup implements TextEnum {
+    AWANA("AWANA"),
     CUBBIES("CUBBIES"),
     SPARKS("SPARKS"),
     TNT_GIRLS("TNT_GIRLS"),

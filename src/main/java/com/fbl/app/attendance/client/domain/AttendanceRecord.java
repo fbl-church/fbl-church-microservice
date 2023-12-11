@@ -12,7 +12,6 @@ import com.fbl.common.enums.AttendanceStatus;
 import com.fbl.common.enums.ChurchGroup;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
@@ -43,7 +42,6 @@ public class AttendanceRecord {
     private ChurchGroup type;
 
     @Schema(description = "The workers on the attendance record.")
-    @NotEmpty(message = "Invalid workers: Can not be null or empty")
     private List<User> workers;
 
     @Schema(description = "The date the attendance record was active.")
