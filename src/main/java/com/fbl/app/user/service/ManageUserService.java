@@ -235,6 +235,7 @@ public class ManageUserService {
 	 */
 	private User updateUser(int userId, User user, boolean updateRoles) {
 		dao.updateUser(userId, user);
+		userStatusClient.updateUserAppAccessByUserId(userId, user.getAppAccess());
 		if (updateRoles) {
 			assignUserRoles(userId, user.getWebRole());
 		}

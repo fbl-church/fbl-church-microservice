@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fbl.common.enums.AccountStatus;
 import com.fbl.common.enums.WebRole;
 import com.fbl.common.page.domain.PageParam;
 import com.fbl.common.search.SearchField;
@@ -52,6 +53,9 @@ public class UserGetRequest implements SearchParam, PageParam, SearchFieldParams
 
     @Schema(description = "List of user web roles not to return")
     private Set<WebRole> notWebRole;
+
+    @Schema(description = "Status of the user account")
+    private AccountStatus status;
 
     @Schema(description = "Search Param on search param fields.")
     private Set<String> search;

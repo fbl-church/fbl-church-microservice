@@ -29,6 +29,8 @@
       ur.web_role IN (:web_role)
     @AND(:not_web_role)
       u.id NOT IN (SELECT user_id FROM user_roles ur WHERE web_role IN (:not_web_role) GROUP BY user_id)
+    @AND(:status)
+      us.account_status = :status
     @AND(:search = true)
       @INCLUDE(search)
 
@@ -36,7 +38,7 @@
 
 @NAME(getUsersBase)
   FROM users u
-  INNER JOIN user_status us ON u.id = us.user_id AND us.account_status = 'ACTIVE'
+  INNER JOIN user_status us ON u.id = us.user_id
   INNER JOIN user_roles ur ON u.id = ur.user_id
   @INCLUDE(userFilters)
 

@@ -49,6 +49,7 @@ public class UserDAO extends BaseDao {
 				.withParam(EMAIL, request.getEmail()).withParam(FIRST_NAME, request.getFirstName())
 				.withParam(LAST_NAME, request.getLastName()).withParamTextEnumCollection(WEB_ROLE, request.getWebRole())
 				.withParamTextEnumCollection(NOT_WEB_ROLE, request.getNotWebRole())
+				.withParam(STATUS, request.getStatus())
 				.build();
 
 		return getPage("getUsersPage", params, USER_MAPPER);
