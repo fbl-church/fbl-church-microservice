@@ -96,13 +96,28 @@ public class ManageChildrenService {
     }
 
     /**
+     * Restore deleted child by id
+     * 
+     * @param userId The user Id to restore
+     */
+    public void restoreChild(int childId) {
+        User u = userClient.getUserById(childId);
+
+        if (u.getWebRole().contains(WebRole.CHILD)) {
+            return;
+        }
+
+        u.getWebRole().add(WebRole.CHILD);
+        userClient.updateUserRoles(childId, u.getWebRole());
+        userClient.activateUserById(childId);
+    }
+
+    /**
      * Delete a child by id.
      * 
      * @param childId The child id to delete.
      */
     public void deleteChild(int childId) {
-        dao.deleteChild(childId);
-
         User u = userClient.getUserById(childId);
         if (u.getWebRole().contains(WebRole.CHILD) && u.getWebRole().size() == 1) {
             userClient.deleteUser(childId);

@@ -63,9 +63,12 @@ public class ManageGuardianService {
         User u = userClient.getUserById(userId);
         guardian.setWebRole(u.getWebRole());
         guardian.getWebRole().add(WebRole.GUARDIAN);
-
         userClient.updateUserRoles(userId, guardian.getWebRole());
-        dao.insertGuardian(userId, guardian);
+
+        if (dao.getGuardianById(userId).isEmpty()) {
+            dao.insertGuardian(userId, guardian);
+        }
+
         return guardianService.getGuardianById(userId);
     }
 
@@ -144,13 +147,28 @@ public class ManageGuardianService {
     }
 
     /**
+     * Restore deleted guardian by id
+     * 
+     * @param userId The user Id to restore
+     */
+    public void restoreGuardian(int guardianId) {
+        User u = userClient.getUserById(guardianId);
+
+        if (u.getWebRole().contains(WebRole.GUARDIAN)) {
+            return;
+        }
+
+        u.getWebRole().add(WebRole.GUARDIAN);
+        userClient.updateUserRoles(guardianId, u.getWebRole());
+        userClient.activateUserById(guardianId);
+    }
+
+    /**
      * Delete guardian by id.
      * 
      * @param userId The id of the guardian
      */
     public void deleteGuardian(int userId) {
-        dao.deleteGuardian(userId);
-
         User u = userClient.getUserById(userId);
         if (u.getWebRole().contains(WebRole.GUARDIAN) && u.getWebRole().size() == 1) {
             userClient.deleteUser(userId);

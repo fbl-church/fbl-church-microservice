@@ -164,6 +164,18 @@ public class GuardianController {
     }
 
     /**
+     * Restore deleted guardian by id
+     * 
+     * @param userId The user Id to restore
+     */
+    @Operation(summary = "Restore deleted guardian", description = "Restore deleted guardian for the given id.")
+    @PutMapping("/{childId}/restore")
+    @HasAccess(WebRole.SITE_ADMINISTRATOR)
+    public void restoreGuardian(@PathVariable int guardianId) {
+        manageGuardianService.restoreGuardian(guardianId);
+    }
+
+    /**
      * Delete guardian by id.
      * 
      * @param guardianId The id of the guardian

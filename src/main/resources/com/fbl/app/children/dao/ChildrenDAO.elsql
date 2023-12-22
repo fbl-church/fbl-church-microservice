@@ -30,6 +30,7 @@
 
 @NAME(getChildrenBase)
   FROM users u
+  INNER JOIN user_roles ur ON u.id = ur.user_id AND ur.web_role = 'CHILD'
   INNER JOIN user_status us ON u.id = us.user_id AND us.account_status = 'ACTIVE'
   INNER JOIN children c ON u.id = c.user_id
   @INCLUDE(childrenFilters)
@@ -61,6 +62,7 @@
 @NAME(getGuardianChildren)
   SELECT @INCLUDE(childrenFields)
   FROM users u
+  INNER JOIN user_roles ur ON u.id = ur.user_id AND ur.web_role = 'CHILD'
   INNER JOIN children c ON u.id = c.user_id
   INNER JOIN children_guardians cg ON c.user_id = cg.child_id
   WHERE cg.guardian_id = :guardian_id

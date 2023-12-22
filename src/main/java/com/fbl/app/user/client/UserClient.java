@@ -6,13 +6,15 @@ package com.fbl.app.user.client;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import com.fbl.app.user.client.domain.User;
+import com.fbl.app.user.client.domain.UserStatus;
 import com.fbl.app.user.client.domain.request.UserGetRequest;
 import com.fbl.app.user.service.ManageUserService;
+import com.fbl.app.user.service.ManageUserStatusService;
 import com.fbl.app.user.service.UserService;
 import com.fbl.common.annotations.interfaces.Client;
+import com.fbl.common.enums.AccountStatus;
 import com.fbl.common.enums.WebRole;
 
 /**
@@ -30,6 +32,9 @@ public class UserClient {
 
 	@Autowired
 	private ManageUserService manageUserService;
+
+	@Autowired
+	private ManageUserStatusService manageUserStatusService;
 
 	/**
 	 * Get users based on given request filter.
@@ -136,11 +141,24 @@ public class UserClient {
 	}
 
 	/**
+	 * Activates a user for the given user id
+	 * 
+	 * @param userId The id of the user to get the status for.
+	 * @return {@link UserStatus} object
+	 */
+	public UserStatus activateUserById(int userId) {
+		UserStatus activeStatus = new UserStatus();
+		activeStatus.setAccountStatus(AccountStatus.ACTIVE);
+		activeStatus.setAppAccess(true);
+		return manageUserStatusService.updateUserStatusByUserId(userId, activeStatus);
+	}
+
+	/**
 	 * Delete user by id
 	 * 
 	 * @param userId The user Id to be deleted
 	 */
-	public void deleteUser(@PathVariable int userId) {
+	public void deleteUser(int userId) {
 		manageUserService.deleteUser(userId);
 	}
 }

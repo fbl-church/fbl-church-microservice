@@ -135,6 +135,18 @@ public class ChildrenController {
     }
 
     /**
+     * Restore deleted child by id
+     * 
+     * @param userId The user Id to restore
+     */
+    @Operation(summary = "Restore deleted child", description = "Restore deleted child for the given id.")
+    @PutMapping("/{childId}/restore")
+    @HasAccess(WebRole.SITE_ADMINISTRATOR)
+    public void restoreChild(@PathVariable int childId) {
+        manageChildrenService.restoreChild(childId);
+    }
+
+    /**
      * Delete a child by id.
      * 
      * @param Id The child id to delete.

@@ -31,6 +31,7 @@
 
 @NAME(getGuardiansBase)
   FROM users u
+  INNER JOIN user_roles ur ON u.id = ur.user_id AND ur.web_role = 'GUARDIAN'
   INNER JOIN user_status us ON u.id = us.user_id AND us.account_status = 'ACTIVE'
   INNER JOIN guardians g ON u.id = g.user_id
   @INCLUDE(guardianFilters)
@@ -63,6 +64,7 @@
 @NAME(getChildGuardians)
   SELECT @INCLUDE(guardianFields), cg.relationship
   FROM users u
+  INNER JOIN user_roles ur ON u.id = ur.user_id AND ur.web_role = 'GUARDIAN'
   INNER JOIN guardians g ON u.id = g.user_id
   INNER JOIN children_guardians cg ON g.user_id = cg.guardian_id
   WHERE cg.child_id = :child_id
