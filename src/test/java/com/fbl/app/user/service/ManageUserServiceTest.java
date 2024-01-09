@@ -3,22 +3,9 @@
  */
 package com.fbl.app.user.service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.argThat;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -223,15 +210,15 @@ public class ManageUserServiceTest {
     }
 
     @Test
-    void testUpdateUserById_whenCalledWINsufficentRole_willThrowException() {
-        when(jwtHolder.getUserId()).thenReturn(12);
+    void testUpdateUserById_whenCalledWithINsufficentRole_willThrowException() {
+        when(jwtHolder.getUserId()).thenReturn(13);
         when(jwtHolder.getWebRole()).thenReturn(List.of(WebRole.USER));
         when(userClient.getUserById(anyInt())).thenReturn(UserFactoryData.userData());
 
         InsufficientPermissionsException e = assertThrows(InsufficientPermissionsException.class,
                 () -> service.updateUserById(12, UserFactoryData.userData(), false));
 
-        assertEquals("Insufficient permission for user '12' to update a user of role 'SITE_ADMINISTRATOR'",
+        assertEquals("Insufficient permission for user '13' to update a user of role 'SITE_ADMINISTRATOR'",
                 e.getMessage(), "Exception Message");
     }
 
