@@ -108,7 +108,7 @@ public class ManageUserService {
 	 */
 	public User updateUserById(int id, User user, boolean updateRoles) {
 		User updatingUser = userClient.getUserById(id);
-		if (jwtHolder.getUserId() != id && !WebRole.hasPermission(jwtHolder.getWebRole(), updatingUser.getWebRole())) {
+		if (!WebRole.hasPermission(jwtHolder.getWebRole(), updatingUser.getWebRole())) {
 			throw new InsufficientPermissionsException(String
 					.format("Insufficient permission for user '%d' to update a user of role '%s'",
 							jwtHolder.getUserId(),

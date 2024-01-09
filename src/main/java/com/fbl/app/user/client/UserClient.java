@@ -97,7 +97,8 @@ public class UserClient {
 	}
 
 	/**
-	 * Update the user's information such as email, first name, and last name
+	 * Update the user for the given user object. This is only called when a user is
+	 * updating their own personal information from the profile page.
 	 * 
 	 * @param user what information on the user needs to be updated.
 	 * @return user associated to that id with the updated information

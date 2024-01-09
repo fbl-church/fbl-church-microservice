@@ -84,7 +84,9 @@ public class ManageGuardianService {
             throw new InsufficientPermissionsException(
                     "Insufficient permission: Guardians can only update their own profile information");
         }
-        return updateGuardianById(id, guardian);
+        userClient.updateUser(guardian);
+        dao.updateGuardianById(id, guardian);
+        return guardianService.getGuardianById(id);
     }
 
     /**
