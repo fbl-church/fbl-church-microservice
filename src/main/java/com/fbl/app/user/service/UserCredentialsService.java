@@ -26,7 +26,6 @@ import io.jsonwebtoken.lang.Assert;
  * @since June 25, 2020
  */
 @Service
-
 public class UserCredentialsService {
 
     @Autowired
@@ -48,10 +47,9 @@ public class UserCredentialsService {
      * 
      * @param userId The id to add the password for.
      * @param pass   Contains the hashed password.
-     * @throws Exception
      */
     public void insertUserPassword(int userId, String pass) {
-        Assert.hasText(pass, "Password must not be empty");
+        Assert.hasText(pass, "Password must not be null or empty");
         dao.insertUserPassword(userId, BCrypt.hashpw(pass, BCrypt.gensalt()));
     }
 

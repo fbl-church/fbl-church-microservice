@@ -1,9 +1,6 @@
 /**
  * Copyright of FBL Church App. All rights reserved.
  */
-/**
- * Copyright of FBL Church App. All rights reserved.
- */
 package com.fbl.configs;
 
 import java.util.List;

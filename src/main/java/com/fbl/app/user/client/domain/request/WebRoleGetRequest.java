@@ -9,6 +9,7 @@ import com.fbl.common.page.domain.PageParam;
 import com.fbl.common.search.SearchParam;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,6 +21,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
+@Builder
 @Schema(description = "WebRole get request object for filtering users.")
 public class WebRoleGetRequest implements SearchParam, PageParam {
 

@@ -1,9 +1,6 @@
 /**
  * Copyright of FBL Church App. All rights reserved.
  */
-/**
- * Copyright of FBL Church App. All rights reserved.
- */
 package com.fbl.common.page;
 
 import java.util.Collections;
@@ -70,5 +67,14 @@ public class Page<T> {
      */
     public static <T> Page<T> empty() {
         return new Page<T>(0, Collections.emptyList());
+    }
+
+    /**
+     * Gets the size of the page
+     * 
+     * @return The size of the page
+     */
+    public int size() {
+        return list.size();
     }
 }

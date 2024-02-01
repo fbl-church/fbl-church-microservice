@@ -66,7 +66,7 @@ public class CommonUtil {
      * @return The page Request.
      */
     public static <T extends TextEnum> Page<T> enumListToPage(List<T> list, PageParam request) {
-        if (request instanceof SearchParam) {
+        if (request != null && request instanceof SearchParam) {
             SearchParam searchParam = (SearchParam) request;
             if (searchParam.getSearch() != null && searchParam.getSearch().size() > 0) {
                 list = filterPredicate(list, searchParam.getSearch());
@@ -85,7 +85,7 @@ public class CommonUtil {
      */
     public static <T> Page<T> listToPage(List<T> list, PageParam request) {
         int totalCount = list.size();
-        if (request.getPageSize() > 0 && totalCount > request.getPageSize()) {
+        if (request != null && request.getPageSize() > 0 && totalCount > request.getPageSize()) {
             int startSlice = (int) request.getRowOffset();
             int endSlice = (int) (request.getRowOffset() + request.getPageSize());
             list = list.subList(startSlice, endSlice > totalCount ? totalCount : endSlice);

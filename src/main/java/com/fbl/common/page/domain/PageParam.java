@@ -1,9 +1,6 @@
 /**
  * Copyright of FBL Church App. All rights reserved.
  */
-/**
- * Copyright of FBL Church App. All rights reserved.
- */
 package com.fbl.common.page.domain;
 
 import com.fbl.common.search.CommonParam;
