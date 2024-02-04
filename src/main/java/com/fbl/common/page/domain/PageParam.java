@@ -12,11 +12,11 @@ import com.fbl.common.search.CommonParam;
  * @since January 22, 2023
  */
 public interface PageParam extends CommonParam {
-    public int getPageSize();
+    public Integer getPageSize();
 
-    public void setPageSize(int pageSize);
+    public void setPageSize(Integer pageSize);
 
-    public int getRowOffset();
+    public Integer getRowOffset();
 
-    public void setRowOffset(int rowOffset);
+    public void setRowOffset(Integer rowOffset);
 }

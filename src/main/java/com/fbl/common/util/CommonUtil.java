@@ -85,7 +85,7 @@ public class CommonUtil {
      */
     public static <T> Page<T> listToPage(List<T> list, PageParam request) {
         int totalCount = list.size();
-        if (request != null && request.getPageSize() > 0 && totalCount > request.getPageSize()) {
+        if (validPageParamRequest(request) && request.getPageSize() > 0 && totalCount > request.getPageSize()) {
             int startSlice = (int) request.getRowOffset();
             int endSlice = (int) (request.getRowOffset() + request.getPageSize());
             list = list.subList(startSlice, endSlice > totalCount ? totalCount : endSlice);
@@ -118,5 +118,16 @@ public class CommonUtil {
         return list.stream()
                 .filter(r -> search.stream().filter(s -> r.getTextId().contains(s.toUpperCase())).findAny().isPresent())
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * Determines if the page param is valid
+     * 
+     * @param request The passed in page param
+     * @return If it has valid page size and row offset return true, otherwise
+     *         false.
+     */
+    private static boolean validPageParamRequest(PageParam request) {
+        return request != null && request.getPageSize() != null && request.getRowOffset() != null;
     }
 }

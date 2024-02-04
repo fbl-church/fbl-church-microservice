@@ -217,7 +217,7 @@ public class SqlParamBuilder {
 
         PageParam pageParam = (PageParam) commonParam;
 
-        if (pageParam.getPageSize() == 0) {
+        if (pageParam.getPageSize() == null || pageParam.getPageSize() == 0) {
             return this;
         }
 

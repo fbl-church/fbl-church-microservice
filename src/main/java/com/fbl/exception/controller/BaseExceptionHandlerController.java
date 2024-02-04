@@ -64,7 +64,7 @@ public class BaseExceptionHandlerController {
         List<FieldValidationError> errors = ex.getBindingResult().getFieldErrors().stream().map(this::convertFieldError)
                 .collect(Collectors.toList());
         log.error("Field Validation Errors: {}",
-                errors.stream().map(e -> e.getField()).collect(Collectors.joining(",")));
+                errors.stream().map(e -> e.getField()).collect(Collectors.joining(",")), ex);
         return new DataValidationExceptionError("Validation Error", HttpStatus.BAD_REQUEST, errors, null);
     }
 

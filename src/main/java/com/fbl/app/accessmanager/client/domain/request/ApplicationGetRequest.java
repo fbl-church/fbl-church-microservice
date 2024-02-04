@@ -32,10 +32,10 @@ public class ApplicationGetRequest implements SearchParam, PageParam, SearchFiel
     private Set<String> search;
 
     @Schema(description = "Row Offset for pagenation.")
-    private int rowOffset;
+    private Integer rowOffset;
 
     @Schema(description = "Page Size for pagenation result.")
-    private int pageSize;
+    private Integer pageSize;
 
     @JsonIgnore
     @Override
