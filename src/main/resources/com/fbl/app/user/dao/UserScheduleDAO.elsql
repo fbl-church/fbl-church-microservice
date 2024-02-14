@@ -1,0 +1,22 @@
+@NAME(userScheduleFields)
+  ar.id,
+  arw.user_id,
+  ar.name,
+  ar.status,
+  ar.type,
+  ar.active_date
+
+---
+
+@NAME(userScheduleFilters)
+  @WHERE
+    @AND(:user_id)
+      arw.user_id = :user_id
+
+---
+
+@NAME(getUserSchedule)
+    SELECT @INCLUDE(userScheduleFields)
+    FROM attendance_record_workers arw
+    INNER JOIN attendance_records ar ON arw.attendance_record_id = ar.id
+    @INCLUDE(userScheduleFilters)

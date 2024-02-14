@@ -1,0 +1,39 @@
+/*
+ * Copyright of FBL Church App. All rights reserved.
+*/
+package com.fbl.app.user.dao;
+
+import static com.fbl.app.user.mapper.UserScheduleMapper.USER_SCHEDULE_MAPPER;
+
+import java.util.List;
+
+import javax.sql.DataSource;
+
+import org.springframework.stereotype.Repository;
+
+import com.fbl.app.user.client.domain.UserSchedule;
+import com.fbl.sql.abstracts.BaseDao;
+
+/**
+ * User Schedule DAO
+ *
+ * @author Sam Butler
+ * @since Feb 14, 2024 02
+ */
+@Repository
+public class UserScheduleDAO extends BaseDao {
+
+    public UserScheduleDAO(DataSource source) {
+        super(source);
+    }
+
+    /**
+     * Gets a list of user scheduled based on the user id
+     * 
+     * @param userId The id of the user to get schedules for
+     * @return list of user schedule objects
+     */
+    public List<UserSchedule> getUserSchedulesById(int userId) {
+        return getList("getUserSchedule", parameterSource(USER_ID, userId), USER_SCHEDULE_MAPPER);
+    }
+}
