@@ -39,6 +39,7 @@ public abstract class AbstractSqlGlobals {
     protected static final String KEY = "key";
     protected static final String LAST_LOGIN_DATE = "last_login_date";
     protected static final String LAST_NAME = "last_name";
+    protected static final String MONTH = "month";
     protected static final String NAME = "name";
     protected static final String NOT_WEB_ROLE = "not_web_role";
     protected static final String NOT_CHURCH_GROUP = "not_church_group";

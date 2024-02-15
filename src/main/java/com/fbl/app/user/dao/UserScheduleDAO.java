@@ -9,10 +9,13 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.stereotype.Repository;
 
 import com.fbl.app.user.client.domain.UserSchedule;
+import com.fbl.app.user.client.domain.request.UserScheduleRequest;
 import com.fbl.sql.abstracts.BaseDao;
+import com.fbl.sql.builder.SqlParamBuilder;
 
 /**
  * User Schedule DAO
@@ -33,7 +36,10 @@ public class UserScheduleDAO extends BaseDao {
      * @param userId The id of the user to get schedules for
      * @return list of user schedule objects
      */
-    public List<UserSchedule> getUserSchedulesById(int userId) {
-        return getList("getUserSchedule", parameterSource(USER_ID, userId), USER_SCHEDULE_MAPPER);
+    public List<UserSchedule> getUserSchedulesById(UserScheduleRequest request) {
+        MapSqlParameterSource params = SqlParamBuilder.with().useAllParams().withParam(USER_ID, request.getUserId())
+                .withParam(MONTH, request.getMonths())
+                .build();
+        return getList("getUserSchedule", params, USER_SCHEDULE_MAPPER);
     }
 }

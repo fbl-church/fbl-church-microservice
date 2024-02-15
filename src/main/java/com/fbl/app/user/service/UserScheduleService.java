@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fbl.app.user.client.domain.UserSchedule;
+import com.fbl.app.user.client.domain.request.UserScheduleRequest;
 import com.fbl.app.user.dao.UserScheduleDAO;
 
 /**
@@ -29,7 +30,7 @@ public class UserScheduleService {
      * @param userId The id of the user to get schedules for
      * @return list of user schedule objects
      */
-    public List<UserSchedule> getUserSchedulesById(int userId) {
-        return dao.getUserSchedulesById(userId);
+    public List<UserSchedule> getUserSchedulesById(UserScheduleRequest request) {
+        return dao.getUserSchedulesById(request);
     }
 }

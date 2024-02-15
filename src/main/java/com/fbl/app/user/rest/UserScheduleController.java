@@ -7,10 +7,10 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.fbl.app.user.client.domain.UserSchedule;
+import com.fbl.app.user.client.domain.request.UserScheduleRequest;
 import com.fbl.app.user.openapi.TagUser;
 import com.fbl.app.user.service.UserScheduleService;
 import com.fbl.common.annotations.interfaces.RestApiController;
@@ -34,12 +34,12 @@ public class UserScheduleController {
     /**
      * Gets a list of user scheduled based on the user id
      * 
-     * @param userId The id of the user to get schedules for
+     * @param request The request to filter on
      * @return list of user schedule objects
      */
     @Operation(summary = "Get a list of schedules for a user", description = "Given a user id. It will return a list of schedules for that user.")
-    @GetMapping("/{userId}")
-    public List<UserSchedule> getUserSchedulesById(@PathVariable int userId) {
-        return service.getUserSchedulesById(userId);
+    @GetMapping
+    public List<UserSchedule> getUserSchedulesById(UserScheduleRequest request) {
+        return service.getUserSchedulesById(request);
     }
 }

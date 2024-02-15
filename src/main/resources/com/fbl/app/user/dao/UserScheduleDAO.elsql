@@ -11,7 +11,9 @@
 @NAME(userScheduleFilters)
   @WHERE
     @AND(:user_id)
-      arw.user_id = :user_id
+      arw.user_id IN (:user_id)
+    @AND(:month)
+      MONTH(ar.active_date) IN (:month)
 
 ---
 
