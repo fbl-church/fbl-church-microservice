@@ -3,14 +3,13 @@
 */
 package com.fbl.app.user.service;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fbl.app.user.client.domain.UserSchedule;
 import com.fbl.app.user.client.domain.request.UserScheduleRequest;
 import com.fbl.app.user.dao.UserScheduleDAO;
+import com.fbl.common.page.Page;
 
 /**
  * Description
@@ -30,7 +29,7 @@ public class UserScheduleService {
      * @param userId The id of the user to get schedules for
      * @return list of user schedule objects
      */
-    public List<UserSchedule> getUserSchedulesById(UserScheduleRequest request) {
+    public Page<UserSchedule> getUserSchedulesById(UserScheduleRequest request) {
         return dao.getUserSchedulesById(request);
     }
 }

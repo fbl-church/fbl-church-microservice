@@ -3,9 +3,7 @@
 */
 package com.fbl.app.user.dao;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import java.util.List;
+import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +12,7 @@ import org.springframework.test.context.jdbc.Sql;
 
 import com.fbl.app.user.client.domain.UserSchedule;
 import com.fbl.app.user.client.domain.request.UserScheduleRequest;
+import com.fbl.common.page.Page;
 import com.fbl.test.factory.annotations.InsiteDaoTest;
 import com.fbl.utility.InsiteDAOTestConfig;
 
@@ -33,7 +32,7 @@ public class UserScheduleDAOTest {
 
     @Test
     void testGetUserSchedules_whenCalled_willReturnListOfUserSchdules() {
-        List<UserSchedule> userSchedule = dao.getUserSchedulesById(new UserScheduleRequest());
+        Page<UserSchedule> userSchedule = dao.getUserSchedulesById(new UserScheduleRequest());
         assertEquals(3, userSchedule.size(), "Size of List");
     }
 }

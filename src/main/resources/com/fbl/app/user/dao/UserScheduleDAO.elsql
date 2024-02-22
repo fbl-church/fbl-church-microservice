@@ -17,8 +17,21 @@
 
 ---
 
-@NAME(getUserSchedule)
+@NAME(getUserSchedulePage)
+  @PAGING(:rowOffset, :pageSize)
     SELECT @INCLUDE(userScheduleFields)
-    FROM attendance_record_workers arw
-    INNER JOIN attendance_records ar ON arw.attendance_record_id = ar.id
-    @INCLUDE(userScheduleFilters)
+    @INCLUDE(getUserScheduleBase)
+
+---
+
+@NAME(getUserScheduleBase)
+  FROM attendance_record_workers arw
+  INNER JOIN attendance_records ar ON arw.attendance_record_id = ar.id
+  @INCLUDE(userScheduleFilters)
+  ORDER BY ar.closed_date ASC, ar.active_date ASC
+
+---
+
+@NAME(getUserSchedulePageTotalCount)
+  SELECT COUNT(DISTINCT id)
+  @INCLUDE(getUserScheduleBase)

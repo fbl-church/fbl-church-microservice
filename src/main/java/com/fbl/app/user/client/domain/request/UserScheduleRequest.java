@@ -5,6 +5,8 @@ package com.fbl.app.user.client.domain.request;
 
 import java.util.Set;
 
+import com.fbl.common.page.domain.PageParam;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,10 +26,16 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "User get request object for filtering users schedules.")
-public class UserScheduleRequest {
+public class UserScheduleRequest implements PageParam {
     @Schema(description = "List of user ids.")
     private Set<Integer> userId;
 
     @Schema(description = "List of months to filter by")
     private Set<Integer> months;
+
+    @Schema(description = "Row Offset for pagenation.")
+    private Integer rowOffset;
+
+    @Schema(description = "Page Size for pagenation result.")
+    private Integer pageSize;
 }
