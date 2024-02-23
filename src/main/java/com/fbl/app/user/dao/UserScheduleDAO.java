@@ -36,7 +36,8 @@ public class UserScheduleDAO extends BaseDao {
      * @return list of user schedule objects
      */
     public Page<UserSchedule> getUserSchedulesById(UserScheduleRequest request) {
-        MapSqlParameterSource params = SqlParamBuilder.with().useAllParams().withParam(USER_ID, request.getUserId())
+        MapSqlParameterSource params = SqlParamBuilder.with(request).useAllParams()
+                .withParam(USER_ID, request.getUserId())
                 .withParam(MONTH, request.getMonths())
                 .build();
         return getPage("getUserSchedulePage", params, USER_SCHEDULE_MAPPER);

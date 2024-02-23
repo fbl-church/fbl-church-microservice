@@ -14,6 +14,8 @@
       arw.user_id IN (:user_id)
     @AND(:month)
       MONTH(ar.active_date) IN (:month)
+    @AND(:search = true)
+      @INCLUDE(search)
 
 ---
 
@@ -35,3 +37,8 @@
 @NAME(getUserSchedulePageTotalCount)
   SELECT COUNT(DISTINCT id)
   @INCLUDE(getUserScheduleBase)
+
+---
+
+@NAME(search)
+  (@VALUE(:searchContent))
