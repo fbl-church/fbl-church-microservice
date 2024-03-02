@@ -4,7 +4,6 @@
 package com.fbl.app.email.service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +15,8 @@ import com.fbl.app.email.processors.ForgotPasswordEmailProcessor;
 import com.fbl.app.email.processors.NewUserEmailProcessor;
 import com.fbl.app.user.client.domain.User;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * Service class for doing all the dirty work for sending a message.
  * 
@@ -23,6 +24,7 @@ import com.fbl.app.user.client.domain.User;
  * @since August 1, 2021
  */
 @Service
+@Slf4j
 public class EmailService {
 
     @Autowired
@@ -42,12 +44,14 @@ public class EmailService {
      * @return The {@link UserEmail} object that was sent.
      */
     public <T> List<UserEmail> sendEmail(EmailProcessor<T> p) {
-        List<UserEmail> emails = p.process();
-        emails.stream().map(e -> {
-            e.setBody(null);
-            return e;
-        }).collect(Collectors.toList());
-        return emails;
+        try {
+            List<UserEmail> emails = p.process();
+            emails.stream().forEach(e -> e.setBody(null));
+            return emails;
+        } catch (Exception e) {
+            log.info("Unable to send email", e);
+            return List.of();
+        }
     }
 
     /**

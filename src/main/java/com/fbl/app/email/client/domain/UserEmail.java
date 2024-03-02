@@ -8,6 +8,9 @@ import java.time.LocalDateTime;
 import com.sendgrid.Email;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * User Email class request that is used to send an email to users.
@@ -15,6 +18,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
  * @author Sam Butler
  * @since January 28, 2023
  */
+@Getter
+@Setter
+@NoArgsConstructor
 @Schema(description = "User email object.")
 public class UserEmail {
 
@@ -33,53 +39,9 @@ public class UserEmail {
     @Schema(description = "When the email was sent.")
     private LocalDateTime sentDate;
 
-    public UserEmail() {
-    }
-
     public UserEmail(Email recipient, String subject, String body) {
         this.recipient = recipient;
         this.subject = subject;
         this.body = body;
     }
-
-    public Email getFrom() {
-        return from;
-    }
-
-    public void setFrom(Email from) {
-        this.from = from;
-    }
-
-    public Email getRecipient() {
-        return recipient;
-    }
-
-    public void setRecipient(Email recipient) {
-        this.recipient = recipient;
-    }
-
-    public String getSubject() {
-        return subject;
-    }
-
-    public void setSubject(String subject) {
-        this.subject = subject;
-    }
-
-    public String getBody() {
-        return body;
-    }
-
-    public void setBody(String body) {
-        this.body = body;
-    }
-
-    public LocalDateTime getSentDate() {
-        return sentDate;
-    }
-
-    public void setSentDate(LocalDateTime sentDate) {
-        this.sentDate = sentDate;
-    }
-
 }

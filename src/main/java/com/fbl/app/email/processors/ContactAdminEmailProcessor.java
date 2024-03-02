@@ -9,11 +9,13 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fbl.app.email.client.domain.ContactAdminEmailData;
 import com.fbl.app.email.client.domain.UserEmail;
 import com.fbl.app.user.client.UserClient;
 import com.fbl.app.user.client.domain.User;
 import com.fbl.app.user.client.domain.request.UserGetRequest;
 import com.fbl.common.enums.WebRole;
+import com.fbl.common.freemarker.FreeMarkerUtility;
 import com.google.common.collect.Sets;
 
 /**
@@ -24,18 +26,21 @@ import com.google.common.collect.Sets;
  */
 @Service
 public class ContactAdminEmailProcessor extends EmailProcessor<String> {
-    private static final String EMAIL_DYNAMIC_NAME = "::USER_NAME::";
-    private static final String EMAIL_DYNAMIC_BODY = "::EMAIL_BODY::";
-
     @Autowired
     private UserClient userClient;
+
+    @Autowired
+    private FreeMarkerUtility freeMarkerUtility;
 
     private String emailMessage;
 
     @Override
-    public List<UserEmail> process() {
+    public List<UserEmail> process() throws Exception {
         final User emailUser = userClient.getCurrentUser();
-        String emailContent = readEmailTemplate("ContactAdminEmail.html");
+        ContactAdminEmailData data = new ContactAdminEmailData();
+        data.setUsername(String.format("%s %s", emailUser.getFirstName(), emailUser.getLastName()));
+        data.setEmailMessage(emailMessage);
+        String emailContent = freeMarkerUtility.generateMessage("ContactAdminEmail.html", data);
 
         final UserGetRequest request = new UserGetRequest();
         request.setWebRole(Sets.newHashSet(WebRole.ADMINISTRATOR));
@@ -43,7 +48,7 @@ public class ContactAdminEmailProcessor extends EmailProcessor<String> {
 
         List<UserEmail> emails = new ArrayList<>();
         for (final User user : adminUsers) {
-            emails.add(send(user.getEmail(), "New Message", buildEmailBody(emailUser, emailContent)));
+            emails.add(send(user.getEmail(), "New Message", emailContent));
         }
         return emails;
     }
@@ -51,19 +56,5 @@ public class ContactAdminEmailProcessor extends EmailProcessor<String> {
     @Override
     public void setParams(final String params) {
         this.emailMessage = params;
-    }
-
-    /**
-     * Helper method for replacing the dynamic fields in the email message.
-     * 
-     * @param emailUser The email user.
-     * @param content   The content to replace with.
-     * @return String of the email content.
-     */
-    private String buildEmailBody(User emailUser, String content) {
-        String username = String.format("%s %s", emailUser.getFirstName().trim(), emailUser.getLastName().trim());
-        content = content.replace(EMAIL_DYNAMIC_NAME, username);
-        content = content.replace(EMAIL_DYNAMIC_BODY, emailMessage);
-        return content;
     }
 }

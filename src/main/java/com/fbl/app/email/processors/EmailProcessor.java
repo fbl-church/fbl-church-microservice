@@ -44,7 +44,7 @@ public abstract class EmailProcessor<T> {
      * 
      * @return {@link UserEmail} object to send.
      */
-    public abstract List<UserEmail> process();
+    public abstract List<UserEmail> process() throws Exception;
 
     /**
      * Set any params to be passed in with the email to be processed.

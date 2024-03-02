@@ -51,6 +51,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-websocket'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'org.springframework.boot:spring-boot-starter-freemarker'
 
 	implementation "io.jsonwebtoken:jjwt-api:${json_web_token_version}"
 	implementation "com.opengamma:elsql:${elsql_version}"
