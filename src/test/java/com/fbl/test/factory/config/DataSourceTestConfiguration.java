@@ -41,7 +41,6 @@ import jakarta.annotation.PreDestroy;
  * @since April 25, 2022
  */
 @Lazy
-@Profile(value = { "TEST-DAO" })
 @Configuration
 @EnableTransactionManagement
 public class DataSourceTestConfiguration {
@@ -50,13 +49,13 @@ public class DataSourceTestConfiguration {
     @Autowired
     private Environment ENV;
 
-    @Value("${spring.datasource.url:}")
+    @Value("${spring.datasource.url}")
     private String dbUrl;
 
-    @Value("${spring.datasource.username:}")
+    @Value("${spring.datasource.username}")
     private String dbUsername;
 
-    @Value("${spring.datasource.password:}")
+    @Value("${spring.datasource.password}")
     private String dbPassword;
 
     private DriverManagerDataSource activeDataSource;
@@ -67,7 +66,8 @@ public class DataSourceTestConfiguration {
      * 
      * @return {@link DataSource} test object.
      */
-    @Bean
+    @Bean("dataSource")
+    @Profile(value = { "test-dao" })
     DataSource dataSource() {
         DatabaseConnectionBuilder dataSourceBuilder = DatabaseConnectionBuilder.create().useDefaultProperties()
                 .url(getEnvironmentValue("MYSQL_TEST_URL", dbUrl)).allowMultiQueries(true).allowPublicKeyRetrieval(true)
@@ -85,6 +85,7 @@ public class DataSourceTestConfiguration {
      */
     @Bean("jdbcTemplate")
     @DependsOn("dataSource")
+    @Profile(value = { "test-dao" })
     JdbcTemplate jdbcTemplate() {
         return new JdbcTemplate(activeDataSource);
     }
@@ -152,7 +153,7 @@ public class DataSourceTestConfiguration {
                 LOGGER.info("Executing SQL script: '{}'", file.getName());
                 template.update(content, new MapSqlParameterSource());
             } catch (Exception e) {
-                LOGGER.warn("Error running SQL script '{}'", file.getName(), e);
+                LOGGER.warn("Error running SQL script '{}'", file.getName());
             }
         }
         return source;
