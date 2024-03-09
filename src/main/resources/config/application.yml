@@ -15,7 +15,7 @@ spring:
   main:
     allow-circular-references: true
   profiles:
-    default: local
+    default: LOCAL
   servlet:
     multipart:
       max-file-size: 10MB

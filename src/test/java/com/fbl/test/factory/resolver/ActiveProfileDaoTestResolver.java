@@ -18,7 +18,7 @@ import com.fbl.test.factory.globals.GlobalsTest;
  */
 public class ActiveProfileDaoTestResolver implements ActiveProfilesResolver {
 
-    private static final String DAO_TEST_PROFILE = "test-dao";
+    private static final String DAO_TEST_PROFILE = "TEST-DAO";
 
     @Override
     public String[] resolve(Class<?> testClass) {
