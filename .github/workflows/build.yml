@@ -23,7 +23,7 @@ jobs:
           java-version: "17"
           distribution: "adopt"
       - name: Validate Gradle Wrapper
-        uses: gradle/wrapper-validation-action@v1.0.6
+        uses: gradle/wrapper-validation-action@v2
       - name: Make gradlew executable
         run: chmod +x ./gradlew
       - name: Run Build
