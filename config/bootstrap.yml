@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: fbl-church-microservice
+  profiles:
+    active:
+      - LOCAL

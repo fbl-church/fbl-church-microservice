@@ -10,6 +10,6 @@ package com.fbl.test.factory.globals;
  * @since April 22, 2022
  */
 public class GlobalsTest {
-    public static final String PRODUCTION_TEST = "test";
-    public static final String LOCAL_TEST = "test-local";
+    public static final String PRODUCTION_TEST = "PROD-TEST";
+    public static final String LOCAL_TEST = "LOCAL-TEST";
 }
