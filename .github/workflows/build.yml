@@ -16,11 +16,9 @@ jobs:
     name: FBL Church Microservice Build
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v3
-        with:
-          ref: master
+      - uses: actions/checkout@v4
       - name: Set up JDK 17
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           java-version: "17"
           distribution: "adopt"
@@ -41,6 +39,6 @@ jobs:
           FTP_TEST_STORAGE_ENVIRONMENT: ${{ secrets.FTP_TEST_STORAGE_ENVIRONMENT }}
           FTP_TEST_STORAGE_USERNAME: ${{ secrets.FTP_TEST_STORAGE_USERNAME }}
           FTP_TEST_STORAGE_PASSWORD: ${{ secrets.FTP_TEST_STORAGE_PASSWORD }}
-        uses: gradle/gradle-build-action@v2.4.0
+        uses: gradle/actions/setup-gradle@v3
         with:
           arguments: build -i
