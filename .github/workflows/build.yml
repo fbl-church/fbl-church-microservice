@@ -41,4 +41,4 @@ jobs:
           FTP_TEST_STORAGE_PASSWORD: ${{ secrets.FTP_TEST_STORAGE_PASSWORD }}
         uses: gradle/actions/setup-gradle@v3
         with:
-          arguments: build -i
+          arguments: build
