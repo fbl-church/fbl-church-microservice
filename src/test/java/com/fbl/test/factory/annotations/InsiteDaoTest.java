@@ -8,7 +8,9 @@ import java.lang.annotation.RetentionPolicy;
 
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
 
+import com.fbl.environment.EnvironmentService;
 import com.fbl.test.factory.config.DataSourceTestConfiguration;
 import com.fbl.test.factory.resolver.ActiveProfileDaoTestResolver;
 
@@ -21,5 +23,6 @@ import com.fbl.test.factory.resolver.ActiveProfileDaoTestResolver;
 @Retention(RetentionPolicy.RUNTIME)
 @SpringBootTest(classes = { DataSourceTestConfiguration.class })
 @ActiveProfiles(resolver = ActiveProfileDaoTestResolver.class)
+@TestPropertySource(properties = { "spring.config.name=" + EnvironmentService.APP_CONFIG_NAME })
 public @interface InsiteDaoTest {
 }

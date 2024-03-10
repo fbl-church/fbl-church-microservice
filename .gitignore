@@ -159,7 +159,7 @@ build
 !/**/src/**/build
 
 ### Other ###
-application-LOCAL.yml
-application-LOCAL-TEST.yml
+fbl-church-microservice-LOCAL.yml
+fbl-church-microservice-LOCAL-TEST.yml
 
 # End of https://www.toptal.com/developers/gitignore/api/java,gradle,intellij

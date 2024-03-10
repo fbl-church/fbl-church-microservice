@@ -67,7 +67,7 @@ public class DataSourceTestConfiguration {
      * @return {@link DataSource} test object.
      */
     @Bean
-    @Profile(value = { "TEST-DAO" })
+    @Profile("TEST-DAO")
     DataSource dataSource() {
         DatabaseConnectionBuilder dataSourceBuilder = DatabaseConnectionBuilder.create().useDefaultProperties()
                 .url(getEnvironmentValue("MYSQL_TEST_URL", dbUrl)).allowMultiQueries(true).allowPublicKeyRetrieval(true)
@@ -83,9 +83,9 @@ public class DataSourceTestConfiguration {
      * 
      * @return {@link JdbcTemplate} test object.
      */
-    @Bean("jdbcTemplate")
+    @Bean
     @DependsOn("dataSource")
-    @Profile(value = { "TEST-DAO" })
+    @Profile("TEST-DAO")
     JdbcTemplate jdbcTemplate() {
         return new JdbcTemplate(activeDataSource);
     }

@@ -9,7 +9,9 @@ import java.lang.annotation.RetentionPolicy;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
 
+import com.fbl.environment.EnvironmentService;
 import com.fbl.test.factory.resolver.ActiveProfileRestTestResolver;
 
 /**
@@ -21,5 +23,6 @@ import com.fbl.test.factory.resolver.ActiveProfileRestTestResolver;
 @Retention(RetentionPolicy.RUNTIME)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @ActiveProfiles(resolver = ActiveProfileRestTestResolver.class)
+@TestPropertySource(properties = { "spring.config.name=" + EnvironmentService.APP_CONFIG_NAME })
 public @interface InsiteRestTest {
 }

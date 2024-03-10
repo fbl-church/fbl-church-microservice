@@ -22,6 +22,8 @@ import io.jsonwebtoken.security.Keys;
 @Service
 public class EnvironmentService {
 
+    public static final String APP_CONFIG_NAME = "fbl-church-microservice";
+
     @Value("${jwt.secret:#{null}}")
     private String JWT_SIGNING_KEY;
 
