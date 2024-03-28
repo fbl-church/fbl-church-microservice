@@ -79,8 +79,8 @@ public class UserService {
 	 * @param id The user id to get roles for
 	 * @return List of Web Roles
 	 */
-	public List<WebRole> getUserRolesById(int id) {
+	public List<WebRole> getUserRolesById(int id, List<WebRole> excludedRoles) {
 		getUserById(id);
-		return dao.getUserRolesById(id, null);
+		return dao.getUserRolesById(id, excludedRoles);
 	}
 }

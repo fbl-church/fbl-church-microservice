@@ -12,6 +12,7 @@ import com.fbl.app.guardian.client.domain.Guardian;
 import com.fbl.app.guardian.client.domain.request.GuardianGetRequest;
 import com.fbl.app.guardian.dao.GuardianDAO;
 import com.fbl.app.user.client.UserClient;
+import com.fbl.common.enums.WebRole;
 import com.fbl.common.page.Page;
 import com.fbl.exception.types.NotFoundException;
 import com.google.common.collect.Sets;
@@ -49,7 +50,7 @@ public class GuardianService {
      */
     public Guardian getGuardianById(int id) {
         Guardian foundGuardian = dao.getGuardianById(id).orElseThrow(() -> new NotFoundException("Guardian", id));
-        foundGuardian.setWebRole(userClient.getUserRolesById(id));
+        foundGuardian.setWebRole(userClient.getUserRolesById(id, List.of(WebRole.USER)));
         return foundGuardian;
     }
 

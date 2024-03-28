@@ -79,7 +79,7 @@ public class FeatureService {
      * @return {@link Map<String,String>} of the feature access
      */
     public Map<String, List<Map<String, String>>> getWebRoleFeatureAccess(int userId) {
-        List<WebRole> userRoles = userClient.getUserRolesById(userId);
+        List<WebRole> userRoles = userClient.getUserRolesById(userId, null);
         return dao.getWebRoleFeatureAccess(userRoles);
     }
 

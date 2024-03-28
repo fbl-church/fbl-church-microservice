@@ -81,8 +81,8 @@ public class UserClient {
 	 * @param id The user id to get roles for
 	 * @return List of Web Roles
 	 */
-	public List<WebRole> getUserRolesById(int id) {
-		return userService.getUserRolesById(id);
+	public List<WebRole> getUserRolesById(int id, List<WebRole> excludedRoles) {
+		return userService.getUserRolesById(id, excludedRoles);
 	}
 
 	/**
