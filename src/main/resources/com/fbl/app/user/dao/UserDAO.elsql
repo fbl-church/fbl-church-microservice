@@ -3,6 +3,7 @@
   u.first_name,
   u.last_name,
   u.email,
+  u.theme,
   u.insert_date,
   u.last_login_date
 
@@ -93,8 +94,8 @@
 ---
 
 @NAME(insertUser)
-  INSERT INTO users (first_name, last_name, email)
-  VALUES (:first_name, :last_name, :email)
+  INSERT INTO users (first_name, last_name, email, theme)
+  VALUES (:first_name, :last_name, :email, :theme)
 
 ---
 
@@ -109,7 +110,8 @@
   SET
     email       = :email,
     first_name  = IFNULL(:first_name, first_name),
-    last_name   = IFNULL(:last_name, last_name)
+    last_name   = IFNULL(:last_name, last_name),
+    theme   = IFNULL(:theme, theme)
   WHERE id = :id
 
 ---

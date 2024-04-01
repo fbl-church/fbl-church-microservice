@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import com.fbl.common.enums.AccountStatus;
+import com.fbl.common.enums.ThemeType;
 import com.fbl.common.enums.WebRole;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -41,6 +42,9 @@ public class User {
 
 	@Schema(description = "The user web role")
 	private List<WebRole> webRole;
+
+	@Schema(description = "The user theme")
+	private ThemeType theme;
 
 	@Schema(description = "The access of the user to the website.")
 	private Boolean appAccess;

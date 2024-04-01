@@ -3,6 +3,7 @@
   u.first_name,
   u.last_name,
   u.email,
+  u.theme,
   g.phone,
   g.address,
   g.city,

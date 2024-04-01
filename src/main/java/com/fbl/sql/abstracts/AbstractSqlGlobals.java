@@ -56,6 +56,7 @@ public abstract class AbstractSqlGlobals {
     protected static final String STATE = "state";
     protected static final String STATUS = "status";
     protected static final String TEXT_ID = "text_id";
+    protected static final String THEME = "theme";
     protected static final String TYPE = "type";
     protected static final String UPDATE = "update";
     protected static final String UPDATE_USER_ID = "updated_user_id";

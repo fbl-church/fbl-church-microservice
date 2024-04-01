@@ -18,6 +18,7 @@ public abstract class JwtClaims {
     public static final String WEB_ROLE = "webRole";
     public static final String ENVIRONMENT = "env";
     public static final String PASSWORD_RESET = "passwordReset";
+    public static final String THEME = "theme";
     public static final String APPS = "apps";
     public static final String ACCESS = "access";
 }

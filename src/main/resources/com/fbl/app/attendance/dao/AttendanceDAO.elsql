@@ -16,6 +16,7 @@
   u.first_name,
   u.last_name,
   u.email,
+  u.theme,
   u.insert_date,
   u.last_login_date
 

@@ -58,6 +58,7 @@ public class JwtTokenUtil implements Serializable {
         claims.put(JwtClaims.LAST_NAME, user.getLastName());
         claims.put(JwtClaims.EMAIL, user.getEmail());
         claims.put(JwtClaims.WEB_ROLE, user.getWebRole());
+        claims.put(JwtClaims.THEME, user.getTheme());
         claims.put(JwtClaims.ENVIRONMENT, environmentService.getEnvironment());
         claims.put(JwtClaims.PASSWORD_RESET, reset);
 

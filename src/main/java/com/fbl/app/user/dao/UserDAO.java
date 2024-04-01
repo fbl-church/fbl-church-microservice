@@ -20,6 +20,7 @@ import com.fbl.app.accessmanager.client.domain.Application;
 import com.fbl.app.user.client.domain.User;
 import com.fbl.app.user.client.domain.request.UserGetRequest;
 import com.fbl.common.date.TimeZoneUtil;
+import com.fbl.common.enums.ThemeType;
 import com.fbl.common.enums.WebRole;
 import com.fbl.common.page.Page;
 import com.fbl.sql.abstracts.BaseDao;
@@ -97,7 +98,8 @@ public class UserDAO extends BaseDao {
 	public int insertUser(User user) {
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		MapSqlParameterSource params = SqlParamBuilder.with().withParam(FIRST_NAME, user.getFirstName())
-				.withParam(LAST_NAME, user.getLastName()).withParam(EMAIL, user.getEmail()).build();
+				.withParam(LAST_NAME, user.getLastName()).withParam(EMAIL, user.getEmail())
+				.withParam(THEME, ThemeType.LIGHT).build();
 
 		post("insertUser", params, keyHolder);
 		return keyHolder.getKey().intValue();
@@ -125,7 +127,8 @@ public class UserDAO extends BaseDao {
 	 */
 	public void updateUser(int userId, User user) {
 		MapSqlParameterSource params = SqlParamBuilder.with().withParam(FIRST_NAME, user.getFirstName())
-				.withParam(LAST_NAME, user.getLastName()).withParam(EMAIL, user.getEmail()).withParam(ID, userId)
+				.withParam(LAST_NAME, user.getLastName()).withParam(EMAIL, user.getEmail())
+				.withParam(THEME, user.getTheme()).withParam(ID, userId)
 				.build();
 
 		update("updateUser", params);
