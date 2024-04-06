@@ -3,6 +3,7 @@
  */
 package com.fbl.app.attendance.client.domain.request;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
@@ -42,6 +43,12 @@ public class AttendanceRecordGetRequest
 
     @Schema(description = "List of attendance record types")
     private Set<ChurchGroup> type;
+
+    @Schema(description = "The start date to query from")
+    private LocalDate startDate;
+
+    @Schema(description = "The end date to query too")
+    private LocalDate endDate;
 
     @Schema(description = "Search Param on search param fields.")
     private Set<String> search;

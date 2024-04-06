@@ -16,6 +16,7 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.StringUtils;
 
 import com.fbl.app.attendance.client.domain.AttendanceRecord;
 import com.fbl.app.attendance.client.domain.request.AttendanceRecordGetRequest;
@@ -23,6 +24,7 @@ import com.fbl.app.user.client.domain.User;
 import com.fbl.common.date.TimeZoneUtil;
 import com.fbl.common.enums.AttendanceStatus;
 import com.fbl.common.page.Page;
+import com.fbl.common.page.domain.PageSort;
 import com.fbl.sql.abstracts.BaseDao;
 import com.fbl.sql.builder.SqlParamBuilder;
 
@@ -45,11 +47,13 @@ public class AttendanceDAO extends BaseDao {
      * @param request of the attendance record
      * @return Page of {@link AttendanceRecord}
      */
-    public Page<AttendanceRecord> getAttendanceRecords(AttendanceRecordGetRequest request) {
+    public Page<AttendanceRecord> getAttendanceRecords(AttendanceRecordGetRequest request, PageSort sort) {
         MapSqlParameterSource params = SqlParamBuilder.with(request).useAllParams()
                 .withParam(ID, request.getId())
                 .withParam(NAME, request.getName()).withParamTextEnumCollection(TYPE, request.getType())
                 .withParamTextEnumCollection(STATUS, request.getStatus())
+                .withParam(SORT, sort != null ? sort : PageSort.DESC)
+                .withParam(START_DATE, request.getStartDate()).withParam(END_DATE, request.getEndDate())
                 .build();
 
         return getPage("getAttendanceRecordsPage", params, ATTENDANCE_RECORD_MAPPER);
@@ -85,7 +89,9 @@ public class AttendanceDAO extends BaseDao {
     public int createAttendanceRecord(AttendanceRecord record) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         MapSqlParameterSource params = SqlParamBuilder.with().withParam(NAME, record.getName())
-                .withParam(TYPE, record.getType()).withParam(ACTIVE_DATE, record.getActiveDate()).build();
+                .withParam(TYPE, record.getType())
+                .withParam(UNIT_SESSION, StringUtils.hasText(record.getUnitSession()) ? record.getUnitSession() : null)
+                .withParam(ACTIVE_DATE, record.getActiveDate()).build();
 
         post("insertAttendanceRecord", params, keyHolder);
         return keyHolder.getKey().intValue();
@@ -99,6 +105,7 @@ public class AttendanceDAO extends BaseDao {
      */
     public void updateAttendanceRecord(int recordId, AttendanceRecord record) {
         MapSqlParameterSource params = SqlParamBuilder.with().withParam(NAME, record.getName())
+                .withParam(UNIT_SESSION, StringUtils.hasText(record.getUnitSession()) ? record.getUnitSession() : null)
                 .withParam(ACTIVE_DATE, record.getActiveDate()).withParam(ID, recordId).build();
 
         update("updateAttendanceRecord", params);

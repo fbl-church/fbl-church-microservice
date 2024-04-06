@@ -29,6 +29,7 @@ public abstract class AbstractSqlGlobals {
     protected static final String DISPLAY_NAME = "display_name";
     protected static final String EMAIL = "email";
     protected static final String ENABLED = "enabled";
+    protected static final String END_DATE = "end_date";
     protected static final String FEATURE_ID = "feature_id";
     protected static final String FEATURE_KEY = "feature_key";
     protected static final String FIRST_NAME = "first_name";
@@ -52,12 +53,15 @@ public abstract class AbstractSqlGlobals {
     protected static final String RELATIONSHIP = "relationship";
     protected static final String RELEASE_OF_LIABILITY = "release_of_liability";
     protected static final String REQUEST_ID = "request_id";
+    protected static final String START_DATE = "start_date";
     protected static final String STARTED_BY_USER_ID = "started_by_user_id";
     protected static final String STATE = "state";
     protected static final String STATUS = "status";
+    protected static final String SORT = "sort";
     protected static final String TEXT_ID = "text_id";
     protected static final String THEME = "theme";
     protected static final String TYPE = "type";
+    protected static final String UNIT_SESSION = "unit_session";
     protected static final String UPDATE = "update";
     protected static final String UPDATE_USER_ID = "updated_user_id";
     protected static final String USER_ID = "user_id";

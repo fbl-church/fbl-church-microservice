@@ -3,6 +3,7 @@
   ar.name,
   ar.status,
   ar.type,
+  ar.unit_session,
   ar.active_date,
   ar.closed_date,
   ar.started_by_user_id,
@@ -39,6 +40,10 @@
       ar.status IN (:status)
     @AND(:type)
       ar.type IN (:type)
+    @AND(:start_date)
+      ar.active_date >= :start_date
+    @AND(:end_date)
+      ar.active_date <= :end_date
     @AND(:search = true)
       @INCLUDE(search)
 
@@ -61,7 +66,10 @@
   @PAGING(:rowOffset, :pageSize)
     SELECT @INCLUDE(attendanceRecordFields)
     @INCLUDE(getAttendanceRecordsBase)
-    ORDER BY ar.active_date DESC
+    @IF(:sort = DESC)
+      ORDER BY ar.active_date DESC
+    @IF(:sort = ASC)
+      ORDER BY ar.active_date ASC
 
 ---
 
@@ -89,7 +97,7 @@
 ---
 
 @NAME(insertAttendanceRecord)
-  INSERT INTO attendance_records (name, type, active_date) VALUES (:name, :type, :active_date)
+  INSERT INTO attendance_records (name, type, unit_session, active_date) VALUES (:name, :type, :unit_session, :active_date)
 
 ---
 
@@ -102,6 +110,7 @@
   UPDATE attendance_records 
   SET
     name = IFNULL(:name, name),
+    unit_session = :unit_session,
     active_date = IFNULL(:active_date, active_date)
   WHERE id = :id
 

@@ -41,6 +41,9 @@ public class AttendanceRecord {
     @NotNull(message = "Invalid type: Can not be null")
     private ChurchGroup type;
 
+    @Schema(description = "The unit session details")
+    private String unitSession;
+
     @Schema(description = "The workers on the attendance record.")
     private List<User> workers;
 

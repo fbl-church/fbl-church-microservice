@@ -55,7 +55,7 @@ public class AttendanceController {
     @Operation(summary = "Get a list of attendance Records.", description = "Given a Attendance Record Get Request, it will return a list of attendance records that match the request.")
     @GetMapping
     public Page<AttendanceRecord> getAttendanceRecords(AttendanceRecordGetRequest request) {
-        return attendanceService.getAttendanceRecords(request);
+        return attendanceService.getAttendanceRecords(request, null);
     }
 
     /**

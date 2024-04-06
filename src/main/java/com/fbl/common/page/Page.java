@@ -5,6 +5,7 @@ package com.fbl.common.page;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Consumer;
 
 import io.jsonwebtoken.lang.Assert;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -42,6 +43,7 @@ public class Page<T> {
      * @return The new page instance
      */
     public static <T> Page<T> of(List<T> list) {
+
         Assert.notNull(list, "List can not be null for page");
         return new Page<T>(list.size(), list);
     }
@@ -76,5 +78,14 @@ public class Page<T> {
      */
     public int size() {
         return list.size();
+    }
+
+    /**
+     * For each consumer on the list
+     * 
+     * @param action
+     */
+    public void forEach(Consumer<? super T> action) {
+        list.forEach(action);
     }
 }

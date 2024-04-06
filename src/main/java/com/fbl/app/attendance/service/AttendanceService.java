@@ -13,6 +13,7 @@ import com.fbl.app.attendance.client.domain.request.AttendanceRecordGetRequest;
 import com.fbl.app.attendance.dao.AttendanceDAO;
 import com.fbl.app.user.client.domain.User;
 import com.fbl.common.page.Page;
+import com.fbl.common.page.domain.PageSort;
 import com.fbl.exception.types.NotFoundException;
 
 /**
@@ -22,7 +23,6 @@ import com.fbl.exception.types.NotFoundException;
  * @since August 21, 2023
  */
 @Service
-
 public class AttendanceService {
 
     @Autowired
@@ -34,8 +34,8 @@ public class AttendanceService {
      * @param request of the attendance record
      * @return Page of {@link AttendanceRecord}
      */
-    public Page<AttendanceRecord> getAttendanceRecords(AttendanceRecordGetRequest request) {
-        return dao.getAttendanceRecords(request);
+    public Page<AttendanceRecord> getAttendanceRecords(AttendanceRecordGetRequest request, PageSort sort) {
+        return dao.getAttendanceRecords(request, sort);
     }
 
     /**
