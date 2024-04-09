@@ -1,5 +1,7 @@
 package com.fbl.app.attendance.service;
 
+import java.util.Optional;
+
 import org.apache.tomcat.util.http.fileupload.ByteArrayOutputStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -7,6 +9,7 @@ import org.xhtmlrenderer.pdf.ITextRenderer;
 
 import com.fbl.app.attendance.client.domain.AttendanceRecord;
 import com.fbl.app.attendance.client.domain.request.AttendanceRecordGetRequest;
+import com.fbl.common.enums.ChurchGroup;
 import com.fbl.common.freemarker.FreeMarkerUtility;
 import com.fbl.common.page.Page;
 import com.fbl.common.page.domain.PageSort;
@@ -33,8 +36,12 @@ public class AttendanceScheduleService {
     public byte[] downloadSchedule(AttendanceRecordGetRequest request) throws Exception {
         Page<AttendanceRecord> records = attendanceService.getAttendanceRecords(request, PageSort.ASC);
         records.forEach(r -> r.setWorkers(attendanceService.getAttendanceRecordWorkersById(r.getId())));
+        Optional<ChurchGroup> group = request.getType().stream().findFirst();
 
-        String html = freeMarkerUtility.generateMessage("AttendanceSchedule.html", records);
+        String htmlFile = "AttendanceSchedule";
+        htmlFile += (group.isPresent() ? "-" + group.get().toString() : "") + ".html";
+
+        String html = freeMarkerUtility.generateMessage(htmlFile, records);
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         ITextRenderer renderer = new ITextRenderer();
         renderer.setDocumentFromString(html);
