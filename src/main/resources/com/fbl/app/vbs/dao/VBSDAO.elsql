@@ -1,0 +1,19 @@
+@NAME(guardianChildrenFilters)
+  @WHERE
+    @AND(:search = true)
+      @INCLUDE(search)
+
+---
+
+@NAME(getGuardianChildrenIds)
+    SELECT c.user_id 
+    FROM fbl_church_DEV.guardians g 
+    INNER JOIN fbl_church_DEV.users gu ON g.user_id = gu.id
+    INNER JOIN fbl_church_DEV.children_guardians cg ON g.user_id = cg.guardian_id 
+    INNER JOIN fbl_church_DEV.children c ON cg.child_id = c.user_id
+    @INCLUDE(guardianChildrenFilters)
+
+---
+
+@NAME(search)
+  (@VALUE(:searchContent))

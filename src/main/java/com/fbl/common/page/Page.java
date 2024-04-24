@@ -43,7 +43,6 @@ public class Page<T> {
      * @return The new page instance
      */
     public static <T> Page<T> of(List<T> list) {
-
         Assert.notNull(list, "List can not be null for page");
         return new Page<T>(list.size(), list);
     }
