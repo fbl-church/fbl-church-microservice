@@ -7,7 +7,7 @@
 
 @NAME(getGuardianChildrenIds)
     SELECT c.user_id 
-    FROM fbl_church_DEV.guardians g 
+    FROM guardians g 
     INNER JOIN users gu ON g.user_id = gu.id
     INNER JOIN children_guardians cg ON g.user_id = cg.guardian_id 
     INNER JOIN children c ON cg.child_id = c.user_id
