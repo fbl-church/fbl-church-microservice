@@ -9,6 +9,7 @@ import java.util.List;
 import com.fbl.app.guardian.client.domain.Guardian;
 import com.fbl.app.user.client.domain.User;
 import com.fbl.common.enums.ChurchGroup;
+import com.fbl.common.enums.RelationshipType;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
@@ -26,6 +27,9 @@ import lombok.Setter;
 public class Child extends User {
     @Schema(description = "The childs unique identifier")
     private String cuid;
+
+    @Schema(description = "Child relation to the guardian")
+    private RelationshipType relationship;
 
     @Schema(description = "The user church group")
     private List<ChurchGroup> churchGroup;

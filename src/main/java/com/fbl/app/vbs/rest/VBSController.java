@@ -3,11 +3,14 @@
  */
 package com.fbl.app.vbs.rest;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.fbl.app.children.client.domain.Child;
+import com.fbl.app.children.client.domain.request.ChildGetRequest;
 import com.fbl.app.guardian.openapi.TagGuardian;
 import com.fbl.app.vbs.client.domain.request.VBSGuardianChildrenGetRequest;
 import com.fbl.app.vbs.service.VBSService;
@@ -38,6 +41,17 @@ public class VBSController {
     @GetMapping("/guardian/children")
     public Page<Child> getGuardianVbsChildren(VBSGuardianChildrenGetRequest request) {
         return vbsService.getGuardianVbsChildren(request);
+    }
+
+    /**
+     * Gets a a vbs child by id
+     * 
+     * @param id The id of the child to get
+     * @return page of guardian children
+     */
+    @GetMapping("/children")
+    public List<Child> getVbsChildren(ChildGetRequest request) {
+        return vbsService.getVbsChildren(request);
     }
 
 }

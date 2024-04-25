@@ -53,6 +53,16 @@ public class VBSService {
         return childrenService.getChildren(childRequest);
     }
 
+    /**
+     * Gets a a vbs child by id
+     * 
+     * @param request The request for children
+     * @return page of guardian children
+     */
+    public List<Child> getVbsChildren(ChildGetRequest request) {
+        return childrenService.getChildren(request).getList();
+    }
+
     private VBSGuardianChildrenGetRequest formatSearchRequest(VBSGuardianChildrenGetRequest request) {
         if (!CollectionUtils.isEmpty(request.getSearch())) {
             Set<String> filteredSearch = request.getSearch().stream().map(s -> s.contains("@") ? s : formatPhone(s))

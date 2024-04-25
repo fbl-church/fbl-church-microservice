@@ -25,7 +25,7 @@ import lombok.Setter;
 @Schema(description = "Guardian object for holding guardian details for a guardian")
 public class Guardian extends User {
 
-    @Schema(description = "Guardian relation to the guardian")
+    @Schema(description = "Guardian relation to the child")
     private RelationshipType relationship;
 
     @Schema(description = "Guardians phone number")
