@@ -98,6 +98,7 @@ public class EndpointInboundValidatorTest {
         antMatchers.add(new AntPathRequestMatcher("/api/mail/forgot-password", HttpMethod.POST.name()));
         antMatchers.add(new AntPathRequestMatcher("/api/vbs/guardian/children", HttpMethod.GET.name()));
         antMatchers.add(new AntPathRequestMatcher("/api/vbs/children", HttpMethod.GET.name()));
+        antMatchers.add(new AntPathRequestMatcher("/api/vbs/register", HttpMethod.POST.name()));
         antMatchers.add(new AntPathRequestMatcher("/**", HttpMethod.OPTIONS.name()));
         return antMatchers;
     }
