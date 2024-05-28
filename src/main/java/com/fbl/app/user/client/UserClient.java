@@ -4,6 +4,8 @@
 package com.fbl.app.user.client;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -63,6 +65,19 @@ public class UserClient {
 	 */
 	public User getUserById(int id) {
 		return userService.getUserById(id);
+	}
+
+	/**
+	 * Client method to get the user given a user id
+	 * 
+	 * @param id of the user
+	 * @return User profile object
+	 */
+	public Optional<User> getUserByEmail(String email) {
+		UserGetRequest request = new UserGetRequest();
+		request.setEmail(Set.of(email));
+		List<User> users = getUsers(request);
+		return users.isEmpty() ? Optional.empty() : Optional.ofNullable(users.get(0));
 	}
 
 	/**

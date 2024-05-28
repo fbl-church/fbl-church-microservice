@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.util.Assert;
+import org.springframework.util.CollectionUtils;
 
 import com.fbl.common.enums.TextEnum;
 import com.fbl.common.page.Page;
@@ -105,6 +106,32 @@ public class CommonUtil {
             return null;
         }
         return String.join(seperator, values);
+    }
+
+    public static String formatPhone(String phoneString) {
+        String phoneFiltered = phoneString.replaceAll("\\D+", "");
+        if (phoneFiltered.length() != 10) {
+            return null;
+        }
+
+        return String.format("(%s) %s-%s", phoneFiltered.substring(0, 3), phoneFiltered.substring(3, 6),
+                phoneFiltered.substring(6, 10));
+    }
+
+    public static Set<String> formatSearch(Set<String> phoneSet) {
+        if (CollectionUtils.isEmpty(phoneSet)) {
+            return null;
+        }
+
+        return phoneSet.stream().map(s -> {
+            String phoneFiltered = s.replaceAll("\\D+", "");
+            if (phoneFiltered.length() != 10) {
+                return s;
+            }
+
+            return String.format("(%s) %s-%s", phoneFiltered.substring(0, 3), phoneFiltered.substring(3, 6),
+                    phoneFiltered.substring(6, 10));
+        }).collect(Collectors.toSet());
     }
 
     /**

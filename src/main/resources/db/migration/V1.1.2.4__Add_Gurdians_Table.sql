@@ -24,6 +24,8 @@ ALTER TABLE guardians ADD CONSTRAINT FK1_guardians__users
     ON DELETE CASCADE 
     ON UPDATE CASCADE;
 
+CREATE UNIQUE INDEX UX_guardians__phone ON guardians(phone);
+
 -- ---------------------------------------------------------------------------------
 -- END
 -- ---------------------------------------------------------------------------------

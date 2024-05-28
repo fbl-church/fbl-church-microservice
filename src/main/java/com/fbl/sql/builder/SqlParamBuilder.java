@@ -18,6 +18,7 @@ import com.fbl.common.search.CommonParam;
 import com.fbl.common.search.SearchField;
 import com.fbl.common.search.SearchFieldParams;
 import com.fbl.common.search.SearchParam;
+import com.fbl.common.util.CommonUtil;
 
 /**
  * Sql builder to create all query binding parameters for making querys to the
@@ -185,7 +186,7 @@ public class SqlParamBuilder {
         }
 
         SearchParam searchParam = (SearchParam) commonParam;
-        Parameters.search(sqlParams, searchParam.getSearch());
+        Parameters.search(sqlParams, CommonUtil.formatSearch(searchParam.getSearch()));
         return this;
     }
 
