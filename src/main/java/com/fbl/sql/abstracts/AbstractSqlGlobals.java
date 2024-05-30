@@ -19,6 +19,7 @@ public abstract class AbstractSqlGlobals {
     protected static final String CHECK_IN_DATE = "check_in_date";
     protected static final String CHECK_OUT_DATE = "check_out_date";
     protected static final String CHILD_ID = "child_id";
+    protected static final String CHILDREN_ATTENDED = "children_attended";
     protected static final String CHURCH_GROUP = "church_group";
     protected static final String CITY = "city";
     protected static final String CLOSED_BY_USER_ID = "closed_by_user_id";
@@ -27,6 +28,7 @@ public abstract class AbstractSqlGlobals {
     protected static final String CUID = "cuid";
     protected static final String DELETE = "delete";
     protected static final String DISPLAY_NAME = "display_name";
+    protected static final String DONATION = "donation";
     protected static final String EMAIL = "email";
     protected static final String ENABLED = "enabled";
     protected static final String END_DATE = "end_date";
@@ -40,6 +42,7 @@ public abstract class AbstractSqlGlobals {
     protected static final String KEY = "key";
     protected static final String LAST_LOGIN_DATE = "last_login_date";
     protected static final String LAST_NAME = "last_name";
+    protected static final String MONEY = "money";
     protected static final String MONTH = "month";
     protected static final String NAME = "name";
     protected static final String NOT_WEB_ROLE = "not_web_role";
@@ -66,5 +69,6 @@ public abstract class AbstractSqlGlobals {
     protected static final String UPDATE_USER_ID = "updated_user_id";
     protected static final String USER_ID = "user_id";
     protected static final String WEB_ROLE = "web_role";
+    protected static final String YEAR = "year";
     protected static final String ZIP_CODE = "zip_code";
 }

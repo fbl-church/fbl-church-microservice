@@ -1,7 +1,64 @@
+@NAME(VBSThemeFields)
+  vt.id,
+  vt.name,
+  vt.year,
+  vt.status,
+  vt.money,
+  vt.children_attended,
+  vt.donation,
+  vt.insert_date
+
+---
+
+@NAME(guardianFields)
+  u.id,
+  u.first_name,
+  u.last_name,
+  u.email,
+  u.theme,
+  g.phone,
+  g.address,
+  g.city,
+  g.state,
+  g.zip_code,
+  u.insert_date
+
+---
+
 @NAME(guardianChildrenFilters)
   @WHERE
     @AND(:search = true)
       @INCLUDE(search)
+
+---
+
+@NAME(getGuardiansBase)
+  FROM users u
+  INNER JOIN user_roles ur ON u.id = ur.user_id AND ur.web_role = 'GUARDIAN'
+  INNER JOIN user_status us ON u.id = us.user_id AND us.account_status = 'ACTIVE'
+  INNER JOIN guardians g ON u.id = g.user_id
+  @WHERE
+    @OR(:email)
+      u.email IN (:email)
+    @OR(:phone)
+      g.phone IN (:phone)
+
+---
+
+@NAME(getGuardiansPage)
+  @PAGING(:rowOffset, :pageSize)
+    SELECT @INCLUDE(guardianFields) 
+    @INCLUDE(getGuardiansBase)
+    GROUP BY u.id
+    ORDER BY u.last_name ASC
+
+---
+
+@NAME(getGuardiansPageTotalCount)
+  SELECT COUNT(*)
+  @INCLUDE(getGuardiansBase)
+
+---
 
 ---
 
@@ -12,6 +69,25 @@
     INNER JOIN children_guardians cg ON g.user_id = cg.guardian_id 
     INNER JOIN children c ON cg.child_id = c.user_id
     @INCLUDE(guardianChildrenFilters)
+
+---
+
+@NAME(getThemeById)
+    SELECT @INCLUDE(VBSThemeFields)
+    FROM vbs_themes vt 
+    WHERE vt.id = :id
+---
+
+@NAME(getRegisteredVBSChildren)
+    SELECT COUNT(DISTINCT child_id)
+    FROM children_groups cg
+    WHERE church_group IN ('VBS_PRE_PRIMARY', 'VBS_PRIMARY','VBS_MIDDLER','VBS_JUNIOR')
+
+---
+
+@NAME(createVBSTheme)
+  INSERT INTO vbs_themes (name, year, donation)
+  VALUES (:name, :year, :donation)
 
 ---
 

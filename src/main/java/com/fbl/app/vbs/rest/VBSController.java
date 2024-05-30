@@ -7,15 +7,18 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.fbl.app.children.client.domain.Child;
 import com.fbl.app.children.client.domain.request.ChildGetRequest;
+import com.fbl.app.guardian.client.domain.Guardian;
+import com.fbl.app.guardian.client.domain.request.GuardianGetRequest;
 import com.fbl.app.guardian.openapi.TagGuardian;
 import com.fbl.app.vbs.client.domain.VBSRegistration;
-import com.fbl.app.vbs.client.domain.request.VBSGuardianChildrenGetRequest;
+import com.fbl.app.vbs.client.domain.VBSTheme;
 import com.fbl.app.vbs.service.ManageVBSService;
 import com.fbl.app.vbs.service.VBSService;
 import com.fbl.common.annotations.interfaces.RestApiController;
@@ -29,7 +32,7 @@ import jakarta.validation.Valid;
  * @author Sam Butler
  * @since June 25, 2022
  */
-@RequestMapping("/api/vbs")
+@RequestMapping("/api/external/vbs")
 @RestApiController
 
 @TagGuardian
@@ -47,9 +50,20 @@ public class VBSController {
      * @param request to filter on
      * @return page of guardian children
      */
-    @GetMapping("/guardian/children")
-    public Page<Child> getGuardianVbsChildren(VBSGuardianChildrenGetRequest request) {
-        return vbsService.getGuardianVbsChildren(request);
+    @GetMapping("/guardian")
+    public Page<Guardian> getGuardians(GuardianGetRequest request) {
+        return vbsService.getGuardians(request);
+    }
+
+    /**
+     * Gets a list of vbs guardian children based of the request filter
+     * 
+     * @param request to filter on
+     * @return page of guardian children
+     */
+    @GetMapping("/guardian/{id}/children")
+    public Page<Child> getGuardianVbsChildren(@PathVariable int id) {
+        return vbsService.getGuardianVbsChildren(id);
     }
 
     /**
@@ -61,6 +75,26 @@ public class VBSController {
     @GetMapping("/children")
     public List<Child> getVbsChildren(ChildGetRequest request) {
         return vbsService.getVbsChildren(request);
+    }
+
+    /**
+     * The theme to be created
+     * 
+     * @param theme The theme to create
+     */
+    @GetMapping("/theme/{id}")
+    public VBSTheme getThemeById(@PathVariable int id) {
+        return manageVBSService.getThemeById(id);
+    }
+
+    /**
+     * The theme to be created
+     * 
+     * @param theme The theme to create
+     */
+    @PostMapping("/theme")
+    public VBSTheme createTheme(@RequestBody @Valid VBSTheme theme) {
+        return manageVBSService.createTheme(theme);
     }
 
     /**

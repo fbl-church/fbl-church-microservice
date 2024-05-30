@@ -35,7 +35,7 @@ public class Parameters {
             Set<String> filteredSearch = searchValues.stream().map(String::trim).filter(StringUtils::hasText)
                     .collect(Collectors.toSet());
             for (String value : filteredSearch) {
-                String[] nestedValues = value.split(" ");
+                String[] nestedValues = isPhoneFormat(value) ? new String[] { value } : value.split(" ");
                 for (String searchName : nestedValues) {
                     String paramName = String.format("%s%d_%d", SEARCH_VALUE, count, subCount);
                     params.addValue(paramName, "%" + searchName + "%");
@@ -90,5 +90,9 @@ public class Parameters {
             return index == values.size() - 1 ? "\n)\n" : "\n\tAND";
         }
         return "\n";
+    }
+
+    private static boolean isPhoneFormat(String search) {
+        return search.matches("\\(\\d{3}\\)\\s{1}\\d{3}-\\d{4}");
     }
 }

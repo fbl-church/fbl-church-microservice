@@ -13,6 +13,8 @@ import com.fbl.app.guardian.client.domain.Guardian;
 import com.fbl.app.user.client.UserClient;
 import com.fbl.app.user.client.domain.User;
 import com.fbl.app.vbs.client.domain.VBSRegistration;
+import com.fbl.app.vbs.client.domain.VBSTheme;
+import com.fbl.app.vbs.dao.VBSDAO;
 
 /**
  * VBS Service class that handles all service calls to the dao
@@ -24,10 +26,32 @@ import com.fbl.app.vbs.client.domain.VBSRegistration;
 public class ManageVBSService {
 
     @Autowired
+    private VBSDAO vbsDao;
+
+    @Autowired
     private GuardianClient guardianClient;
 
     @Autowired
     private UserClient userClient;
+
+    /**
+     * The theme to be created
+     * 
+     * @param theme The theme to create
+     */
+    public VBSTheme getThemeById(int id) {
+        return vbsDao.getThemeById(id);
+    }
+
+    /**
+     * The theme to be created
+     * 
+     * @param theme The theme to create
+     */
+    public VBSTheme createTheme(VBSTheme theme) {
+        int id = vbsDao.createTheme(theme);
+        return getThemeById(id);
+    }
 
     /**
      * Takes in a list of children to register for VBS

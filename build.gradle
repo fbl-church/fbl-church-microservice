@@ -2,7 +2,7 @@ buildscript {
     ext {
     	google_guava_version = '31.1-jre'
     	mysql_connector_version = '8.0.25'
-    	springboot_version = '3.2.5'
+    	springboot_version = '3.3.0'
     	swagger_version = '2.2.17'
 		spring_doc_openapi_version = '2.1.0'
 		json_web_token_version = '0.11.5'
@@ -15,6 +15,8 @@ buildscript {
 		jakarta_xml_version =  '4.0.1'
 		test_junit_version = '5.9.2'
 		test_mock_ftp_version = '3.1.0'
+		flying_saucer_pdf_version = '9.7.1'
+		twilio_version = '10.2.0'
     }
 }
 
@@ -60,7 +62,8 @@ dependencies {
 	implementation "com.sendgrid:sendgrid-java:${send_grid_version}"
 	implementation "commons-net:commons-net:${apache_common_version}"
 	implementation "jakarta.xml.bind:jakarta.xml.bind-api:${jakarta_xml_version}"
-	implementation 'org.xhtmlrenderer:flying-saucer-pdf-itext5:9.7.1'
+	implementation "org.xhtmlrenderer:flying-saucer-pdf-itext5:${flying_saucer_pdf_version}"
+	// implementation "com.twilio.sdk:twilio:${twilio_version}"
 
 	runtimeOnly "mysql:mysql-connector-java:${mysql_connector_version}"
 	runtimeOnly "io.jsonwebtoken:jjwt-impl:${json_web_token_version}"
