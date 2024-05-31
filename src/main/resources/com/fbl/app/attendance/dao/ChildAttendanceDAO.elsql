@@ -8,6 +8,7 @@
   ca.updated_user_id,
   ca.check_in_date,
   ca.check_out_date,
+  ca.guardian_picked_up_id,
   ar.name,
   ar.type,
   ar.active_date
@@ -104,10 +105,11 @@
 
 ---
 
-@NAME(updateChildNotes)
+@NAME(updateChild)
   UPDATE children_attendance
   SET
     notes = :notes,
+    guardian_picked_up_id = :guardian_picked_up_id,
     updated_user_id = IFNULL(:updated_user_id,updated_user_id)
   WHERE attendance_record_id = :attendance_record_id 
   AND child_id = :child_id
@@ -118,6 +120,7 @@
   UPDATE children_attendance
   SET
     check_out_date = IFNULL(:check_out_date,check_out_date),
+    guardian_picked_up_id = :guardian_id,
     updated_user_id = IFNULL(:updated_user_id,updated_user_id)
   WHERE attendance_record_id = :attendance_record_id 
   AND child_id = :child_id

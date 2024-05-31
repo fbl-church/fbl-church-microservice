@@ -101,8 +101,8 @@ public class ChildAttendanceController {
     @Operation(summary = "Updates the child notes on an attendance record.", description = "Given a Attendance Record id and child id, it will update the notes for the child attendance.")
     @PutMapping(value = "/{recordId}/children")
     @HasAccess(WebRole.JUNIOR_CHURCH_WORKER)
-    public ChildAttendance updateChildNotes(@PathVariable int recordId, @RequestBody ChildAttendance ca) {
-        return childAttendanceService.updateChildNotes(recordId, ca);
+    public ChildAttendance updateChild(@PathVariable int recordId, @RequestBody ChildAttendance ca) {
+        return childAttendanceService.updateChild(recordId, ca);
     }
 
     /**
@@ -115,8 +115,9 @@ public class ChildAttendanceController {
     @Operation(summary = "Will check out the child from the attendance record", description = "Given a Attendance Record id and child id, it will check out the child from the record.")
     @PutMapping(value = "/{recordId}/children/{childId}")
     @HasAccess(WebRole.JUNIOR_CHURCH_WORKER)
-    public ChildAttendance checkOutChildFromAttendanceRecord(@PathVariable int recordId, @PathVariable int childId) {
-        return childAttendanceService.checkOutChildFromAttendanceRecord(recordId, childId);
+    public ChildAttendance checkOutChildFromAttendanceRecord(@PathVariable int recordId, @PathVariable int childId,
+            @RequestBody(required = false) Integer guardianId) {
+        return childAttendanceService.checkOutChildFromAttendanceRecord(recordId, childId, guardianId);
     }
 
     /**

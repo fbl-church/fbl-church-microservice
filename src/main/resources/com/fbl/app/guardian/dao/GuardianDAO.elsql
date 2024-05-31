@@ -68,7 +68,10 @@
   INNER JOIN user_roles ur ON u.id = ur.user_id AND ur.web_role = 'GUARDIAN'
   INNER JOIN guardians g ON u.id = g.user_id
   INNER JOIN children_guardians cg ON g.user_id = cg.guardian_id
-  WHERE cg.child_id = :child_id
+  @WHERE
+    cg.child_id = :child_id
+    @AND(:guardian_id)
+      cg.guardian_id = :guardian_id
 
 ---
 

@@ -4,6 +4,7 @@
 package com.fbl.app.guardian.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -62,6 +63,17 @@ public class GuardianService {
      */
     public List<Guardian> getChildGuardians(int childId) {
         return dao.getChildGuardians(childId);
+    }
+
+    /**
+     * Gets a child guardian by the child id and guardian Id
+     * 
+     * @param childId    The child id
+     * @param guardianId The guardian id
+     * @return The mathcing guardian id
+     */
+    public Optional<Guardian> getChildGuardianById(int childId, int guardianId) {
+        return dao.getChildGuardianById(childId, guardianId);
     }
 
     /**

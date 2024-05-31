@@ -69,6 +69,17 @@ public class SqlParamBuilder {
     }
 
     /**
+     * Adds the param name with a null value
+     * 
+     * @param name The name of the parameter.
+     * @return this builder object {@link SqlParamBuilder}
+     */
+    public SqlParamBuilder withParamNullValue(String name) {
+        this.sqlParams.addValue(name, null);
+        return this;
+    }
+
+    /**
      * Add {@link Object} parameter to the sql map.
      * 
      * @param name  The name of the parameter.

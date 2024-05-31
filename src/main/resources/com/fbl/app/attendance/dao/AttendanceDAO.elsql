@@ -127,6 +127,16 @@
 
 ---
 
+@NAME(reopenAttendanceRecord)
+  UPDATE attendance_records 
+  SET 
+    status             = 'ACTIVE',
+    closed_date        = NULL,
+    closed_by_user_id  = NULL
+  WHERE id = :id
+
+---
+
 @NAME(checkoutChildrenFromRecord)
   UPDATE children_attendance
   SET check_out_date = :check_out_date

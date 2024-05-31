@@ -136,6 +136,16 @@ public class AttendanceDAO extends BaseDao {
     }
 
     /**
+     * Will reopen a closed attendance record
+     * 
+     * @param id The attendance record to reopen
+     */
+    public void reopenAttendanceRecord(int id) {
+        MapSqlParameterSource params = SqlParamBuilder.with().withParam(ID, id).build();
+        update("reopenAttendanceRecord", params);
+    }
+
+    /**
      * Will check out all the children on the attendance record if they are not
      * already checked out.
      * 

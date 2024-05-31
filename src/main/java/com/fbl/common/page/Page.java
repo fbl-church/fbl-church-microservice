@@ -6,6 +6,7 @@ package com.fbl.common.page;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 import io.jsonwebtoken.lang.Assert;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -86,5 +87,15 @@ public class Page<T> {
      */
     public void forEach(Consumer<? super T> action) {
         list.forEach(action);
+    }
+
+    /**
+     * map consumer on the list
+     * 
+     * @param action
+     */
+    public <R> Page<? extends R> map(Function<? super T, ? extends R> mapper) {
+        List<? extends R> mappedList = list.stream().map(mapper).toList();
+        return Page.of(mappedList);
     }
 }

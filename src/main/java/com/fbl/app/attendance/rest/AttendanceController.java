@@ -123,6 +123,19 @@ public class AttendanceController {
     }
 
     /**
+     * Will reopen a closed attendance record
+     * 
+     * @param record The attendance record to update
+     * @return The record that was updated
+     */
+    @Operation(summary = "Update a the status of an attendance record", description = "Given an Attendance Record id ")
+    @PutMapping("/{id}/reopen")
+    @HasAccess(WebRole.SITE_ADMINISTRATOR)
+    public AttendanceRecord reopenAttendanceRecord(@PathVariable int id) {
+        return manageAttendanceService.reopenAttendanceRecord(id);
+    }
+
+    /**
      * Updates the workers of an attendance record by id
      * 
      * @param id      The attendance record id

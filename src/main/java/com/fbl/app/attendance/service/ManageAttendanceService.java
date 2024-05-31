@@ -95,6 +95,24 @@ public class ManageAttendanceService {
     }
 
     /**
+     * Will reopen a closed attendance record
+     * 
+     * @param record The attendance record to update
+     * @return The record that was updated
+     */
+    public AttendanceRecord reopenAttendanceRecord(int id) {
+        AttendanceRecord currentRecord = attendanceService.getAttendanceRecordById(id);
+        if (AttendanceStatus.ACTIVE.equals(currentRecord.getStatus())) {
+            log.warn("Attendance Record '{}' is already active", id);
+            return currentRecord;
+        }
+
+        dao.reopenAttendanceRecord(id);
+
+        return attendanceService.getAttendanceRecordById(id);
+    }
+
+    /**
      * Assigns the given worker id to the attendance record
      * 
      * @param recordId The attendance record id

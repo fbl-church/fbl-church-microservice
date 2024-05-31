@@ -15,6 +15,8 @@ CREATE TABLE children_attendance (
   notes                 LONGTEXT                       DEFAULT NULL,
   updated_user_id       INT          UNSIGNED NOT NULL DEFAULT 0,
   check_in_date         DATETIME              NOT NULL DEFAULT CURRENT_TIMESTAMP(),
+  guardian_picked_up_id INT          UNSIGNED          DEFAULT NULL,
+  check_out_date        DATETIME                       DEFAULT NULL,
   PRIMARY KEY (attendance_record_id, child_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -33,6 +35,11 @@ ALTER TABLE children_attendance ADD CONSTRAINT FK2_children_attendance__children
 
 ALTER TABLE children_attendance ADD CONSTRAINT FK3_children_attendance__users
   FOREIGN KEY (updated_user_id) REFERENCES users (id) 
+    ON DELETE CASCADE 
+    ON UPDATE CASCADE;
+
+ALTER TABLE children_attendance ADD CONSTRAINT FK4_children_attendance__users
+  FOREIGN KEY (guardian_picked_up_id) REFERENCES users (id) 
     ON DELETE CASCADE 
     ON UPDATE CASCADE;
 

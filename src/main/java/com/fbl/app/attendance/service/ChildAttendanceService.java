@@ -3,6 +3,8 @@
  */
 package com.fbl.app.attendance.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +12,8 @@ import com.fbl.app.attendance.client.domain.AttendanceRecord;
 import com.fbl.app.attendance.client.domain.ChildAttendance;
 import com.fbl.app.attendance.client.domain.request.ChildAttendanceGetRequest;
 import com.fbl.app.attendance.dao.ChildAttendanceDAO;
+import com.fbl.app.guardian.client.domain.Guardian;
+import com.fbl.app.guardian.service.GuardianService;
 import com.fbl.common.page.Page;
 import com.fbl.exception.types.NotFoundException;
 import com.fbl.jwt.utility.JwtHolder;
@@ -33,6 +37,9 @@ public class ChildAttendanceService {
     private AttendanceService attendanceService;
 
     @Autowired
+    private GuardianService guardianService;
+
+    @Autowired
     private JwtHolder jwtHolder;
 
     /**
@@ -43,7 +50,15 @@ public class ChildAttendanceService {
      */
     public Page<ChildAttendance> getChildrenAttendanceById(int id, ChildAttendanceGetRequest request) {
         AttendanceRecord record = attendanceService.getAttendanceRecordById(id);
-        return dao.getChildrenAttendanceById(id, request, record.getType());
+        Page<ChildAttendance> ca = dao.getChildrenAttendanceById(id, request, record.getType());
+
+        ca.forEach(c -> {
+            if (c.getGuardianPickedUpId() != null && c.getGuardianPickedUpId() > 0) {
+                Optional<Guardian> g = guardianService.getChildGuardianById(c.getId(), c.getGuardianPickedUpId());
+                c.setGuardianPickedUp(g.orElse(null));
+            }
+        });
+        return ca;
     }
 
     /**
@@ -53,7 +68,13 @@ public class ChildAttendanceService {
      * @return The page of Child Attendances
      */
     public Page<ChildAttendance> getPageOfChildAttendanceByChildId(int childId, ChildAttendanceGetRequest request) {
-        return dao.getPageOfChildAttendanceByChildId(childId, request);
+        Page<ChildAttendance> ca = dao.getPageOfChildAttendanceByChildId(childId, request);
+        ca.forEach(c -> {
+            if (c.getGuardianPickedUpId() != null && c.getGuardianPickedUpId() > 0) {
+                c.setGuardianPickedUp(guardianService.getGuardianById(c.getGuardianPickedUpId()));
+            }
+        });
+        return ca;
     }
 
     /**
@@ -93,9 +114,16 @@ public class ChildAttendanceService {
      * @param notes The notes to be set on the child
      * @return The updated attendance record
      */
-    public ChildAttendance updateChildNotes(int recordId, ChildAttendance ca) {
+    public ChildAttendance updateChild(int recordId, ChildAttendance ca) {
         try {
-            dao.updateChildNotes(recordId, ca, jwtHolder.getUserId());
+            ChildAttendance foundAttendance = getChildAttendanceById(recordId, ca.getId());
+
+            // If the child is not checked out yet, do not update the picked up guardian
+            if (foundAttendance.getCheckOutDate() == null) {
+                ca.setGuardianPickedUpId(null);
+            }
+
+            dao.updateChild(recordId, ca, jwtHolder.getUserId());
         } catch (Exception e) {
             log.error("Unable to update notes for child id '{}' on attendance record id '{}'.", ca.getId(), recordId,
                     e);
@@ -110,8 +138,8 @@ public class ChildAttendanceService {
      * @param childId  The child id to check out
      * @return The updated child Attendance
      */
-    public ChildAttendance checkOutChildFromAttendanceRecord(int recordId, int childId) {
-        dao.checkOutChildFromAttendanceRecord(recordId, childId, jwtHolder.getUserId());
+    public ChildAttendance checkOutChildFromAttendanceRecord(int recordId, int childId, Integer guardianId) {
+        dao.checkOutChildFromAttendanceRecord(recordId, childId, guardianId, jwtHolder.getUserId());
         return getChildAttendanceById(recordId, childId);
     }
 

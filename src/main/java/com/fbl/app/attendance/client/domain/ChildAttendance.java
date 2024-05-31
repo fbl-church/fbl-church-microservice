@@ -6,6 +6,7 @@ package com.fbl.app.attendance.client.domain;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import com.fbl.app.guardian.client.domain.Guardian;
 import com.fbl.common.enums.ChurchGroup;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -51,6 +52,12 @@ public class ChildAttendance {
 
     @Schema(description = "The user that last updated the childs check in")
     private Integer updatedUserId;
+
+    @Schema(description = "The guardian id of who picked up the child")
+    private Integer guardianPickedUpId;
+
+    @Schema(description = "The guardian information of who picked up the child")
+    private Guardian guardianPickedUp;
 
     @Schema(description = "The date the child was checked in")
     private LocalDateTime checkInDate;

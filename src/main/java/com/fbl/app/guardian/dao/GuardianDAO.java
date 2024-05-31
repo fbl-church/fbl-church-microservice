@@ -69,6 +69,19 @@ public class GuardianDAO extends BaseDao {
     }
 
     /**
+     * Gets a child guardian by the child id and guardian Id
+     * 
+     * @param childId    The child id
+     * @param guardianId The guardian id
+     * @return The mathcing guardian id
+     */
+    public Optional<Guardian> getChildGuardianById(int childId, int guardianId) {
+        MapSqlParameterSource params = SqlParamBuilder.with().withParam(CHILD_ID, childId)
+                .withParam(GUARDIAN_ID, guardianId).build();
+        return getOptional("getChildGuardians", params, GUARDIAN_MAPPER);
+    }
+
+    /**
      * Creates a new guardian for the given user object.
      * 
      * @param userId   The user id to associate with
