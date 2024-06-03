@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.fbl.app.guardian.client.domain.Guardian;
@@ -93,6 +94,18 @@ public class GuardianController {
     @GetMapping("/exists")
     public Guardian doesGuardianExist(Guardian g) {
         return guardianService.doesGuardianExist(g);
+    }
+
+    /**
+     * This will check to see if the phone number exists. If it does then it will
+     * return true, otherwise false.
+     * 
+     * @param phone The phone to check
+     * @return {@link Boolean} to see if the phone exists
+     */
+    @GetMapping("/check-phone")
+    public boolean doesPhoneNumberExist(@RequestParam String phone) {
+        return guardianService.doesPhoneNumberExist(phone);
     }
 
     /**

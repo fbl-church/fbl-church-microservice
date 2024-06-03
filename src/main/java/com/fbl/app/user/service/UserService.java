@@ -15,6 +15,7 @@ import com.fbl.common.enums.WebRole;
 import com.fbl.common.page.Page;
 import com.fbl.exception.types.NotFoundException;
 import com.fbl.jwt.utility.JwtHolder;
+import com.google.common.collect.Sets;
 
 /**
  * User Service class that handles all service calls to the dao
@@ -82,5 +83,20 @@ public class UserService {
 	public List<WebRole> getUserRolesById(int id, List<WebRole> excludedRoles) {
 		getUserById(id);
 		return dao.getUserRolesById(id, excludedRoles);
+	}
+
+	/**
+	 * This will check to see if the email exists. If it does then it will return
+	 * true, otherwise false.
+	 * 
+	 * @param email The email to check
+	 * @return {@link Boolean} to see if the email exists
+	 */
+	public boolean doesEmailExist(String email) {
+		UserGetRequest request = new UserGetRequest();
+		request.setEmail(Sets.newHashSet(email));
+		List<User> users = getUsers(request).getList();
+
+		return users.size() > 0;
 	}
 }

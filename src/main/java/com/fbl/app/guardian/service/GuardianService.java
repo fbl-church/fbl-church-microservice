@@ -15,6 +15,7 @@ import com.fbl.app.guardian.dao.GuardianDAO;
 import com.fbl.app.user.client.UserClient;
 import com.fbl.common.enums.WebRole;
 import com.fbl.common.page.Page;
+import com.fbl.common.util.CommonUtil;
 import com.fbl.exception.types.NotFoundException;
 import com.google.common.collect.Sets;
 
@@ -88,5 +89,20 @@ public class GuardianService {
         request.setLastName(Sets.newHashSet(g.getLastName()));
         List<Guardian> matchingGuardians = getGuardians(request).getList();
         return matchingGuardians.size() > 0 ? matchingGuardians.get(0) : null;
+    }
+
+    /**
+     * This will check to see if the phone number exists. If it does then it will
+     * return true, otherwise false.
+     * 
+     * @param phone The phone to check
+     * @return {@link Boolean} to see if the phone exists
+     */
+    public boolean doesPhoneNumberExist(String phone) {
+        GuardianGetRequest request = new GuardianGetRequest();
+        request.setPhone(Sets.newHashSet(CommonUtil.formatPhone(phone)));
+        List<Guardian> guardians = getGuardians(request).getList();
+
+        return guardians.size() > 0;
     }
 }

@@ -91,14 +91,15 @@ public class EndpointInboundValidatorTest {
     }
 
     private List<AntPathRequestMatcher> endpointAntMatchers() {
-        List<AntPathRequestMatcher> antMatchers = new ArrayList<>();
-        antMatchers.add(new AntPathRequestMatcher("/api/authenticate", HttpMethod.POST.name()));
-        antMatchers.add(new AntPathRequestMatcher("/api/users/check-email", HttpMethod.GET.name()));
-        antMatchers.add(new AntPathRequestMatcher("/api/users/register", HttpMethod.POST.name()));
-        antMatchers.add(new AntPathRequestMatcher("/api/mail/forgot-password", HttpMethod.POST.name()));
-        antMatchers.add(new AntPathRequestMatcher("/api/external/**", HttpMethod.GET.name()));
-        antMatchers.add(new AntPathRequestMatcher("/api/external/**", HttpMethod.POST.name()));
-        antMatchers.add(new AntPathRequestMatcher("/**", HttpMethod.OPTIONS.name()));
-        return antMatchers;
+        List<AntPathRequestMatcher> matchers = new ArrayList<>();
+        matchers.add(new AntPathRequestMatcher("/api/authenticate", HttpMethod.POST.name()));
+        matchers.add(new AntPathRequestMatcher("/api/users/check-email", HttpMethod.GET.name()));
+        matchers.add(new AntPathRequestMatcher("/api/guardians/check-phone", HttpMethod.GET.name()));
+        matchers.add(new AntPathRequestMatcher("/api/users/register", HttpMethod.POST.name()));
+        matchers.add(new AntPathRequestMatcher("/api/mail/forgot-password", HttpMethod.POST.name()));
+        matchers.add(new AntPathRequestMatcher("/api/external/**", HttpMethod.GET.name()));
+        matchers.add(new AntPathRequestMatcher("/api/external/**", HttpMethod.POST.name()));
+        matchers.add(new AntPathRequestMatcher("/**", HttpMethod.OPTIONS.name()));
+        return matchers;
     }
 }
