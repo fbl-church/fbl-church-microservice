@@ -108,7 +108,7 @@ public class UserClient {
 	 * @return The new user that was created.
 	 */
 	public User createUser(User user) {
-		return manageUserService.createUser(user, false);
+		return manageUserService.createUser(user, false, false);
 	}
 
 	/**
@@ -132,7 +132,7 @@ public class UserClient {
 	 * @return user associated to that id with the updated information
 	 */
 	public User updateUserById(int userId, User user, boolean updateRoles) {
-		return manageUserService.updateUserById(userId, user, updateRoles);
+		return manageUserService.updateUserById(userId, user, false, updateRoles);
 	}
 
 	/**

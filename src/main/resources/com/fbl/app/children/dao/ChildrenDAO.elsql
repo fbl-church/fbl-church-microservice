@@ -23,6 +23,8 @@
       u.id IN (SELECT child_id FROM children_groups cg WHERE church_group IN (:church_group) GROUP BY child_id)
     @AND(:not_church_group)
       u.id NOT IN (SELECT child_id FROM children_groups cg WHERE church_group IN (:not_church_group) GROUP BY child_id)
+    @AND(:birthday)
+      c.birthday IN (:birthday)
     @AND(:search = true)
       @INCLUDE(search)
 

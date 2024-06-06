@@ -72,22 +72,28 @@ public class ManageChildrenService {
     /**
      * Update the child personal information.
      * 
-     * @param id    The id of the child to update
-     * @param child what information on the child needs to be updated.
+     * @param id           The id of the child to update
+     * @param child        what information on the child needs to be updated.
+     * @param updateGroups If the child groups should be modified
      * @return child associated to that id with the updated information
      */
-    public Child updateChildById(int id, Child child) {
+    public Child updateChildById(int id, Child child, boolean updateGroups) {
         userClient.updateUserById(id, child, false);
         dao.updateChildById(id, child);
-        assignChildGroups(id, child.getChurchGroup());
+
+        if (updateGroups) {
+            assignChildGroups(id, child.getChurchGroup());
+        }
+
         return childrenService.getChildById(id);
     }
 
     /**
      * Update child groups by id.
      * 
-     * @param id    The id of the child to be updated
-     * @param group The list of groups to assign to the child
+     * @param id             The id of the child to be updated
+     * @param group          The list of groups to assign to the child
+     * @param removeExisting If it should remove the existing groups from the child
      * @return The updated child with the new groups.
      */
     public Child updateChildGroupsById(int id, List<ChurchGroup> groups) {

@@ -61,12 +61,15 @@ public class ManageUserService {
 	 * Create a new user. This is an account created by someone other the user
 	 * accessing the account.
 	 * 
-	 * @param user      The user object to be created.
-	 * @param sendEmail To determine if it should send an email to the new user
+	 * @param user               The user object to be created.
+	 * @param validatePermission Checks if it should validate permission to update
+	 *                           user
+	 * @param sendEmail          To determine if it should send an email to the new
+	 *                           user
 	 * @return The new user that was created.
 	 */
-	public User createUser(User user, boolean sendEmail) {
-		if (!WebRole.hasPermission(jwtHolder.getWebRole(), user.getWebRole())) {
+	public User createUser(User user, boolean validatePermission, boolean sendEmail) {
+		if (validatePermission && !WebRole.hasPermission(jwtHolder.getWebRole(), user.getWebRole())) {
 			throw new InsufficientPermissionsException(
 					String.format("Insufficient permission for user '%d' to create a user of role '%s'",
 							jwtHolder.getUserId(),
@@ -101,14 +104,16 @@ public class ManageUserService {
 	/**
 	 * Updates a user for the given id.
 	 * 
-	 * @param id          of the user
-	 * @param user        The user object to update with
-	 * @param updateRoles Boolean if it should update the user roles or not.
+	 * @param id                 of the user
+	 * @param user               The user object to update with
+	 * @param validatePermission Checks if it should validate permission to update
+	 *                           user
+	 * @param updateRoles        Boolean if it should update the user roles or not.
 	 * @return user associated to that id with the updated information.
 	 */
-	public User updateUserById(int id, User user, boolean updateRoles) {
+	public User updateUserById(int id, User user, boolean validatePermission, boolean updateRoles) {
 		User updatingUser = userClient.getUserById(id);
-		if (!WebRole.hasPermission(jwtHolder.getWebRole(), updatingUser.getWebRole())) {
+		if (validatePermission && !WebRole.hasPermission(jwtHolder.getWebRole(), updatingUser.getWebRole())) {
 			throw new InsufficientPermissionsException(String
 					.format("Insufficient permission for user '%d' to update a user of role '%s'",
 							jwtHolder.getUserId(),

@@ -17,6 +17,7 @@ import com.fbl.app.children.client.domain.request.ChildGetRequest;
 import com.fbl.app.children.service.ChildrenService;
 import com.fbl.app.guardian.client.domain.Guardian;
 import com.fbl.app.guardian.client.domain.request.GuardianGetRequest;
+import com.fbl.app.guardian.service.GuardianService;
 import com.fbl.app.vbs.dao.VBSDAO;
 import com.fbl.common.page.Page;
 import com.fbl.common.search.SearchParam;
@@ -35,6 +36,9 @@ public class VBSService {
 
     @Autowired
     private ChildrenService childrenService;
+
+    @Autowired
+    private GuardianService guardianService;
 
     /**
      * Gets a list of vbs guardians based of the request filter
@@ -71,7 +75,9 @@ public class VBSService {
      * @return page of guardian children
      */
     public List<Child> getVbsChildren(ChildGetRequest request) {
-        return childrenService.getChildren(request).getList();
+        Page<Child> children = childrenService.getChildren(request);
+        children.forEach(c -> c.setGuardians(guardianService.getChildGuardians(c.getId())));
+        return children.getList();
     }
 
     /**

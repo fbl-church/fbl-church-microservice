@@ -82,7 +82,7 @@ public class ManageUserServiceTest {
         when(dao.insertUser(any(User.class))).thenReturn(12);
         when(userClient.getUserById(anyInt())).thenReturn(UserFactoryData.userData());
 
-        User createdUser = service.createUser(UserFactoryData.userData(), true);
+        User createdUser = service.createUser(UserFactoryData.userData(), true, true);
 
         verify(dao).insertUser(any(User.class));
         verify(dao).deleteUserRoles(12);
@@ -111,7 +111,7 @@ public class ManageUserServiceTest {
         when(dao.insertUser(any(User.class))).thenReturn(12);
         when(userClient.getUserById(anyInt())).thenReturn(UserFactoryData.userData());
 
-        User createdUser = service.createUser(UserFactoryData.userData(), false);
+        User createdUser = service.createUser(UserFactoryData.userData(), true, false);
 
         verify(dao).insertUser(any(User.class));
         verify(dao).deleteUserRoles(12);
@@ -139,7 +139,7 @@ public class ManageUserServiceTest {
         when(jwtHolder.getWebRole()).thenReturn(List.of(WebRole.USER));
 
         InsufficientPermissionsException e = assertThrows(InsufficientPermissionsException.class,
-                () -> service.createUser(UserFactoryData.userData(), false));
+                () -> service.createUser(UserFactoryData.userData(), true, false));
 
         assertEquals("Insufficient permission for user '10' to create a user of role 'SITE_ADMINISTRATOR'",
                 e.getMessage(), "Exception Message");
@@ -193,7 +193,7 @@ public class ManageUserServiceTest {
         when(jwtHolder.getWebRole()).thenReturn(List.of(WebRole.ADMINISTRATOR));
         when(userClient.getUserById(anyInt())).thenReturn(UserFactoryData.userData());
 
-        User updatedUser = service.updateUserById(12, UserFactoryData.userData(), roleUpdate);
+        User updatedUser = service.updateUserById(12, UserFactoryData.userData(), true, roleUpdate);
 
         verify(dao).updateUser(eq(12), any(User.class));
         verify(dao, roleUpdate ? times(1) : never()).deleteUserRoles(12);
@@ -216,7 +216,7 @@ public class ManageUserServiceTest {
         when(userClient.getUserById(anyInt())).thenReturn(UserFactoryData.userData());
 
         InsufficientPermissionsException e = assertThrows(InsufficientPermissionsException.class,
-                () -> service.updateUserById(12, UserFactoryData.userData(), false));
+                () -> service.updateUserById(12, UserFactoryData.userData(), true, false));
 
         assertEquals("Insufficient permission for user '13' to update a user of role 'SITE_ADMINISTRATOR'",
                 e.getMessage(), "Exception Message");

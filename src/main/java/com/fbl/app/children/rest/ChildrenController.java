@@ -117,7 +117,7 @@ public class ChildrenController {
     @PutMapping("/{id}")
     @HasAccess(WebRole.WORKER)
     public Child updateChildById(@PathVariable int id, @RequestBody Child child) {
-        return manageChildrenService.updateChildById(id, child);
+        return manageChildrenService.updateChildById(id, child, true);
     }
 
     /**

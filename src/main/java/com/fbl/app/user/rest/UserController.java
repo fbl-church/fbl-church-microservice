@@ -110,7 +110,7 @@ public class UserController {
 	@PostMapping("/create")
 	@HasAccess(WebRole.MODERATOR)
 	public User createUser(@RequestBody @Valid User user) {
-		return manageUserService.createUser(user, true);
+		return manageUserService.createUser(user, true, true);
 	}
 
 	/**
@@ -175,7 +175,7 @@ public class UserController {
 	@PutMapping("/{id}")
 	@HasAccess(WebRole.MODERATOR)
 	public User updateUserById(@PathVariable int id, @RequestBody User user) {
-		return manageUserService.updateUserById(id, user, true);
+		return manageUserService.updateUserById(id, user, true, true);
 	}
 
 	/**

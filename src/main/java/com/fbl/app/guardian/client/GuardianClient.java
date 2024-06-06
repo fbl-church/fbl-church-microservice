@@ -86,6 +86,17 @@ public class GuardianClient {
     }
 
     /**
+     * Update the guardian's information such as email, first name, and last name
+     * 
+     * @param id       The id of the guardian to update
+     * @param guardian what information on the guardian needs to be updated.
+     * @return guardian associated to that id with the updated information
+     */
+    public Guardian updateGuardianById(int id, Guardian guardian) {
+        return manageGuardianService.updateGuardianById(id, guardian);
+    }
+
+    /**
      * Used when assigning the guardian role to an existing user.
      * 
      * @param guardian The guardian to create.

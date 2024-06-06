@@ -127,8 +127,8 @@ public class ManageGuardianService {
 
         for (Guardian g : guardians) {
             try {
-                if (g.getId() == null) {
-                    log.info("Guardian id is null. Creating guardian.");
+                if (g.getId() == null || g.getId() < 0) {
+                    log.info("Guardian id is null. Creating guardian...");
                     g.setId(insertGuardian(g).getId());
                 }
                 dao.associateChild(g.getId(), childId, g.getRelationship());

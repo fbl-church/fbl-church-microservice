@@ -3,6 +3,7 @@
  */
 package com.fbl.app.children.client.domain.request;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
@@ -43,6 +44,9 @@ public class ChildGetRequest implements SearchParam, PageParam, SearchFieldParam
 
     @Schema(description = "List of church groups not to return")
     private Set<ChurchGroup> notChurchGroup;
+
+    @Schema(description = "Childs Birthday")
+    private Set<LocalDate> birthday;
 
     @Schema(description = "Search Param on search param fields.")
     private Set<String> search;
