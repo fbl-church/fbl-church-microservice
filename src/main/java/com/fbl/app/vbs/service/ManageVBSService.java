@@ -17,8 +17,6 @@ import com.fbl.app.children.service.ManageChildrenService;
 import com.fbl.app.guardian.client.GuardianClient;
 import com.fbl.app.guardian.client.domain.Guardian;
 import com.fbl.app.vbs.client.domain.VBSRegistration;
-import com.fbl.app.vbs.client.domain.VBSTheme;
-import com.fbl.app.vbs.dao.VBSDAO;
 import com.fbl.common.enums.ChurchGroup;
 
 /**
@@ -34,9 +32,6 @@ public class ManageVBSService {
             ChurchGroup.VBS_PRE_PRIMARY, ChurchGroup.VBS_PRIMARY);
 
     @Autowired
-    private VBSDAO vbsDao;
-
-    @Autowired
     private ChildrenService childrenService;
 
     @Autowired
@@ -44,25 +39,6 @@ public class ManageVBSService {
 
     @Autowired
     private GuardianClient guardianClient;
-
-    /**
-     * The theme to be created
-     * 
-     * @param theme The theme to create
-     */
-    public VBSTheme getThemeById(int id) {
-        return vbsDao.getThemeById(id);
-    }
-
-    /**
-     * The theme to be created
-     * 
-     * @param theme The theme to create
-     */
-    public VBSTheme createTheme(VBSTheme theme) {
-        int id = vbsDao.createTheme(theme);
-        return getThemeById(id);
-    }
 
     /**
      * Takes in a list of children to register for VBS

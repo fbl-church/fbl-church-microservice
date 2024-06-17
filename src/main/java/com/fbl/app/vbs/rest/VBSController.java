@@ -18,7 +18,6 @@ import com.fbl.app.guardian.client.domain.Guardian;
 import com.fbl.app.guardian.client.domain.request.GuardianGetRequest;
 import com.fbl.app.guardian.openapi.TagGuardian;
 import com.fbl.app.vbs.client.domain.VBSRegistration;
-import com.fbl.app.vbs.client.domain.VBSTheme;
 import com.fbl.app.vbs.service.ManageVBSService;
 import com.fbl.app.vbs.service.VBSService;
 import com.fbl.common.annotations.interfaces.RestApiController;
@@ -75,26 +74,6 @@ public class VBSController {
     @GetMapping("/children")
     public List<Child> getVbsChildren(ChildGetRequest request) {
         return vbsService.getVbsChildren(request);
-    }
-
-    /**
-     * The theme to be created
-     * 
-     * @param theme The theme to create
-     */
-    @GetMapping("/theme/{id}")
-    public VBSTheme getThemeById(@PathVariable int id) {
-        return manageVBSService.getThemeById(id);
-    }
-
-    /**
-     * The theme to be created
-     * 
-     * @param theme The theme to create
-     */
-    @PostMapping("/theme")
-    public VBSTheme createTheme(@RequestBody @Valid VBSTheme theme) {
-        return manageVBSService.createTheme(theme);
     }
 
     /**
