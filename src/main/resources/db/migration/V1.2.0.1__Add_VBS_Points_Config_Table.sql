@@ -29,17 +29,17 @@ CREATE INDEX IX_vbs_points_config__insert_user_id ON vbs_points_config(insert_us
 
 ALTER TABLE vbs_points_config ADD CONSTRAINT FK3_vbs_points_config__vbs_themes
   FOREIGN KEY (vbs_theme_id) REFERENCES vbs_themes (id) 
-    ON DELETE CASCADE 
+    ON DELETE CASCADE
     ON UPDATE CASCADE;
    
 ALTER TABLE vbs_points_config ADD CONSTRAINT FK1_vbs_points_config__users
   FOREIGN KEY (updated_user_id) REFERENCES users (id) 
-    ON DELETE SET NULL 
+    ON DELETE SET NULL
     ON UPDATE CASCADE;
 
 ALTER TABLE vbs_points_config ADD CONSTRAINT FK2_vbs_points_config__users
   FOREIGN KEY (insert_user_id) REFERENCES users (id) 
-    ON DELETE SET NULL 
+    ON DELETE SET NULL
     ON UPDATE CASCADE;
 
 -- ---------------------------------------------------------------------------------

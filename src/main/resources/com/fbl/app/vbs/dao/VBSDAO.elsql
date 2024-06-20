@@ -60,8 +60,6 @@
 
 ---
 
----
-
 @NAME(getGuardianChildrenIds)
     SELECT c.user_id 
     FROM guardians g 

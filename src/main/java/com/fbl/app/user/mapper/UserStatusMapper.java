@@ -25,7 +25,7 @@ public class UserStatusMapper extends AbstractMapper<UserStatus> {
         userStatus.setUserId(rs.getInt(USER_ID));
         userStatus.setAccountStatus(AccountStatus.valueOf(rs.getString(ACCOUNT_STATUS)));
         userStatus.setAppAccess(rs.getBoolean(APP_ACCESS));
-        userStatus.setUpdatedUserId(rs.getInt(UPDATE_USER_ID));
+        userStatus.setUpdatedUserId(rs.getInt(UPDATED_USER_ID));
 
         return userStatus;
     }

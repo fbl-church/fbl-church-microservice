@@ -52,6 +52,7 @@ public abstract class AbstractSqlGlobals {
     protected static final String OWNER_USER_ID = "owner_user_id";
     protected static final String PASSWORD = "password";
     protected static final String PHONE = "phone";
+    protected static final String POINTS = "points";
     protected static final String PRESENT = "present";
     protected static final String READ = "read";
     protected static final String RELATIONSHIP = "relationship";
@@ -67,8 +68,10 @@ public abstract class AbstractSqlGlobals {
     protected static final String TYPE = "type";
     protected static final String UNIT_SESSION = "unit_session";
     protected static final String UPDATE = "update";
-    protected static final String UPDATE_USER_ID = "updated_user_id";
+    protected static final String UPDATED_USER_ID = "updated_user_id";
+    protected static final String UPDATED_DATE = "updated_date";
     protected static final String USER_ID = "user_id";
+    protected static final String VBS_THEME_ID = "vbs_theme_id";
     protected static final String WEB_ROLE = "web_role";
     protected static final String YEAR = "year";
     protected static final String ZIP_CODE = "zip_code";

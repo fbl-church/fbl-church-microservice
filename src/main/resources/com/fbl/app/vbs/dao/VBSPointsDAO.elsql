@@ -1,0 +1,52 @@
+@NAME(vbsPointsConfigFields)
+  vpc.id,
+  vpc.type,
+  vpc.display_name,
+  vpc.points,
+  vpc.vbs_theme_id,
+  vpc.updated_user_id,
+  vpc.updated_date,
+  vpc.insert_user_id,
+  vpc.insert_date
+
+---
+
+@NAME(getVBSPointsFilters)
+  @WHERE
+    @AND(:vbs_theme_id)
+      vpc.vbs_theme_id IN (:vbs_theme_id)
+---
+
+@NAME(getVBSPointsBase)
+  FROM vbs_points_config vpc
+  @INCLUDE(getVBSPointsFilters)
+
+---
+
+@NAME(getVBSPointsPageByThemeId)
+  @PAGING(:rowOffset, :pageSize)
+    SELECT @INCLUDE(vbsPointsConfigFields) 
+    @INCLUDE(getVBSPointsBase)
+    ORDER BY vpc.type ASC
+
+---
+
+@NAME(getVBSPointsPageByThemeIdTotalCount)
+  SELECT COUNT(*)
+  @INCLUDE(getVBSPointsBase)
+
+---
+
+@NAME(createPointConfig)
+  INSERT INTO vbs_points_config (type, display_name, points, vbs_theme_id, updated_user_id, insert_user_id)
+  VALUES (:type, :display_name, :points, :vbs_theme_id, :updated_user_id, :insert_user_id)
+
+---
+
+@NAME(deletePointConfigs)
+  DELETE FROM vbs_points_config
+  @WHERE
+    @AND(:id)
+      id IN (:id)
+    @AND(:vbs_theme_id)
+      vbs_theme_id IN (:vbs_theme_id)

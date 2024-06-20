@@ -107,7 +107,7 @@ public class ChildAttendanceDAO extends BaseDao {
     public void checkOutChildFromAttendanceRecord(int recordId, int childId, Integer guardianId, int updatedUserId) {
         MapSqlParameterSource params = SqlParamBuilder.with().withParam(ATTENDANCE_RECORD_ID, recordId)
                 .withParam(CHILD_ID, childId).withParam(GUARDIAN_ID, guardianId)
-                .withParam(UPDATE_USER_ID, updatedUserId)
+                .withParam(UPDATED_USER_ID, updatedUserId)
                 .withParam(CHECK_OUT_DATE, LocalDateTime.now(TimeZoneUtil.SYSTEM_ZONE)).build();
         update("checkOutChildFromAttendanceRecord", params);
     }
@@ -137,7 +137,7 @@ public class ChildAttendanceDAO extends BaseDao {
         return SqlParamBuilder.with().withParam(ATTENDANCE_RECORD_ID, recordId)
                 .withParam(CHILD_ID, ca.getId()).withParam(NOTES, ca.getNotes())
                 .withParam(GUARDIAN_PICKED_UP_ID, ca.getGuardianPickedUpId())
-                .withParam(UPDATE_USER_ID, updatedUserId)
+                .withParam(UPDATED_USER_ID, updatedUserId)
                 .build();
     }
 }

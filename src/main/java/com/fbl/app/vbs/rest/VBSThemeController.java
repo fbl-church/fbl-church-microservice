@@ -24,7 +24,7 @@ import jakarta.validation.Valid;
  * @author Sam Butler
  * @since June 25, 2022
  */
-@RequestMapping("/api/external/vbs/theme")
+@RequestMapping("/api/vbs/theme")
 @RestApiController
 @TagVBS
 public class VBSThemeController {

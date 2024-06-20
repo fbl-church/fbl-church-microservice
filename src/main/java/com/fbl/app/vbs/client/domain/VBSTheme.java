@@ -1,6 +1,7 @@
 package com.fbl.app.vbs.client.domain;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Min;
@@ -44,6 +45,9 @@ public class VBSTheme {
     @Schema(description = "The donation name where the money is going")
     @NotBlank(message = "Invalid donation: Can not be empty or null")
     private String donation;
+
+    @Schema(description = "The list of vbs points for the theme")
+    private List<VBSPoint> points;
 
     @Schema(description = "When the theme was created.")
     private LocalDateTime insertDate;

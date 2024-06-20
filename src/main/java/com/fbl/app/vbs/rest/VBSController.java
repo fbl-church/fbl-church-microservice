@@ -16,8 +16,8 @@ import com.fbl.app.children.client.domain.Child;
 import com.fbl.app.children.client.domain.request.ChildGetRequest;
 import com.fbl.app.guardian.client.domain.Guardian;
 import com.fbl.app.guardian.client.domain.request.GuardianGetRequest;
-import com.fbl.app.guardian.openapi.TagGuardian;
 import com.fbl.app.vbs.client.domain.VBSRegistration;
+import com.fbl.app.vbs.openapi.TagVBS;
 import com.fbl.app.vbs.service.ManageVBSService;
 import com.fbl.app.vbs.service.VBSService;
 import com.fbl.common.annotations.interfaces.RestApiController;
@@ -33,8 +33,7 @@ import jakarta.validation.Valid;
  */
 @RequestMapping("/api/external/vbs")
 @RestApiController
-
-@TagGuardian
+@TagVBS
 public class VBSController {
 
     @Autowired

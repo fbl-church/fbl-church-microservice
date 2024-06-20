@@ -7,6 +7,7 @@ import static com.fbl.app.guardian.mapper.GuardianMapper.*;
 import static com.fbl.app.vbs.mapper.VBSThemeMapper.*;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.sql.DataSource;
 
@@ -66,9 +67,9 @@ public class VBSDAO extends BaseDao {
      * @param request to filter on
      * @return vbs theme object
      */
-    public VBSTheme getThemeById(int id) {
+    public Optional<VBSTheme> getThemeById(int id) {
         MapSqlParameterSource params = SqlParamBuilder.with().withParam(ID, id).build();
-        return get("getThemeById", params, VBS_THEME_MAPPER);
+        return getOptional("getThemeById", params, VBS_THEME_MAPPER);
     }
 
     /**
