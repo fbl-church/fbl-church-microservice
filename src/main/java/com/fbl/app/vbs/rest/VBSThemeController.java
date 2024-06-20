@@ -11,10 +11,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.fbl.app.vbs.client.domain.VBSTheme;
+import com.fbl.app.vbs.client.domain.request.VBSThemeGetRequest;
 import com.fbl.app.vbs.openapi.TagVBS;
 import com.fbl.app.vbs.service.ManageVBSThemeService;
 import com.fbl.app.vbs.service.VBSThemeService;
 import com.fbl.common.annotations.interfaces.RestApiController;
+import com.fbl.common.page.Page;
 
 import jakarta.validation.Valid;
 
@@ -24,7 +26,7 @@ import jakarta.validation.Valid;
  * @author Sam Butler
  * @since June 25, 2022
  */
-@RequestMapping("/api/vbs/theme")
+@RequestMapping("/api/vbs/themes")
 @RestApiController
 @TagVBS
 public class VBSThemeController {
@@ -34,6 +36,17 @@ public class VBSThemeController {
 
     @Autowired
     private ManageVBSThemeService manageVBSThemeService;
+
+    /**
+     * Gets a page of vbs themes
+     * 
+     * @param request The request to fitler by
+     * @return The page of vbs themes
+     */
+    @GetMapping
+    public Page<VBSTheme> getThemes(VBSThemeGetRequest request) {
+        return vbsThemeService.getThemes(request);
+    }
 
     /**
      * The theme to be created

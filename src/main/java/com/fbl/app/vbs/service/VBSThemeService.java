@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fbl.app.vbs.client.domain.VBSTheme;
+import com.fbl.app.vbs.client.domain.request.VBSThemeGetRequest;
 import com.fbl.app.vbs.dao.VBSDAO;
+import com.fbl.common.page.Page;
 import com.fbl.exception.types.NotFoundException;
 
 /**
@@ -20,6 +22,16 @@ import com.fbl.exception.types.NotFoundException;
 public class VBSThemeService {
     @Autowired
     private VBSDAO vbsDao;
+
+    /**
+     * Gets a page of vbs themes
+     * 
+     * @param request The request to fitler by
+     * @return The page of vbs themes
+     */
+    public Page<VBSTheme> getThemes(VBSThemeGetRequest request) {
+        return vbsDao.getThemes(request);
+    }
 
     /**
      * Gets the theme by id. If no id is matched, then it will throw a not found

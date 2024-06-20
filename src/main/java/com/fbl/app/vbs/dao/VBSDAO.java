@@ -20,6 +20,7 @@ import com.fbl.app.guardian.client.domain.Guardian;
 import com.fbl.app.guardian.client.domain.request.GuardianGetRequest;
 import com.fbl.app.vbs.client.domain.VBSTheme;
 import com.fbl.app.vbs.client.domain.request.VBSGuardianChildrenGetRequest;
+import com.fbl.app.vbs.client.domain.request.VBSThemeGetRequest;
 import com.fbl.common.page.Page;
 import com.fbl.sql.abstracts.BaseDao;
 import com.fbl.sql.builder.SqlParamBuilder;
@@ -59,6 +60,17 @@ public class VBSDAO extends BaseDao {
     public List<Integer> getGuardianChildrenIds(VBSGuardianChildrenGetRequest request) {
         MapSqlParameterSource params = SqlParamBuilder.with(request).useAllParams().build();
         return getList("getGuardianChildrenIds", params, Integer.class);
+    }
+
+    /**
+     * Gets a page of vbs themes
+     * 
+     * @param request The request to fitler by
+     * @return The page of vbs themes
+     */
+    public Page<VBSTheme> getThemes(VBSThemeGetRequest request) {
+        MapSqlParameterSource params = SqlParamBuilder.with(request).useAllParams().build();
+        return getPage("getVBSThemePage", params, VBS_THEME_MAPPER);
     }
 
     /**

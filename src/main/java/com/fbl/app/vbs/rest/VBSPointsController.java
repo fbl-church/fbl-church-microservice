@@ -47,7 +47,7 @@ public class VBSPointsController {
      * @param points The point configs to be created
      * @return page of the created point configs
      */
-    @GetMapping("/theme/{id}")
+    @GetMapping("/themes/{id}")
     public Page<VBSPoint> getVBSPointsByThemeId(@PathVariable Integer id) {
         return vbsPointsService.getVbsPointsByThemeId(id);
     }
@@ -58,7 +58,7 @@ public class VBSPointsController {
      * @param points The point configs to be created
      * @return page of the created point configs
      */
-    @PostMapping("/theme/{id}")
+    @PostMapping("/themes/{id}")
     @HasAccess(WebRole.MODERATOR)
     public List<VBSPoint> createPointsConfigs(@PathVariable Integer id, @RequestBody @Valid List<VBSPoint> points) {
         return manageVBSPointsService.createPointConfigs(id, points);
@@ -80,7 +80,7 @@ public class VBSPointsController {
      * 
      * @param id The id of the theme to remove point configs from
      */
-    @DeleteMapping("/theme/{id}")
+    @DeleteMapping("/themes/{id}")
     @HasAccess(WebRole.MODERATOR)
     public void deletePointConfigByThemeId(@PathVariable Integer id) {
         manageVBSPointsService.deletePointConfigByThemeId(id);

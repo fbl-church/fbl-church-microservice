@@ -70,10 +70,33 @@
 
 ---
 
+@NAME(getVBSThemeBase)
+  FROM vbs_themes vt
+  @WHERE
+    @AND(:search = true)
+      @INCLUDE(search)
+
+---
+
+@NAME(getVBSThemePage)
+  @PAGING(:rowOffset, :pageSize)
+    SELECT @INCLUDE(VBSThemeFields) 
+    @INCLUDE(getVBSThemeBase)
+    ORDER BY vt.year DESC
+
+---
+
+@NAME(getVBSThemePageTotalCount)
+  SELECT COUNT(*)
+  @INCLUDE(getVBSThemeBase)
+
+---
+
 @NAME(getThemeById)
     SELECT @INCLUDE(VBSThemeFields)
     FROM vbs_themes vt 
     WHERE vt.id = :id
+
 ---
 
 @NAME(getRegisteredVBSChildren)
