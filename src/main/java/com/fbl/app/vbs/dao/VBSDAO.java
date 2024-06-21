@@ -19,6 +19,7 @@ import org.springframework.stereotype.Repository;
 import com.fbl.app.guardian.client.domain.Guardian;
 import com.fbl.app.guardian.client.domain.request.GuardianGetRequest;
 import com.fbl.app.vbs.client.domain.VBSTheme;
+import com.fbl.app.vbs.client.domain.VBSThemeGroup;
 import com.fbl.app.vbs.client.domain.request.VBSGuardianChildrenGetRequest;
 import com.fbl.app.vbs.client.domain.request.VBSThemeGetRequest;
 import com.fbl.common.page.Page;
@@ -101,9 +102,33 @@ public class VBSDAO extends BaseDao {
     public int createTheme(VBSTheme theme) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         MapSqlParameterSource params = SqlParamBuilder.with().withParam(NAME, theme.getName())
-                .withParam(YEAR, theme.getYear()).withParam(DONATION, theme.getDonation()).build();
+                .withParam(START_DATE, theme.getStartDate()).withParam(END_DATE, theme.getEndDate())
+                .withParam(DONATION, theme.getDonation()).build();
 
         post("createVBSTheme", params, keyHolder);
         return keyHolder.getKey().intValue();
+    }
+
+    /**
+     * Creates a theme group
+     * 
+     * @param vbsThemeId The vbs theme id
+     * @param g          The group to be created
+     */
+    public VBSThemeGroup createThemeGroup(int vbsThemeId, VBSThemeGroup g) {
+        MapSqlParameterSource params = SqlParamBuilder.with().withParam(VBS_THEME_ID, vbsThemeId)
+                .withParam(CHURCH_GROUP, g.getGroup()).withParam(NAME, g.getName()).build();
+        post("createThemeGroup", params);
+        g.setVbsThemeId(vbsThemeId);
+        return g;
+    }
+
+    /**
+     * The theme to be deleted
+     * 
+     * @param id The id of the vbs theme to delete
+     */
+    public void deleteTheme(int id) {
+        delete("deleteTheme", parameterSource(VBS_THEME_ID, id));
     }
 }

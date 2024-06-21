@@ -1,10 +1,10 @@
 package com.fbl.app.vbs.client.domain;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -28,10 +28,16 @@ public class VBSTheme {
     @NotBlank(message = "Invalid name: Can not be empty or null")
     private String name;
 
-    @Schema(description = "The year this theme took place")
-    @Min(value = 2000, message = "Invalid year: Must be greater than the year 2000")
-    @NotNull(message = "Invalid year: Must not be null")
-    private Integer year;
+    @Schema(description = "The date the vbs theme starts")
+    @NotNull(message = "Invalid startDate: Can not be null")
+    private LocalDate startDate;
+
+    @Schema(description = "The date the vbs theme ends")
+    @NotNull(message = "Invalid endDate: Can not be null")
+    private LocalDate endDate;
+
+    @Schema(description = "The vbs theme groups")
+    private List<VBSThemeGroup> groups;
 
     @Schema(description = "The status of the vbs theme")
     private VBSStatus status;

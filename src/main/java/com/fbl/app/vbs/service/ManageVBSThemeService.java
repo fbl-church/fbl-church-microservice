@@ -8,9 +8,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import com.fbl.app.vbs.client.domain.VBSPoint;
 import com.fbl.app.vbs.client.domain.VBSTheme;
+import com.fbl.app.vbs.client.domain.VBSThemeGroup;
 import com.fbl.app.vbs.dao.VBSDAO;
 
 /**
@@ -43,8 +45,26 @@ public class ManageVBSThemeService {
             createdPoints = manageVBSPointsService.createPointConfigs(id, theme.getPoints());
         }
 
+        if (!CollectionUtils.isEmpty(theme.getGroups())) {
+            for (VBSThemeGroup g : theme.getGroups()) {
+                if (!StringUtils.hasText(g.getName())) {
+                    g.setName(null);
+                }
+                vbsDao.createThemeGroup(id, g);
+            }
+        }
+
         VBSTheme createdTheme = vbsThemeService.getThemeById(id);
         createdTheme.setPoints(createdPoints);
         return createdTheme;
+    }
+
+    /**
+     * The theme to be deleted
+     * 
+     * @param id The id of the vbs theme to delete
+     */
+    public void deleteTheme(int id) {
+        vbsDao.deleteTheme(id);
     }
 }

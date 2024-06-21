@@ -21,7 +21,8 @@ public enum ChurchGroup implements TextEnum {
     VBS_PRE_PRIMARY("VBS_PRE_PRIMARY"),
     VBS_PRIMARY("VBS_PRIMARY"),
     VBS_MIDDLER("VBS_MIDDLER"),
-    VBS_JUNIOR("VBS_JUNIOR");
+    VBS_JUNIOR("VBS_JUNIOR"),
+    VBS("VBS");
 
     private String textId;
 

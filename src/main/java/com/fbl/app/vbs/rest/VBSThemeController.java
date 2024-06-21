@@ -4,6 +4,7 @@
 package com.fbl.app.vbs.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -66,5 +67,15 @@ public class VBSThemeController {
     @PostMapping
     public VBSTheme createTheme(@RequestBody @Valid VBSTheme theme) {
         return manageVBSThemeService.createTheme(theme);
+    }
+
+    /**
+     * The theme to be deleted
+     * 
+     * @param id The id of the vbs theme to delete
+     */
+    @DeleteMapping("/{id}")
+    public void deleteTheme(@PathVariable int id) {
+        manageVBSThemeService.deleteTheme(id);
     }
 }

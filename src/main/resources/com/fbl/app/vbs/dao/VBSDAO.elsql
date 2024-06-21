@@ -1,7 +1,8 @@
 @NAME(VBSThemeFields)
   vt.id,
   vt.name,
-  vt.year,
+  vt.start_date,
+  vt.end_date,
   vt.status,
   vt.money,
   vt.children_attended,
@@ -82,7 +83,7 @@
   @PAGING(:rowOffset, :pageSize)
     SELECT @INCLUDE(VBSThemeFields) 
     @INCLUDE(getVBSThemeBase)
-    ORDER BY vt.year DESC
+    ORDER BY vt.start_date DESC
 
 ---
 
@@ -107,8 +108,20 @@
 ---
 
 @NAME(createVBSTheme)
-  INSERT INTO vbs_themes (name, year, donation)
-  VALUES (:name, :year, :donation)
+  INSERT INTO vbs_themes (name, start_date, end_date, donation)
+  VALUES (:name, :start_date, :end_date, :donation)
+
+---
+
+@NAME(createThemeGroup)
+  INSERT INTO vbs_theme_groups (vbs_theme_id, church_group, name)
+  VALUES (:vbs_theme_id, :church_group, :name)
+
+---
+
+@NAME(deleteTheme)
+  DELETE FROM vbs_themes
+  WHERE id = :vbs_theme_id
 
 ---
 
