@@ -1,0 +1,46 @@
+@NAME(attendanceRecordFields)
+  ar.id,
+  ar.name,
+  ar.status,
+  ar.type,
+  ar.unit_session,
+  ar.active_date,
+  ar.closed_date,
+  ar.started_by_user_id,
+  ar.closed_by_user_id,
+  ar.insert_date
+
+---
+
+@NAME(vbsAttendanceRecordFields)
+  vars.vbs_theme_id, 
+  vars.money,
+  vars.offering_winners
+
+---
+
+@NAME(getVBSAttendanceRecordsBase)
+  FROM vbs_attendance_records vars
+  INNER JOIN attendance_records ar ON vars.attendance_record_id = ar.id
+  @WHERE
+    @AND(:vbs_theme_id)
+      vars.vbs_theme_id IN (:vbs_theme_id)
+
+---
+
+@NAME(getVBSAttendanceRecordsPage)
+  @PAGING(:rowOffset, :pageSize)
+    SELECT @INCLUDE(attendanceRecordFields), @INCLUDE(vbsAttendanceRecordFields) 
+    @INCLUDE(getVBSAttendanceRecordsBase)
+    ORDER BY ar.active_date ASC
+
+---
+
+@NAME(getVBSAttendanceRecordsPageTotalCount)
+  SELECT COUNT(*)
+  @INCLUDE(getVBSThemeBase)
+
+---
+@NAME(createVBSAttendanceRecord)
+  INSERT INTO vbs_attendance_records (attendance_record_id, vbs_theme_id, money, offering_winners)
+  VALUES (:attendance_record_id, :vbs_theme_id, :money, :offering_winners)

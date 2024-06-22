@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
+import com.fbl.app.attendance.service.ManageAttendanceService;
+import com.fbl.app.vbs.client.domain.VBSAttendanceRecord;
 import com.fbl.app.vbs.client.domain.VBSPoint;
 import com.fbl.app.vbs.client.domain.VBSTheme;
 import com.fbl.app.vbs.client.domain.VBSThemeGroup;
@@ -30,7 +32,16 @@ public class ManageVBSThemeService {
     private VBSThemeService vbsThemeService;
 
     @Autowired
+    private VBSAttendanceService vbsAttendanceService;
+
+    @Autowired
     private ManageVBSPointsService manageVBSPointsService;
+
+    @Autowired
+    private ManageVBSAttendanceService manageVBSAttendanceService;
+
+    @Autowired
+    private ManageAttendanceService manageAttendanceService;
 
     /**
      * The theme to be created.
@@ -56,6 +67,9 @@ public class ManageVBSThemeService {
 
         VBSTheme createdTheme = vbsThemeService.getThemeById(id);
         createdTheme.setPoints(createdPoints);
+
+        manageVBSAttendanceService.createVBSAttendanceRecordsByTheme(id, createdTheme);
+
         return createdTheme;
     }
 
@@ -65,6 +79,10 @@ public class ManageVBSThemeService {
      * @param id The id of the vbs theme to delete
      */
     public void deleteTheme(int id) {
+        List<VBSAttendanceRecord> attendanceRecords = vbsAttendanceService.getVBSAttendanceRecordsByThemeId(id);
         vbsDao.deleteTheme(id);
+        for (VBSAttendanceRecord r : attendanceRecords) {
+            manageAttendanceService.deleteAttendanceRecordById(r.getId());
+        }
     }
 }

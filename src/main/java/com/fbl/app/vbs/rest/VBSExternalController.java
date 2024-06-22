@@ -34,7 +34,7 @@ import jakarta.validation.Valid;
 @RequestMapping("/api/external/vbs")
 @RestApiController
 @TagVBS
-public class VBSController {
+public class VBSExternalController {
 
     @Autowired
     private VBSService vbsService;

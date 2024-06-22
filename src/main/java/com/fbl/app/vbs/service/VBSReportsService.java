@@ -23,10 +23,9 @@ public class VBSReportsService {
     /**
      * Gets statistics of children for vbs for the given theme id
      * 
-     * @param id The vbs theme id
      * @return a map with data
      */
-    public Map<String, Integer> getVBSChildrenStats(int vbsThemeId) {
+    public Map<String, Integer> getCurrentlyRegisterVBSChildren() {
         Map<String, Integer> data = new HashMap<>();
         data.put("registeredChildren", vbsReportsDao.getCountOfRegisteredVBSChildren());
         return data;

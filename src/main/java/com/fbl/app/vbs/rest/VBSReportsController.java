@@ -4,7 +4,6 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.fbl.app.vbs.openapi.TagVBS;
@@ -31,8 +30,8 @@ public class VBSReportsController {
      * @param id The vbs theme id
      * @return a map with data
      */
-    @GetMapping("/{id}/children")
-    public Map<String, Integer> getVBSChildrenStats(@PathVariable int id) {
-        return vbsReportsService.getVBSChildrenStats(id);
+    @GetMapping("/children")
+    public Map<String, Integer> getCurrentlyRegisterVBSChildren() {
+        return vbsReportsService.getCurrentlyRegisterVBSChildren();
     }
 }

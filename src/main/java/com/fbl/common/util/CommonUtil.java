@@ -102,10 +102,25 @@ public class CommonUtil {
      * @return String of values
      */
     public static String serializeStringList(List<String> values, String seperator) {
-        if (values == null || values.isEmpty()) {
+        if (CollectionUtils.isEmpty(values)) {
             return null;
         }
         return String.join(seperator, values);
+    }
+
+    /**
+     * Convert a string list into a comma seperated list of values.
+     * 
+     * @param values    The list of values
+     * @param seperator The seperator
+     * @return String of values
+     */
+    public static <T extends TextEnum> String serializeEnumList(List<T> values, String seperator) {
+        if (CollectionUtils.isEmpty(values)) {
+            return null;
+        }
+
+        return serializeStringList(values.stream().map(TextEnum::getTextId).toList(), seperator);
     }
 
     public static String formatPhone(String phoneString) {

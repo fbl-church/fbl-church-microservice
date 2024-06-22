@@ -119,7 +119,7 @@ public class ManageAttendanceService {
      * @param workers  The list of workers to assign to the record.
      * @return the list of users that were assigned
      */
-    public List<User> assignWorkersToAttendanceRecord(int recordId, List<User> workers) {
+    public void assignWorkersToAttendanceRecord(int recordId, List<User> workers) {
         UserGetRequest request = new UserGetRequest();
 
         List<User> filteredWorkers = Collections.emptyList();
@@ -139,8 +139,6 @@ public class ManageAttendanceService {
                 log.error("Unable to assign user id '{}' to attendance record.", u.getId(), e);
             }
         }
-
-        return attendanceService.getAttendanceRecordWorkersById(recordId);
     }
 
     /**
