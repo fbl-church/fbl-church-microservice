@@ -2,7 +2,7 @@ buildscript {
     ext {
     	google_guava_version = '31.1-jre'
     	mysql_connector_version = '8.0.25'
-    	springboot_version = '3.3.0'
+    	springboot_version = '3.3.1'
     	swagger_version = '2.2.17'
 		spring_doc_openapi_version = '2.1.0'
 		json_web_token_version = '0.11.5'
