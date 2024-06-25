@@ -3,6 +3,7 @@ package com.fbl.app.vbs.dao;
 import static com.fbl.app.vbs.mapper.VBSAttendanceRecordMapper.*;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.sql.DataSource;
 
@@ -39,6 +40,17 @@ public class VBSAttendanceDAO extends BaseDao {
     }
 
     /**
+     * Gets a vbs attendance record by id
+     * 
+     * @param id the id of the vbs attendance record
+     * @return vbs attendance record
+     */
+    public Optional<VBSAttendanceRecord> getAttendanceRecordById(int id) {
+        MapSqlParameterSource params = SqlParamBuilder.with().withParam(ID, id).build();
+        return getOptional("getAttendanceRecordById", params, VBS_ATTENDANCE_RECORD_MAPPER);
+    }
+
+    /**
      * Creates a VBS attendance record. This will be extra data that is linked to
      * the main attendance record.
      * 
@@ -51,9 +63,27 @@ public class VBSAttendanceDAO extends BaseDao {
                 .withParam(ATTENDANCE_RECORD_ID, attendanceRecordId)
                 .withParam(VBS_THEME_ID, vbsThemeId)
                 .withParam(MONEY, record.getMoney() == null ? 0.00 : record.getMoney())
+                .withParam(SPIRIT_THEME, record.getSpiritTheme())
                 .withParam(OFFERING_WINNERS, CommonUtil.serializeEnumList(record.getOfferingWinners(), ","))
                 .build();
 
         post("createVBSAttendanceRecord", params);
+    }
+
+    /**
+     * Updates a VBS attendance record by id
+     * 
+     * @param id     The vbs attendance record id
+     * @param record The record data to update
+     */
+    public void updateVBSAttendanceRecordById(int id, VBSAttendanceRecord record) {
+        MapSqlParameterSource params = SqlParamBuilder.with()
+                .withParam(ATTENDANCE_RECORD_ID, id)
+                .withParam(MONEY, record.getMoney() == null ? 0.00 : record.getMoney())
+                .withParam(SPIRIT_THEME, record.getSpiritTheme())
+                .withParam(OFFERING_WINNERS, CommonUtil.serializeEnumList(record.getOfferingWinners(), ","))
+                .build();
+
+        update("updateVBSAttendanceRecordById", params);
     }
 }

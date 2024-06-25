@@ -3,6 +3,8 @@
  */
 package com.fbl.app.vbs.rest;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.fbl.app.vbs.client.domain.VBSTheme;
+import com.fbl.app.vbs.client.domain.VBSThemeGroup;
 import com.fbl.app.vbs.client.domain.request.VBSThemeGetRequest;
 import com.fbl.app.vbs.openapi.TagVBS;
 import com.fbl.app.vbs.service.ManageVBSThemeService;
@@ -57,6 +60,16 @@ public class VBSThemeController {
     @GetMapping("/{id}")
     public VBSTheme getThemeById(@PathVariable int id) {
         return vbsThemeService.getThemeById(id);
+    }
+
+    /**
+     * Gets the list of vbs theme groups by theme id.
+     * 
+     * @param id The id of the theme
+     */
+    @GetMapping("/{id}/groups")
+    public List<VBSThemeGroup> getThemeGroupsById(@PathVariable int id) {
+        return vbsThemeService.getThemeGroupsById(id);
     }
 
     /**

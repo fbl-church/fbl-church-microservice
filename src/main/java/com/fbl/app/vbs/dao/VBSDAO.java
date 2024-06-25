@@ -4,6 +4,7 @@
 package com.fbl.app.vbs.dao;
 
 import static com.fbl.app.guardian.mapper.GuardianMapper.*;
+import static com.fbl.app.vbs.mapper.VBSThemeGroupMapper.*;
 import static com.fbl.app.vbs.mapper.VBSThemeMapper.*;
 
 import java.util.List;
@@ -86,12 +87,13 @@ public class VBSDAO extends BaseDao {
     }
 
     /**
-     * Gets the count of how many children are registered for VBS.
+     * Gets the list of vbs theme groups by theme id.
      * 
-     * @return The number of registered VBS Children
+     * @param id The id of the theme
      */
-    public Integer getCountOfRegisteredVBSChildren() {
-        return get("getRegisteredVBSChildren", Integer.class);
+    public List<VBSThemeGroup> getThemeGroupsById(int id) {
+        MapSqlParameterSource params = SqlParamBuilder.with().withParam(VBS_THEME_ID, id).build();
+        return getList("getThemeGroupsById", params, VBS_THEME_GROUP_MAPPER);
     }
 
     /**

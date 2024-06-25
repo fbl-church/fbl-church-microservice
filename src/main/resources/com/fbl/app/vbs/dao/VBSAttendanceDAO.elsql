@@ -15,6 +15,7 @@
 @NAME(vbsAttendanceRecordFields)
   vars.vbs_theme_id, 
   vars.money,
+  vars.spirit_theme,
   vars.offering_winners
 
 ---
@@ -41,6 +42,25 @@
   @INCLUDE(getVBSThemeBase)
 
 ---
+
+@NAME(getAttendanceRecordById)
+  SELECT @INCLUDE(attendanceRecordFields), @INCLUDE(vbsAttendanceRecordFields) 
+  FROM vbs_attendance_records vars
+  INNER JOIN attendance_records ar ON vars.attendance_record_id = ar.id
+  WHERE vars.attendance_record_id = :id
+
+---
+
 @NAME(createVBSAttendanceRecord)
-  INSERT INTO vbs_attendance_records (attendance_record_id, vbs_theme_id, money, offering_winners)
-  VALUES (:attendance_record_id, :vbs_theme_id, :money, :offering_winners)
+  INSERT INTO vbs_attendance_records (attendance_record_id, vbs_theme_id, money, spirit_theme, offering_winners)
+  VALUES (:attendance_record_id, :vbs_theme_id, :money, :spirit_theme, :offering_winners)
+
+---
+
+@NAME(updateVBSAttendanceRecordById)
+  UPDATE vbs_attendance_records 
+  SET 
+    money            = :money,
+    offering_winners = :offering_winners,
+    spirit_theme     = :spirit_theme
+  WHERE attendance_record_id = :attendance_record_id

@@ -11,6 +11,13 @@
 
 ---
 
+@NAME(VBSThemeGroupFields)
+  vtg.vbs_theme_id,
+  vtg.church_group,
+  vtg.name
+
+---
+
 @NAME(guardianFields)
   u.id,
   u.first_name,
@@ -94,9 +101,16 @@
 ---
 
 @NAME(getThemeById)
-    SELECT @INCLUDE(VBSThemeFields)
-    FROM vbs_themes vt 
-    WHERE vt.id = :id
+  SELECT @INCLUDE(VBSThemeFields)
+  FROM vbs_themes vt 
+  WHERE vt.id = :id
+
+---
+
+@NAME(getThemeGroupsById)
+  SELECT @INCLUDE(VBSThemeGroupFields)
+  FROM vbs_theme_groups vtg 
+  WHERE vtg.vbs_theme_id = :vbs_theme_id
 
 ---
 

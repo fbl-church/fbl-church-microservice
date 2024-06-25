@@ -60,12 +60,24 @@ public class ManageVBSAttendanceService {
 
         List<LocalDate> dates = theme.getStartDate().datesUntil(theme.getEndDate().plusDays(1)).toList();
 
+        int dayCount = 1;
         for (LocalDate d : dates) {
             VBSAttendanceRecord vbsRec = new VBSAttendanceRecord();
-            vbsRec.setName(String.format("VBS (%s)", theme.getName()));
+            vbsRec.setName(String.format("Day %d (%s)", dayCount++, theme.getName()));
             vbsRec.setType(ChurchGroup.VBS);
             vbsRec.setActiveDate(d);
             createVBSAttendanceRecord(vbsThemeId, vbsRec);
         }
+    }
+
+    /**
+     * Updates a VBS attendance record by id
+     * 
+     * @param id     The vbs attendance record id
+     * @param record The record data to update
+     */
+    public void updateVBSAttendanceRecordById(int id, VBSAttendanceRecord record) {
+        vbsAttendanceDAO.updateVBSAttendanceRecordById(id, record);
+        manageAttendanceService.updateAttendanceRecord(id, record);
     }
 }

@@ -12,8 +12,9 @@
 CREATE TABLE vbs_attendance_records (
   attendance_record_id INT          UNSIGNED NOT NULL,
   vbs_theme_id         INT          UNSIGNED NOT NULL,
+  spirit_theme         VARCHAR(100)                   DEFAULT NULL,
   money                FLOAT(8,2)            NOT NULL DEFAULT 0.00,
-  offering_winners     VARCHAR(50),
+  offering_winners     VARCHAR(50)                    DEFAULT NULL,
   PRIMARY KEY (attendance_record_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 

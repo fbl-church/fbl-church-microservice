@@ -3,10 +3,13 @@
 */
 package com.fbl.app.vbs.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fbl.app.vbs.client.domain.VBSTheme;
+import com.fbl.app.vbs.client.domain.VBSThemeGroup;
 import com.fbl.app.vbs.client.domain.request.VBSThemeGetRequest;
 import com.fbl.app.vbs.dao.VBSDAO;
 import com.fbl.common.page.Page;
@@ -42,5 +45,14 @@ public class VBSThemeService {
      */
     public VBSTheme getThemeById(int id) {
         return vbsDao.getThemeById(id).orElseThrow(() -> new NotFoundException("VBS Theme not found for id: " + id));
+    }
+
+    /**
+     * Gets the list of vbs theme groups by theme id.
+     * 
+     * @param id The id of the theme
+     */
+    public List<VBSThemeGroup> getThemeGroupsById(int id) {
+        return vbsDao.getThemeGroupsById(id);
     }
 }

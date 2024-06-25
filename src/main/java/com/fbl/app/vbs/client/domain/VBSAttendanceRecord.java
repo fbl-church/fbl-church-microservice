@@ -25,6 +25,9 @@ public class VBSAttendanceRecord extends AttendanceRecord {
     @Schema(description = "The amount of money raised")
     private Float money;
 
+    @Schema(description = "The spirit theme for the attendance record")
+    private String spiritTheme;
+
     @Schema(description = "The winners of the offering")
     private List<ChurchGroup> offeringWinners;
 }

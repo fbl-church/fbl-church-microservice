@@ -38,10 +38,11 @@ public class VBSAttendanceRecordMapper extends AbstractMapper<VBSAttendanceRecor
         record.setInsertDate(parseDateTime(rs.getString(INSERT_DATE)));
 
         record.setMoney(rs.getFloat(MONEY));
+        record.setSpiritTheme(rs.getString(SPIRIT_THEME));
         record.setVbsThemeId(rs.getInt(VBS_THEME_ID));
 
         try {
-            List<String> groups = Arrays.asList(rs.getString(ALLERGIES).split(","));
+            List<String> groups = Arrays.asList(rs.getString(OFFERING_WINNERS).split(","));
             record.setOfferingWinners(groups.stream().map(ChurchGroup::valueOf).toList());
         } catch (Exception e) {
             record.setOfferingWinners(Collections.emptyList());

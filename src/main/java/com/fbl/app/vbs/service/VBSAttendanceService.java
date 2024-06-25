@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.fbl.app.vbs.client.domain.VBSAttendanceRecord;
 import com.fbl.app.vbs.dao.VBSAttendanceDAO;
+import com.fbl.exception.types.NotFoundException;
 
 /**
  * Description
@@ -28,5 +29,16 @@ public class VBSAttendanceService {
      */
     public List<VBSAttendanceRecord> getVBSAttendanceRecordsByThemeId(int themeId) {
         return vbsAttendanceDAO.getVBSAttendanceRecordsByThemeId(themeId);
+    }
+
+    /**
+     * Gets a vbs attendance record by id
+     * 
+     * @param id the id of the vbs attendance record
+     * @return vbs attendance record
+     */
+    public VBSAttendanceRecord getAttendanceRecordById(int id) {
+        return vbsAttendanceDAO.getAttendanceRecordById(id)
+                .orElseThrow(() -> new NotFoundException("VBS Attendance Record not found for id: " + id));
     }
 }
