@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -65,5 +66,17 @@ public class VBSAttendanceController {
     @PutMapping("/{id}")
     public void updateVBSAttendanceRecordById(@PathVariable int id, @RequestBody VBSAttendanceRecord record) {
         manageVBSAttendanceService.updateVBSAttendanceRecordById(id, record);
+    }
+
+    /**
+     * Create a VBS attendance record by theme id
+     * 
+     * @param id     The vbs theme id
+     * @param record The record data to create
+     */
+    @PostMapping("/themes/{id}")
+    public VBSAttendanceRecord createVBSAttendanceRecord(@PathVariable int id,
+            @RequestBody VBSAttendanceRecord record) {
+        return manageVBSAttendanceService.createVBSAttendanceRecord(id, record);
     }
 }

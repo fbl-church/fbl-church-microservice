@@ -36,9 +36,10 @@ public class ManageVBSAttendanceService {
      * @param vbsThemeId The vbs theme id to link the attendance too
      * @param record     The record data to add with the attendance
      */
-    public void createVBSAttendanceRecord(int vbsThemeId, VBSAttendanceRecord record) {
+    public VBSAttendanceRecord createVBSAttendanceRecord(int vbsThemeId, VBSAttendanceRecord record) {
         AttendanceRecord createdRecord = manageAttendanceService.createAttendanceRecord(record);
         vbsAttendanceDAO.createVBSAttendanceRecord(createdRecord.getId(), vbsThemeId, record);
+        return vbsAttendanceDAO.getAttendanceRecordById(createdRecord.getId()).get();
     }
 
     /**
