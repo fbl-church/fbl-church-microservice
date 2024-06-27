@@ -38,6 +38,18 @@ public class VBSPointsDAO extends BaseDao {
     }
 
     /**
+     * Checks if a point name exists for a theme id
+     * 
+     * @param id The id of the theme to check
+     * @return true if a point name exists for the theme id, false otherwise
+     */
+    public boolean doesPointNameExistForThemeId(int vbsThemeId, String name) {
+        return getOptional("doesPointNameExistForThemeId",
+                parameterSource(VBS_THEME_ID, vbsThemeId).addValue(NAME, name),
+                Boolean.class).orElse(false);
+    }
+
+    /**
      * Creates a new point config
      * 
      * @param vbsThemeId  The id of the vbs theme to link the points too
@@ -51,6 +63,7 @@ public class VBSPointsDAO extends BaseDao {
                 .withParam(TYPE, pointConfig.getType())
                 .withParam(DISPLAY_NAME, pointConfig.getDisplayName())
                 .withParam(POINTS, pointConfig.getPoints())
+                .withParam(REGISTRATION_ONLY, pointConfig.isRegistrationOnly())
                 .withParam(VBS_THEME_ID, vbsThemeId)
                 .withParam(UPDATED_USER_ID, userId)
                 .withParam(INSERT_USER_ID, userId).build();
@@ -68,8 +81,10 @@ public class VBSPointsDAO extends BaseDao {
     public void updatePointsConfig(int id, VBSPoint points) {
         MapSqlParameterSource params = SqlParamBuilder.with()
                 .withParam(ID, id)
+                .withParam(TYPE, points.getType())
                 .withParam(DISPLAY_NAME, points.getDisplayName())
                 .withParam(POINTS, points.getPoints())
+                .withParam(REGISTRATION_ONLY, points.isRegistrationOnly())
                 .withParam(UPDATED_USER_ID, points.getUpdatedUserId())
                 .withParam(UPDATED_DATE, points.getUpdatedDate())
                 .build();

@@ -1,0 +1,43 @@
+@NAME(VBSChildPointFields)
+  vcp.child_id,
+  vcp.vbs_attendance_record_id,
+  vcp.vbs_point_config_id,
+  vcp.insert_date
+
+---
+
+@NAME(VBSPointsConfigFields)
+  vpc.type,
+  vpc.display_name,
+  vpc.points,
+  vpc.vbs_theme_id
+
+---
+
+@NAME(getChildPointsBase)
+  FROM vbs_children_points vcp
+  INNER JOIN vbs_points_config vpc ON vcp.vbs_point_config_id = vpc.id
+  @WHERE
+    vcp.child_id IN (:child_id)
+    @AND(:vbs_attendance_record_id)
+      vcp.vbs_attendance_record_id IN (:vbs_attendance_record_id)
+
+---
+
+@NAME(getChildPointsPage)
+  @PAGING(:rowOffset, :pageSize)
+    SELECT @INCLUDE(VBSChildPointFields), @INCLUDE(VBSPointsConfigFields)
+    @INCLUDE(getChildPointsBase)
+    ORDER BY vpc.type ASC
+
+---
+
+@NAME(getChildPointsPageTotalCount)
+  SELECT COUNT(*)
+  @INCLUDE(getChildPointsBase)
+
+---
+
+@NAME(addPointsToChild)
+  INSERT INTO vbs_children_points (child_id, vbs_attendance_record_id, vbs_point_config_id)
+  VALUES (:child_id, :vbs_attendance_record_id, :vbs_point_config_id)

@@ -28,4 +28,15 @@ public class VBSPointsService {
     public Page<VBSPoint> getVbsPointsByThemeId(int vbsThemeId) {
         return vbsPointsDao.getVBSPointsByThemeId(vbsThemeId);
     }
+
+    /**
+     * Checks if a point name exists for a theme id
+     * 
+     * @param id   The id of the theme to check
+     * @param name The name of the point to check
+     * @return true if a point name exists for the theme id, false otherwise
+     */
+    public boolean doesPointNameExistForThemeId(int id, String name) {
+        return vbsPointsDao.doesPointNameExistForThemeId(id, name);
+    }
 }

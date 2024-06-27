@@ -56,6 +56,7 @@ public class ManageVBSPointsService {
     public void updatePointsConfig(int id, VBSPoint points) {
         points.setUpdatedUserId(jwtHolder.getUserId());
         points.setUpdatedDate(LocalDateTime.now());
+        points.setType(points.getDisplayName().trim().toUpperCase().replaceAll("\\s+", "_"));
         vbsPointsDao.updatePointsConfig(id, points);
     }
 

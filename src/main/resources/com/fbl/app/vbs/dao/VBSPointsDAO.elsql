@@ -3,6 +3,7 @@
   vpc.type,
   vpc.display_name,
   vpc.points,
+  vpc.registration_only,
   vpc.vbs_theme_id,
   vpc.updated_user_id,
   vpc.updated_date,
@@ -37,9 +38,17 @@
 
 ---
 
+@NAME(doesPointNameExistForThemeId)
+  SELECT 1 
+  FROM vbs_points_config vpc 
+  WHERE vpc.display_name = :name
+  AND vpc.vbs_theme_id = :vbs_theme_id
+
+---
+
 @NAME(createPointConfig)
-  INSERT INTO vbs_points_config (type, display_name, points, vbs_theme_id, updated_user_id, insert_user_id)
-  VALUES (:type, :display_name, :points, :vbs_theme_id, :updated_user_id, :insert_user_id)
+  INSERT INTO vbs_points_config (type, display_name, points, registration_only, vbs_theme_id, updated_user_id, insert_user_id)
+  VALUES (:type, :display_name, :points, :vbs_theme_id, :registration_only, :updated_user_id, :insert_user_id)
 
 ---
 
@@ -47,10 +56,12 @@
 @NAME(updatePointsConfig)
   UPDATE vbs_points_config
   SET
-    display_name    = IFNULL(:display_name, display_name),
-    points          = IFNULL(:points, points),
-    updated_user_id = IFNULL(:updated_user_id, updated_user_id),
-    updated_date    = IFNULL(:updated_date, updated_date)
+    type              = IFNULL(:type, type),
+    display_name      = IFNULL(:display_name, display_name),
+    points            = IFNULL(:points, points),
+    registration_only = IFNULL(:registration_only, registration_only),
+    updated_user_id   = IFNULL(:updated_user_id, updated_user_id),
+    updated_date      = IFNULL(:updated_date, updated_date)
   WHERE id = :id
 
 ---

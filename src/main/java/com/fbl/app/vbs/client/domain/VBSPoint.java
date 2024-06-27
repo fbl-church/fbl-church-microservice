@@ -34,6 +34,9 @@ public class VBSPoint {
     @Positive(message = "Invalid points: Must be greater than 0")
     private Integer points;
 
+    @Schema(description = "Determines if the points are only for registration.")
+    private boolean registrationOnly;
+
     @Schema(description = "The id of the theme the points are associated too")
     private Integer vbsThemeId;
 

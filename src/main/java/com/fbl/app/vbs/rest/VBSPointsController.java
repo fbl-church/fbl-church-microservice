@@ -54,6 +54,18 @@ public class VBSPointsController {
     }
 
     /**
+     * Checks if a point name exists for a theme id
+     * 
+     * @param id   The id of the theme to check
+     * @param name The name of the point to check
+     * @return true if a point name exists for the theme id, false otherwise
+     */
+    @GetMapping("/themes/{id}/points/name/{name}")
+    public boolean doesPointNameExistForThemeId(@PathVariable int id, @PathVariable String name) {
+        return vbsPointsService.doesPointNameExistForThemeId(id, name);
+    }
+
+    /**
      * Creates a list of points configs
      * 
      * @param points The point configs to be created

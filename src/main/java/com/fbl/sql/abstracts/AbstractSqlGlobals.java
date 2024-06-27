@@ -56,6 +56,7 @@ public abstract class AbstractSqlGlobals {
     protected static final String POINTS = "points";
     protected static final String PRESENT = "present";
     protected static final String READ = "read";
+    protected static final String REGISTRATION_ONLY = "registration_only";
     protected static final String RELATIONSHIP = "relationship";
     protected static final String RELEASE_OF_LIABILITY = "release_of_liability";
     protected static final String REQUEST_ID = "request_id";
@@ -74,6 +75,8 @@ public abstract class AbstractSqlGlobals {
     protected static final String UPDATED_DATE = "updated_date";
     protected static final String USER_ID = "user_id";
     protected static final String VBS_THEME_ID = "vbs_theme_id";
+    protected static final String VBS_ATTENDANCE_RECORD_ID = "vbs_attendance_record_id";
+    protected static final String VBS_POINT_CONFIG_ID = "vbs_point_config_id";
     protected static final String WEB_ROLE = "web_role";
     protected static final String YEAR = "year";
     protected static final String ZIP_CODE = "zip_code";

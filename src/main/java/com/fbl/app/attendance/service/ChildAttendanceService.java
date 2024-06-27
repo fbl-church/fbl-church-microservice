@@ -14,8 +14,10 @@ import com.fbl.app.attendance.client.domain.request.ChildAttendanceGetRequest;
 import com.fbl.app.attendance.dao.ChildAttendanceDAO;
 import com.fbl.app.guardian.client.domain.Guardian;
 import com.fbl.app.guardian.service.GuardianService;
+import com.fbl.common.enums.AttendanceStatus;
 import com.fbl.common.page.Page;
 import com.fbl.exception.types.NotFoundException;
+import com.fbl.exception.types.ServiceException;
 import com.fbl.jwt.utility.JwtHolder;
 
 import lombok.extern.slf4j.Slf4j;
@@ -98,6 +100,11 @@ public class ChildAttendanceService {
      * @return The updated attendance record
      */
     public ChildAttendance assignChildToAttendanceRecord(int recordId, ChildAttendance ca) {
+        AttendanceRecord record = attendanceService.getAttendanceRecordById(recordId);
+        if (!AttendanceStatus.ACTIVE.equals(record.getStatus())) {
+            throw new ServiceException("Unable to assign child to record. Attendance record is not active.");
+        }
+
         try {
             dao.assignChildToAttendanceRecord(recordId, ca, jwtHolder.getUserId());
         } catch (Exception e) {
