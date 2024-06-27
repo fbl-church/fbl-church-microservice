@@ -43,6 +43,18 @@
 
 ---
 
+
+@NAME(updatePointsConfig)
+  UPDATE vbs_points_config
+  SET
+    display_name    = IFNULL(:display_name, display_name),
+    points          = IFNULL(:points, points),
+    updated_user_id = IFNULL(:updated_user_id, updated_user_id),
+    updated_date    = IFNULL(:updated_date, updated_date)
+  WHERE id = :id
+
+---
+
 @NAME(deletePointConfigs)
   DELETE FROM vbs_points_config
   @WHERE

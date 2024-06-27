@@ -60,6 +60,23 @@ public class VBSPointsDAO extends BaseDao {
     }
 
     /**
+     * Update a point config by id.
+     * 
+     * @param id     The id of the point config to update
+     * @param points The point configs to be updated
+     */
+    public void updatePointsConfig(int id, VBSPoint points) {
+        MapSqlParameterSource params = SqlParamBuilder.with()
+                .withParam(ID, id)
+                .withParam(DISPLAY_NAME, points.getDisplayName())
+                .withParam(POINTS, points.getPoints())
+                .withParam(UPDATED_USER_ID, points.getUpdatedUserId())
+                .withParam(UPDATED_DATE, points.getUpdatedDate())
+                .build();
+        update("updatePointsConfig", params);
+    }
+
+    /**
      * Deletes a point config by id.
      * 
      * @param id The id of the point config to delete

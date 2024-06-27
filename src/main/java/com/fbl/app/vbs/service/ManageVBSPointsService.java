@@ -1,5 +1,6 @@
 package com.fbl.app.vbs.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +45,18 @@ public class ManageVBSPointsService {
             vbsPointsDao.createPointConfig(theme.getId(), jwtHolder.getUserId(), vbp);
         }
         return vbsPointsService.getVbsPointsByThemeId(vbsThemeId).getList();
+    }
+
+    /**
+     * Update a point config by id.
+     * 
+     * @param id     The id of the point config to update
+     * @param points The point configs to be updated
+     */
+    public void updatePointsConfig(int id, VBSPoint points) {
+        points.setUpdatedUserId(jwtHolder.getUserId());
+        points.setUpdatedDate(LocalDateTime.now());
+        vbsPointsDao.updatePointsConfig(id, points);
     }
 
     /**
