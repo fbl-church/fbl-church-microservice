@@ -7,16 +7,11 @@ import static com.fbl.app.accessmanager.mapper.FeatureAccessMapper.*;
 import static com.fbl.app.accessmanager.mapper.FeatureMapper.*;
 import static com.fbl.app.accessmanager.mapper.WebRoleFeatureMapper.*;
 
-import java.text.ParseException;
-import java.text.RuleBasedCollator;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import javax.sql.DataSource;
 
@@ -181,38 +176,36 @@ public class FeatureDAO extends BaseDao {
      * @return new hash map
      */
     private Map<String, List<Map<String, String>>> mapSingleton(List<Feature> data) {
-        Map<String, List<Map<String, String>>> dataMap = new HashMap<String, List<Map<String, String>>>();
+        Map<String, List<Map<String, String>>> dataMap = new HashMap<>();
 
         for (Feature f : data) {
-            Map<String, String> current = new HashMap<String, String>();
+            Map<String, String> current = new HashMap<>();
             current.put(f.getFeature(), filterAccessString(f.getAccess()));
-            if (dataMap.get(f.getApp()) == null) {
-                dataMap.put(f.getApp(), new ArrayList<Map<String, String>>());
-                dataMap.get(f.getApp()).add(current);
-            } else {
-                dataMap.get(f.getApp()).add(current);
-            }
+            dataMap.computeIfAbsent(f.getApp(), k -> new ArrayList<>()).add(current);
         }
 
         return dataMap;
     }
 
     /**
-     * Filter access string and sort into CRUD format
+     * Filter access string and format into CRUD layout. It will check if the access
+     * string has any of the 'crud' characters and if it does it will add it to the
+     * result string, otherwise if it already exists in the result string it will
+     * skip it.
      * 
      * @param access The access to filter and map
      * @return The formatted string.
      */
     private String filterAccessString(String access) {
-        String priorityRule = "< c < r < u < d";
-        List<String> accessList = Arrays.asList(access.replace(",", "").split("")).stream().distinct()
-                .collect(Collectors.toList());
+        final String order = "crud";
+        StringBuilder result = new StringBuilder();
 
-        try {
-            Collections.sort(accessList, new RuleBasedCollator(priorityRule));
-        } catch (ParseException e) {
-            return "";
+        for (char c : order.toCharArray()) {
+            if (access.indexOf(c) != -1 && result.indexOf(String.valueOf(c)) == -1) {
+                result.append(c);
+            }
         }
-        return accessList.stream().collect(Collectors.joining());
+
+        return result.toString();
     }
 }
