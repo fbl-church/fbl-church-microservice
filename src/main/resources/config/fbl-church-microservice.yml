@@ -22,6 +22,7 @@ logging:
     "[org.apache]": OFF
     "[org.apache.coyote.http11.Http11NioProtocol]": OFF
     "[org.xhtmlrenderer]": OFF
+    "[org.hibernate]": OFF
 
 info:
   name: First Baptist Church Lagrange REST API
