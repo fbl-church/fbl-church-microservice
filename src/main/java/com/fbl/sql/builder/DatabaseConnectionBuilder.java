@@ -197,8 +197,6 @@ public class DatabaseConnectionBuilder {
         this.useLegacyDatetimeCode(false);
         this.useUnicode(false);
         this.serverTimezone("UTC");
-        this.addProperty("sendStringParametersAsUnicode", false);
-        this.addProperty("characterEncoding", "UTF-8");
         return this;
     }
 

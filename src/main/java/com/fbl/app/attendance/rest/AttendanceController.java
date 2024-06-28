@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.fbl.app.attendance.client.domain.AttendanceRecord;
-import com.fbl.app.attendance.client.domain.AttendanceRecordEntity;
 import com.fbl.app.attendance.client.domain.request.AttendanceRecordGetRequest;
 import com.fbl.app.attendance.openapi.TagAttendance;
 import com.fbl.app.attendance.service.AttendanceService;
@@ -46,11 +45,6 @@ public class AttendanceController {
 
     @Autowired
     private ManageAttendanceService manageAttendanceService;
-
-    @GetMapping("/entity/{id}")
-    public AttendanceRecordEntity getEntityById(@PathVariable int id) {
-        return attendanceService.getEntityById(id);
-    }
 
     /**
      * Gets a list of attendance records based of the request filter

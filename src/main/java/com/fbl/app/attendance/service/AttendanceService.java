@@ -9,8 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fbl.app.attendance.client.domain.AttendanceRecord;
-import com.fbl.app.attendance.client.domain.AttendanceRecordEntity;
-import com.fbl.app.attendance.client.domain.AttendanceRecordJPARepository;
 import com.fbl.app.attendance.client.domain.request.AttendanceRecordGetRequest;
 import com.fbl.app.attendance.dao.AttendanceDAO;
 import com.fbl.app.user.client.domain.User;
@@ -29,13 +27,6 @@ public class AttendanceService {
 
     @Autowired
     private AttendanceDAO dao;
-
-    @Autowired
-    private AttendanceRecordJPARepository attendanceRecordJPARepository;
-
-    public AttendanceRecordEntity getEntityById(int id) {
-        return attendanceRecordJPARepository.findById(id).orElseThrow(() -> new NotFoundException("Attendance", id));
-    }
 
     /**
      * Get attendance records based on given request filter
