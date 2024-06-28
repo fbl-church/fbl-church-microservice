@@ -23,7 +23,7 @@
       u.last_name IN (:last_name)
     @IF(:present = 0)
       @AND(:church_group)
-        u.id IN (SELECT cg.child_id FROM children_groups cg WHERE cg.church_group = :church_group GROUP BY cg.child_id)
+        u.id IN (SELECT cg.child_id FROM children_groups cg WHERE cg.church_group IN (:church_group) GROUP BY cg.child_id)
     @AND(:child_id)
       u.id = :child_id
     @AND(:present = 1)

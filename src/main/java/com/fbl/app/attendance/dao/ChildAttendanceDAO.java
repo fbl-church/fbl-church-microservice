@@ -6,6 +6,7 @@ package com.fbl.app.attendance.dao;
 import static com.fbl.app.attendance.mapper.ChildAttendanceMapper.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 import javax.sql.DataSource;
@@ -41,10 +42,10 @@ public class ChildAttendanceDAO extends BaseDao {
      * @return Page of workers
      */
     public Page<ChildAttendance> getChildrenAttendanceById(int id, ChildAttendanceGetRequest request,
-            ChurchGroup group) {
+            List<ChurchGroup> group) {
         MapSqlParameterSource params = SqlParamBuilder.with(request).useAllParams()
                 .withParam(ATTENDANCE_RECORD_ID, id).withParam(PRESENT, request.getPresent())
-                .withParam(CHURCH_GROUP, group).build();
+                .withParamTextEnumCollection(CHURCH_GROUP, group).build();
         return getPage("getChildrenAttendancePage", params, CHILD_ATTENDANCE_MAPPER);
     }
 

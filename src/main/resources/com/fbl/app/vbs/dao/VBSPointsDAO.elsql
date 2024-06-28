@@ -47,7 +47,7 @@
 ---
 
 @NAME(createPointConfig)
-  INSERT INTO vbs_points_config (type, display_name, points, registration_only, vbs_theme_id, updated_user_id, insert_user_id)
+  INSERT INTO vbs_points_config (type, display_name, points, vbs_theme_id, registration_only, updated_user_id, insert_user_id)
   VALUES (:type, :display_name, :points, :vbs_theme_id, :registration_only, :updated_user_id, :insert_user_id)
 
 ---

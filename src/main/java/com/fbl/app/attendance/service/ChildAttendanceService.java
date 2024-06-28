@@ -3,6 +3,8 @@
  */
 package com.fbl.app.attendance.service;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import com.fbl.app.attendance.dao.ChildAttendanceDAO;
 import com.fbl.app.guardian.client.domain.Guardian;
 import com.fbl.app.guardian.service.GuardianService;
 import com.fbl.common.enums.AttendanceStatus;
+import com.fbl.common.enums.ChurchGroup;
 import com.fbl.common.page.Page;
 import com.fbl.exception.types.NotFoundException;
 import com.fbl.exception.types.ServiceException;
@@ -52,7 +55,7 @@ public class ChildAttendanceService {
      */
     public Page<ChildAttendance> getChildrenAttendanceById(int id, ChildAttendanceGetRequest request) {
         AttendanceRecord record = attendanceService.getAttendanceRecordById(id);
-        Page<ChildAttendance> ca = dao.getChildrenAttendanceById(id, request, record.getType());
+        Page<ChildAttendance> ca = dao.getChildrenAttendanceById(id, request, determineType(record.getType()));
 
         ca.forEach(c -> {
             if (c.getGuardianPickedUpId() != null && c.getGuardianPickedUpId() > 0) {
@@ -164,5 +167,14 @@ public class ChildAttendanceService {
             log.error("Unable to remove child id '{}' from attendance record id '{}'.", childId, recordId, e);
         }
         return attendanceService.getAttendanceRecordById(recordId);
+    }
+
+    private List<ChurchGroup> determineType(ChurchGroup type) {
+        if (ChurchGroup.VBS.equals(type)) {
+            return Arrays.asList(ChurchGroup.VBS_JUNIOR, ChurchGroup.VBS_PRIMARY, ChurchGroup.VBS_MIDDLER,
+                    ChurchGroup.VBS_JUNIOR);
+        } else {
+            return Arrays.asList(type);
+        }
     }
 }
