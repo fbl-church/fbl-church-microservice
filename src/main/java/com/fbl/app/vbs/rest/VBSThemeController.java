@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -70,6 +71,17 @@ public class VBSThemeController {
     @GetMapping("/{id}/groups")
     public List<VBSThemeGroup> getThemeGroupsById(@PathVariable int id) {
         return vbsThemeService.getThemeGroupsById(id);
+    }
+
+    /**
+     * Updates the group by theme id
+     * 
+     * @param id    The id of the theme
+     * @param group The group to update
+     */
+    @PutMapping("/{id}/groups")
+    public void updateGroupByThemeId(@PathVariable int id, @RequestBody @Valid VBSThemeGroup group) {
+        manageVBSThemeService.updateGroupByThemeId(id, group);
     }
 
     /**

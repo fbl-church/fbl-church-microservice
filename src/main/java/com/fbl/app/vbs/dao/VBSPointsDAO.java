@@ -64,6 +64,7 @@ public class VBSPointsDAO extends BaseDao {
                 .withParam(DISPLAY_NAME, pointConfig.getDisplayName())
                 .withParam(POINTS, pointConfig.getPoints())
                 .withParam(REGISTRATION_ONLY, pointConfig.isRegistrationOnly())
+                .withParam(CHECK_IN_APPLY, pointConfig.isCheckInApply())
                 .withParam(VBS_THEME_ID, vbsThemeId)
                 .withParam(UPDATED_USER_ID, userId)
                 .withParam(INSERT_USER_ID, userId).build();
@@ -85,6 +86,7 @@ public class VBSPointsDAO extends BaseDao {
                 .withParam(DISPLAY_NAME, points.getDisplayName())
                 .withParam(POINTS, points.getPoints())
                 .withParam(REGISTRATION_ONLY, points.isRegistrationOnly())
+                .withParam(CHECK_IN_APPLY, points.isCheckInApply())
                 .withParam(UPDATED_USER_ID, points.getUpdatedUserId())
                 .withParam(UPDATED_DATE, points.getUpdatedDate())
                 .build();

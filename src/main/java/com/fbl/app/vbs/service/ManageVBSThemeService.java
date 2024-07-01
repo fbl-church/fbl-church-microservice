@@ -74,6 +74,16 @@ public class ManageVBSThemeService {
     }
 
     /**
+     * Updates the group by theme id
+     * 
+     * @param id    The id of the theme
+     * @param group The group to update
+     */
+    public void updateGroupByThemeId(int id, VBSThemeGroup group) {
+        vbsDao.updateGroupByThemeId(id, group);
+    }
+
+    /**
      * The theme to be deleted
      * 
      * @param id The id of the vbs theme to delete

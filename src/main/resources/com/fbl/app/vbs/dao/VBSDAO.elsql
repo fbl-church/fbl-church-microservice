@@ -133,6 +133,16 @@
 
 ---
 
+@NAME(updateGroupByThemeId)
+  UPDATE vbs_theme_groups
+  SET
+    church_group = IFNULL(:church_group, church_group),
+    name         = IFNULL(:name, name)
+  WHERE vbs_theme_id = :vbs_theme_id
+  AND church_group = :church_group
+
+---
+
 @NAME(deleteTheme)
   DELETE FROM vbs_themes
   WHERE id = :vbs_theme_id

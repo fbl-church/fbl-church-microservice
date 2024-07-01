@@ -126,6 +126,18 @@ public class VBSDAO extends BaseDao {
     }
 
     /**
+     * Creates a theme group
+     * 
+     * @param vbsThemeId The vbs theme id
+     * @param g          The group to be created
+     */
+    public void updateGroupByThemeId(int vbsThemeId, VBSThemeGroup g) {
+        MapSqlParameterSource params = SqlParamBuilder.with().withParam(VBS_THEME_ID, vbsThemeId)
+                .withParam(CHURCH_GROUP, g.getGroup()).withParam(NAME, g.getName()).build();
+        update("updateGroupByThemeId", params);
+    }
+
+    /**
      * The theme to be deleted
      * 
      * @param id The id of the vbs theme to delete

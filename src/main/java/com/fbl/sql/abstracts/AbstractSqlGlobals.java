@@ -16,6 +16,7 @@ public abstract class AbstractSqlGlobals {
     protected static final String APPLICATION_TEXT = "application_text";
     protected static final String ATTENDANCE_RECORD_ID = "attendance_record_id";
     protected static final String BIRTHDAY = "birthday";
+    protected static final String CHECK_IN_APPLY = "check_in_apply";
     protected static final String CHECK_IN_DATE = "check_in_date";
     protected static final String CHECK_OUT_DATE = "check_out_date";
     protected static final String CHILD_ID = "child_id";

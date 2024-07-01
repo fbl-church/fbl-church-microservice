@@ -10,16 +10,17 @@
 -- ---------------------------------------------------------------------------------
 
 CREATE TABLE vbs_points_config (
-  id                     INT          UNSIGNED NOT NULL AUTO_INCREMENT,
-  type                   VARCHAR(128)          NOT NULL,
-  display_name           VARCHAR(128)          NOT NULL,
-  points                 INT          UNSIGNED NOT NULL,
-  registration_only      BIT                   NOT NULL DEFAULT 0,
-  vbs_theme_id           INT          UNSIGNED NOT NULL,
-  updated_user_id        INT          UNSIGNED          DEFAULT NULL,
-  updated_date           DATETIME              NOT NULL DEFAULT CURRENT_TIMESTAMP(),
-  insert_user_id         INT          UNSIGNED          DEFAULT NULL,
-  insert_date            DATETIME              NOT NULL DEFAULT CURRENT_TIMESTAMP(),
+  id                INT          UNSIGNED NOT NULL AUTO_INCREMENT,
+  type              VARCHAR(128)          NOT NULL,
+  display_name      VARCHAR(128)          NOT NULL,
+  points            INT          UNSIGNED NOT NULL,
+  registration_only BIT                   NOT NULL DEFAULT 0,
+  check_in_apply    BIT                   NOT NULL DEFAULT 0,
+  vbs_theme_id      INT          UNSIGNED NOT NULL,
+  updated_user_id   INT          UNSIGNED          DEFAULT NULL,
+  updated_date      DATETIME              NOT NULL DEFAULT CURRENT_TIMESTAMP(),
+  insert_user_id    INT          UNSIGNED          DEFAULT NULL,
+  insert_date       DATETIME              NOT NULL DEFAULT CURRENT_TIMESTAMP(),
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 

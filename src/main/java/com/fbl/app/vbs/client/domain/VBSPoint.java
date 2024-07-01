@@ -37,6 +37,9 @@ public class VBSPoint {
     @Schema(description = "Determines if the points are only for registration.")
     private boolean registrationOnly;
 
+    @Schema(description = "Determines if the points should auto apply on check in")
+    private boolean checkInApply;
+
     @Schema(description = "The id of the theme the points are associated too")
     private Integer vbsThemeId;
 
