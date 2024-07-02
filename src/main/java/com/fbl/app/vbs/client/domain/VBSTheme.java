@@ -45,6 +45,9 @@ public class VBSTheme {
     @Schema(description = "The amount of money raised")
     private Float money;
 
+    @Schema(description = "The count of how many children registered for VBS")
+    private Integer childrenRegistered;
+
     @Schema(description = "The count of how many children attended VBS")
     private Integer childrenAttended;
 

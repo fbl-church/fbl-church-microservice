@@ -4,6 +4,7 @@
   vt.start_date,
   vt.end_date,
   vt.status,
+  vt.children_registered,
   vt.donation,
   vt.insert_date
 

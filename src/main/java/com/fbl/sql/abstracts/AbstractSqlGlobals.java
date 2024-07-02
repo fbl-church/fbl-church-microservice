@@ -21,6 +21,7 @@ public abstract class AbstractSqlGlobals {
     protected static final String CHECK_OUT_DATE = "check_out_date";
     protected static final String CHILD_ID = "child_id";
     protected static final String CHILDREN_ATTENDED = "children_attended";
+    protected static final String CHILDREN_REGISTERED = "children_registered";
     protected static final String CHURCH_GROUP = "church_group";
     protected static final String CITY = "city";
     protected static final String CLOSED_BY_USER_ID = "closed_by_user_id";
