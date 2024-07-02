@@ -44,7 +44,21 @@ public class VBSThemeService {
      * @return the found vbs theme
      */
     public VBSTheme getThemeById(int id) {
-        return vbsDao.getThemeById(id).orElseThrow(() -> new NotFoundException("VBS Theme not found for id: " + id));
+        VBSTheme t = vbsDao.getThemeById(id)
+                .orElseThrow(() -> new NotFoundException("VBS Theme not found for id: " + id));
+        t.setMoney(getThemeOfferingTotal(id));
+        t.setChildrenAttended(getTotalChildrenAttended(id));
+        return t;
+    }
+
+    /**
+     * Gets the latest active theme. If there is no active theme, then it will
+     * return the latest theme.
+     * 
+     * @return The latest active theme
+     */
+    public VBSTheme getLatestActiveTheme() {
+        return vbsDao.getLatestActiveTheme().orElse(null);
     }
 
     /**
@@ -54,5 +68,25 @@ public class VBSThemeService {
      */
     public List<VBSThemeGroup> getThemeGroupsById(int id) {
         return vbsDao.getThemeGroupsById(id);
+    }
+
+    /**
+     * Gets the theme offering total
+     * 
+     * @param vbsThemeId The theme id
+     * @return The total offering for the theme
+     */
+    private Float getThemeOfferingTotal(int vbsThemeId) {
+        return vbsDao.getThemeOfferingTotal(vbsThemeId);
+    }
+
+    /**
+     * Gets the total children attended for the theme
+     * 
+     * @param vbsThemeId The theme id
+     * @return The total children attended
+     */
+    private int getTotalChildrenAttended(int vbsThemeId) {
+        return vbsDao.getTotalChildrenAttended(vbsThemeId);
     }
 }

@@ -15,8 +15,6 @@ CREATE TABLE vbs_themes (
   start_date        DATE                  NOT NULL DEFAULT (CURDATE()),
   end_date          DATE                  NOT NULL DEFAULT (CURDATE()),
   status            VARCHAR(32)           NOT NULL DEFAULT 'PENDING',
-  money             FLOAT(8,2)            NOT NULL DEFAULT 0.00,
-  children_attended INT          UNSIGNED NOT NULL DEFAULT 0,
   donation          VARCHAR(256)          NOT NULL,
   insert_date       DATETIME              NOT NULL DEFAULT CURRENT_TIMESTAMP(),
   PRIMARY KEY (id)

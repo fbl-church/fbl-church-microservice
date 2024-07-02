@@ -64,6 +64,17 @@ public class VBSThemeController {
     }
 
     /**
+     * Gets the latest active theme. If there is no active theme, then it will
+     * return the latest theme.
+     * 
+     * @return The latest active theme
+     */
+    @GetMapping("/active")
+    public VBSTheme getLatestActiveTheme() {
+        return vbsThemeService.getLatestActiveTheme();
+    }
+
+    /**
      * Gets the list of vbs theme groups by theme id.
      * 
      * @param id The id of the theme

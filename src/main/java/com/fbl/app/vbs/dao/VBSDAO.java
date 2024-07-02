@@ -87,6 +87,16 @@ public class VBSDAO extends BaseDao {
     }
 
     /**
+     * Gets the latest active theme. If there is no active theme, then it will
+     * return the latest theme.
+     * 
+     * @return The latest active theme
+     */
+    public Optional<VBSTheme> getLatestActiveTheme() {
+        return getOptional("getLatestActiveTheme", VBS_THEME_MAPPER);
+    }
+
+    /**
      * Gets the list of vbs theme groups by theme id.
      * 
      * @param id The id of the theme
@@ -94,6 +104,26 @@ public class VBSDAO extends BaseDao {
     public List<VBSThemeGroup> getThemeGroupsById(int id) {
         MapSqlParameterSource params = SqlParamBuilder.with().withParam(VBS_THEME_ID, id).build();
         return getList("getThemeGroupsById", params, VBS_THEME_GROUP_MAPPER);
+    }
+
+    /**
+     * Gets the theme offering total
+     * 
+     * @param vbsThemeId The theme id
+     * @return The total offering for the theme
+     */
+    public Float getThemeOfferingTotal(int vbsThemeId) {
+        return get("getThemeOfferingTotal", parameterSource(VBS_THEME_ID, vbsThemeId), Float.class);
+    }
+
+    /**
+     * Gets the total children attended for the theme
+     * 
+     * @param vbsThemeId The theme id
+     * @return The total children attended
+     */
+    public int getTotalChildrenAttended(int vbsThemeId) {
+        return get("getTotalChildrenAttended", parameterSource(VBS_THEME_ID, vbsThemeId), Integer.class);
     }
 
     /**

@@ -4,8 +4,6 @@
   vt.start_date,
   vt.end_date,
   vt.status,
-  vt.money,
-  vt.children_attended,
   vt.donation,
   vt.insert_date
 
@@ -107,6 +105,14 @@
 
 ---
 
+@NAME(getLatestActiveTheme)
+  SELECT @INCLUDE(VBSThemeFields)
+  FROM vbs_themes vt
+  ORDER BY FIELD(vt.status, 'ACTIVE', 'PENDING', 'CLOSED'), vt.start_date ASC
+  LIMIT 1
+
+---
+
 @NAME(getThemeGroupsById)
   SELECT @INCLUDE(VBSThemeGroupFields)
   FROM vbs_theme_groups vtg 
@@ -118,6 +124,24 @@
   SELECT COUNT(DISTINCT child_id)
   FROM children_groups cg
   WHERE church_group IN ('VBS_PRE_PRIMARY', 'VBS_PRIMARY','VBS_MIDDLER','VBS_JUNIOR')
+
+---
+
+@NAME(getThemeOfferingTotal)
+  SELECT SUM(vars.money)
+  FROM vbs_attendance_records vars
+  WHERE vbs_theme_id = :vbs_theme_id
+
+---
+
+@NAME(getTotalChildrenAttended)
+  SELECT COUNT(DISTINCT ca.child_id)
+  FROM children_attendance ca
+  WHERE ca.attendance_record_id IN (
+    SELECT vars.attendance_record_id
+    FROM vbs_attendance_records vars
+    WHERE vars.vbs_theme_id = :vbs_theme_id
+  )
 
 ---
 
