@@ -14,13 +14,16 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.fbl.app.vbs.client.domain.VBSStatus;
 import com.fbl.app.vbs.client.domain.VBSTheme;
 import com.fbl.app.vbs.client.domain.VBSThemeGroup;
 import com.fbl.app.vbs.client.domain.request.VBSThemeGetRequest;
 import com.fbl.app.vbs.openapi.TagVBS;
 import com.fbl.app.vbs.service.ManageVBSThemeService;
 import com.fbl.app.vbs.service.VBSThemeService;
+import com.fbl.common.annotations.interfaces.HasAccess;
 import com.fbl.common.annotations.interfaces.RestApiController;
+import com.fbl.common.enums.WebRole;
 import com.fbl.common.page.Page;
 
 import jakarta.validation.Valid;
@@ -82,6 +85,43 @@ public class VBSThemeController {
     @GetMapping("/{id}/groups")
     public List<VBSThemeGroup> getThemeGroupsById(@PathVariable int id) {
         return vbsThemeService.getThemeGroupsById(id);
+    }
+
+    /**
+     * Update a theme
+     * 
+     * @param id    The id of the theme
+     * @param theme The theme to update
+     * @return The updated theme
+     */
+    @PutMapping("/{id}")
+    public VBSTheme updateThemeById(@PathVariable int id, @RequestBody VBSTheme theme) {
+        return manageVBSThemeService.updateThemeById(id, theme);
+    }
+
+    /**
+     * Update the status of a theme
+     * 
+     * @param id     The id of the theme
+     * @param status The status to update with
+     * @return The updated theme
+     */
+    @PutMapping("/{id}/status/{status}")
+    @HasAccess(WebRole.VBS_DIRECTOR)
+    public VBSTheme updateThemeStatus(@PathVariable int id, @PathVariable VBSStatus status) {
+        return manageVBSThemeService.updateThemeStatus(id, status);
+    }
+
+    /**
+     * Re-Open a closed theme
+     * 
+     * @param id The id of the theme
+     * @return The updated theme
+     */
+    @PutMapping("/{id}/reopen")
+    @HasAccess(WebRole.ADMINISTRATOR)
+    public VBSTheme reopenTheme(@PathVariable int id) {
+        return manageVBSThemeService.reopenTheme(id);
     }
 
     /**

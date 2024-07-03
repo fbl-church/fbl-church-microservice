@@ -14,7 +14,7 @@ import com.fbl.common.enums.TextEnum;
 public enum VBSStatus implements TextEnum {
     PENDING("PENDING"),
     ACTIVE("ACTIVE"),
-    CLOSED("COMPLETE");
+    CLOSED("CLOSED");
 
     private String textId;
 

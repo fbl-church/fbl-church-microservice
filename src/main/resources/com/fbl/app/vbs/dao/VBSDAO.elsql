@@ -6,6 +6,7 @@
   vt.status,
   vt.children_registered,
   vt.donation,
+  vt.closed_by_user_id,
   vt.insert_date
 
 ---
@@ -155,6 +156,31 @@
 @NAME(createThemeGroup)
   INSERT INTO vbs_theme_groups (vbs_theme_id, church_group, name)
   VALUES (:vbs_theme_id, :church_group, :name)
+---
+
+@NAME(updateTheme)
+  UPDATE vbs_themes
+  SET
+    name     = IFNULL(:name, name),
+    donation = IFNULL(:donation, donation),
+    children_registered = IFNULL(:children_registered, children_registered)
+  WHERE id = :id
+
+---
+
+@NAME(updateThemeStatus)
+  UPDATE vbs_themes
+  SET status = IFNULL(:status, status)
+  WHERE id = :id
+
+---
+
+@NAME(closeTheme)
+  UPDATE vbs_themes
+  SET 
+    status = IFNULL(:status, status),
+    closed_by_user_id = IFNULL(:closed_by_user_id, closed_by_user_id)
+  WHERE id = :id
 
 ---
 

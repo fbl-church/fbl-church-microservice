@@ -19,6 +19,7 @@ import org.springframework.stereotype.Repository;
 
 import com.fbl.app.guardian.client.domain.Guardian;
 import com.fbl.app.guardian.client.domain.request.GuardianGetRequest;
+import com.fbl.app.vbs.client.domain.VBSStatus;
 import com.fbl.app.vbs.client.domain.VBSTheme;
 import com.fbl.app.vbs.client.domain.VBSThemeGroup;
 import com.fbl.app.vbs.client.domain.request.VBSGuardianChildrenGetRequest;
@@ -153,6 +154,55 @@ public class VBSDAO extends BaseDao {
         post("createThemeGroup", params);
         g.setVbsThemeId(vbsThemeId);
         return g;
+    }
+
+    /**
+     * Update a theme
+     * 
+     * @param id    The theme id
+     * @param theme The theme to update with
+     */
+    public void updateTheme(int id, VBSTheme theme) {
+        MapSqlParameterSource params = SqlParamBuilder.with()
+                .withParam(ID, id)
+                .withParam(NAME, theme.getName())
+                .withParam(DONATION, theme.getDonation())
+                .withParam(CHILDREN_REGISTERED, theme.getChildrenRegistered())
+                .build();
+
+        update("updateTheme", params);
+    }
+
+    /**
+     * Update an attendance record
+     * 
+     * @param id     The attendance record id
+     * @param status The status to update with
+     */
+    public void updateThemeStatus(int id, VBSStatus status) {
+        MapSqlParameterSource params = SqlParamBuilder.with().withParam(STATUS, status).withParam(ID, id).build();
+        update("updateThemeStatus", params);
+    }
+
+    /**
+     * Reopens a theme
+     * 
+     * @param id The id of the theme to reopen
+     */
+    public void reopenTheme(int id) {
+        updateThemeStatus(id, VBSStatus.ACTIVE);
+    }
+
+    /**
+     * Closes a theme
+     * 
+     * @param id             The id of the theme to close
+     * @param closedByUserId The user id that closed the theme
+     */
+    public void closeTheme(int id, int closedByUserId) {
+        MapSqlParameterSource params = SqlParamBuilder.with().withParam(STATUS, VBSStatus.CLOSED)
+                .withParam(ID, id).withParam(CLOSED_BY_USER_ID, closedByUserId).build();
+        update("closeTheme", params);
     }
 
     /**

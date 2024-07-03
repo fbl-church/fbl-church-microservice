@@ -13,9 +13,15 @@ import org.springframework.util.StringUtils;
 import com.fbl.app.attendance.service.ManageAttendanceService;
 import com.fbl.app.vbs.client.domain.VBSAttendanceRecord;
 import com.fbl.app.vbs.client.domain.VBSPoint;
+import com.fbl.app.vbs.client.domain.VBSStatus;
 import com.fbl.app.vbs.client.domain.VBSTheme;
 import com.fbl.app.vbs.client.domain.VBSThemeGroup;
 import com.fbl.app.vbs.dao.VBSDAO;
+import com.fbl.common.enums.AttendanceStatus;
+import com.fbl.exception.types.ServiceException;
+import com.fbl.jwt.utility.JwtHolder;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Manage VBS Theme Service
@@ -24,6 +30,7 @@ import com.fbl.app.vbs.dao.VBSDAO;
  * @since Jun 08, 2024 06
  */
 @Service
+@Slf4j
 public class ManageVBSThemeService {
     @Autowired
     private VBSDAO vbsDao;
@@ -42,6 +49,9 @@ public class ManageVBSThemeService {
 
     @Autowired
     private ManageAttendanceService manageAttendanceService;
+
+    @Autowired
+    private JwtHolder jwtHolder;
 
     /**
      * The theme to be created.
@@ -74,6 +84,59 @@ public class ManageVBSThemeService {
     }
 
     /**
+     * Update a theme
+     * 
+     * @param id    The id of the theme
+     * @param theme The theme to update
+     * @return The updated theme
+     */
+    public VBSTheme updateThemeById(int id, VBSTheme theme) {
+        vbsDao.updateTheme(id, theme);
+        return vbsThemeService.getThemeById(id);
+    }
+
+    /**
+     * Update an attendance record
+     * 
+     * @param id     The attendance record id
+     * @param status The status to update with
+     * @return The record that was updated
+     */
+    public VBSTheme updateThemeStatus(int id, VBSStatus status) {
+        VBSTheme theme = vbsThemeService.getThemeById(id);
+        if (VBSStatus.CLOSED.equals(theme.getStatus())) {
+            throw new ServiceException("Cannot update status of record that is already closed.");
+        }
+
+        if (VBSStatus.CLOSED.equals(status)) {
+            vbsDao.closeTheme(id, jwtHolder.getUserId());
+            closeThemeAttendanceRecords(id);
+        } else {
+            vbsDao.updateThemeStatus(id, status);
+        }
+
+        return vbsThemeService.getThemeById(id);
+    }
+
+    /**
+     * Re-Opens a closed attendance record
+     * 
+     * @param id The attendance record to reopen
+     * @return The record that was updated
+     */
+    public VBSTheme reopenTheme(int id) {
+        VBSTheme theme = vbsThemeService.getThemeById(id);
+        if (VBSStatus.ACTIVE.equals(theme.getStatus())) {
+            log.warn("Attendance Record '{}' is already active", id);
+            return theme;
+        }
+
+        vbsDao.reopenTheme(id);
+
+        return vbsThemeService.getThemeById(id);
+    }
+
+    /**
      * Updates the group by theme id
      * 
      * @param id    The id of the theme
@@ -93,6 +156,20 @@ public class ManageVBSThemeService {
         vbsDao.deleteTheme(id);
         for (VBSAttendanceRecord r : attendanceRecords) {
             manageAttendanceService.deleteAttendanceRecordById(r.getId());
+        }
+    }
+
+    /**
+     * Close out all attendance records for a theme
+     * 
+     * @param vbsThemeId The theme id
+     */
+    private void closeThemeAttendanceRecords(int vbsThemeId) {
+        List<VBSAttendanceRecord> records = vbsAttendanceService.getVBSAttendanceRecordsByThemeId(vbsThemeId);
+        for (VBSAttendanceRecord r : records) {
+            if (!AttendanceStatus.CLOSED.equals(r.getStatus())) {
+                manageAttendanceService.updateAttendanceRecordStatus(r.getId(), AttendanceStatus.CLOSED);
+            }
         }
     }
 }

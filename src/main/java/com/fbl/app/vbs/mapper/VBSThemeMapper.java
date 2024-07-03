@@ -26,6 +26,7 @@ public class VBSThemeMapper extends AbstractMapper<VBSTheme> {
         theme.setStatus(VBSStatus.valueOf(rs.getString(STATUS)));
         theme.setChildrenRegistered(rs.getInt(CHILDREN_REGISTERED));
         theme.setDonation(rs.getString(DONATION));
+        theme.setClosedByUserId(rs.getInt(CLOSED_BY_USER_ID));
         theme.setInsertDate(parseDateTime(rs.getString(INSERT_DATE)));
         return theme;
     }

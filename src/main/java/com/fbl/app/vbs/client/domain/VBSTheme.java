@@ -55,6 +55,9 @@ public class VBSTheme {
     @NotBlank(message = "Invalid donation: Can not be empty or null")
     private String donation;
 
+    @Schema(description = "Who closed the attendance record")
+    private Integer closedByUserId;
+
     @Schema(description = "The list of vbs points for the theme")
     private List<VBSPoint> points;
 
