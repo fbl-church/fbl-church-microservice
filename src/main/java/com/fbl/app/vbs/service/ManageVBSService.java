@@ -155,8 +155,11 @@ public class ManageVBSService {
     }
 
     /**
-     * If child has guardians, it will find the guardians in the list by id and
-     * assign that id to the child guardians with the relationship
+     * Helper method that will take the already created guardians, done by the
+     * {@link #processGuardians(List)} method, and look up the guardian ids by the
+     * phone number and assign them to the child's guardians
+     * {@link Child#getGuardians} that contain the relationships of the guardians to
+     * the child.
      * 
      * @param c         The child to update guardians for
      * @param guardians The guardians with the ids

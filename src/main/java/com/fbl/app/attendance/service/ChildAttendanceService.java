@@ -172,7 +172,7 @@ public class ChildAttendanceService {
     private List<ChurchGroup> determineType(ChurchGroup type) {
         if (ChurchGroup.VBS.equals(type)) {
             return Arrays.asList(ChurchGroup.VBS_JUNIOR, ChurchGroup.VBS_PRIMARY, ChurchGroup.VBS_MIDDLER,
-                    ChurchGroup.VBS_JUNIOR);
+                    ChurchGroup.VBS_PRE_PRIMARY);
         } else {
             return Arrays.asList(type);
         }
