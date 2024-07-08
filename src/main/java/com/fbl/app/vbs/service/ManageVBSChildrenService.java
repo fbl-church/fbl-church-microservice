@@ -27,10 +27,10 @@ public class ManageVBSChildrenService {
      * @param points The points to add to the child
      * @return The child points
      */
-    public VBSChildPoint addPointsToChild(List<VBSChildPoint> points) {
+    public VBSChildPoint addPointsToChild(int childId, List<VBSChildPoint> points) {
         if (!CollectionUtils.isEmpty(points)) {
             for (VBSChildPoint p : points) {
-                vbsChildrenDAO.addPointsToChild(p.getChildId(), p.getVbsAttendanceId(), p.getVbsPointId());
+                vbsChildrenDAO.addPointsToChild(childId, p.getVbsAttendanceId(), p.getVbsPointId());
             }
         }
 

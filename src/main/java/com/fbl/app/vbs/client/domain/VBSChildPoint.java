@@ -5,7 +5,10 @@ import java.time.LocalDateTime;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
@@ -16,17 +19,16 @@ import lombok.Setter;
  */
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Schema(description = "VBS Child Points Object")
 public class VBSChildPoint {
 
     @Schema(description = "Child identifier")
-    @NotNull(message = "Invalid childId: Can not null")
-    @Positive(message = "Invalid childId: Must be greater than 0")
     private Integer childId;
 
     @Schema(description = "VBS Attendance identifier")
-    @NotNull(message = "Invalid vbsAttendanceId: Can not null")
-    @Positive(message = "Invalid vbsAttendanceId: Must be greater than 0")
     private Integer vbsAttendanceId;
 
     @Schema(description = "VBS Point identifier")

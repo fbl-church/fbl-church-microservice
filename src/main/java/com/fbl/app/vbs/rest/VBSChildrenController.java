@@ -54,8 +54,8 @@ public class VBSChildrenController {
      * @param points The points to add to the child
      * @return The child points
      */
-    @PostMapping("/points")
-    public VBSChildPoint addPointsToChild(@RequestBody @Valid List<VBSChildPoint> points) {
-        return manageVBSChildrenService.addPointsToChild(points);
+    @PostMapping("/{childId}/points")
+    public VBSChildPoint addPointsToChild(@PathVariable int childId, @RequestBody @Valid List<VBSChildPoint> points) {
+        return manageVBSChildrenService.addPointsToChild(childId, points);
     }
 }

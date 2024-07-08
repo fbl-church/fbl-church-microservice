@@ -6,9 +6,11 @@ package com.fbl.app.attendance.service;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import com.fbl.app.attendance.client.domain.AttendanceRecord;
 import com.fbl.app.attendance.client.domain.ChildAttendance;
@@ -55,7 +57,8 @@ public class ChildAttendanceService {
      */
     public Page<ChildAttendance> getChildrenAttendanceById(int id, ChildAttendanceGetRequest request) {
         AttendanceRecord record = attendanceService.getAttendanceRecordById(id);
-        Page<ChildAttendance> ca = dao.getChildrenAttendanceById(id, request, determineType(record.getType()));
+        Page<ChildAttendance> ca = dao.getChildrenAttendanceById(id, request,
+                determineType(record.getType(), request.getGroup()));
 
         ca.forEach(c -> {
             if (c.getGuardianPickedUpId() != null && c.getGuardianPickedUpId() > 0) {
@@ -169,7 +172,11 @@ public class ChildAttendanceService {
         return attendanceService.getAttendanceRecordById(recordId);
     }
 
-    private List<ChurchGroup> determineType(ChurchGroup type) {
+    private List<ChurchGroup> determineType(ChurchGroup type, Set<ChurchGroup> group) {
+        if (!CollectionUtils.isEmpty(group)) {
+            return group.stream().toList();
+        }
+
         if (ChurchGroup.VBS.equals(type)) {
             return Arrays.asList(ChurchGroup.VBS_JUNIOR, ChurchGroup.VBS_PRIMARY, ChurchGroup.VBS_MIDDLER,
                     ChurchGroup.VBS_PRE_PRIMARY);
