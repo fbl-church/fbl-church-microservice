@@ -23,6 +23,8 @@ public class VBSChildrenPointsMapper extends AbstractMapper<VBSChildPoint> {
         childPoint.setType(rs.getString(TYPE));
         childPoint.setDisplayName(rs.getString(DISPLAY_NAME));
         childPoint.setPoints(rs.getInt(POINTS));
+        childPoint.setRegistrationOnly(rs.getBoolean(REGISTRATION_ONLY));
+        childPoint.setCheckInApply(rs.getBoolean(CHECK_IN_APPLY));
         childPoint.setVbsThemeId(rs.getInt(VBS_THEME_ID));
         childPoint.setInsertDate(parseDateTime(rs.getString(INSERT_DATE)));
         return childPoint;

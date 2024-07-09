@@ -40,6 +40,6 @@ public class ManageVBSChildrenAttendanceService {
                 .toList();
 
         childAttendanceService.assignChildToAttendanceRecord(recordId, c);
-        manageVBSChildrenService.addPointsToChild(childId, childPoints);
+        manageVBSChildrenService.updateChildPoints(childId, childPoints);
     }
 }

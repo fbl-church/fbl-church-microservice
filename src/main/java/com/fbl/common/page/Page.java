@@ -8,12 +8,15 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+import com.fbl.common.page.domain.PageParam;
+
 import io.jsonwebtoken.lang.Assert;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Page class to add total count header.
@@ -25,6 +28,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Slf4j
 @Schema(description = "Page obejct for holding list and total count.")
 public class Page<T> {
     public static final String TOTAL_ITEM_COUNT = "total-count";
@@ -72,6 +76,25 @@ public class Page<T> {
     }
 
     /**
+     * Creates an unpaged instance of the given class.
+     * 
+     * @param <T>   The generic type of the page
+     * @param clazz The class to create an instance of
+     * @return The unpaged instance
+     */
+    public static <T extends PageParam> T unpaged(Class<T> clazz) {
+        try {
+            T newInstance = clazz.getDeclaredConstructor().newInstance();
+            newInstance.setPageSize(Integer.MAX_VALUE);
+            newInstance.setRowOffset(0);
+            return newInstance;
+        } catch (Exception e) {
+            log.warn("Could not create instance of class: '" + clazz.getName() + "' for unpaged page");
+            return null;
+        }
+    }
+
+    /**
      * Gets the size of the page
      * 
      * @return The size of the page
@@ -94,8 +117,8 @@ public class Page<T> {
      * 
      * @param action
      */
-    public <R> Page<? extends R> map(Function<? super T, ? extends R> mapper) {
-        List<? extends R> mappedList = list.stream().map(mapper).toList();
+    public <R> Page<R> map(Function<? super T, R> mapper) {
+        List<R> mappedList = list.stream().map(mapper).toList();
         return Page.of(mappedList);
     }
 }

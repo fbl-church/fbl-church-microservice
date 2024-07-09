@@ -1,5 +1,8 @@
 package com.fbl.app.vbs.service;
 
+import java.util.List;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,5 +31,18 @@ public class VBSChildrenService {
      */
     public Page<VBSChildPoint> getChildPoints(int childId, VBSChildrenPointsGetRequest request) {
         return vbsChildrenDAO.getChildPoints(childId, request);
+    }
+
+    /**
+     * Get child points by the child id and attendance id
+     * 
+     * @param childId      The child id
+     * @param attendanceId The attendance id
+     * @return The list of child points
+     */
+    public List<VBSChildPoint> getChildPointsByAttendanceId(int childId, int attendanceId) {
+        VBSChildrenPointsGetRequest request = Page.unpaged(VBSChildrenPointsGetRequest.class);
+        request.setAttendanceId(Set.of(attendanceId));
+        return vbsChildrenDAO.getChildPoints(childId, request).getList();
     }
 }

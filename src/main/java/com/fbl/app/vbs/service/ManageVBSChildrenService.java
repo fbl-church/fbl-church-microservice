@@ -27,13 +27,22 @@ public class ManageVBSChildrenService {
      * @param points The points to add to the child
      * @return The child points
      */
-    public VBSChildPoint addPointsToChild(int childId, List<VBSChildPoint> points) {
+    public void updateChildPoints(int childId, List<VBSChildPoint> points) {
         if (!CollectionUtils.isEmpty(points)) {
+            deleteChildPoints(childId, points.stream().map(VBSChildPoint::getVbsAttendanceId).toList());
             for (VBSChildPoint p : points) {
                 vbsChildrenDAO.addPointsToChild(childId, p.getVbsAttendanceId(), p.getVbsPointId());
             }
         }
+    }
 
-        return null;
+    /**
+     * Delete points from a child by the child id and attendance id
+     * 
+     * @param childId      The child id
+     * @param attendanceId The attendance id
+     */
+    public void deleteChildPoints(int childId, List<Integer> attendanceIds) {
+        vbsChildrenDAO.deleteChildPoints(childId, attendanceIds);
     }
 }

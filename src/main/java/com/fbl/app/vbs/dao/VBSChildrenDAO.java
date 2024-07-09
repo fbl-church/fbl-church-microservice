@@ -2,6 +2,8 @@ package com.fbl.app.vbs.dao;
 
 import static com.fbl.app.vbs.mapper.VBSChildrenPointsMapper.*;
 
+import java.util.List;
+
 import javax.sql.DataSource;
 
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -54,5 +56,16 @@ public class VBSChildrenDAO extends BaseDao {
                 .build();
 
         post("addPointsToChild", params);
+    }
+
+    /**
+     * Delete points from a child by the child id and attendance id
+     * 
+     * @param childId      The child id
+     * @param attendanceId The attendance id
+     */
+    public void deleteChildPoints(int childId, List<Integer> attendanceIds) {
+        delete("deleteChildPoints",
+                parameterSource(CHILD_ID, childId).addValue(VBS_ATTENDANCE_RECORD_ID, attendanceIds));
     }
 }

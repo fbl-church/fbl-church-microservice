@@ -10,7 +10,9 @@
   vpc.type,
   vpc.display_name,
   vpc.points,
-  vpc.vbs_theme_id
+  vpc.vbs_theme_id,
+  vpc.registration_only,
+  vpc.check_in_apply
 
 ---
 
@@ -41,3 +43,10 @@
 @NAME(addPointsToChild)
   INSERT INTO vbs_children_points (child_id, vbs_attendance_record_id, vbs_point_config_id)
   VALUES (:child_id, :vbs_attendance_record_id, :vbs_point_config_id)
+
+---
+
+@NAME(deleteChildPoints)
+  DELETE FROM vbs_children_points
+  WHERE child_id = :child_id
+  AND vbs_attendance_record_id IN (:vbs_attendance_record_id)

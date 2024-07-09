@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -54,8 +54,8 @@ public class VBSChildrenController {
      * @param points The points to add to the child
      * @return The child points
      */
-    @PostMapping("/{childId}/points")
-    public VBSChildPoint addPointsToChild(@PathVariable int childId, @RequestBody @Valid List<VBSChildPoint> points) {
-        return manageVBSChildrenService.addPointsToChild(childId, points);
+    @PutMapping("/{childId}/points")
+    public void updateChildPoints(@PathVariable int childId, @RequestBody @Valid List<VBSChildPoint> points) {
+        manageVBSChildrenService.updateChildPoints(childId, points);
     }
 }
