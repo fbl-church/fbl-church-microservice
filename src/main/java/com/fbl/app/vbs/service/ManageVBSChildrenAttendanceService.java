@@ -42,4 +42,15 @@ public class ManageVBSChildrenAttendanceService {
         childAttendanceService.assignChildToAttendanceRecord(recordId, c);
         manageVBSChildrenService.updateChildPoints(childId, childPoints);
     }
+
+    /**
+     * Mark child as absent for vbs attedance record
+     * 
+     * @param childId  The points to add to the child
+     * @param recordId The record id to add the child too
+     */
+    public void markAbsent(int childId, int recordId) {
+        childAttendanceService.removeChildFromAttendanceRecord(recordId, childId);
+        manageVBSChildrenService.deleteChildPoints(childId, List.of(recordId));
+    }
 }

@@ -3,6 +3,7 @@ package com.fbl.app.vbs.rest;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -58,5 +59,16 @@ public class VBSChildrenAttendanceController {
     public void checkIn(@PathVariable int childId, @PathVariable int recordId,
             @RequestBody List<Integer> points) {
         manageVBSChildrenService.checkIn(childId, recordId, points);
+    }
+
+    /**
+     * Mark child as absent for vbs attedance record
+     * 
+     * @param childId  The points to add to the child
+     * @param recordId The record id to add the child too
+     */
+    @DeleteMapping("/{childId}/attendance/{recordId}")
+    public void markAbsent(@PathVariable int childId, @PathVariable int recordId) {
+        manageVBSChildrenService.markAbsent(childId, recordId);
     }
 }
