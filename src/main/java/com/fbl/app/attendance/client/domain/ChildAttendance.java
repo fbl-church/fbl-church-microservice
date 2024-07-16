@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import com.fbl.app.guardian.client.domain.Guardian;
+import com.fbl.common.enums.AttendanceStatus;
 import com.fbl.common.enums.ChurchGroup;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -46,6 +47,9 @@ public class ChildAttendance {
 
     @Schema(description = "The church groupd record type")
     private ChurchGroup recordType;
+
+    @Schema(description = "Status of the attendance record.")
+    private AttendanceStatus status;
 
     @Schema(description = "The attendance record id")
     private Integer attendanceRecordId;

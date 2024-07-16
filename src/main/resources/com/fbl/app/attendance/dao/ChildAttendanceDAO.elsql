@@ -11,6 +11,7 @@
   ca.guardian_picked_up_id,
   ar.name,
   ar.type,
+  ar.status,
   ar.active_date
 
 ---
