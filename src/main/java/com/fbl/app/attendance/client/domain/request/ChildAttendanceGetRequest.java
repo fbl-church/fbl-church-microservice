@@ -37,6 +37,9 @@ public class ChildAttendanceGetRequest
     @Schema(description = "The group to filter children")
     private Set<ChurchGroup> group;
 
+    @Schema(description = "The attendance record ids to filter children")
+    private Set<Integer> attendanceRecordId;
+
     @Schema(description = "Search Param on search param fields.")
     private Set<String> search;
 

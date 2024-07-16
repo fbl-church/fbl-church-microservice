@@ -41,7 +41,7 @@
     @AND(:child_id)
       u.id = :child_id
     @AND(:attendance_record_id)
-      ar.id = :attendance_record_id
+      ar.id IN (:attendance_record_id)
 
 ---
 

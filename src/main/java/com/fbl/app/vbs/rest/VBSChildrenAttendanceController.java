@@ -36,6 +36,21 @@ public class VBSChildrenAttendanceController {
     private VBSChildrenAttendanceService vbsChildrenAttendanceService;
 
     /**
+     * Get a page of child attendance records and points for a given theme id and
+     * child id
+     * 
+     * @param id      The id of the child
+     * @param themeId The theme id
+     * @param request The page request
+     * @return The page of VBS Child Attendance
+     */
+    @GetMapping("/{id}/theme/{themeId}/attendance")
+    public Page<VBSChildAttendance> getVBSChildAttendance(@PathVariable int id, @PathVariable int themeId,
+            ChildAttendanceGetRequest request) {
+        return vbsChildrenAttendanceService.getVBSChildAttendance(id, themeId, request);
+    }
+
+    /**
      * Get a page of VBS children by attendance id
      * 
      * @param attendanceId The attendance id to get the children for
