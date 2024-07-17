@@ -82,6 +82,7 @@ public class VBSAttendanceDAO extends BaseDao {
                 .withParam(MONEY, record.getMoney() == null ? 0.00 : record.getMoney())
                 .withParam(SPIRIT_THEME, record.getSpiritTheme())
                 .withParam(OFFERING_WINNERS, CommonUtil.serializeEnumList(record.getOfferingWinners(), ","))
+                .withParam(OFFERING_WINNER_POINTS, record.getOfferingWinnerPoints())
                 .build();
 
         update("updateVBSAttendanceRecordById", params);

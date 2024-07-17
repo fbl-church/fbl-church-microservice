@@ -16,7 +16,8 @@
   vars.vbs_theme_id, 
   vars.money,
   vars.spirit_theme,
-  vars.offering_winners
+  vars.offering_winners,
+  vars.offering_winner_points
 
 ---
 
@@ -60,7 +61,8 @@
 @NAME(updateVBSAttendanceRecordById)
   UPDATE vbs_attendance_records 
   SET 
-    money            = :money,
-    offering_winners = :offering_winners,
-    spirit_theme     = :spirit_theme
+    money                  = :money,
+    offering_winners       = :offering_winners,
+    spirit_theme           = :spirit_theme,
+    offering_winner_points = :offering_winner_points
   WHERE attendance_record_id = :attendance_record_id

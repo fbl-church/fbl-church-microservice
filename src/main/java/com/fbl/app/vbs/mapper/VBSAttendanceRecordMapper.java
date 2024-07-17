@@ -41,6 +41,8 @@ public class VBSAttendanceRecordMapper extends AbstractMapper<VBSAttendanceRecor
         record.setSpiritTheme(rs.getString(SPIRIT_THEME));
         record.setVbsThemeId(rs.getInt(VBS_THEME_ID));
 
+        record.setOfferingWinnerPoints(rs.getInt(OFFERING_WINNER_POINTS));
+
         try {
             List<String> groups = Arrays.asList(rs.getString(OFFERING_WINNERS).split(","));
             record.setOfferingWinners(groups.stream().map(ChurchGroup::valueOf).toList());

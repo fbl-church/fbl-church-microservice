@@ -30,4 +30,7 @@ public class VBSAttendanceRecord extends AttendanceRecord {
 
     @Schema(description = "The winners of the offering")
     private List<ChurchGroup> offeringWinners;
+
+    @Schema(description = "The point value for the offering winners")
+    private int offeringWinnerPoints;
 }

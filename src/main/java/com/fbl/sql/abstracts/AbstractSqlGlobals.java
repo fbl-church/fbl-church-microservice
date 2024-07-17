@@ -53,6 +53,7 @@ public abstract class AbstractSqlGlobals {
     protected static final String NOTES = "notes";
     protected static final String OWNER_USER_ID = "owner_user_id";
     protected static final String OFFERING_WINNERS = "offering_winners";
+    protected static final String OFFERING_WINNER_POINTS = "offering_winner_points";
     protected static final String PASSWORD = "password";
     protected static final String PHONE = "phone";
     protected static final String POINTS = "points";
