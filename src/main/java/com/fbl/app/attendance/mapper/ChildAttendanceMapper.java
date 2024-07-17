@@ -34,7 +34,11 @@ public class ChildAttendanceMapper extends AbstractMapper<ChildAttendance> {
 		child.setCheckInDate(parseDateTime(rs.getString(CHECK_IN_DATE)));
 		child.setCheckOutDate(parseDateTime(rs.getString(CHECK_OUT_DATE)));
 		child.setRecordName(rs.getString(NAME));
-		child.setStatus(AttendanceStatus.valueOf(rs.getString(STATUS)));
+
+		if (rs.getString(STATUS) != null) {
+			child.setStatus(AttendanceStatus.valueOf(rs.getString(STATUS)));
+		}
+
 		child.setRecordType(rs.getString(TYPE) == null ? null : ChurchGroup.valueOf(rs.getString(TYPE)));
 		child.setRecordDate(parseDate(rs.getString(ACTIVE_DATE)));
 		return child;
