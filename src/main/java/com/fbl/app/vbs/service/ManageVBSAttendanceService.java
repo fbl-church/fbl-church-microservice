@@ -9,9 +9,12 @@ import org.springframework.stereotype.Service;
 import com.fbl.app.attendance.client.domain.AttendanceRecord;
 import com.fbl.app.attendance.service.ManageAttendanceService;
 import com.fbl.app.vbs.client.domain.VBSAttendanceRecord;
+import com.fbl.app.vbs.client.domain.VBSStatus;
 import com.fbl.app.vbs.client.domain.VBSTheme;
 import com.fbl.app.vbs.dao.VBSAttendanceDAO;
+import com.fbl.common.enums.AttendanceStatus;
 import com.fbl.common.enums.ChurchGroup;
+import com.fbl.exception.types.NotFoundException;
 import com.fbl.exception.types.ServiceException;
 
 /**
@@ -28,6 +31,12 @@ public class ManageVBSAttendanceService {
 
     @Autowired
     private ManageAttendanceService manageAttendanceService;
+
+    @Autowired
+    private VBSThemeService vbsThemeService;
+
+    @Autowired
+    private ManageVBSThemeService manageVBSThemeService;
 
     /**
      * Creates a VBS attendance record. This will be extra data that is linked to
@@ -80,5 +89,39 @@ public class ManageVBSAttendanceService {
     public void updateVBSAttendanceRecordById(int id, VBSAttendanceRecord record) {
         vbsAttendanceDAO.updateVBSAttendanceRecordById(id, record);
         manageAttendanceService.updateAttendanceRecord(id, record);
+    }
+
+    /**
+     * Updates the status of an attendance record. If the status of the theme is not
+     * active, then it will update the theme status to active.
+     * 
+     * @param id     The attendance record id
+     * @param status The status to update with
+     */
+    public void updateAttendanceRecordStatus(int id, AttendanceStatus status) {
+        if (AttendanceStatus.ACTIVE.equals(status)) {
+            VBSAttendanceRecord vbsRecord = vbsAttendanceDAO.getAttendanceRecordById(id)
+                    .orElseThrow(() -> new NotFoundException("VBS Attendance Record not found for id: " + id));
+            VBSTheme theme = vbsThemeService.getThemeById(vbsRecord.getVbsThemeId());
+
+            if (!VBSStatus.ACTIVE.equals(theme.getStatus())) {
+                manageVBSThemeService.updateThemeStatus(theme.getId(), VBSStatus.ACTIVE);
+            }
+        }
+        manageAttendanceService.updateAttendanceRecordStatus(id, status);
+    }
+
+    /**
+     * Re-Opens a closed VBS attendance record
+     * 
+     * @param id The attendance record to reopen
+     * @return The record that was updated
+     */
+    public VBSAttendanceRecord reopenTheme(int id) {
+        VBSAttendanceRecord vbsRecord = vbsAttendanceDAO.getAttendanceRecordById(id)
+                .orElseThrow(() -> new NotFoundException("VBS Attendance Record not found for id: " + id));
+        manageVBSThemeService.reopenTheme(vbsRecord.getVbsThemeId());
+        manageAttendanceService.reopenAttendanceRecord(id);
+        return vbsAttendanceDAO.getAttendanceRecordById(id).get();
     }
 }

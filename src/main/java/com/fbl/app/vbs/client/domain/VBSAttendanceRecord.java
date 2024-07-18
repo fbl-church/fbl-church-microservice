@@ -19,6 +19,7 @@ import lombok.Setter;
 @Setter
 @Schema(description = "VBS Attendance Record Object")
 public class VBSAttendanceRecord extends AttendanceRecord {
+
     @Schema(description = "The id of the theme the points are associated too")
     private Integer vbsThemeId;
 

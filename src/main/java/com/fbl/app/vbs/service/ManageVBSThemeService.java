@@ -127,7 +127,7 @@ public class ManageVBSThemeService {
     public VBSTheme reopenTheme(int id) {
         VBSTheme theme = vbsThemeService.getThemeById(id);
         if (VBSStatus.ACTIVE.equals(theme.getStatus())) {
-            log.warn("Attendance Record '{}' is already active", id);
+            log.warn("VBS Theme '{}' is already active", id);
             return theme;
         }
 

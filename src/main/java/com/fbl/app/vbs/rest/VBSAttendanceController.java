@@ -17,7 +17,10 @@ import com.fbl.app.vbs.client.domain.VBSAttendanceRecord;
 import com.fbl.app.vbs.openapi.TagVBS;
 import com.fbl.app.vbs.service.ManageVBSAttendanceService;
 import com.fbl.app.vbs.service.VBSAttendanceService;
+import com.fbl.common.annotations.interfaces.HasAccess;
 import com.fbl.common.annotations.interfaces.RestApiController;
+import com.fbl.common.enums.AttendanceStatus;
+import com.fbl.common.enums.WebRole;
 
 /**
  * VBS Attendance Controller
@@ -78,5 +81,29 @@ public class VBSAttendanceController {
     public VBSAttendanceRecord createVBSAttendanceRecord(@PathVariable int id,
             @RequestBody VBSAttendanceRecord record) {
         return manageVBSAttendanceService.createVBSAttendanceRecord(id, record);
+    }
+
+    /**
+     * Updates the status of an attendance record. If the status of the theme is not
+     * active, then it will update the theme status to active.
+     * 
+     * @param id     The attendance record id
+     * @param status The status to update with
+     */
+    @PutMapping("/{id}/status/{status}")
+    public void updateAttendanceRecordStatus(@PathVariable int id, @PathVariable AttendanceStatus status) {
+        manageVBSAttendanceService.updateAttendanceRecordStatus(id, status);
+    }
+
+    /**
+     * Re-Open a closed vbs attendance record
+     * 
+     * @param id The id of the theme
+     * @return The updated theme
+     */
+    @PutMapping("/{id}/reopen")
+    @HasAccess(WebRole.ADMINISTRATOR)
+    public VBSAttendanceRecord reopenTheme(@PathVariable int id) {
+        return manageVBSAttendanceService.reopenTheme(id);
     }
 }
