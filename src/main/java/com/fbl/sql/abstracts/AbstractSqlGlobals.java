@@ -10,6 +10,7 @@ public abstract class AbstractSqlGlobals {
     protected static final String ADDITIONAL_INFO = "additional_info";
     protected static final String ADDRESS = "address";
     protected static final String ALLERGIES = "allergies";
+    protected static final String ALLERGIES_OR_ADDITIONAL_INFO_ONLY = "allergies_or_additional_info_only";
     protected static final String APP_ACCESS = "app_access";
     protected static final String APP_ID = "app_id";
     protected static final String APP_KEY = "app_key";

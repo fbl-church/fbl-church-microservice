@@ -48,6 +48,9 @@ public class ChildGetRequest implements SearchParam, PageParam, SearchFieldParam
     @Schema(description = "Childs Birthday")
     private Set<LocalDate> birthday;
 
+    @Schema(description = "Return only children with allergies and additional info.")
+    private Boolean allergiesAndAdditonalInfoOnly;
+
     @Schema(description = "Search Param on search param fields.")
     private Set<String> search;
 

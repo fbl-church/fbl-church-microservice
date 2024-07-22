@@ -6,7 +6,9 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fbl.app.vbs.client.domain.VBSThemeGroup;
 import com.fbl.app.vbs.dao.VBSReportsDAO;
+import com.fbl.common.page.Page;
 
 /**
  * VBS Report Service
@@ -29,5 +31,15 @@ public class VBSReportsService {
         Map<String, Integer> data = new HashMap<>();
         data.put("registeredChildren", vbsReportsDao.getCountOfRegisteredVBSChildren());
         return data;
+    }
+
+    /**
+     * Get the snack details for the VBS
+     * 
+     * @param id The id of the attendance record to get for the snack details
+     * @return a page of VBS Theme Groups
+     */
+    public Page<VBSThemeGroup> getSnackDetails(int id) {
+        return vbsReportsDao.getSnackDetails(id);
     }
 }

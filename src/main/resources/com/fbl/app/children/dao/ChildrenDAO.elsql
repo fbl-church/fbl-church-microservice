@@ -25,6 +25,8 @@
       u.id NOT IN (SELECT child_id FROM children_groups cg WHERE church_group IN (:not_church_group) GROUP BY child_id)
     @AND(:birthday)
       c.birthday IN (:birthday)
+    @AND(:allergies_or_additional_info_only)
+      (c.allergies IS NOT NULL OR c.additional_info IS NOT NULL)
     @AND(:search = true)
       @INCLUDE(search)
 

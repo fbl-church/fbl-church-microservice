@@ -4,11 +4,14 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.fbl.app.vbs.client.domain.VBSThemeGroup;
 import com.fbl.app.vbs.openapi.TagVBS;
 import com.fbl.app.vbs.service.VBSReportsService;
 import com.fbl.common.annotations.interfaces.RestApiController;
+import com.fbl.common.page.Page;
 
 /**
  * VBS Report Controller for managing endpoints
@@ -33,5 +36,16 @@ public class VBSReportsController {
     @GetMapping("/children")
     public Map<String, Integer> getCurrentlyRegisterVBSChildren() {
         return vbsReportsService.getCurrentlyRegisterVBSChildren();
+    }
+
+    /**
+     * Get the snack details for the VBS
+     * 
+     * @param id The id of the attendance record to get for the snack details
+     * @return a page of VBS Theme Groups
+     */
+    @GetMapping("/snacks/attendance/{id}")
+    public Page<VBSThemeGroup> getSnackDetails(@PathVariable int id) {
+        return null;
     }
 }

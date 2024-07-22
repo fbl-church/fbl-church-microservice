@@ -119,6 +119,6 @@ public class Page<T> {
      */
     public <R> Page<R> map(Function<? super T, R> mapper) {
         List<R> mappedList = list.stream().map(mapper).toList();
-        return Page.of(mappedList);
+        return Page.of(this.totalCount, mappedList);
     }
 }

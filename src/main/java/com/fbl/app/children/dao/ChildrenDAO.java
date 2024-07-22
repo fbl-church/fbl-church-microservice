@@ -44,6 +44,7 @@ public class ChildrenDAO extends BaseDao {
         MapSqlParameterSource params = SqlParamBuilder.with(request).useAllParams().withParam(ID, request.getId())
                 .withParam(FIRST_NAME, request.getFirstName()).withParam(LAST_NAME, request.getLastName())
                 .withParam(BIRTHDAY, request.getBirthday())
+                .withParam(ALLERGIES_OR_ADDITIONAL_INFO_ONLY, request.getAllergiesAndAdditonalInfoOnly())
                 .withParamTextEnumCollection(CHURCH_GROUP, request.getChurchGroup())
                 .withParamTextEnumCollection(NOT_CHURCH_GROUP, request.getNotChurchGroup()).build();
 

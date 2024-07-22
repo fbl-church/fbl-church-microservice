@@ -28,4 +28,7 @@ public class VBSThemeGroup {
     @Schema(description = "VBS Theme specific name for the group")
     @NotBlank(message = "Invalid name: Can not be empty or null")
     private String name;
+
+    @Schema(description = "How many kids are in this group")
+    private int count;
 }

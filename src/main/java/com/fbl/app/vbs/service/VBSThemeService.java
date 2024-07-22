@@ -58,7 +58,12 @@ public class VBSThemeService {
      * @return The latest active theme
      */
     public VBSTheme getLatestActiveTheme() {
-        return vbsDao.getLatestActiveTheme().orElse(null);
+        VBSTheme t = vbsDao.getLatestActiveTheme().orElse(null);
+        if (t == null) {
+            return null;
+        }
+        t.setChildrenAttended(getTotalChildrenAttended(t.getId()));
+        return t;
     }
 
     /**
