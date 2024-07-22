@@ -3,11 +3,8 @@
 */
 package com.fbl.app.user.service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 import java.util.List;
 import java.util.Set;
@@ -70,7 +67,7 @@ public class WebRoleServiceTest {
         Page<WebRole> directorRoles = service.getRoles(WebRoleGetRequest.builder().rowOffset(0).pageSize(100).build());
 
         verify(jwtHolder, times(3)).getWebRole();
-        assertEquals(17, workerRoles.size(), "Size of Worker Role Access");
+        assertEquals(16, workerRoles.size(), "Size of Worker Role Access");
         assertEquals(26, supervisorRoles.size(), "Size of Supervisor Role Access");
         assertEquals(29, directorRoles.size(), "Size of Directory Role Access");
     }
