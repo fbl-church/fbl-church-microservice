@@ -30,6 +30,7 @@ public abstract class AbstractSqlGlobals {
     protected static final String CREATE = "create";
     protected static final String CUID = "cuid";
     protected static final String DELETE = "delete";
+    protected static final String DAYS_ATTENDED = "days_attended";
     protected static final String DISPLAY_NAME = "display_name";
     protected static final String DONATION = "donation";
     protected static final String EMAIL = "email";

@@ -73,7 +73,6 @@ public class VBSChildrenAttendanceService {
     public Page<VBSChildAttendance> getVBSChildrenByAttendanceId(int attendanceId,
             ChildAttendanceGetRequest request) {
         Page<ChildAttendance> children = childAttendanceService.getChildrenAttendanceById(attendanceId, request);
-        long total = children.getTotalCount();
 
         return children.map(ca -> {
             VBSChildAttendance vbsChild = modelMapper.map(ca, VBSChildAttendance.class);

@@ -11,6 +11,7 @@ import com.fbl.app.vbs.client.domain.VBSThemeGroup;
 import com.fbl.app.vbs.openapi.TagVBS;
 import com.fbl.app.vbs.service.VBSReportsService;
 import com.fbl.common.annotations.interfaces.RestApiController;
+import com.fbl.common.enums.ChurchGroup;
 import com.fbl.common.page.Page;
 
 /**
@@ -36,6 +37,16 @@ public class VBSReportsController {
     @GetMapping("/children")
     public Map<String, Integer> getCurrentlyRegisterVBSChildren() {
         return vbsReportsService.getCurrentlyRegisterVBSChildren();
+    }
+
+    /**
+     * Returns a byte array of the children points pdf by theme id.
+     * 
+     * @return a byte array of the children points pdf
+     */
+    @GetMapping("/theme/{themeId}/group/{group}/children/points-pdf")
+    public byte[] getChildrenPointsPDF(@PathVariable int themeId, @PathVariable ChurchGroup group) throws Exception {
+        return vbsReportsService.getChildrenPointsPDF(themeId, group);
     }
 
     /**

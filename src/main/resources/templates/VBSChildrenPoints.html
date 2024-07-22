@@ -5,19 +5,19 @@
     <style>
       /* Card */
       .card {
-        width: 325px;
-        height: 150px;
-        display: flex;
-        flex-direction: column;
+        width: 49%;
+        display: inline-block;
+        text-align: left !important;
+        border-radius: 8px;
       }
 
-      .card-border--full {
+      .cards-container {
+        text-align: center;
+        margin-bottom: 4px;
+      }
+
+      .cards-container > .card {
         border: 2px dashed black;
-      }
-
-      .card-border--horizontal {
-        border-top: 2px dashed black;
-        border-bottom: 2px dashed black;
       }
 
       .card--green {
@@ -72,15 +72,11 @@
       /* Card Content */
       .card-content {
         padding: 4px;
-        display: flex;
-        flex-direction: column;
-        gap: 4px;
         font-size: 16px;
       }
 
       .card-info {
-        display: flex;
-        gap: 4px;
+        margin-bottom: 8px;
       }
 
       @media print {
@@ -99,118 +95,51 @@
         width="300"
         height="100"
       />
-    </div>
-
-    <div style="display: flex; justify-content: center">
-      <div class="card card-border--full card--green">
-        <div class="card-header card-header--green">VBS Child Points</div>
-        <div class="card-content">
-          <div class="card-info">
-            <b>Name:</b>
-            Jillian Bronish
-          </div>
-          <div class="card-info">
-            <b>CUID:</b>
-            080603000036
-          </div>
-          <div class="card-info">
-            <b>Group:</b>
-            VBS Junior (5th & 6th)
-          </div>
-          <div class="card-info">
-            <b>Points:</b>
-            13,250
-          </div>
-        </div>
-      </div>
-
-      <div class="card card-border--horizontal card--orange">
-        <div class="card-header card-header--orange">VBS Child Points</div>
-        <div class="card-content">
-          <div class="card-info">
-            <b>Name:</b>
-            Keannaemilyelizebeth Romanadveratrelunder
-          </div>
-          <div class="card-info">
-            <b>CUID:</b>
-            080603000036
-          </div>
-          <div class="card-info">
-            <b>Group:</b>
-            VBS Junior (5th & 6th)
-          </div>
-          <div class="card-info">
-            <b>Points:</b>
-            13,250
-          </div>
-        </div>
-      </div>
-
-      <div class="card card-border--full card--purple">
-        <div class="card-header card-header--purple">VBS Child Points</div>
-        <div class="card-content">
-          <div class="card-info">
-            <b>Name:</b>
-            Jillian Bronish
-          </div>
-          <div class="card-info">
-            <b>CUID:</b>
-            080603000036
-          </div>
-          <div class="card-info">
-            <b>Group:</b>
-            VBS Junior (5th & 6th)
-          </div>
-          <div class="card-info">
-            <b>Points:</b>
-            13,250
-          </div>
-        </div>
+      <div
+        style="
+          margin-top: 5px;
+          font-weight: bold;
+          font-size: 18px;
+          text-align: center;
+        "
+      >
+        ${group}
       </div>
     </div>
-    <div style="display: flex; justify-content: center">
-      <div class="card card-border--full card--blue">
-        <div class="card-header card-header--blue">VBS Child Points</div>
-        <div class="card-content">
-          <div class="card-info">
-            <b>Name:</b>
-            Jillian Bronish
+
+    <#list list as pointCard>
+      <#if pointCard?is_odd_item>
+        <div class="cards-container">
+      </#if>
+          <div class="card card-border--full card--green">
+            <div class="card-header card-header--green">VBS Child Points</div>
+            <div class="card-content">
+              <div class="card-info">
+                <b>Name:</b>
+                ${(pointCard.firstName)!''}  ${(pointCard.lastName)!''}
+              </div>
+              <div class="card-info">
+                <b>CUID:</b>
+                ${(pointCard.cuid)!''}
+              </div>
+              <div class="card-info">
+                <b>Group:</b>
+                ${(pointCard.group)!''}
+              </div>
+              <div class="card-info">
+                <b>Points:</b>
+                ${(pointCard.totalPoints)!''}
+              </div>
+            </div>
           </div>
-          <div class="card-info">
-            <b>CUID:</b>
-            080603000036
-          </div>
-          <div class="card-info">
-            <b>Group:</b>
-            VBS Junior (5th & 6th)
-          </div>
-          <div class="card-info">
-            <b>Points:</b>
-            13,250
-          </div>
+      <#if pointCard?is_even_item>
         </div>
-      </div>
-      <div class="card card-border--full card--red">
-        <div class="card-header card-header--red">VBS Child Points</div>
-        <div class="card-content">
-          <div class="card-info">
-            <b>Name:</b>
-            Jillian Bronish
+      </#if>
+      <#if pointCard?is_odd_item>
+        <#if pointCard?is_last>
           </div>
-          <div class="card-info">
-            <b>CUID:</b>
-            080603000036
-          </div>
-          <div class="card-info">
-            <b>Group:</b>
-            VBS Junior (5th & 6th)
-          </div>
-          <div class="card-info">
-            <b>Points:</b>
-            13,250
-          </div>
-        </div>
-      </div>
-    </div>
+        </#if> 
+      </#if>    
+    </#list>
   </body>
 </html>
