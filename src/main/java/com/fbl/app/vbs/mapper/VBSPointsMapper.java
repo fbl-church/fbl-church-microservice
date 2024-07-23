@@ -23,6 +23,7 @@ public class VBSPointsMapper extends AbstractMapper<VBSPoint> {
         pointConfig.setPoints(rs.getInt(POINTS));
         pointConfig.setRegistrationOnly(rs.getBoolean(REGISTRATION_ONLY));
         pointConfig.setCheckInApply(rs.getBoolean(CHECK_IN_APPLY));
+        pointConfig.setEnabled(rs.getBoolean(ENABLED));
         pointConfig.setVbsThemeId(rs.getInt(VBS_THEME_ID));
         pointConfig.setUpdatedUserId(rs.getInt(UPDATED_USER_ID));
         pointConfig.setInsertUserId(rs.getInt(INSERT_USER_ID));

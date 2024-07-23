@@ -16,6 +16,7 @@ CREATE TABLE vbs_points_config (
   points            INT          UNSIGNED NOT NULL,
   registration_only BIT                   NOT NULL DEFAULT 0,
   check_in_apply    BIT                   NOT NULL DEFAULT 0,
+  `enabled`         BIT                   NOT NULL DEFAULT 1,
   vbs_theme_id      INT          UNSIGNED NOT NULL,
   updated_user_id   INT          UNSIGNED          DEFAULT NULL,
   updated_date      DATETIME              NOT NULL DEFAULT CURRENT_TIMESTAMP(),

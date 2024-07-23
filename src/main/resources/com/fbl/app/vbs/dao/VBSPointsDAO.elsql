@@ -5,6 +5,7 @@
   vpc.points,
   vpc.registration_only,
   vpc.check_in_apply,
+  vpc.enabled,
   vpc.vbs_theme_id,
   vpc.updated_user_id,
   vpc.updated_date,
@@ -48,8 +49,8 @@
 ---
 
 @NAME(createPointConfig)
-  INSERT INTO vbs_points_config (type, display_name, points, vbs_theme_id, registration_only, check_in_apply, updated_user_id, insert_user_id)
-  VALUES (:type, :display_name, :points, :vbs_theme_id, :registration_only, :check_in_apply, :updated_user_id, :insert_user_id)
+  INSERT INTO vbs_points_config (type, display_name, points, vbs_theme_id, registration_only, check_in_apply, `enabled`, updated_user_id, insert_user_id)
+  VALUES (:type, :display_name, :points, :vbs_theme_id, :registration_only, :check_in_apply, :enabled, :updated_user_id, :insert_user_id)
 
 ---
 
@@ -61,6 +62,7 @@
     points            = IFNULL(:points, points),
     registration_only = IFNULL(:registration_only, registration_only),
     check_in_apply    = IFNULL(:check_in_apply, check_in_apply),
+    enabled           = IFNULL(:enabled, enabled),
     updated_user_id   = IFNULL(:updated_user_id, updated_user_id),
     updated_date      = IFNULL(:updated_date, updated_date)
   WHERE id = :id
