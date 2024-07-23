@@ -29,6 +29,9 @@ public class VBSChildPointsCard {
     @Schema(description = "The points the child has earned")
     private int totalPoints;
 
+    @Schema(description = "The offering points the child has earned")
+    private int offeringPoints;
+
     @Schema(description = "The days the child has attended")
     private int daysAttended;
 

@@ -4,7 +4,9 @@
   WHERE church_group IN ('VBS_PRE_PRIMARY', 'VBS_PRIMARY','VBS_MIDDLER','VBS_JUNIOR')
 
 @NAME(getVBSChildPointCards)
-  SELECT u.id, c.cuid, u.first_name, u.last_name, SUM(vpc.points) as points, (@INCLUDE(childDaysAttendedSubSelect)) as days_attended
+  SELECT u.id, c.cuid, u.first_name, u.last_name, SUM(vpc.points) as points,
+  (@INCLUDE(childOfferingPointsSubSelect)) as offering_points,
+  (@INCLUDE(childDaysAttendedSubSelect)) as days_attended
   FROM vbs_children_points vcp
   INNER JOIN vbs_points_config vpc ON vcp.vbs_point_config_id = vpc.id
   INNER JOIN children c ON vcp.child_id = c.user_id
@@ -19,3 +21,10 @@
   INNER JOIN vbs_points_config vpcInner ON vcpInner.vbs_point_config_id = vpcInner.id
   WHERE vpcInner.type = 'ATTENDANCE'
   AND vcpInner.child_id = u.id
+
+@NAME(childOfferingPointsSubSelect)
+  SELECT SUM(varInner.offering_winner_points)
+  FROM children_attendance ca
+  INNER JOIN vbs_attendance_records varInner ON ca.attendance_record_id = varInner.attendance_record_id
+  WHERE ca.attendance_record_id IN (:attendance_record_id)
+  AND ca.child_id = u.id

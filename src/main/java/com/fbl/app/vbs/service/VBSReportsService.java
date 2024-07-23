@@ -59,13 +59,12 @@ public class VBSReportsService {
         Set<Integer> recordIds = recs.stream().map(VBSAttendanceRecord::getId).collect(Collectors.toSet());
         List<VBSChildPointsCard> pointCards = vbsReportsDao.getVBSChildPointCards(recordIds, group);
 
-        int offeringPointsMap = getChurchGroupOfferingPoints(group, recs);
         String translatedGroup = translateGroup(group);
         pointCards.forEach(p -> {
             if (p.getDaysAttended() == 5) {
                 p.setTotalPoints(p.getTotalPoints() + EVERY_DAY_BONUS_POINTS);
             }
-            p.setTotalPoints(p.getTotalPoints() + offeringPointsMap);
+            p.setTotalPoints(p.getTotalPoints() + p.getOfferingPoints());
             p.setGroup(translatedGroup);
         });
 
@@ -87,22 +86,6 @@ public class VBSReportsService {
      */
     public Page<VBSThemeGroup> getSnackDetails(int id) {
         return vbsReportsDao.getSnackDetails(id);
-    }
-
-    /**
-     * Turns list of VBSAttendanceRecord into a map of id to offering points
-     * 
-     * @param recs The list of VBSAttendanceRecord
-     * @return The map of id to offering points
-     */
-    private int getChurchGroupOfferingPoints(ChurchGroup g, List<VBSAttendanceRecord> recs) {
-        int runningGroupPoints = 0;
-        for (VBSAttendanceRecord rec : recs) {
-            if (rec.getOfferingWinners() != null && rec.getOfferingWinners().contains(g)) {
-                runningGroupPoints += rec.getOfferingWinnerPoints();
-            }
-        }
-        return runningGroupPoints;
     }
 
     /**

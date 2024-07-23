@@ -23,6 +23,7 @@ public class VBSChildPointsCardMapper extends AbstractMapper<VBSChildPointsCard>
         pointCard.setCuid(rs.getString(CUID));
         pointCard.setTotalPoints(rs.getInt(POINTS));
         pointCard.setDaysAttended(rs.getInt(DAYS_ATTENDED));
+        pointCard.setOfferingPoints(rs.getInt(OFFERING_POINTS));
         return pointCard;
     }
 }
