@@ -26,5 +26,7 @@
   SELECT SUM(varInner.offering_winner_points)
   FROM children_attendance ca
   INNER JOIN vbs_attendance_records varInner ON ca.attendance_record_id = varInner.attendance_record_id
-  WHERE ca.attendance_record_id IN (:attendance_record_id)
+  INNER JOIN children_groups cgInner ON u.id = cgInner.child_id
+  WHERE varInner.offering_winners LIKE CONCAT('%', cgInner.church_group, '%')
+  AND ca.attendance_record_id IN (:attendance_record_id)
   AND ca.child_id = u.id
