@@ -2,6 +2,7 @@ package com.fbl.app.vbs.service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
@@ -27,6 +28,7 @@ import com.fbl.common.page.Page;
  */
 @Service
 public class VBSChildrenAttendanceService {
+    private static final int EVERY_DAY_BONUS_POINTS = 500;
 
     @Autowired
     private ChildAttendanceService childAttendanceService;
@@ -59,8 +61,18 @@ public class VBSChildrenAttendanceService {
         Map<Integer, VBSAttendanceRecord> offeringPointsMap = buildOfferingPointsMap(recs);
         Child childData = childrenService.getChildById(childId);
 
+        request.setPageSize(request.getAttendanceRecordId().size());
         Page<ChildAttendance> cAttendance = childAttendanceService.getPageOfChildAttendanceByChildId(childId, request);
-        return cAttendance.map(ca -> mapToVBSChildAttendance(childData, offeringPointsMap, ca));
+
+        AtomicBoolean applyEveryDayBonus = new AtomicBoolean(true);
+        return cAttendance.map(ca -> {
+            VBSChildAttendance vbsChildAttendance = mapToVBSChildAttendance(childData, offeringPointsMap, ca);
+            if (cAttendance.size() == 5 && applyEveryDayBonus.get()) {
+                vbsChildAttendance.getPoints().add(buildEverydayBonusPoint(childData, ca.getAttendanceRecordId()));
+                applyEveryDayBonus.set(false);
+            }
+            return vbsChildAttendance;
+        });
     }
 
     /**
@@ -142,5 +154,22 @@ public class VBSChildrenAttendanceService {
         }
 
         return null;
+    }
+
+    /**
+     * Build the everyday bonus point
+     * 
+     * @param c            The child
+     * @param attendanceId The attendance id
+     * @return The VBSChildPoint
+     */
+    private VBSChildPoint buildEverydayBonusPoint(Child c, int attendanceId) {
+        VBSChildPoint point = new VBSChildPoint();
+        point.setChildId(c.getId());
+        point.setVbsAttendanceId(attendanceId);
+        point.setPoints(EVERY_DAY_BONUS_POINTS);
+        point.setDisplayName("Attended Every Day Bonus");
+        point.setType("ATTENDED_EVERY_DAY_BONUS");
+        return point;
     }
 }
