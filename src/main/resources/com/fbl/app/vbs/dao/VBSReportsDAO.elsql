@@ -14,6 +14,7 @@
   WHERE vcp.vbs_attendance_record_id IN (:attendance_record_id)
   AND u.id IN (SELECT child_id FROM children_groups cg WHERE church_group IN (:church_group) GROUP BY child_id)
   GROUP BY u.id
+  ORDER BY points DESC
 
 @NAME(childDaysAttendedSubSelect)
   SELECT COUNT(1) 
