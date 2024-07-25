@@ -24,8 +24,6 @@ import com.fbl.jwt.utility.JwtHolder;
 import com.fbl.test.factory.annotations.InsiteServiceTest;
 import com.fbl.test.factory.data.JwtTestFactoryData;
 
-import io.jsonwebtoken.MalformedJwtException;
-
 @InsiteServiceTest
 public class SubscriptionSocketValidatorTest {
 
@@ -70,7 +68,7 @@ public class SubscriptionSocketValidatorTest {
         request.setQueryString("not-valid");
         when(environmentService.getSigningKey()).thenReturn(JwtTestFactoryData.testSigningKey());
 
-        MalformedJwtException ex = assertThrows(MalformedJwtException.class,
+        JwtTokenException ex = assertThrows(JwtTokenException.class,
                 () -> subscriptionSocketValidator.validateRequest(request));
 
         verify(jwtHolder, never()).setToken(anyString());

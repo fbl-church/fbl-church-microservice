@@ -38,7 +38,7 @@ public class EndpointInboundInterceptorTest extends BaseControllerTest {
         this.mockMvc.perform(get(this.BASE_PATH));
 
         verify(validator).validateRequest(any(HttpServletRequest.class));
-        verify(jwtHolder).clearToken();
+        verify(jwtHolder, times(2)).clearToken();
     }
 
     @Test
@@ -48,7 +48,7 @@ public class EndpointInboundInterceptorTest extends BaseControllerTest {
 
         verify(resolver).resolveException(any(HttpServletRequest.class), any(HttpServletResponse.class), eq(null),
                 any(Exception.class));
-        verify(jwtHolder).clearToken();
+        verify(jwtHolder, times(2)).clearToken();
     }
 
     @Test

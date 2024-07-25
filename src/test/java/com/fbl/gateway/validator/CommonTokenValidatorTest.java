@@ -1,14 +1,8 @@
 package com.fbl.gateway.validator;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,7 +67,7 @@ public class CommonTokenValidatorTest {
         when(environmentService.getSigningKey()).thenReturn(JwtTestFactoryData.testSigningKey());
 
         String token = JwtTestFactoryData.testToken(-600000L);
-        assertThrows(ExpiredJwtException.class, () -> commonTokenValidator.runTokenValidation(token, false));
+        assertThrows(JwtTokenException.class, () -> commonTokenValidator.runTokenValidation(token, false));
     }
 
     @Test
@@ -164,12 +158,13 @@ public class CommonTokenValidatorTest {
     @Test
     void testCheckEnvironmentINVALID() {
         when(environmentService.getEnvironment()).thenReturn(Environment.PRODUCTION);
-  
+
         Map<String, Object> testClaims = JwtTestFactoryData.testClaims();
         testClaims.put(JwtClaims.ENVIRONMENT, Environment.DEVELOPMENT);
 
         JwtPair pair = new JwtPair(JwtTestFactoryData.testToken(testClaims), JwtTestFactoryData.testSigningKey());
-        JwtTokenException ex = assertThrows(JwtTokenException.class, () -> commonTokenValidator.checkCorrectEnvironment(pair));
+        JwtTokenException ex = assertThrows(JwtTokenException.class,
+                () -> commonTokenValidator.checkCorrectEnvironment(pair));
         assertEquals("JWT token does not match accessing environment", ex.getMessage(), "Exception Message");
     }
 

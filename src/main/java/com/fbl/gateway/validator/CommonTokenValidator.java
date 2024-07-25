@@ -50,7 +50,13 @@ public abstract class CommonTokenValidator implements BaseRequestValidator {
     protected void runTokenValidation(String token, boolean prefixCheck) {
         checkValidToken(token, prefixCheck);
 
-        JwtPair pair = new JwtPair(extractToken(token), environmentService.getSigningKey());
+        JwtPair pair = null;
+        try {
+            pair = new JwtPair(extractToken(token), environmentService.getSigningKey());
+        } catch (Exception e) {
+            throw new JwtTokenException(e.getMessage());
+        }
+
         checkCorrectEnvironment(pair);
     }
 

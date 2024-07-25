@@ -6,15 +6,13 @@ package com.fbl.gateway.interceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 
 import com.fbl.gateway.domain.interfaces.BaseRequestValidator;
 import com.fbl.jwt.utility.JwtHolder;
 
-import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletRequest;
-import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -25,7 +23,7 @@ import jakarta.servlet.http.HttpServletResponse;
  * @since Aug 6, 2021
  */
 @Component
-public abstract class CommonInterceptor implements Filter {
+public abstract class CommonInterceptor extends OncePerRequestFilter {
 
     @Autowired
     private JwtHolder jwtHolder;
@@ -44,11 +42,14 @@ public abstract class CommonInterceptor implements Filter {
      * @param res   The response to parse.
      * @param chain The filter chain to perform on the request.
      */
-    protected void performFilter(BaseRequestValidator v, ServletRequest req, ServletResponse res, FilterChain chain) {
+    protected void performFilter(BaseRequestValidator v, HttpServletRequest req, HttpServletResponse res,
+            FilterChain chain) {
         try {
             v.validateRequest((HttpServletRequest) req);
             chain.doFilter(req, res);
+
         } catch (Exception e) {
+            clearThreadToken();
             resolveException(req, res, e);
         } finally {
             clearThreadToken();
@@ -70,8 +71,8 @@ public abstract class CommonInterceptor implements Filter {
      * @param res The response to validate.
      * @param e   The exception that was thrown.
      */
-    private void resolveException(ServletRequest req, ServletResponse res, Exception e) {
-        resolver.resolveException((HttpServletRequest) req, getAllowedOriginResponse(res), null, e);
+    private void resolveException(HttpServletRequest req, HttpServletResponse res, Exception e) {
+        resolver.resolveException(req, getAllowedOriginResponse(res), null, e);
     }
 
     /**
@@ -80,9 +81,8 @@ public abstract class CommonInterceptor implements Filter {
      * @param res The response to modify.
      * @return The updated response.
      */
-    private HttpServletResponse getAllowedOriginResponse(ServletResponse res) {
-        HttpServletResponse r = (HttpServletResponse) res;
-        r.setHeader("Access-Control-Allow-Origin", "*");
-        return r;
+    private HttpServletResponse getAllowedOriginResponse(HttpServletResponse res) {
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        return res;
     }
 }

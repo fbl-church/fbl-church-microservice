@@ -11,9 +11,9 @@ import com.fbl.gateway.validator.EndpointInboundValidator;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.ServletRequest;
-import jakarta.servlet.ServletResponse;
 import jakarta.servlet.annotation.WebFilter;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * All endpoint request will be filtered through this class. It determines if
@@ -29,8 +29,9 @@ public class EndpointInboundInterceptor extends CommonInterceptor {
     private EndpointInboundValidator validator;
 
     @Override
-    public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
-            throws IOException, ServletException {
-        performFilter(validator, req, res, chain);
+    public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws ServletException, IOException {
+        performFilter(validator, request, response, filterChain);
     }
+
 }
