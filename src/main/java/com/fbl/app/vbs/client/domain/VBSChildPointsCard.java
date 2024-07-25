@@ -37,4 +37,7 @@ public class VBSChildPointsCard {
 
     @Schema(description = "The group the child is in")
     private String group;
+
+    @Schema(description = "The color group of the card")
+    private String cardColor;
 }

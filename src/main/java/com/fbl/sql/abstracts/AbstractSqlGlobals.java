@@ -29,6 +29,7 @@ public abstract class AbstractSqlGlobals {
     protected static final String CLOSED_DATE = "closed_date";
     protected static final String CREATE = "create";
     protected static final String CUID = "cuid";
+    protected static final String COLOR = "color";
     protected static final String DELETE = "delete";
     protected static final String DAYS_ATTENDED = "days_attended";
     protected static final String DISPLAY_NAME = "display_name";
@@ -47,6 +48,8 @@ public abstract class AbstractSqlGlobals {
     protected static final String KEY = "key";
     protected static final String LAST_LOGIN_DATE = "last_login_date";
     protected static final String LAST_NAME = "last_name";
+    protected static final String MAX = "max";
+    protected static final String MIN = "min";
     protected static final String MONEY = "money";
     protected static final String MONTH = "month";
     protected static final String NAME = "name";
@@ -80,6 +83,7 @@ public abstract class AbstractSqlGlobals {
     protected static final String UPDATED_USER_ID = "updated_user_id";
     protected static final String UPDATED_DATE = "updated_date";
     protected static final String USER_ID = "user_id";
+    protected static final String VALUE = "value";
     protected static final String VBS_THEME_ID = "vbs_theme_id";
     protected static final String VBS_ATTENDANCE_RECORD_ID = "vbs_attendance_record_id";
     protected static final String VBS_POINT_CONFIG_ID = "vbs_point_config_id";
