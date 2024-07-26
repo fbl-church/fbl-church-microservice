@@ -13,7 +13,6 @@ import org.xhtmlrenderer.pdf.ITextRenderer;
 
 import com.fbl.app.vbs.client.domain.VBSAttendanceRecord;
 import com.fbl.app.vbs.client.domain.VBSChildPointsCard;
-import com.fbl.app.vbs.client.domain.VBSPointDivision;
 import com.fbl.app.vbs.client.domain.VBSThemeGroup;
 import com.fbl.app.vbs.dao.VBSReportsDAO;
 import com.fbl.common.enums.ChurchGroup;
@@ -37,9 +36,6 @@ public class VBSReportsService {
     private VBSAttendanceService vbsAttendanceService;
 
     @Autowired
-    private VBSPointDivisionService vbsPointDivisionService;
-
-    @Autowired
     private FreeMarkerUtility freeMarkerUtility;
 
     /**
@@ -60,8 +56,6 @@ public class VBSReportsService {
      */
     public byte[] getChildrenPointsPDF(int themeId, ChurchGroup group) throws Exception {
         List<VBSAttendanceRecord> recs = vbsAttendanceService.getVBSAttendanceRecordsByThemeId(themeId);
-        List<VBSPointDivision> pointDivisions = vbsPointDivisionService.getVBSPointDivisionsByThemeId(themeId)
-                .getList();
 
         Set<Integer> recordIds = recs.stream().map(VBSAttendanceRecord::getId).collect(Collectors.toSet());
         List<VBSChildPointsCard> pointCards = vbsReportsDao.getVBSChildPointCards(recordIds, group);
@@ -72,7 +66,7 @@ public class VBSReportsService {
                 p.setTotalPoints(p.getTotalPoints() + EVERY_DAY_BONUS_POINTS);
             }
             p.setTotalPoints(p.getTotalPoints() + p.getOfferingPoints());
-            p.setCardColor(determineCardColor(p.getTotalPoints(), pointDivisions));
+            p.setCardColor("rgb(0, 0, 0)");
             p.setGroup(translatedGroup);
         });
 
@@ -117,11 +111,5 @@ public class VBSReportsService {
             default:
                 return "Unknown";
         }
-    }
-
-    private String determineCardColor(int totalPoints, List<VBSPointDivision> pointDivisions) {
-        return pointDivisions.stream()
-                .filter(division -> totalPoints >= division.getMin() && totalPoints <= division.getMax())
-                .findFirst().map(pd -> pd.getColor()).orElse("rgb(0, 0, 0)");
     }
 }
