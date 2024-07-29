@@ -43,9 +43,9 @@
 @NAME(getGuardiansBase)
   FROM users u
   INNER JOIN user_roles ur ON u.id = ur.user_id AND ur.web_role = 'GUARDIAN'
-  INNER JOIN user_status us ON u.id = us.user_id AND us.account_status = 'ACTIVE'
   INNER JOIN guardians g ON u.id = g.user_id
   @WHERE
+    u.account_status = 'ACTIVE'
     @OR(:email)
       u.email IN (:email)
     @OR(:phone)

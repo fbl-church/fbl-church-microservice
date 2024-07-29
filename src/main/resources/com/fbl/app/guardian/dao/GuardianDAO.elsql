@@ -15,6 +15,7 @@
 
 @NAME(guardianFilters)
   @WHERE
+    u.account_status = 'ACTIVE'
     @AND(:id)
       u.id IN (:id)
     @AND(:first_name)
@@ -33,7 +34,6 @@
 @NAME(getGuardiansBase)
   FROM users u
   INNER JOIN user_roles ur ON u.id = ur.user_id AND ur.web_role = 'GUARDIAN'
-  INNER JOIN user_status us ON u.id = us.user_id AND us.account_status = 'ACTIVE'
   INNER JOIN guardians g ON u.id = g.user_id
   @INCLUDE(guardianFilters)
 

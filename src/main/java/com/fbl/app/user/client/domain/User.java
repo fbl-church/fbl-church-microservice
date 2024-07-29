@@ -46,11 +46,11 @@ public class User {
 	@Schema(description = "The user theme")
 	private ThemeType theme;
 
-	@Schema(description = "The access of the user to the website.")
-	private Boolean appAccess;
-
-	@Schema(description = "The user account status.")
+	@Schema(description = "The account status of the user.")
 	private AccountStatus accountStatus;
+
+	@Schema(description = "The app access of the user.")
+	private Boolean appAccess;
 
 	@Schema(description = "The date the user has last authenticated.")
 	private LocalDateTime lastLoginDate;

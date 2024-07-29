@@ -99,7 +99,6 @@ public class ManageUserServiceTest {
         assertEquals(12, userStatus.getUserId(), "User Id");
         assertEquals(AccountStatus.ACTIVE, userStatus.getAccountStatus(), "Account Status");
         assertTrue(userStatus.getAppAccess(), "App Access");
-        assertNull(userStatus.getUpdatedUserId(), "Updated User Id");
         assertTrue(webRoleCaptor.getAllValues().containsAll(List.of(WebRole.SITE_ADMINISTRATOR, WebRole.USER)),
                 "User Roles");
 
@@ -128,7 +127,6 @@ public class ManageUserServiceTest {
         assertEquals(12, userStatus.getUserId(), "User Id");
         assertEquals(AccountStatus.ACTIVE, userStatus.getAccountStatus(), "Account Status");
         assertTrue(userStatus.getAppAccess(), "App Access");
-        assertNull(userStatus.getUpdatedUserId(), "Updated User Id");
         assertTrue(webRoleCaptor.getAllValues().containsAll(List.of(WebRole.SITE_ADMINISTRATOR, WebRole.USER)),
                 "User Roles");
     }

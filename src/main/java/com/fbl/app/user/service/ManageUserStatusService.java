@@ -48,7 +48,6 @@ public class ManageUserStatusService {
      * @return {@link UserStatus} object
      */
     public UserStatus updateUserStatusByUserId(int userId, UserStatus userStatus) {
-        userStatus.setUpdatedUserId(jwtHolder.getUserId());
         dao.updateUserStatusByUserId(userId, userStatus);
         return userStatusService.getUserStatusById(userId);
     }
@@ -61,8 +60,7 @@ public class ManageUserStatusService {
      * @return {@link UserStatus} object
      */
     public UserStatus updateUserAppAccessByUserId(int userId, Boolean appAccess) {
-        Integer updatingUserId = jwtHolder.isTokenAvaiable() ? jwtHolder.getUserId() : null;
-        dao.updateUserStatusByUserId(userId, new UserStatus(userId, null, appAccess, updatingUserId));
+        dao.updateUserStatusByUserId(userId, new UserStatus(userId, null, appAccess));
         return userStatusService.getUserStatusById(userId);
     }
 }

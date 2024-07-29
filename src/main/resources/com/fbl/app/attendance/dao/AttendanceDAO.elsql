@@ -18,15 +18,10 @@
   u.last_name,
   u.email,
   u.theme,
+  u.app_access, 
+  u.account_status, 
   u.insert_date,
   u.last_login_date
-
----
-
-@NAME(userStatusFields)
-  us.app_access, 
-  us.account_status, 
-  us.updated_user_id
 
 ---
 
@@ -87,10 +82,9 @@
 ---
 
 @NAME(getAttendanceRecordWorkersById)
-  SELECT @INCLUDE(userFields), @INCLUDE(userStatusFields)
+  SELECT @INCLUDE(userFields)
   FROM attendance_record_workers arw
   INNER JOIN users u ON arw.user_id = u.id
-  INNER JOIN user_status us ON u.id = us.user_id
   WHERE arw.attendance_record_id = :attendance_record_id
   ORDER BY u.last_name ASC, u.first_name ASC
 

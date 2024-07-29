@@ -158,7 +158,7 @@ public abstract class AbstractSqlDao extends AbstractSqlGlobals {
         try {
             return Optional.ofNullable(get(fragment, params, mapper));
         } catch (Exception e) {
-            System.err.println(e);
+            System.out.println(e);
             return Optional.empty();
         }
     }

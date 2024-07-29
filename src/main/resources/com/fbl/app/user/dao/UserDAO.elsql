@@ -4,15 +4,10 @@
   u.last_name,
   u.email,
   u.theme,
+  u.app_access, 
+  u.account_status, 
   u.insert_date,
   u.last_login_date
-
----
-
-@NAME(userStatusFields)
-  us.app_access, 
-  us.account_status, 
-  us.updated_user_id
 
 ---
 
@@ -31,7 +26,7 @@
     @AND(:not_web_role)
       u.id NOT IN (SELECT user_id FROM user_roles ur WHERE web_role IN (:not_web_role) GROUP BY user_id)
     @AND(:status)
-      us.account_status = :status
+      u.account_status = :status
     @AND(:search = true)
       @INCLUDE(search)
 
@@ -39,7 +34,6 @@
 
 @NAME(getUsersBase)
   FROM users u
-  INNER JOIN user_status us ON u.id = us.user_id
   INNER JOIN user_roles ur ON u.id = ur.user_id
   @INCLUDE(userFilters)
 
@@ -47,7 +41,7 @@
 
 @NAME(getUsersPage)
   @PAGING(:rowOffset, :pageSize)
-    SELECT @INCLUDE(userFields), @INCLUDE(userStatusFields)
+    SELECT @INCLUDE(userFields)
     @INCLUDE(getUsersBase)
     GROUP BY id
     ORDER BY u.last_name ASC, u.first_name ASC
@@ -61,9 +55,8 @@
 ---
 
 @NAME(getUserById)
-  SELECT @INCLUDE(userFields), @INCLUDE(userStatusFields)
+  SELECT @INCLUDE(userFields)
   FROM users u
-  INNER JOIN user_status us ON u.id = us.user_id
   WHERE u.id = :id
 
 ---

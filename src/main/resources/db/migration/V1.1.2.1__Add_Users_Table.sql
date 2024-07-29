@@ -15,6 +15,8 @@ CREATE TABLE users (
   last_name                VARCHAR(128)          NOT NULL DEFAULT '',
   email                    VARCHAR(128)                   DEFAULT NULL,
   theme                    VARCHAR(10)                    DEFAULT 'LIGHT',
+  account_status           VARCHAR(128)          NOT NULL DEFAULT 'PENDING',
+  app_access               BIT                   NOT NULL DEFAULT 0,
   last_login_date          DATETIME              NOT NULL DEFAULT CURRENT_TIMESTAMP(),
   insert_date              DATETIME              NOT NULL DEFAULT CURRENT_TIMESTAMP(),
   PRIMARY KEY (id)

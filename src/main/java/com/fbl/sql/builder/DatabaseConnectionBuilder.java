@@ -148,6 +148,8 @@ public class DatabaseConnectionBuilder {
      */
     public DatabaseConnectionBuilder useUnicode(boolean v) {
         this.addProperty("useUnicode", v);
+        this.addProperty("sendStringParametersAsUnicode", v);
+        this.addProperty("encrypt", v);
         return this;
     }
 
@@ -195,7 +197,7 @@ public class DatabaseConnectionBuilder {
         this.useSSL(false);
         this.useJDBCCompliantTimezoneShift(true);
         this.useLegacyDatetimeCode(false);
-        this.useUnicode(true);
+        this.useUnicode(false);
         this.serverTimezone("UTC");
         return this;
     }

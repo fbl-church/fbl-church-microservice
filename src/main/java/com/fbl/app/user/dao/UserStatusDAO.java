@@ -61,8 +61,7 @@ public class UserStatusDAO extends BaseDao {
     public void updateUserStatusByUserId(int id, UserStatus userStatus) {
         MapSqlParameterSource params = SqlParamBuilder.with().withParam(USER_ID, id)
                 .withParam(ACCOUNT_STATUS, userStatus.getAccountStatus())
-                .withParam(APP_ACCESS, userStatus.getAppAccess())
-                .withParam(UPDATED_USER_ID, userStatus.getUpdatedUserId()).build();
+                .withParam(APP_ACCESS, userStatus.getAppAccess()).build();
 
         update("updateUserStatus", params);
     }

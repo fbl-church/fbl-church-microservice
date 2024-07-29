@@ -3,8 +3,6 @@
  */
 package com.fbl.app.user.client.domain;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fbl.common.enums.AccountStatus;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -36,8 +34,4 @@ public class UserStatus {
 
     @Schema(description = "The app access of the user.")
     private Boolean appAccess;
-
-    @JsonInclude(Include.NON_DEFAULT)
-    @Schema(description = "The last update user id of the user.")
-    private Integer updatedUserId;
 }

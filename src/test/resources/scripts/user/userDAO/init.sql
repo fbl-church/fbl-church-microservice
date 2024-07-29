@@ -1,25 +1,18 @@
 DELETE FROM users;
 DELETE FROM user_credentials;
-DELETE FROM user_status;
 DELETE FROM user_roles;
 
-INSERT INTO users (id, first_name, last_name, email)
+INSERT INTO users (id, first_name, last_name, email, theme, account_status, app_access)
 VALUES 
-(1, 'Test', 'User', 'test@mail.com'),
-(2, 'Bill', 'Tanner', 'billT@mail.com'),
-(3, 'Fake', 'User', 'Fake123@mail.com');
+(1, 'Test', 'User', 'test@mail.com', 'LIGHT', 'ACTIVE', 1),
+(2, 'Bill', 'Tanner', 'billT@mail.com', 'LIGHT', 'ACTIVE', 1),
+(3, 'Fake', 'User', 'Fake123@mail.com', 'LIGHT', 'ACTIVE', 1);
 
 INSERT INTO user_credentials (user_id, password)
 VALUES 
 (1, 'password1'),
 (2, 'password2'),
 (3, 'password3');
-
-INSERT INTO user_status (user_id, account_status, app_access, updated_user_id)
-VALUES 
-(1, 'ACTIVE', 1, 1),
-(2, 'ACTIVE', 1, 1),
-(3, 'ACTIVE', 1, 1);
 
 INSERT INTO user_roles (user_id, web_role)
 VALUES

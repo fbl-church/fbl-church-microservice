@@ -18,6 +18,7 @@
 
 @NAME(childrenAttendanceFilters)
   @WHERE
+    u.account_status = 'ACTIVE'
     @AND(:first_name)
       u.first_name IN (:first_name)
     @AND(:last_name)
@@ -66,7 +67,6 @@
   FROM users u
   INNER JOIN children c ON u.id = c.user_id
   LEFT JOIN children_attendance ca ON c.user_id = ca.child_id AND ca.attendance_record_id = :attendance_record_id
-  INNER JOIN user_status us ON u.id = us.user_id AND us.account_status = 'ACTIVE'
   LEFT JOIN attendance_records ar ON ca.attendance_record_id = ar.id
   @INCLUDE(childrenAttendanceFilters)
 
