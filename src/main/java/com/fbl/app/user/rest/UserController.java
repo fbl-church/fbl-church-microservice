@@ -5,9 +5,7 @@ package com.fbl.app.user.rest;
 
 import java.util.List;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,9 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.fbl.app.user.client.domain.User;
-import com.fbl.app.user.client.domain.jpa.UserContract;
-import com.fbl.app.user.client.domain.jpa.UserJPARepository;
-import com.fbl.app.user.client.domain.jpa.UserSearch;
 import com.fbl.app.user.client.domain.request.UserGetRequest;
 import com.fbl.app.user.openapi.TagUser;
 import com.fbl.app.user.service.ManageUserService;
@@ -43,12 +38,6 @@ public class UserController {
 
 	@Autowired
 	private ManageUserService manageUserService;
-
-	@Autowired
-	private UserJPARepository userJPARepository;
-
-	@Autowired
-	private ModelMapper modelMapper;
 
 	/**
 	 * Gets a list of users based of the request filter
@@ -83,17 +72,6 @@ public class UserController {
 	@GetMapping("/{id}")
 	public User getUserById(@PathVariable int id) {
 		return userService.getUserById(id);
-	}
-
-	@GetMapping("/{id}/jpa")
-	public UserContract getUserByIdJPA(@PathVariable int id) {
-		UserContract userContract = modelMapper.map(userJPARepository.findById(id).orElse(null), UserContract.class);
-		return userContract;
-	}
-
-	@GetMapping("/jpa")
-	public org.springframework.data.domain.Page<UserContract> getUsersJPA(UserSearch search, Pageable pageable) {
-		return userJPARepository.findAll(search.build(), pageable).map(u -> modelMapper.map(u, UserContract.class));
 	}
 
 	/**
