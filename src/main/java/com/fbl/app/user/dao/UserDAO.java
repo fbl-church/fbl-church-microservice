@@ -99,7 +99,8 @@ public class UserDAO extends BaseDao {
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		MapSqlParameterSource params = SqlParamBuilder.with().withParam(FIRST_NAME, user.getFirstName())
 				.withParam(LAST_NAME, user.getLastName()).withParam(EMAIL, user.getEmail())
-				.withParam(THEME, ThemeType.LIGHT).build();
+				.withParam(THEME, ThemeType.LIGHT).withParam(ACCOUNT_STATUS, user.getAccountStatus())
+				.withParam(APP_ACCESS, user.getAppAccess()).build();
 
 		post("insertUser", params, keyHolder);
 		return keyHolder.getKey().intValue();
@@ -128,7 +129,8 @@ public class UserDAO extends BaseDao {
 	public void updateUser(int userId, User user) {
 		MapSqlParameterSource params = SqlParamBuilder.with().withParam(FIRST_NAME, user.getFirstName())
 				.withParam(LAST_NAME, user.getLastName()).withParam(EMAIL, user.getEmail())
-				.withParam(THEME, user.getTheme()).withParam(ID, userId)
+				.withParam(THEME, user.getTheme()).withParam(ACCOUNT_STATUS, user.getAccountStatus())
+				.withParam(APP_ACCESS, user.getAppAccess()).withParam(ID, userId)
 				.build();
 
 		update("updateUser", params);

@@ -76,7 +76,9 @@ public class ManageUserService {
 							WebRole.highestRoleRank(user.getWebRole())));
 		}
 
-		return createUser(user, UserStatus.builder().accountStatus(AccountStatus.ACTIVE).appAccess(true), sendEmail);
+		user.setAccountStatus(AccountStatus.ACTIVE);
+		user.setAppAccess(true);
+		return createUser(user, sendEmail);
 	}
 
 	/**
@@ -87,7 +89,9 @@ public class ManageUserService {
 	 * @return The new user that was created.
 	 */
 	public User registerUser(User user) {
-		return createUser(user, UserStatus.builder().accountStatus(AccountStatus.PENDING).appAccess(false), true);
+		user.setAccountStatus(AccountStatus.PENDING);
+		user.setAppAccess(false);
+		return createUser(user, true);
 	}
 
 	/**
@@ -218,11 +222,11 @@ public class ManageUserService {
 	 * @param sendEmail  If it should send the user an email or not
 	 * @return The created User
 	 */
-	private User createUser(User user, UserStatus.UserStatusBuilder userStatusBuilder, boolean sendEmail) {
+	private User createUser(User user, boolean sendEmail) {
 		int newUserId = dao.insertUser(user);
 		assignUserRoles(newUserId, user.getWebRole());
 		userCredentialsClient.insertUserPassword(newUserId, CommonUtil.generateRandomString(32));
-		userStatusClient.insertUserStatus(userStatusBuilder.userId(newUserId).build());
+
 		User createdUser = userClient.getUserById(newUserId);
 		if (sendEmail) {
 			emailClient.sendNewUserEmail(createdUser);

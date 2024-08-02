@@ -22,7 +22,7 @@ public class UserStatusMapper extends AbstractMapper<UserStatus> {
     public UserStatus mapRow(ResultSet rs, int rowNum) throws SQLException {
         UserStatus userStatus = new UserStatus();
 
-        userStatus.setUserId(rs.getInt(USER_ID));
+        userStatus.setUserId(rs.getInt(ID));
         userStatus.setAccountStatus(AccountStatus.valueOf(rs.getString(ACCOUNT_STATUS)));
         userStatus.setAppAccess(rs.getBoolean(APP_ACCESS));
 

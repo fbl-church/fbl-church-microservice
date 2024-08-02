@@ -87,8 +87,8 @@
 ---
 
 @NAME(insertUser)
-  INSERT INTO users (first_name, last_name, email, theme)
-  VALUES (:first_name, :last_name, :email, :theme)
+  INSERT INTO users (first_name, last_name, email, theme, account_status, app_access)
+  VALUES (:first_name, :last_name, :email, :theme, :account_status, :app_access)
 
 ---
 
@@ -101,10 +101,12 @@
 @NAME(updateUser)
   UPDATE users 
   SET
-    email       = :email,
-    first_name  = IFNULL(:first_name, first_name),
-    last_name   = IFNULL(:last_name, last_name),
-    theme   = IFNULL(:theme, theme)
+    email          = :email,
+    first_name     = IFNULL(:first_name, first_name),
+    last_name      = IFNULL(:last_name, last_name),
+    theme          = IFNULL(:theme, theme),
+    account_status = IFNULL(:account_status, account_status),
+    app_access     = IFNULL(:app_access, app_access)
   WHERE id = :id
 
 ---

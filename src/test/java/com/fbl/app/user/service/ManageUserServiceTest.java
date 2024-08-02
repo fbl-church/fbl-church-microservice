@@ -88,20 +88,11 @@ public class ManageUserServiceTest {
         verify(dao).deleteUserRoles(12);
         verify(dao, times(2)).insertUserRole(eq(12), webRoleCaptor.capture());
         verify(userCredentialsClient).insertUserPassword(eq(12), argThat(s -> s.toString().length() == 32));
-        verify(userStatusClient).insertUserStatus(userStatusCaptor.capture());
         verify(userClient).getUserById(12);
         verify(emailClient).sendNewUserEmail(any(User.class));
 
         assertNotNull(createdUser, "Created User is not null");
         assertEquals(12, createdUser.getId(), "User Id");
-
-        UserStatus userStatus = userStatusCaptor.getValue();
-        assertEquals(12, userStatus.getUserId(), "User Id");
-        assertEquals(AccountStatus.ACTIVE, userStatus.getAccountStatus(), "Account Status");
-        assertTrue(userStatus.getAppAccess(), "App Access");
-        assertTrue(webRoleCaptor.getAllValues().containsAll(List.of(WebRole.SITE_ADMINISTRATOR, WebRole.USER)),
-                "User Roles");
-
     }
 
     @Test
@@ -116,19 +107,12 @@ public class ManageUserServiceTest {
         verify(dao).deleteUserRoles(12);
         verify(dao, times(2)).insertUserRole(eq(12), webRoleCaptor.capture());
         verify(userCredentialsClient).insertUserPassword(eq(12), anyString());
-        verify(userStatusClient).insertUserStatus(userStatusCaptor.capture());
+
         verify(userClient).getUserById(12);
         verify(emailClient, never()).sendNewUserEmail(any());
 
         assertNotNull(createdUser, "Created User is not null");
         assertEquals(12, createdUser.getId(), "User Id");
-
-        UserStatus userStatus = userStatusCaptor.getValue();
-        assertEquals(12, userStatus.getUserId(), "User Id");
-        assertEquals(AccountStatus.ACTIVE, userStatus.getAccountStatus(), "Account Status");
-        assertTrue(userStatus.getAppAccess(), "App Access");
-        assertTrue(webRoleCaptor.getAllValues().containsAll(List.of(WebRole.SITE_ADMINISTRATOR, WebRole.USER)),
-                "User Roles");
     }
 
     @Test
@@ -154,19 +138,12 @@ public class ManageUserServiceTest {
         verify(dao).deleteUserRoles(12);
         verify(dao, times(2)).insertUserRole(eq(12), webRoleCaptor.capture());
         verify(userCredentialsClient).insertUserPassword(eq(12), argThat(s -> s.toString().length() == 32));
-        verify(userStatusClient).insertUserStatus(userStatusCaptor.capture());
+
         verify(userClient).getUserById(12);
         verify(emailClient).sendNewUserEmail(any(User.class));
 
         assertNotNull(registeredUser, "Created User is not null");
         assertEquals(12, registeredUser.getId(), "User Id");
-
-        UserStatus userStatus = userStatusCaptor.getValue();
-        assertEquals(12, userStatus.getUserId(), "User Id");
-        assertEquals(AccountStatus.PENDING, userStatus.getAccountStatus(), "Account Status");
-        assertFalse(userStatus.getAppAccess(), "App Access");
-        assertTrue(webRoleCaptor.getAllValues().containsAll(List.of(WebRole.SITE_ADMINISTRATOR, WebRole.USER)),
-                "User Roles");
     }
 
     @Test

@@ -3,9 +3,7 @@
  */
 package com.fbl.app.user.dao;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,6 +16,7 @@ import org.springframework.test.context.jdbc.Sql;
 
 import com.fbl.app.user.client.domain.User;
 import com.fbl.app.user.client.domain.request.UserGetRequest;
+import com.fbl.common.enums.AccountStatus;
 import com.fbl.common.enums.WebRole;
 import com.fbl.common.page.Page;
 import com.fbl.test.factory.annotations.InsiteDaoTest;
@@ -88,6 +87,8 @@ public class UserDAOTest {
         user.setLastName("LastName");
         user.setEmail("newEmail@mail.com");
         user.setWebRole(List.of(WebRole.SITE_ADMINISTRATOR));
+        user.setAccountStatus(AccountStatus.ACTIVE);
+        user.setAppAccess(true);
 
         int newUserId = dao.insertUser(user);
         assertEquals(4, newUserId, "New user Id should be 4");
